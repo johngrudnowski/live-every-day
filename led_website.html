@@ -1,0 +1,1242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Live Every Day — The most important person in your care team is you.</title>
+<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@200;300;400&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+
+/* ── Palette ─────────────────────────────────────────── */
+:root {
+  --midnight:  #1A2830;
+  --predawn:   #506878;
+  --sunrise:   #E8CC70;
+  --morning:   #F0E090;
+  --midday:    #6AB0C8;
+  --afternoon: #9098A0;
+  --sunset:    #C89858;
+  --dusk:      #485058;
+  --canvas:    #FFFCF5;
+  --surface:   #EBE8E0;
+  --card:      #FFFFFF;
+  --border:    #D8D0C0;
+  --text:      #1A2830;
+  --text-mid:  #506878;
+  --text-lite: #9098A0;
+  --flag-high: #C87060;
+  --flag-bg:   #F4DDD8;
+  --flag-ok:   #7A9E88;
+  --flag-ok-bg:#D4EAD8;
+}
+
+/* ── Reset ───────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--canvas);
+  color: var(--text);
+  overflow-x: hidden;
+}
+
+/* ── Nav ─────────────────────────────────────────────── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  padding: 18px 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(255,252,245,0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 0.5px solid transparent;
+  transition: border-color 0.3s;
+}
+nav.scrolled { border-bottom-color: var(--border); }
+.nav-wordmark {
+  font-family: 'Raleway', serif;
+  font-weight: 200;
+  font-size: 18px;
+  letter-spacing: 0.5px;
+  color: var(--midnight);
+  text-decoration: none;
+}
+.nav-wordmark span { color: var(--sunrise); }
+.nav-right { display: flex; align-items: center; gap: 32px; }
+.nav-link {
+  font-size: 13px;
+  color: var(--text-mid);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.nav-link:hover { color: var(--midnight); }
+.nav-cta {
+  background: var(--midnight);
+  color: var(--canvas);
+  font-size: 13px;
+  font-weight: 500;
+  padding: 9px 20px;
+  border-radius: 22px;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+.nav-cta:hover { background: var(--midday); }
+
+/* ── Sections ────────────────────────────────────────── */
+section {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: 100px 48px;
+  position: relative;
+}
+
+/* ── Hero ────────────────────────────────────────────── */
+#hero {
+  background: var(--canvas);
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  padding-top: 140px;
+  padding-bottom: 80px;
+  min-height: 100vh;
+}
+.hero-mark {
+  margin: 0 auto 40px;
+  animation: float 6s ease-in-out infinite;
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+.hero-eyebrow {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--midday);
+  margin-bottom: 20px;
+}
+.hero-headline {
+  font-family: 'Raleway', serif;
+  font-weight: 200;
+  font-size: clamp(36px, 5vw, 64px);
+  color: var(--midnight);
+  line-height: 1.2;
+  letter-spacing: -0.5px;
+  max-width: 800px;
+  margin: 0 auto 24px;
+}
+.hero-subline {
+  font-size: clamp(15px, 2vw, 19px);
+  color: var(--text-mid);
+  line-height: 1.7;
+  max-width: 580px;
+  margin: 0 auto 48px;
+  font-weight: 300;
+}
+.hero-ctas {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 80px;
+}
+.btn-primary {
+  background: var(--midnight);
+  color: var(--canvas);
+  font-size: 14px;
+  font-weight: 500;
+  padding: 14px 32px;
+  border-radius: 30px;
+  text-decoration: none;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.btn-primary:hover { background: var(--midday); transform: translateY(-1px); }
+.btn-secondary {
+  background: transparent;
+  color: var(--text-mid);
+  font-size: 14px;
+  font-weight: 400;
+  padding: 14px 32px;
+  border-radius: 30px;
+  border: 0.5px solid var(--border);
+  text-decoration: none;
+  transition: all 0.2s;
+}
+.btn-secondary:hover { border-color: var(--midday); color: var(--midnight); }
+.hero-phone-wrap {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  align-items: flex-end;
+}
+.hero-phone {
+  background: var(--midnight);
+  border-radius: 36px;
+  border: 2px solid #243540;
+  overflow: hidden;
+  box-shadow: 0 40px 80px rgba(26,40,48,0.25);
+  transition: transform 0.3s;
+}
+.hero-phone:hover { transform: translateY(-6px); }
+.hero-phone.main { width: 220px; }
+.hero-phone.secondary { width: 190px; opacity: 0.7; margin-bottom: -20px; }
+.phone-notch {
+  height: 28px;
+  background: var(--midnight);
+  display: flex; align-items: center; justify-content: center;
+}
+.notch-pill { width: 60px; height: 10px; background: #0D1A22; border-radius: 6px; }
+
+/* ── Story section ───────────────────────────────────── */
+#story {
+  background: var(--midnight);
+  padding: 120px 48px;
+  min-height: auto;
+}
+.story-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+.story-label {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--midday);
+  margin-bottom: 20px;
+}
+.story-headline {
+  font-family: 'Raleway', serif;
+  font-weight: 200;
+  font-size: clamp(28px, 3.5vw, 44px);
+  color: var(--canvas);
+  line-height: 1.25;
+  margin-bottom: 28px;
+  letter-spacing: -0.3px;
+}
+.story-headline em {
+  font-style: italic;
+  color: var(--sunrise);
+}
+.story-body {
+  font-size: 16px;
+  color: rgba(255,252,245,0.65);
+  line-height: 1.8;
+  margin-bottom: 20px;
+  font-weight: 300;
+}
+.story-pull {
+  font-family: 'Raleway', serif;
+  font-weight: 200;
+  font-size: 22px;
+  color: var(--sunrise);
+  line-height: 1.4;
+  border-left: 2px solid var(--sunrise);
+  padding-left: 20px;
+  margin: 32px 0;
+  font-style: italic;
+}
+.story-read-more {
+  font-size: 13px;
+  color: var(--midday);
+  text-decoration: none;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 8px;
+  transition: gap 0.2s;
+}
+.story-read-more:hover { gap: 10px; }
+.story-visual {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.story-stat {
+  background: #243540;
+  border-radius: 16px;
+  padding: 24px 28px;
+  border: 0.5px solid #2E4050;
+}
+.story-stat-num {
+  font-family: 'Raleway', serif;
+  font-weight: 200;
+  font-size: 42px;
+  color: var(--midday);
+  line-height: 1;
+  margin-bottom: 6px;
+}
+.story-stat-label {
+  font-size: 13px;
+  color: rgba(255,252,245,0.5);
+  line-height: 1.5;
+}
+.story-stat-source {
+  font-size: 10px;
+  color: var(--predawn);
+  margin-top: 8px;
+}
+
+/* ── How it works ────────────────────────────────────── */
+#how {
+  background: var(--canvas);
+  flex-direction: column;
+  padding: 120px 48px;
+  min-height: auto;
+}
+.how-inner { max-width: 1100px; margin: 0 auto; width: 100%; }
+.section-eyebrow {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--midday);
+  margin-bottom: 16px;
+  text-align: center;
+}
+.section-headline {
+  font-family: 'Raleway', serif;
+  font-weight: 200;
+  font-size: clamp(28px, 3.5vw, 48px);
+  color: var(--midnight);
+  line-height: 1.2;
+  text-align: center;
+  margin-bottom: 16px;
+  letter-spacing: -0.3px;
+}
+.section-subline {
+  font-size: 17px;
+  color: var(--text-mid);
+  text-align: center;
+  max-width: 560px;
+  margin: 0 auto 72px;
+  line-height: 1.7;
+  font-weight: 300;
+}
+.how-steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+  margin-bottom: 80px;
+}
+.how-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.step-num {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  border: 0.5px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--midday);
+  margin-bottom: 20px;
+}
+.step-phone {
+  background: var(--midnight);
+  border-radius: 32px;
+  border: 2px solid #243540;
+  overflow: hidden;
+  box-shadow: 0 24px 48px rgba(26,40,48,0.18);
+  width: 100%;
+  max-width: 220px;
+  margin-bottom: 24px;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.step-phone:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 32px 64px rgba(26,40,48,0.25);
+}
+.step-title {
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--midnight);
+  margin-bottom: 8px;
+}
+.step-desc {
+  font-size: 14px;
+  color: var(--text-mid);
+  line-height: 1.6;
+  font-weight: 300;
+}
+.how-data-note {
+  background: var(--surface);
+  border-radius: 16px;
+  padding: 24px 32px;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  max-width: 700px;
+  margin: 0 auto;
+}
+.data-note-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--midday);
+  flex-shrink: 0;
+}
+.data-note-text {
+  font-size: 13px;
+  color: var(--text-mid);
+  line-height: 1.6;
+  font-style: italic;
+}
+
+/* ── For us section ──────────────────────────────────── */
+#for-us {
+  background: var(--surface);
+  flex-direction: column;
+  padding: 120px 48px;
+  min-height: auto;
+}
+.for-us-inner { max-width: 1100px; margin: 0 auto; width: 100%; }
+.condition-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 60px;
+}
+.condition-card {
+  background: var(--card);
+  border-radius: 16px;
+  padding: 28px 24px;
+  border: 0.5px solid var(--border);
+  transition: all 0.25s;
+}
+.condition-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 32px rgba(26,40,48,0.1);
+  border-color: var(--midday);
+}
+.condition-card.featured {
+  background: var(--midnight);
+  border-color: var(--midnight);
+  grid-column: span 1;
+}
+.condition-tag {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  padding: 4px 10px;
+  border-radius: 10px;
+  margin-bottom: 12px;
+}
+.condition-tag.mpn { background: rgba(106,176,200,0.15); color: var(--midday); }
+.condition-tag.blood { background: rgba(232,204,112,0.15); color: var(--sunset); }
+.condition-tag.prostate { background: rgba(80,104,120,0.15); color: var(--predawn); }
+.condition-tag.thyroid { background: rgba(122,158,136,0.15); color: var(--flag-ok); }
+.condition-tag.post { background: rgba(200,152,88,0.15); color: var(--sunset); }
+.condition-tag.featured-tag { background: rgba(106,176,200,0.2); color: var(--midday); }
+.condition-title {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--midnight);
+  margin-bottom: 8px;
+  line-height: 1.3;
+}
+.condition-card.featured .condition-title { color: var(--canvas); }
+.condition-body {
+  font-size: 13px;
+  color: var(--text-mid);
+  line-height: 1.6;
+  font-weight: 300;
+}
+.condition-card.featured .condition-body { color: rgba(255,252,245,0.6); }
+.for-us-thread {
+  margin-top: 60px;
+  text-align: center;
+  max-width: 680px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.for-us-thread p {
+  font-size: 18px;
+  color: var(--text-mid);
+  line-height: 1.8;
+  font-weight: 300;
+}
+.for-us-thread strong { color: var(--midnight); font-weight: 500; }
+
+/* ── Built Different ─────────────────────────────────── */
+#built {
+  background: var(--midnight);
+  flex-direction: column;
+  padding: 120px 48px;
+  min-height: auto;
+}
+.built-inner { max-width: 1100px; margin: 0 auto; width: 100%; }
+.built-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2px;
+  margin-top: 60px;
+  border-radius: 20px;
+  overflow: hidden;
+}
+.built-cell {
+  background: #1E2E38;
+  padding: 40px 36px;
+  transition: background 0.2s;
+}
+.built-cell:hover { background: #243540; }
+.built-cell-icon {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  margin-bottom: 16px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px;
+}
+.built-cell-title {
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--canvas);
+  margin-bottom: 10px;
+}
+.built-cell-body {
+  font-size: 14px;
+  color: rgba(255,252,245,0.5);
+  line-height: 1.7;
+  font-weight: 300;
+}
+.built-four-words {
+  display: flex;
+  gap: 2px;
+  margin-top: 60px;
+  border-radius: 20px;
+  overflow: hidden;
+  flex-wrap: wrap;
+}
+.four-word {
+  flex: 1;
+  min-width: 160px;
+  background: #1E2E38;
+  padding: 28px 24px;
+  text-align: center;
+}
+.four-word-main {
+  font-family: 'Raleway', serif;
+  font-weight: 200;
+  font-size: 20px;
+  color: var(--canvas);
+  margin-bottom: 8px;
+}
+.four-word-sub {
+  font-size: 11px;
+  color: var(--predawn);
+  line-height: 1.5;
+}
+
+/* ── Download ────────────────────────────────────────── */
+#download {
+  background: var(--canvas);
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  padding: 160px 48px;
+  min-height: 80vh;
+}
+.download-mark {
+  margin: 0 auto 40px;
+  animation: float 6s ease-in-out infinite;
+  animation-delay: 1s;
+}
+.download-headline {
+  font-family: 'Raleway', serif;
+  font-weight: 200;
+  font-size: clamp(28px, 4vw, 52px);
+  color: var(--midnight);
+  line-height: 1.3;
+  max-width: 680px;
+  margin: 0 auto 20px;
+  letter-spacing: -0.3px;
+}
+.download-headline em { font-style: italic; color: var(--midday); }
+.download-sub {
+  font-size: 17px;
+  color: var(--text-mid);
+  margin-bottom: 48px;
+  font-weight: 300;
+}
+.download-ctas {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 48px;
+}
+.download-footnote {
+  font-size: 12px;
+  color: var(--text-lite);
+  line-height: 1.8;
+}
+
+/* ── Footer ──────────────────────────────────────────── */
+footer {
+  background: var(--midnight);
+  padding: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+.footer-wordmark {
+  font-family: 'Raleway', serif;
+  font-weight: 200;
+  font-size: 16px;
+  letter-spacing: 0.5px;
+  color: var(--canvas);
+}
+.footer-wordmark span { color: var(--sunrise); }
+.footer-links {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+.footer-link {
+  font-size: 12px;
+  color: var(--predawn);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.footer-link:hover { color: var(--canvas); }
+.footer-copy {
+  font-size: 11px;
+  color: var(--predawn);
+}
+
+/* ── Phone screen components ─────────────────────────── */
+.screen-canvas { background: var(--canvas); }
+.screen-dark { background: var(--midnight); }
+
+/* Dashboard screen */
+.dash-screen {
+  padding: 14px;
+  background: var(--canvas);
+}
+.dash-greeting {
+  font-family: 'Raleway', serif;
+  font-weight: 200;
+  font-size: 14px;
+  color: var(--text);
+  margin-bottom: 10px;
+}
+.dash-action {
+  background: var(--midday);
+  border-radius: 10px;
+  padding: 10px 12px;
+  margin-bottom: 8px;
+}
+.dash-action-title { font-size: 11px; font-weight: 500; color: var(--midnight); }
+.dash-action-sub { font-size: 9px; color: rgba(26,40,48,0.65); margin-top: 2px; }
+.dash-action-btn {
+  display: inline-block;
+  background: var(--midnight);
+  color: var(--canvas);
+  font-size: 10px;
+  font-weight: 500;
+  border-radius: 12px;
+  padding: 4px 10px;
+  margin-top: 6px;
+}
+.dash-stats-row { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 8px; }
+.dash-stat {
+  background: var(--surface);
+  border-radius: 7px;
+  padding: 8px 9px;
+}
+.dash-stat-label { font-size: 8px; text-transform: uppercase; letter-spacing: 0.4px; color: var(--text-lite); margin-bottom: 2px; }
+.dash-stat-val { font-family: 'Raleway', serif; font-weight: 300; font-size: 16px; color: var(--midday); }
+.dash-stat-delta { font-size: 8px; color: var(--flag-high); margin-top: 1px; }
+.dash-appt {
+  background: var(--card);
+  border: 0.5px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.dash-appt-name { font-size: 10px; font-weight: 500; color: var(--text); }
+.dash-appt-date { font-size: 9px; color: var(--text-lite); margin-top: 1px; }
+.dash-appt-badge {
+  font-size: 8px;
+  font-weight: 500;
+  background: var(--flag-ok-bg);
+  color: var(--flag-ok);
+  padding: 3px 7px;
+  border-radius: 8px;
+}
+/* checkin screen */
+.checkin-screen { background: var(--canvas); padding: 14px; }
+.checkin-prog { height: 3px; background: var(--surface); border-radius: 2px; margin-bottom: 14px; overflow: hidden; }
+.checkin-prog-fill { height: 100%; width: 40%; background: var(--midday); border-radius: 2px; }
+.checkin-qnum { font-size: 9px; color: var(--text-lite); margin-bottom: 3px; }
+.checkin-q { font-size: 12px; font-weight: 500; color: var(--text); margin-bottom: 4px; line-height: 1.4; }
+.checkin-sub { font-size: 10px; color: var(--text-lite); margin-bottom: 12px; }
+.scale-row { display: flex; gap: 3px; margin-bottom: 6px; }
+.sb {
+  flex: 1; height: 28px;
+  border-radius: 5px;
+  border: 0.5px solid var(--border);
+  background: var(--surface);
+  font-size: 9px; font-weight: 500;
+  color: var(--text-lite);
+  display: flex; align-items: center; justify-content: center;
+}
+.sb.sel { background: var(--midday); border-color: var(--midday); color: var(--midnight); }
+.scale-lbl { display: flex; justify-content: space-between; font-size: 8px; color: var(--text-lite); margin-bottom: 12px; }
+.checkin-enc { font-size: 10px; color: var(--flag-ok); font-style: italic; text-align: center; margin-bottom: 10px; }
+.checkin-btn {
+  background: var(--midday); color: var(--midnight);
+  border: none; border-radius: 16px;
+  font-size: 11px; font-weight: 500;
+  padding: 8px; width: 100%;
+}
+/* brief screen */
+.brief-screen { background: var(--canvas); padding: 12px; font-size: 10px; }
+.brief-hdr { border-bottom: 0.5px solid var(--border); padding-bottom: 7px; margin-bottom: 8px; }
+.brief-name { font-size: 11px; font-weight: 500; color: var(--text); }
+.brief-meta { font-size: 8px; color: var(--text-lite); margin-top: 2px; }
+.brief-sec { font-size: 8px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-lite); margin: 8px 0 5px; }
+.brief-bars { display: flex; gap: 2px; align-items: flex-end; height: 28px; margin-bottom: 4px; }
+.bb { flex: 1; border-radius: 2px 2px 0 0; background: var(--surface); }
+.bb.hi { background: var(--midday); }
+.brief-row { display: flex; justify-content: space-between; align-items: center; font-size: 9px; color: var(--text); padding: 3px 0; border-bottom: 0.5px solid var(--surface); }
+.brief-row-val { font-weight: 500; color: var(--flag-high); }
+.brief-labs { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; margin-bottom: 6px; }
+.bl { background: var(--surface); border-radius: 5px; padding: 5px 6px; }
+.bl-name { font-size: 8px; color: var(--text-lite); }
+.bl-val { font-size: 11px; font-weight: 500; color: var(--text); }
+.bl-flag { font-size: 7px; }
+.bl-flag.hi { color: var(--flag-high); }
+.bl-flag.ok { color: var(--flag-ok); }
+.pattern-row { display: flex; gap: 6px; margin-bottom: 4px; }
+.pnum { width: 14px; height: 14px; border-radius: 50%; background: var(--sunrise); color: var(--midnight); font-size: 8px; font-weight: 500; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.ptext { font-size: 9px; color: var(--text); line-height: 1.4; }
+/* tab bar */
+.tab-bar { display: flex; background: var(--card); border-top: 0.5px solid var(--border); padding: 6px 0 3px; }
+.tab { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 1px; font-size: 7px; color: var(--afternoon); }
+.tab.active { color: var(--midday); }
+.tab-ico { font-size: 12px; }
+
+/* ── Scroll reveal ───────────────────────────────────── */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+
+/* ── Responsive ──────────────────────────────────────── */
+@media (max-width: 900px) {
+  nav { padding: 16px 24px; }
+  .nav-right .nav-link { display: none; }
+  section { padding: 80px 24px; }
+  .story-inner { grid-template-columns: 1fr; gap: 48px; }
+  .how-steps { grid-template-columns: 1fr; }
+  .condition-grid { grid-template-columns: 1fr; }
+  .built-grid { grid-template-columns: 1fr; }
+  .built-four-words { flex-direction: column; }
+  .hero-phone.secondary { display: none; }
+  footer { padding: 32px 24px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── Navigation ── -->
+<nav id="main-nav">
+  <a href="#hero" class="nav-wordmark">Live <span>Every</span> Day</a>
+  <div class="nav-right">
+    <a href="#story" class="nav-link">Our Story</a>
+    <a href="#how" class="nav-link">How It Works</a>
+    <a href="#for-us" class="nav-link">Who It's For</a>
+    <a href="#download" class="nav-cta">Download Free</a>
+  </div>
+</nav>
+
+<!-- ── HERO ── -->
+<section id="hero">
+  <!-- Living mark -->
+  <svg class="hero-mark" id="hero-mark" width="80" height="80" viewBox="0 0 48 48">
+    <circle id="hm-d730" cx="10" cy="38" r="3.4" fill="#506878"/>
+    <circle id="hm-d9"   cx="4"  cy="24" r="3.85" fill="#E8CC70"/>
+    <circle id="hm-d1030" cx="10" cy="10" r="3.4" fill="#F0E090"/>
+    <circle id="hm-d12"  cx="24" cy="3"  r="3.85" fill="#6AB0C8"/>
+    <circle id="hm-d130" cx="38" cy="10" r="3.4" fill="#9098A0"/>
+    <circle id="hm-d3"   cx="44" cy="24" r="3.85" fill="#C89858"/>
+    <circle id="hm-d430" cx="38" cy="38" r="3.4" fill="#485058"/>
+    <circle id="hm-d6"   cx="24" cy="45" r="3.85" fill="#1A2830"/>
+  </svg>
+
+  <p class="hero-eyebrow reveal">Live Every Day</p>
+  <h1 class="hero-headline reveal reveal-delay-1">The most important person<br>in your care team is you.</h1>
+  <p class="hero-subline reveal reveal-delay-2">Great care is a team effort. Better information gives everyone on that team — including you — a fuller picture to do their best work.</p>
+
+  <div class="hero-ctas reveal reveal-delay-3">
+    <a href="#download" class="btn-primary">Download Free ↓</a>
+    <a href="#how" class="btn-secondary">See how it works</a>
+  </div>
+
+  <div class="hero-phone-wrap reveal reveal-delay-4">
+    <!-- Main phone: Brief -->
+    <div class="hero-phone main">
+      <div class="phone-notch"><div class="notch-pill"></div></div>
+      <div class="brief-screen">
+        <div class="brief-hdr">
+          <div class="brief-name">John Grudnowski · ET</div>
+          <div class="brief-meta">Dr. Wolanskyj-Spinner · April 14, 2025</div>
+          <div class="brief-meta">Data: Oct 2024 – Mar 2025 · 27 days away</div>
+        </div>
+        <div class="brief-sec">Symptom trend — 6 months</div>
+        <div class="brief-bars">
+          <div class="bb" style="height:28%"></div><div class="bb" style="height:35%"></div>
+          <div class="bb" style="height:42%"></div><div class="bb" style="height:52%"></div>
+          <div class="bb" style="height:62%"></div><div class="bb hi" style="height:78%"></div>
+        </div>
+        <div style="font-size:8px;color:var(--flag-high);margin-bottom:5px">↑ Symptom load +28% since Oct</div>
+        <div class="brief-row"><span>Fatigue</span><span class="brief-row-val">8/10 ↑</span></div>
+        <div class="brief-row"><span>Brain fog</span><span class="brief-row-val">6/10 ↑</span></div>
+        <div class="brief-row" style="border:none"><span>Night sweats</span><span style="font-weight:500;color:var(--afternoon)">5/10 →</span></div>
+        <div class="brief-sec">Key lab values</div>
+        <div class="brief-labs">
+          <div class="bl"><div class="bl-name">Platelets</div><div class="bl-val">842</div><div class="bl-flag hi">↑ +10%</div></div>
+          <div class="bl"><div class="bl-name">WBC</div><div class="bl-val">10.4</div><div class="bl-flag ok">Steady</div></div>
+          <div class="bl"><div class="bl-name">HGB</div><div class="bl-val">14.6</div><div class="bl-flag ok">Stable</div></div>
+          <div class="bl"><div class="bl-name">HRV</div><div class="bl-val">28ms</div><div class="bl-flag hi">↓ Decline</div></div>
+        </div>
+        <div class="brief-sec">Patterns to discuss</div>
+        <div class="pattern-row"><div class="pnum">1</div><div class="ptext">Platelets up 10% across 3 consecutive draws (764→842)</div></div>
+        <div class="pattern-row"><div class="pnum">2</div><div class="ptext">Deep sleep −33%, resting HR +6 bpm, activity −25%</div></div>
+        <div class="pattern-row"><div class="pnum">3</div><div class="ptext">Fatigue 4→8/10 over 8 weeks — highest since onboarding</div></div>
+      </div>
+      <div class="tab-bar">
+        <div class="tab"><div class="tab-ico">⌂</div>Home</div>
+        <div class="tab"><div class="tab-ico">◎</div>Check-in</div>
+        <div class="tab"><div class="tab-ico">≡</div>Data</div>
+        <div class="tab active"><div class="tab-ico">☆</div>Prep</div>
+      </div>
+    </div>
+    <!-- Secondary phone: Dashboard -->
+    <div class="hero-phone secondary">
+      <div class="phone-notch"><div class="notch-pill"></div></div>
+      <div class="dash-screen">
+        <div class="dash-greeting">Good morning, John.</div>
+        <div class="dash-action">
+          <div class="dash-action-title">Weekly check-in</div>
+          <div class="dash-action-sub">Last week: 6.2 · Due today</div>
+          <div class="dash-action-btn">Start →</div>
+        </div>
+        <div class="dash-stats-row">
+          <div class="dash-stat">
+            <div class="dash-stat-label">Platelets</div>
+            <div class="dash-stat-val">842</div>
+            <div class="dash-stat-delta">↑ +10%</div>
+          </div>
+          <div class="dash-stat">
+            <div class="dash-stat-label">Symptom load</div>
+            <div class="dash-stat-val">6.2</div>
+            <div class="dash-stat-delta">↑ +28%</div>
+          </div>
+        </div>
+        <div class="dash-appt">
+          <div>
+            <div class="dash-appt-name">Dr. Wolanskyj-Spinner</div>
+            <div class="dash-appt-date">April 14 · 27 days</div>
+          </div>
+          <div class="dash-appt-badge">Prep ready</div>
+        </div>
+      </div>
+      <div class="tab-bar">
+        <div class="tab active"><div class="tab-ico">⌂</div>Home</div>
+        <div class="tab"><div class="tab-ico">◎</div>Check-in</div>
+        <div class="tab"><div class="tab-ico">≡</div>Data</div>
+        <div class="tab"><div class="tab-ico">☆</div>Prep</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── STORY ── -->
+<section id="story">
+  <div class="story-inner">
+    <div>
+      <p class="story-label reveal">Our Story</p>
+      <h2 class="story-headline reveal reveal-delay-1">Built by a patient.<br>For <em>all of us.</em></h2>
+      <p class="story-body reveal reveal-delay-2">I've been living with ET since 2023. For years before that, my platelets were quietly climbing in bloodwork nobody flagged. I found out I had a blood cancer thirty months after it likely caused my heart attack.</p>
+      <p class="story-body reveal reveal-delay-2">About a year into managing it, I spent sixty days living under a cloud of fatigue I couldn't explain. The data was right there on my lab printout. I just didn't have a way to understand it.</p>
+      <div class="story-pull reveal reveal-delay-3">I had the data. I just didn't have a way to understand it.</div>
+      <p class="story-body reveal reveal-delay-3">My father fought colon cancer in his sixties. He had months of quiet after treatment — months of appointments and bloodwork and watching. I've wondered since whether his body was trying to tell him something that nobody, including him, had a way to hear.</p>
+      <p class="story-body reveal reveal-delay-3">That wondering is what Live Every Day is for.</p>
+      <a href="#" class="story-read-more reveal reveal-delay-4">Read the full story →</a>
+    </div>
+    <div class="story-visual">
+      <div class="story-stat reveal reveal-delay-1">
+        <div class="story-stat-num">61%</div>
+        <div class="story-stat-label">of MPN patients say they would benefit from a tool to track their symptoms, test results, and medication side effects</div>
+        <div class="story-stat-source">MPN Research Foundation · 2024 Patient Unmet Needs Assessment</div>
+      </div>
+      <div class="story-stat reveal reveal-delay-2">
+        <div class="story-stat-num">72%</div>
+        <div class="story-stat-label">of MPN patients have never used the MPN-10 symptom assessment tool — meaning their symptom story has never been part of their clinical record</div>
+        <div class="story-stat-source">MPN Research Foundation · 2024 Patient Unmet Needs Assessment</div>
+      </div>
+      <div class="story-stat reveal reveal-delay-3">
+        <div class="story-stat-num">54%</div>
+        <div class="story-stat-label">of patients felt their individual treatment goals were considered by their provider. Better information going into every appointment changes that equation.</div>
+        <div class="story-stat-source">MPN Research Foundation · 2024 Patient Unmet Needs Assessment</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── HOW IT WORKS ── -->
+<section id="how">
+  <div class="how-inner">
+    <p class="section-eyebrow reveal">How It Works</p>
+    <h2 class="section-headline reveal reveal-delay-1">Two minutes a week.<br>Six months of clarity.</h2>
+    <p class="section-subline reveal reveal-delay-2">Live Every Day connects our symptoms, our labs, and our wearables — and turns them into patterns our appointments can't see and questions our doctors can actually answer.</p>
+
+    <div class="how-steps">
+      <!-- Track -->
+      <div class="how-step reveal reveal-delay-1">
+        <div class="step-num">1</div>
+        <div class="step-phone">
+          <div class="phone-notch"><div class="notch-pill"></div></div>
+          <div class="checkin-screen">
+            <div class="checkin-prog"><div class="checkin-prog-fill"></div></div>
+            <div class="checkin-qnum">Question 3 of 10</div>
+            <div class="checkin-q">How would you rate your fatigue this week?</div>
+            <div class="checkin-sub">Consider your energy across the whole week.</div>
+            <div class="scale-row">
+              <div class="sb">0</div><div class="sb">1</div><div class="sb">2</div>
+              <div class="sb">3</div><div class="sb">4</div><div class="sb">5</div>
+              <div class="sb sel">6</div><div class="sb">7</div>
+              <div class="sb">8</div><div class="sb">9</div><div class="sb">10</div>
+            </div>
+            <div class="scale-lbl"><span>None</span><span>Moderate</span><span>Severe</span></div>
+            <div class="checkin-enc">Tracking this takes courage.</div>
+            <button class="checkin-btn">Continue →</button>
+          </div>
+          <div class="tab-bar">
+            <div class="tab"><div class="tab-ico">⌂</div>Home</div>
+            <div class="tab active"><div class="tab-ico">◎</div>Check-in</div>
+            <div class="tab"><div class="tab-ico">≡</div>Data</div>
+            <div class="tab"><div class="tab-ico">☆</div>Prep</div>
+          </div>
+        </div>
+        <div class="step-title">Track</div>
+        <div class="step-desc">Ten condition-specific questions. Two minutes. Every week. Plus automatic data from our wearables and labs — no manual entry.</div>
+      </div>
+
+      <!-- Understand -->
+      <div class="how-step reveal reveal-delay-2">
+        <div class="step-num">2</div>
+        <div class="step-phone">
+          <div class="phone-notch"><div class="notch-pill"></div></div>
+          <div class="dash-screen" style="padding:14px">
+            <div style="font-size:9px;font-weight:500;text-transform:uppercase;letter-spacing:0.5px;color:var(--text-lite);margin-bottom:8px">Symptom trend — 8 weeks</div>
+            <div style="display:flex;gap:3px;align-items:flex-end;height:48px;margin-bottom:5px">
+              <div style="flex:1;border-radius:2px 2px 0 0;background:var(--surface);height:35%"></div>
+              <div style="flex:1;border-radius:2px 2px 0 0;background:var(--surface);height:40%"></div>
+              <div style="flex:1;border-radius:2px 2px 0 0;background:var(--surface);height:45%"></div>
+              <div style="flex:1;border-radius:2px 2px 0 0;background:var(--surface);height:50%"></div>
+              <div style="flex:1;border-radius:2px 2px 0 0;background:var(--surface);height:58%"></div>
+              <div style="flex:1;border-radius:2px 2px 0 0;background:var(--surface);height:68%"></div>
+              <div style="flex:1;border-radius:2px 2px 0 0;background:var(--surface);height:80%"></div>
+              <div style="flex:1;border-radius:2px 2px 0 0;background:var(--midday);height:100%"></div>
+            </div>
+            <div style="font-size:8px;color:var(--flag-high);margin-bottom:10px">↑ +28% load — pattern flagged</div>
+            <div style="font-size:9px;font-weight:500;text-transform:uppercase;letter-spacing:0.5px;color:var(--text-lite);margin-bottom:8px">Lab trend — platelets</div>
+            <div style="background:var(--surface);border-radius:8px;padding:10px">
+              <svg viewBox="0 0 160 48" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:40px">
+                <polyline points="10,38 40,35 70,32 100,26 130,18 160,10" stroke="#6AB0C8" stroke-width="1.5" fill="none"/>
+                <circle cx="10" cy="38" r="3" fill="#6AB0C8"/>
+                <circle cx="70" cy="32" r="3" fill="#6AB0C8"/>
+                <circle cx="160" cy="10" r="3" fill="#C87060"/>
+                <line x1="0" y1="20" x2="160" y2="20" stroke="#9098A0" stroke-width="0.5" stroke-dasharray="4 4"/>
+              </svg>
+              <div style="display:flex;justify-content:space-between;font-size:8px;color:var(--text-lite)"><span>Sep</span><span>Dec</span><span>Mar ↑</span></div>
+            </div>
+            <div style="font-size:9px;font-weight:500;text-transform:uppercase;letter-spacing:0.5px;color:var(--text-lite);margin:10px 0 6px">Wearables correlation</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px">
+              <div style="background:var(--surface);border-radius:6px;padding:6px 8px"><div style="font-size:8px;color:var(--text-lite)">HRV</div><div style="font-size:12px;font-weight:500;color:var(--midnight);font-family:'Raleway',serif">28ms</div><div style="font-size:8px;color:var(--flag-high)">↓ decline</div></div>
+              <div style="background:var(--surface);border-radius:6px;padding:6px 8px"><div style="font-size:8px;color:var(--text-lite)">Deep sleep</div><div style="font-size:12px;font-weight:500;color:var(--midnight);font-family:'Raleway',serif">52m</div><div style="font-size:8px;color:var(--flag-high)">↓ −33%</div></div>
+            </div>
+          </div>
+          <div class="tab-bar">
+            <div class="tab"><div class="tab-ico">⌂</div>Home</div>
+            <div class="tab"><div class="tab-ico">◎</div>Check-in</div>
+            <div class="tab active"><div class="tab-ico">≡</div>Data</div>
+            <div class="tab"><div class="tab-ico">☆</div>Prep</div>
+          </div>
+        </div>
+        <div class="step-title">Understand</div>
+        <div class="step-desc">Patterns emerge over time that no single appointment could ever reveal. Symptom trends, lab trajectories, wearable correlations — all connected.</div>
+      </div>
+
+      <!-- Prepare -->
+      <div class="how-step reveal reveal-delay-3">
+        <div class="step-num">3</div>
+        <div class="step-phone">
+          <div class="phone-notch"><div class="notch-pill"></div></div>
+          <div class="brief-screen">
+            <div class="brief-hdr">
+              <div class="brief-name">John Grudnowski · ET</div>
+              <div class="brief-meta">Dr. Wolanskyj-Spinner · April 14</div>
+            </div>
+            <div class="brief-sec">Symptom trend — 6 months</div>
+            <div class="brief-bars">
+              <div class="bb" style="height:30%"></div><div class="bb" style="height:37%"></div>
+              <div class="bb" style="height:44%"></div><div class="bb" style="height:54%"></div>
+              <div class="bb" style="height:64%"></div><div class="bb hi" style="height:80%"></div>
+            </div>
+            <div style="font-size:8px;color:var(--flag-high);margin-bottom:5px">↑ +28% since Oct</div>
+            <div class="brief-sec">Patterns to discuss</div>
+            <div class="pattern-row"><div class="pnum">1</div><div class="ptext">Platelets up 10% across 3 consecutive draws</div></div>
+            <div class="pattern-row"><div class="pnum">2</div><div class="ptext">Deep sleep −33%, resting HR +6 bpm</div></div>
+            <div class="pattern-row"><div class="pnum">3</div><div class="ptext">Fatigue 4→8/10 — highest since onboarding</div></div>
+            <div class="brief-sec" style="color:var(--sunrise)">Our questions</div>
+            <div style="background:var(--surface);border-radius:6px;padding:7px 8px;margin-bottom:4px;display:flex;gap:6px;align-items:flex-start;border-left:2px solid var(--sunrise)">
+              <div style="width:12px;height:12px;border-radius:2px;background:var(--flag-ok);flex-shrink:0;margin-top:1px"></div>
+              <div style="font-size:9px;color:var(--text);line-height:1.4">Fatigue 4→8/10 over 8 weeks — is this my medication or disease activity?</div>
+            </div>
+            <div style="background:var(--surface);border-radius:6px;padding:7px 8px;display:flex;gap:6px;align-items:flex-start">
+              <div style="width:12px;height:12px;border-radius:2px;border:0.5px solid var(--border);flex-shrink:0;margin-top:1px"></div>
+              <div style="font-size:9px;color:var(--text);line-height:1.4">Platelets rising 10% across 3 draws — is this a trajectory we need to act on?</div>
+            </div>
+          </div>
+          <div class="tab-bar">
+            <div class="tab"><div class="tab-ico">⌂</div>Home</div>
+            <div class="tab"><div class="tab-ico">◎</div>Check-in</div>
+            <div class="tab"><div class="tab-ico">≡</div>Data</div>
+            <div class="tab active"><div class="tab-ico">☆</div>Prep</div>
+          </div>
+        </div>
+        <div class="step-title">Prepare</div>
+        <div class="step-desc">A one-page brief our doctor can read in 60 seconds. Data-derived questions we can actually ask. Arrive at every appointment ready to make the most of the time we have.</div>
+      </div>
+    </div>
+
+    <div class="how-data-note reveal">
+      <div class="data-note-dot"></div>
+      <p class="data-note-text">72% of MPN patients report their quality of life is affected by their condition. Yet only 54% felt their individual treatment goals were considered by their provider. Better information changes that equation. — MPN Research Foundation, 2024</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── WHO IT'S FOR ── -->
+<section id="for-us">
+  <div class="for-us-inner">
+    <p class="section-eyebrow reveal">Who It's For</p>
+    <h2 class="section-headline reveal reveal-delay-1">There are millions of us managing cancer between appointments.<br>Most of us have never seen an app that knows our name.</h2>
+
+    <div class="condition-grid">
+      <div class="condition-card featured reveal reveal-delay-1">
+        <div class="condition-tag featured-tag">MPN · Launching first</div>
+        <div class="condition-title">Essential Thrombocythemia, Polycythemia Vera & Myelofibrosis</div>
+        <div class="condition-body">Where Live Every Day begins. Built around the MPN-10 symptom instrument, CBC trend monitoring, and the specific questions MPN patients bring to their hematologist — but never have time to ask.</div>
+      </div>
+
+      <div class="condition-card reveal reveal-delay-2">
+        <div class="condition-tag blood">CLL · Coming soon</div>
+        <div class="condition-title">Chronic Lymphocytic Leukemia & Indolent Lymphoma</div>
+        <div class="condition-body">Watch and wait can last years. The monitoring never stops, the uncertainty never fully lifts. Live Every Day tracks the full picture — so when something changes, we see it in context.</div>
+      </div>
+
+      <div class="condition-card reveal reveal-delay-3">
+        <div class="condition-tag prostate">Prostate · Coming soon</div>
+        <div class="condition-title">Prostate Cancer — Active Surveillance</div>
+        <div class="condition-body">Scheduled PSA tests, periodic biopsies, and the ongoing discipline of watching a diagnosis that may never require intervention. Show up to every monitoring appointment with the full longitudinal picture.</div>
+      </div>
+
+      <div class="condition-card reveal reveal-delay-2">
+        <div class="condition-tag post">Post-treatment · Coming soon</div>
+        <div class="condition-title">After Treatment — The Watchful Window</div>
+        <div class="condition-body">Treatment is over. We've been told the best possible news. But the work of understanding our own health isn't finished — it enters a new phase. The months of close monitoring deserve the same tools as any chronic condition.</div>
+      </div>
+
+      <div class="condition-card reveal reveal-delay-3">
+        <div class="condition-tag thyroid">Thyroid · Coming soon</div>
+        <div class="condition-title">Thyroid Cancer & Early-Stage Breast Cancer</div>
+        <div class="condition-body">High survival rates don't mean low attention requirements. Years of hormone management, regular scans, and the ongoing discipline of long-term monitoring deserve the same quality of insight.</div>
+      </div>
+
+      <div class="condition-card reveal reveal-delay-4" style="background:var(--surface);border-style:dashed">
+        <div class="condition-tag" style="background:rgba(144,152,160,0.15);color:var(--afternoon)">Expanding</div>
+        <div class="condition-title" style="color:var(--text-mid)">More conditions on the roadmap</div>
+        <div class="condition-body">Each condition requires its own validated symptom instrument and specialist clinical advisor. We're building condition by condition — with the depth each one deserves.</div>
+      </div>
+    </div>
+
+    <div class="for-us-thread reveal">
+      <p>The conditions are different. The treatments are different. The timelines are different.<br><br><strong>But the experience is the same:</strong> bodies that don't pause between appointments, a healthcare system that can only listen a few times a year, and all of us who deserve to understand our own story — not just at the next visit, but every day.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── BUILT DIFFERENT ── -->
+<section id="built">
+  <div class="built-inner">
+    <p class="section-eyebrow reveal" style="color:var(--midday)">Built Different</p>
+    <h2 class="section-headline reveal reveal-delay-1" style="color:var(--canvas)">Built by a patient who needed it.<br>For all of us who do.</h2>
+    <p class="section-subline reveal reveal-delay-2" style="color:rgba(255,252,245,0.5)">Independent. Disease-specific. Longitudinal. Patient-owned. And free — because managing a serious diagnosis is expensive enough.</p>
+
+    <div class="built-grid">
+      <div class="built-cell reveal reveal-delay-1">
+        <div class="built-cell-icon" style="background:rgba(106,176,200,0.15)">🔓</div>
+        <div class="built-cell-title">Free. Always.</div>
+        <div class="built-cell-body">Live Every Day is free to download and free to use. Our ability to understand our own health and show up prepared to every appointment should not come with a subscription fee.</div>
+      </div>
+      <div class="built-cell reveal reveal-delay-2">
+        <div class="built-cell-icon" style="background:rgba(232,204,112,0.15)">🔒</div>
+        <div class="built-cell-title">Our data. Our choice.</div>
+        <div class="built-cell-body">Our symptoms, our labs, our wearable patterns belong to us. We do not share data without explicit permission. If we choose to contribute de-identified data to research, we can — always opt-in, always reversible.</div>
+      </div>
+      <div class="built-cell reveal reveal-delay-3">
+        <div class="built-cell-icon" style="background:rgba(122,158,136,0.15)">✓</div>
+        <div class="built-cell-title">HIPAA compliant.</div>
+        <div class="built-cell-body">Built to the same federal privacy framework that governs our medical records. Our health data is encrypted, protected, and handled with the same rigor our care team applies to our clinical information.</div>
+      </div>
+      <div class="built-cell reveal reveal-delay-4">
+        <div class="built-cell-icon" style="background:rgba(200,152,88,0.15)">◎</div>
+        <div class="built-cell-title">Connected, not constrained.</div>
+        <div class="built-cell-body">We work alongside the healthcare system — connecting to labs, wearables, and patient portals — but our thinking is our own. Sitting closest to the people living it, and the people who love them.</div>
+      </div>
+    </div>
+
+    <div class="built-four-words reveal" style="margin-top:2px">
+      <div class="four-word">
+        <div class="four-word-main">Independent</div>
+        <div class="four-word-sub">No pharma funding. No advertiser agenda.</div>
+      </div>
+      <div class="four-word">
+        <div class="four-word-main">Disease-specific</div>
+        <div class="four-word-sub">Built condition by condition, not generically.</div>
+      </div>
+      <div class="four-word">
+        <div class="four-word-main">Longitudinal</div>
+        <div class="four-word-sub">Months and years of data, not today's reading.</div>
+      </div>
+      <div class="four-word">
+        <div class="four-word-main">Patient-owned</div>
+        <div class="four-word-sub">Our data never leaves without our permission.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── DOWNLOAD ── -->
+<section id="download">
+  <svg class="download-mark" id="dl-mark" width="72" height="72" viewBox="0 0 48 48">
+    <circle cx="4"  cy="24" r="3.85" fill="#E8CC70"/>
+    <circle cx="10" cy="10" r="3.4"  fill="#F0E090"/>
+    <circle cx="24" cy="3"  r="3.85" fill="#6AB0C8"/>
+    <circle cx="38" cy="10" r="3.4"  fill="#9098A0"/>
+    <circle cx="44" cy="24" r="3.85" fill="#C89858"/>
+    <circle cx="38" cy="38" r="3.4"  fill="#485058"/>
+    <circle cx="24" cy="45" r="3.85" fill="#1A2830"/>
+    <circle cx="10" cy="38" r="3.4"  fill="#506878"/>
+  </svg>
+  <h2 class="download-headline reveal">If any part of this felt familiar —<br><em>Live Every Day was built for us.</em></h2>
+  <p class="download-sub reveal reveal-delay-1">We'd be honored to be part of the journey.</p>
+  <div class="download-ctas reveal reveal-delay-2">
+    <a href="#" class="btn-primary">Download on the App Store ↓</a>
+    <a href="#" class="btn-secondary">Join the Android waitlist</a>
+  </div>
+  <p class="download-footnote reveal reveal-delay-3">Currently available via TestFlight · Free to download · Free to use · HIPAA compliant<br>liveeveryday.health</p>
+</section>
+
+<!-- ── Footer ── -->
+<footer>
+  <div class="footer-wordmark">Live <span>Every</span> Day</div>
+  <div class="footer-links">
+    <a href="#" class="footer-link">Privacy Policy</a>
+    <a href="#" class="footer-link">Terms of Use</a>
+    <a href="#" class="footer-link">Contact</a>
+    <a href="#" class="footer-link">liveeveryday.health</a>
+  </div>
+  <div class="footer-copy">© 2026 Live Every Day · Built by a patient, for all of us.</div>
+</footer>
+
+<script>
+/* ── Nav scroll state ── */
+var nav = document.getElementById('main-nav');
+window.addEventListener('scroll', function() {
+  if (window.scrollY > 20) nav.classList.add('scrolled');
+  else nav.classList.remove('scrolled');
+});
+
+/* ── Scroll reveal ── */
+var reveals = document.querySelectorAll('.reveal');
+var observer = new IntersectionObserver(function(entries) {
+  entries.forEach(function(entry) {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.12 });
+reveals.forEach(function(el) { observer.observe(el); });
+
+/* ── Living mark — updates to current time ── */
+var ICS = [
+  { key:'d1030', ws:6,  we:12, base:315 },
+  { key:'d130',  ws:12, we:18, base:45  },
+  { key:'d430',  ws:18, we:24, base:135 },
+  { key:'d730',  ws:0,  we:6,  base:225 },
+];
+function posOnRing(deg, cx, cy, r) {
+  var rad = deg * Math.PI / 180;
+  return { x: cx + r * Math.sin(rad), y: cy - r * Math.cos(rad) };
+}
+function updateMark(prefix, cx, cy, r, cardR, smallR) {
+  var h = new Date().getHours() + new Date().getMinutes()/60;
+  var active = ICS.find(function(ic){ return h >= ic.ws && h < ic.we; });
+  var activeAngle = active ? active.base - 22 + ((h - active.ws)/(active.we - active.ws)) * 44 : 0;
+  ICS.forEach(function(ic) {
+    var el = document.getElementById(prefix + ic.key);
+    if (!el) return;
+    var isA = active && ic.key === active.key;
+    if (isA) {
+      var p = posOnRing(activeAngle, cx, cy, r);
+      el.setAttribute('cx', p.x.toFixed(2));
+      el.setAttribute('cy', p.y.toFixed(2));
+      el.setAttribute('r', cardR);
+    } else {
+      var bp = posOnRing(ic.base, cx, cy, r);
+      el.setAttribute('cx', bp.x.toFixed(2));
+      el.setAttribute('cy', bp.y.toFixed(2));
+      el.setAttribute('r', smallR);
+    }
+  });
+}
+updateMark('hm-', 24, 24, 21, 3.85, 3.4);
+setInterval(function(){ updateMark('hm-', 24, 24, 21, 3.85, 3.4); }, 60000);
+</script>
+</body>
+</html>
