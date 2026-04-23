@@ -13,7 +13,7 @@
   --predawn:   #506878;
   --sunrise:   #E8CC70;
   --morning:   #F0E090;
-  --midday:    #6AB0C8;
+  --midday:    #3EA8CC;
   --afternoon: #9098A0;
   --sunset:    #C89858;
   --dusk:      #485058;
@@ -764,6 +764,93 @@ footer {
   .hero-phone.secondary { display: none; }
   footer { padding: 32px 24px; }
 }
+
+/* ── LOCK ALL PHONE SIZES — NO COMPRESSION ── */
+.hero-phone.main {
+  width: 220px !important;
+  min-width: 220px !important;
+  flex-shrink: 0 !important;
+}
+.hero-phone.secondary {
+  width: 190px !important;
+  min-width: 190px !important;
+  flex-shrink: 0 !important;
+}
+.hero-phone-wrap {
+  flex-wrap: nowrap !important;
+  justify-content: center !important;
+}
+.step-phone {
+  width: 220px !important;
+  min-width: 220px !important;
+  max-width: 220px !important;
+  flex-shrink: 0 !important;
+}
+
+/* ── LOCK PHONE SCREEN HEIGHTS ── */
+.brief-screen,
+.dash-screen,
+.checkin-screen {
+  height: 480px !important;
+  min-height: 480px !important;
+  max-height: 480px !important;
+  overflow: hidden !important;
+}
+
+/* ── LOCK HERO PHONE HEIGHTS ── */
+.hero-phone.main {
+  height: 460px !important;
+  min-height: 460px !important;
+}
+.hero-phone.secondary {
+  height: 420px !important;
+  min-height: 420px !important;
+}
+
+/* ── LOCK STEP PHONE HEIGHTS ── */
+.step-phone {
+  height: 460px !important;
+  min-height: 460px !important;
+}
+
+/* ── LOCK TYPOGRAPHY — NO CLAMP ── */
+.hero-headline {
+  font-size: 52px !important;
+  white-space: nowrap !important;
+}
+.hero-subline {
+  font-size: 18px !important;
+}
+.section-headline {
+  font-size: 48px !important;
+}
+
+/* ── HERO SECTION MIN-WIDTH ── */
+#hero {
+  min-width: 900px !important;
+}
+
+/* ── HOW STEPS LOCK 3-COLUMN ── */
+.how-steps {
+  grid-template-columns: repeat(3, 220px) !important;
+  justify-content: center !important;
+}
+
+/* ── PREVENT OVERALL PAGE COMPRESSION ── */
+body {
+  min-width: 900px !important;
+}
+
+/* ── MEDIA QUERY OVERRIDE — NEVER COMPRESS ── */
+@media (max-width: 900px) {
+  body { min-width: 900px !important; overflow-x: auto !important; }
+  .hero-phone.secondary { display: block !important; }
+  .how-steps { grid-template-columns: repeat(3, 220px) !important; }
+  .hero-headline { font-size: 52px !important; white-space: nowrap !important; }
+  .step-phone { width: 220px !important; min-width: 220px !important; }
+  .nav-right .nav-link { display: inline !important; }
+}
+
 </style>
 </head>
 <body>
@@ -786,7 +873,7 @@ footer {
     <circle id="hm-d730" cx="10" cy="38" r="3.4" fill="#506878"/>
     <circle id="hm-d9"   cx="4"  cy="24" r="3.85" fill="#E8CC70"/>
     <circle id="hm-d1030" cx="10" cy="10" r="3.4" fill="#F0E090"/>
-    <circle id="hm-d12"  cx="24" cy="3"  r="3.85" fill="#6AB0C8"/>
+    <circle id="hm-d12"  cx="24" cy="3"  r="3.85" fill="#3EA8CC"/>
     <circle id="hm-d130" cx="38" cy="10" r="3.4" fill="#9098A0"/>
     <circle id="hm-d3"   cx="44" cy="24" r="3.85" fill="#C89858"/>
     <circle id="hm-d430" cx="38" cy="38" r="3.4" fill="#485058"/>
@@ -844,24 +931,59 @@ footer {
     <!-- Secondary phone: Dashboard -->
     <div class="hero-phone secondary">
       <div class="phone-notch"><div class="notch-pill"></div></div>
-      <div class="dash-screen">
-        <div class="dash-greeting">Good morning, John.</div>
-        <div class="dash-action">
-          <div class="dash-action-title">Weekly check-in</div>
-          <div class="dash-action-sub">Last week: 6.2 · Due today</div>
-          <div class="dash-action-btn">Start →</div>
+      <div class="dash-screen" style="background:#FFFCF5;padding:12px;display:flex;flex-direction:column;height:100%;font-family:'DM Sans',sans-serif;overflow:hidden">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+            <div style="font-family:'Raleway',serif;font-weight:200;font-size:12px;color:#1A2830">Live <span style="color:#E8CC70">Every</span> Day</div>
+            <div style="font-size:10px;color:#506878">Our Data</div>
+          </div>
+          <!-- Labs -->
+          <div style="font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#506878;margin-bottom:6px">Blood count trends</div>
+          <div style="background:white;border-radius:10px;padding:8px 10px;border:1px solid #D8D0C0;margin-bottom:8px">
+            <div style="display:flex;gap:4px;margin-bottom:6px">
+              <div style="background:#3EA8CC;color:#1A2830;border-radius:10px;padding:2px 7px;font-size:7px;font-weight:600">Platelets</div>
+              <div style="background:#EBE8E0;color:#506878;border-radius:10px;padding:2px 7px;font-size:7px">WBC</div>
+              <div style="background:#EBE8E0;color:#506878;border-radius:10px;padding:2px 7px;font-size:7px">HGB</div>
+            </div>
+            <svg viewBox="0 0 160 40" style="width:100%;height:32px">
+              <path d="M0,32 L27,24 L53,18 L80,26 L107,12 L133,8 L160,2" fill="none" stroke="#3EA8CC" stroke-width="2" stroke-linecap="round"/>
+              <circle cx="160" cy="2" r="3.5" fill="#3EA8CC" stroke="white" stroke-width="1.5"/>
+            </svg>
+            <div style="display:flex;justify-content:space-between;margin-top:4px">
+              <div style="text-align:center"><div style="font-size:11px;font-weight:700;color:#C87060">842</div><div style="font-size:7px;color:#506878">Now</div></div>
+              <div style="text-align:center"><div style="font-size:11px;font-weight:600;color:#9098A0">764</div><div style="font-size:7px;color:#506878">6mo ago</div></div>
+              <div style="text-align:center"><div style="font-size:11px;font-weight:600;color:#C87060">↑10%</div><div style="font-size:7px;color:#506878">Trend</div></div>
+            </div>
+          </div>
+          <!-- Wearables -->
+          <div style="font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#506878;margin-bottom:6px">Wearables</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-bottom:8px">
+            <div style="background:white;border-radius:9px;padding:7px;border:1px solid #D8D0C0">
+              <div style="font-size:7px;color:#506878">Resting HR</div>
+              <div style="font-size:14px;font-weight:700;color:#1A2830">72<span style="font-size:8px;font-weight:400"> bpm</span></div>
+              <div style="font-size:7px;color:#C87060">↑ +6 bpm</div>
+            </div>
+            <div style="background:white;border-radius:9px;padding:7px;border:1px solid #D8D0C0">
+              <div style="font-size:7px;color:#506878">Deep sleep</div>
+              <div style="font-size:14px;font-weight:700;color:#1A2830">52<span style="font-size:8px;font-weight:400"> min</span></div>
+              <div style="font-size:7px;color:#C87060">↓ −33%</div>
+            </div>
+          </div>
+          <!-- Symptom bars -->
+          <div style="font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#506878;margin-bottom:5px">Symptom history</div>
+          <div style="display:flex;align-items:flex-end;gap:3px;height:28px">
+            <div style="flex:1;border-radius:2px 2px 0 0;background:#EBE8E0;height:35%"></div>
+            <div style="flex:1;border-radius:2px 2px 0 0;background:#EBE8E0;height:42%"></div>
+            <div style="flex:1;border-radius:2px 2px 0 0;background:#EBE8E0;height:50%"></div>
+            <div style="flex:1;border-radius:2px 2px 0 0;background:#C89858;opacity:.7;height:65%"></div>
+            <div style="flex:1;border-radius:2px 2px 0 0;background:#C89858;opacity:.8;height:75%"></div>
+            <div style="flex:1;border-radius:2px 2px 0 0;background:#C87060;opacity:.85;height:88%"></div>
+            <div style="flex:1;border-radius:2px 2px 0 0;background:#C87060;height:100%"></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;margin-top:2px">
+            <span style="font-size:7px;color:#9098A0">8 wks ago</span>
+            <span style="font-size:7px;color:#C87060;font-weight:600">Now ↑</span>
+          </div>
         </div>
-        <div class="dash-stats-row">
-          <div class="dash-stat">
-            <div class="dash-stat-label">Platelets</div>
-            <div class="dash-stat-val">842</div>
-            <div class="dash-stat-delta">↑ +10%</div>
-          </div>
-          <div class="dash-stat">
-            <div class="dash-stat-label">Symptom load</div>
-            <div class="dash-stat-val">6.2</div>
-            <div class="dash-stat-delta">↑ +28%</div>
-          </div>
         </div>
         <div class="dash-appt">
           <div>
@@ -927,9 +1049,36 @@ footer {
         <div class="step-num">1</div>
         <div class="step-phone">
           <div class="phone-notch"><div class="notch-pill"></div></div>
-          <div class="checkin-screen">
-            <div class="checkin-prog"><div class="checkin-prog-fill"></div></div>
-            <div class="checkin-qnum">Question 3 of 10</div>
+          <div class="checkin-screen" style="background:#FFFCF5;padding:12px;display:flex;flex-direction:column;height:100%;font-family:'DM Sans',sans-serif;overflow:hidden">
+          <!-- Progress -->
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+            <span style="font-size:9px;font-weight:600;color:#3EA8CC">1 of 10</span>
+          </div>
+          <div style="height:4px;background:#EBE8E0;border-radius:2px;margin-bottom:14px;overflow:hidden">
+            <div style="width:10%;height:100%;background:#3EA8CC;border-radius:2px"></div>
+          </div>
+          <!-- Question card -->
+          <div style="background:white;border-radius:14px;padding:14px;text-align:center;box-shadow:0 2px 10px rgba(0,0,0,.06);margin-bottom:10px">
+            <div style="font-size:30px;margin-bottom:8px">😴</div>
+            <div style="font-size:11px;font-weight:600;color:#1A2830;line-height:1.4">How heavy has fatigue felt this week?</div>
+            <div style="font-size:9px;color:#506878;margin-top:4px">Think about our worst day.</div>
+          </div>
+          <!-- Score -->
+          <div style="text-align:center;margin-bottom:8px">
+            <div style="font-size:32px;font-weight:300;color:#3EA8CC;line-height:1;font-family:'Raleway',serif">8</div>
+            <div style="font-size:10px;font-weight:600;color:#C87060">Really affecting me</div>
+          </div>
+          <!-- Slider visual -->
+          <div style="background:linear-gradient(to right,#3EA8CC,#88B0C0,#F4DDD8);height:8px;border-radius:4px;margin-bottom:12px;position:relative">
+            <div style="position:absolute;right:20%;top:50%;transform:translateY(-50%);width:20px;height:20px;background:white;border-radius:50%;border:2px solid #3EA8CC;box-shadow:0 2px 6px rgba(0,0,0,.2)"></div>
+          </div>
+          <!-- Nav -->
+          <div style="display:flex;gap:8px;margin-top:auto">
+            <div style="flex:1;background:#EBE8E0;border-radius:8px;padding:8px;text-align:center;font-size:9px;font-weight:600;color:#1A2830">← Back</div>
+            <div style="flex:2;background:#3EA8CC;border-radius:8px;padding:8px;text-align:center;font-size:9px;font-weight:600;color:#1A2830">Next →</div>
+          </div>
+        </div>
+        </div><div class="checkin-qnum">Question 3 of 10</div>
             <div class="checkin-q">How would you rate your fatigue this week?</div>
             <div class="checkin-sub">Consider your energy across the whole week.</div>
             <div class="scale-row">
@@ -974,9 +1123,9 @@ footer {
             <div style="font-size:9px;font-weight:500;text-transform:uppercase;letter-spacing:0.5px;color:var(--text-lite);margin-bottom:8px">Lab trend — platelets</div>
             <div style="background:var(--surface);border-radius:8px;padding:10px">
               <svg viewBox="0 0 160 48" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:40px">
-                <polyline points="10,38 40,35 70,32 100,26 130,18 160,10" stroke="#6AB0C8" stroke-width="1.5" fill="none"/>
-                <circle cx="10" cy="38" r="3" fill="#6AB0C8"/>
-                <circle cx="70" cy="32" r="3" fill="#6AB0C8"/>
+                <polyline points="10,38 40,35 70,32 100,26 130,18 160,10" stroke="#3EA8CC" stroke-width="1.5" fill="none"/>
+                <circle cx="10" cy="38" r="3" fill="#3EA8CC"/>
+                <circle cx="70" cy="32" r="3" fill="#3EA8CC"/>
                 <circle cx="160" cy="10" r="3" fill="#C87060"/>
                 <line x1="0" y1="20" x2="160" y2="20" stroke="#9098A0" stroke-width="0.5" stroke-dasharray="4 4"/>
               </svg>
@@ -1004,32 +1153,52 @@ footer {
         <div class="step-num">3</div>
         <div class="step-phone">
           <div class="phone-notch"><div class="notch-pill"></div></div>
-          <div class="brief-screen">
-            <div class="brief-hdr">
-              <div class="brief-name">John Grudnowski · ET</div>
-              <div class="brief-meta">Dr. Wolanskyj-Spinner · April 14</div>
+          <div class="brief-screen" style="background:#FFFCF5;padding:12px;display:flex;flex-direction:column;height:100%;font-family:'DM Sans',sans-serif;overflow:hidden">
+          <div style="background:#1A2830;border-radius:10px;padding:10px 12px;margin-bottom:8px">
+            <div style="font-size:10px;font-weight:600;color:white">John · ET · JAK2+</div>
+            <div style="font-size:8px;color:#506878;margin-top:1px">Dr. Wolanskyj-Spinner · Apr 14</div>
+          </div>
+          <div style="font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#506878;margin-bottom:5px">Symptom trend</div>
+          <div style="display:flex;flex-direction:column;gap:4px;margin-bottom:8px">
+            <div style="display:flex;align-items:center;justify-content:space-between">
+              <span style="font-size:9px;color:#1A2830">Fatigue</span>
+              <div style="display:flex;align-items:center;gap:4px">
+                <div style="width:44px;height:4px;background:#EBE8E0;border-radius:2px;overflow:hidden"><div style="width:80%;height:100%;background:#C87060;border-radius:2px"></div></div>
+                <span style="font-size:8px;font-weight:600;color:#C87060">8/10 ↑</span>
+              </div>
             </div>
-            <div class="brief-sec">Symptom trend — 6 months</div>
-            <div class="brief-bars">
-              <div class="bb" style="height:30%"></div><div class="bb" style="height:37%"></div>
-              <div class="bb" style="height:44%"></div><div class="bb" style="height:54%"></div>
-              <div class="bb" style="height:64%"></div><div class="bb hi" style="height:80%"></div>
+            <div style="display:flex;align-items:center;justify-content:space-between">
+              <span style="font-size:9px;color:#1A2830">Brain fog</span>
+              <div style="display:flex;align-items:center;gap:4px">
+                <div style="width:44px;height:4px;background:#EBE8E0;border-radius:2px;overflow:hidden"><div style="width:60%;height:100%;background:#C89858;border-radius:2px"></div></div>
+                <span style="font-size:8px;font-weight:600;color:#C89858">6/10 ↑</span>
+              </div>
             </div>
-            <div style="font-size:8px;color:var(--flag-high);margin-bottom:5px">↑ +28% since Oct</div>
-            <div class="brief-sec">Patterns to discuss</div>
-            <div class="pattern-row"><div class="pnum">1</div><div class="ptext">Platelets up 10% across 3 consecutive draws</div></div>
-            <div class="pattern-row"><div class="pnum">2</div><div class="ptext">Deep sleep −33%, resting HR +6 bpm</div></div>
-            <div class="pattern-row"><div class="pnum">3</div><div class="ptext">Fatigue 4→8/10 — highest since onboarding</div></div>
-            <div class="brief-sec" style="color:var(--sunrise)">Our questions</div>
-            <div style="background:var(--surface);border-radius:6px;padding:7px 8px;margin-bottom:4px;display:flex;gap:6px;align-items:flex-start;border-left:2px solid var(--sunrise)">
-              <div style="width:12px;height:12px;border-radius:2px;background:var(--flag-ok);flex-shrink:0;margin-top:1px"></div>
-              <div style="font-size:9px;color:var(--text);line-height:1.4">Fatigue 4→8/10 over 8 weeks — is this my medication or disease activity?</div>
-            </div>
-            <div style="background:var(--surface);border-radius:6px;padding:7px 8px;display:flex;gap:6px;align-items:flex-start">
-              <div style="width:12px;height:12px;border-radius:2px;border:0.5px solid var(--border);flex-shrink:0;margin-top:1px"></div>
-              <div style="font-size:9px;color:var(--text);line-height:1.4">Platelets rising 10% across 3 draws — is this a trajectory we need to act on?</div>
+            <div style="display:flex;align-items:center;justify-content:space-between">
+              <span style="font-size:9px;color:#1A2830">Night sweats</span>
+              <div style="display:flex;align-items:center;gap:4px">
+                <div style="width:44px;height:4px;background:#EBE8E0;border-radius:2px;overflow:hidden"><div style="width:50%;height:100%;background:#9098A0;border-radius:2px"></div></div>
+                <span style="font-size:8px;font-weight:600;color:#9098A0">5/10 →</span>
+              </div>
             </div>
           </div>
+          <div style="font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#506878;margin-bottom:5px">Labs — last 3 draws</div>
+          <div style="background:white;border-radius:9px;padding:8px 10px;border:1px solid #D8D0C0;margin-bottom:8px">
+            <div style="display:grid;grid-template-columns:1fr 32px 32px 32px;gap:3px;padding-bottom:5px;border-bottom:1px solid #EBE8E0;margin-bottom:5px">
+              <span></span><span style="font-size:7px;color:#9098A0;text-align:right">Sep</span><span style="font-size:7px;color:#9098A0;text-align:right">Dec</span><span style="font-size:7px;font-weight:700;color:#1A2830;text-align:right">Mar</span>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 32px 32px 32px;gap:3px">
+              <div><div style="font-size:8px;font-weight:600;color:#1A2830">Platelets</div></div>
+              <span style="font-size:8px;color:#9098A0;text-align:right;align-self:center">764</span>
+              <span style="font-size:8px;color:#9098A0;text-align:right;align-self:center">802</span>
+              <div style="text-align:right;align-self:center"><div style="font-size:9px;font-weight:700;color:#C87060">842</div><div style="font-size:7px;color:#C87060">↑10%</div></div>
+            </div>
+          </div>
+          <div style="background:#F4DDD8;border-radius:9px;padding:8px 10px">
+            <div style="font-size:8px;font-weight:700;color:#C87060;margin-bottom:4px">3 patterns to discuss</div>
+            <div style="font-size:8px;color:#1A2830;line-height:1.5">1. Platelets up 10% — 3 draws<br>2. Deep sleep −33%, HR +6 bpm<br>3. Fatigue 4→8/10 in 8 weeks</div>
+          </div>
+        </div>
           <div class="tab-bar">
             <div class="tab"><div class="tab-ico">⌂</div>Home</div>
             <div class="tab"><div class="tab-ico">◎</div>Check-in</div>
@@ -1155,7 +1324,7 @@ footer {
   <svg class="download-mark" id="dl-mark" width="72" height="72" viewBox="0 0 48 48">
     <circle cx="4"  cy="24" r="3.85" fill="#E8CC70"/>
     <circle cx="10" cy="10" r="3.4"  fill="#F0E090"/>
-    <circle cx="24" cy="3"  r="3.85" fill="#6AB0C8"/>
+    <circle cx="24" cy="3"  r="3.85" fill="#3EA8CC"/>
     <circle cx="38" cy="10" r="3.4"  fill="#9098A0"/>
     <circle cx="44" cy="24" r="3.85" fill="#C89858"/>
     <circle cx="38" cy="38" r="3.4"  fill="#485058"/>
