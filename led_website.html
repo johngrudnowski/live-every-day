@@ -1,0 +1,1424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Live Every Day — The most important person in your care team is you.</title>
+<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@200;300;400&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+
+/* ── Palette ─────────────────────────────────────────── */
+:root {
+  --midnight:  #1A2830;
+  --predawn:   #506878;
+  --sunrise:   #E8CC70;
+  --morning:   #F0E090;
+  --midday:    #3EA8CC;
+  --afternoon: #9098A0;
+  --sunset:    #C89858;
+  --dusk:      #485058;
+  --canvas:    #FFFCF5;
+  --surface:   #EBE8E0;
+  --card:      #FFFFFF;
+  --border:    #D8D0C0;
+  --text:      #1A2830;
+  --text-mid:  #506878;
+  --text-lite: #9098A0;
+  --flag-high: #C87060;
+  --flag-bg:   #F4DDD8;
+  --flag-ok:   #7A9E88;
+  --flag-ok-bg:#D4EAD8;
+}
+
+/* ── Reset ───────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--canvas);
+  color: var(--text);
+  overflow-x: hidden;
+}
+
+/* ── Nav ─────────────────────────────────────────────── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  padding: 18px 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(255,252,245,0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 0.5px solid transparent;
+  transition: border-color 0.3s;
+}
+nav.scrolled { border-bottom-color: var(--border); }
+.nav-wordmark {
+  font-family: 'Raleway', serif;
+  font-weight: 200;
+  font-size: 18px;
+  letter-spacing: 0.5px;
+  color: var(--midnight);
+  text-decoration: none;
+}
+.nav-wordmark span { color: var(--sunrise); }
+.nav-right { display: flex; align-items: center; gap: 32px; }
+.nav-link {
+  font-size: 13px;
+  color: var(--text-mid);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.nav-link:hover { color: var(--midnight); }
+.nav-cta {
+  background: var(--midnight);
+  color: var(--canvas);
+  font-size: 13px;
+  font-weight: 500;
+  padding: 9px 20px;
+  border-radius: 22px;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+.nav-cta:hover { background: var(--midday); }
+
+/* ── Sections ────────────────────────────────────────── */
+section {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: 100px 48px;
+  position: relative;
+}
+
+/* ── Hero ────────────────────────────────────────────── */
+#hero {
+  background: var(--canvas);
+  padding: 120px 72px 80px;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+}
+.hero-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(32px, 5vw, 80px);
+  align-items: center;
+}
+.hero-copy { display: flex; flex-direction: column; }
+.hero-brand { display: flex; align-items: center; gap: 10px; margin-bottom: 32px; }
+.hero-wordmark { font-family: 'Raleway', serif; font-weight: 200; font-size: 18px; letter-spacing: 0.5px; color: var(--midnight); }
+.hero-wordmark span { color: var(--sunrise); }
+.hero-headline {
+  font-family: 'Raleway', serif;
+  font-weight: 200;
+  font-size: 46px;
+  color: var(--midnight);
+  line-height: 1.15;
+  letter-spacing: -0.5px;
+  margin-bottom: 36px;
+}
+.hero-statements { display: flex; flex-direction: column; gap: 20px; margin-bottom: 36px; }
+.hero-statement { display: flex; gap: 14px; align-items: flex-start; }
+.hero-statement-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--midday); flex-shrink: 0; margin-top: 7px; }
+.hero-statement p { font-size: 15px; color: var(--text-mid); line-height: 1.65; font-weight: 300; }
+.hero-trust { font-size: 12px; color: var(--text-lite); margin-bottom: 28px; letter-spacing: 0.2px; }
+.hero-ctas { display: flex; gap: 14px; flex-wrap: wrap; }
+.hero-phones { display: flex; justify-content: center; align-items: flex-end; gap: 20px; flex-shrink: 0; }
+.hero-phone {
+  background: var(--midnight);
+  border-radius: 36px;
+  border: 2px solid #243540;
+  overflow: hidden;
+  box-shadow: 0 32px 64px rgba(26,40,48,0.28);
+  transition: transform 0.3s;
+  flex-shrink: 0;
+}
+.hero-phone:hover { transform: translateY(-6px); }
+.hero-phone.main      { width: 220px; height: 480px; }
+.hero-phone.secondary { width: 190px; height: 440px; opacity: 0.88; margin-bottom: -20px; }
+.phone-notch { height: 28px; background: var(--midnight); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.notch-pill { width: 60px; height: 10px; background: #0D1A22; border-radius: 6px; }
+
+/* ── Story section ───────────────────────────────────── */
+#story {
+  background: var(--midnight);
+  padding: 120px 48px;
+  min-height: auto;
+}
+.story-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+.story-label {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--midday);
+  margin-bottom: 20px;
+}
+.story-headline {
+  font-family: 'Raleway', serif;
+  font-weight: 200;
+  font-size: clamp(28px, 3.5vw, 44px);
+  color: var(--canvas);
+  line-height: 1.25;
+  margin-bottom: 28px;
+  letter-spacing: -0.3px;
+}
+.story-headline em {
+  font-style: italic;
+  color: var(--sunrise);
+}
+.story-body {
+  font-size: 16px;
+  color: rgba(255,252,245,0.65);
+  line-height: 1.8;
+  margin-bottom: 20px;
+  font-weight: 300;
+}
+.story-pull {
+  font-family: 'Raleway', serif;
+  font-weight: 200;
+  font-size: 22px;
+  color: var(--sunrise);
+  line-height: 1.4;
+  border-left: 2px solid var(--sunrise);
+  padding-left: 20px;
+  margin: 32px 0;
+  font-style: italic;
+}
+.story-read-more {
+  font-size: 13px;
+  color: var(--midday);
+  text-decoration: none;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 8px;
+  transition: gap 0.2s;
+}
+.story-read-more:hover { gap: 10px; }
+.story-visual {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.story-stat {
+  background: #243540;
+  border-radius: 16px;
+  padding: 24px 28px;
+  border: 0.5px solid #2E4050;
+}
+.story-stat-num {
+  font-family: 'Raleway', serif;
+  font-weight: 200;
+  font-size: 42px;
+  color: var(--midday);
+  line-height: 1;
+  margin-bottom: 6px;
+}
+.story-stat-label {
+  font-size: 13px;
+  color: rgba(255,252,245,0.85);
+  line-height: 1.5;
+}
+.story-stat-source {
+  font-size: 10px;
+  color: rgba(255,252,245,0.45);
+  margin-top: 8px;
+}
+
+/* ── How it works ────────────────────────────────────── */
+#how {
+  background: var(--canvas);
+  flex-direction: column;
+  padding: 120px 48px;
+  min-height: auto;
+}
+.how-inner { max-width: 1100px; margin: 0 auto; width: 100%; }
+.section-eyebrow {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--midday);
+  margin-bottom: 16px;
+  text-align: center;
+}
+.section-headline {
+  font-family: 'Raleway', serif;
+  font-weight: 200;
+  font-size: clamp(28px, 3.5vw, 48px);
+  color: var(--midnight);
+  line-height: 1.2;
+  text-align: center;
+  margin-bottom: 16px;
+  letter-spacing: -0.3px;
+}
+.section-subline {
+  font-size: 17px;
+  color: var(--text-mid);
+  text-align: center;
+  max-width: 560px;
+  margin: 0 auto 72px;
+  line-height: 1.7;
+  font-weight: 300;
+}
+.how-steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+  margin-bottom: 80px;
+}
+.how-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.step-num {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  border: 0.5px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--midday);
+  margin-bottom: 20px;
+}
+.step-phone {
+  background: var(--midnight);
+  border-radius: 32px;
+  border: 2px solid #243540;
+  overflow: hidden;
+  box-shadow: 0 24px 48px rgba(26,40,48,0.18);
+  width: 100%;
+  max-width: 220px;
+  margin-bottom: 24px;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.step-phone:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 32px 64px rgba(26,40,48,0.25);
+}
+.step-title {
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--midnight);
+  margin-bottom: 8px;
+}
+.step-desc {
+  font-size: 14px;
+  color: var(--text-mid);
+  line-height: 1.6;
+  font-weight: 300;
+}
+.how-data-note {
+  background: var(--surface);
+  border-radius: 16px;
+  padding: 24px 32px;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  max-width: 700px;
+  margin: 0 auto;
+}
+.data-note-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--midday);
+  flex-shrink: 0;
+}
+.data-note-text {
+  font-size: 13px;
+  color: var(--text-mid);
+  line-height: 1.6;
+  font-style: italic;
+}
+
+/* ── For us section ──────────────────────────────────── */
+#for-us {
+  background: var(--surface);
+  flex-direction: column;
+  padding: 120px 48px;
+  min-height: auto;
+}
+.for-us-inner { max-width: 1100px; margin: 0 auto; width: 100%; }
+.condition-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 60px;
+}
+.condition-card {
+  background: var(--card);
+  border-radius: 16px;
+  padding: 28px 24px;
+  border: 0.5px solid var(--border);
+  transition: all 0.25s;
+}
+.condition-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 32px rgba(26,40,48,0.1);
+  border-color: var(--midday);
+}
+.condition-card.featured {
+  background: var(--midnight);
+  border-color: var(--midnight);
+  grid-column: span 1;
+}
+.condition-tag {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  padding: 4px 10px;
+  border-radius: 10px;
+  margin-bottom: 12px;
+}
+.condition-tag.mpn { background: rgba(106,176,200,0.15); color: var(--midday); }
+.condition-tag.blood { background: rgba(232,204,112,0.15); color: var(--sunset); }
+.condition-tag.prostate { background: rgba(80,104,120,0.15); color: var(--predawn); }
+.condition-tag.thyroid { background: rgba(122,158,136,0.15); color: var(--flag-ok); }
+.condition-tag.post { background: rgba(200,152,88,0.15); color: var(--sunset); }
+.condition-tag.featured-tag { background: rgba(106,176,200,0.2); color: var(--midday); }
+.condition-title {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--midnight);
+  margin-bottom: 8px;
+  line-height: 1.3;
+}
+.condition-card.featured .condition-title { color: var(--canvas); }
+.condition-body {
+  font-size: 13px;
+  color: var(--text-mid);
+  line-height: 1.6;
+  font-weight: 300;
+}
+.condition-card.featured .condition-body { color: rgba(255,252,245,0.6); }
+.for-us-thread {
+  margin-top: 60px;
+  text-align: center;
+  max-width: 680px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.for-us-thread p {
+  font-size: 18px;
+  color: var(--text-mid);
+  line-height: 1.8;
+  font-weight: 300;
+}
+.for-us-thread strong { color: var(--midnight); font-weight: 500; }
+
+/* ── Built Different ─────────────────────────────────── */
+#built {
+  background: var(--midnight);
+  flex-direction: column;
+  padding: 120px 48px;
+  min-height: auto;
+}
+.built-inner { max-width: 1100px; margin: 0 auto; width: 100%; }
+.built-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2px;
+  margin-top: 60px;
+  border-radius: 20px;
+  overflow: hidden;
+}
+.built-cell {
+  background: #1E2E38;
+  padding: 40px 36px;
+  transition: background 0.2s;
+}
+.built-cell:hover { background: #243540; }
+.built-cell-icon {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  margin-bottom: 16px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px;
+}
+.built-cell-title {
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--canvas);
+  margin-bottom: 10px;
+}
+.built-cell-body {
+  font-size: 14px;
+  color: rgba(255,252,245,0.5);
+  line-height: 1.7;
+  font-weight: 300;
+}
+.built-four-words {
+  display: flex;
+  gap: 2px;
+  margin-top: 60px;
+  border-radius: 20px;
+  overflow: hidden;
+  flex-wrap: wrap;
+}
+.four-word {
+  flex: 1;
+  min-width: 160px;
+  background: #1E2E38;
+  padding: 28px 24px;
+  text-align: center;
+}
+.four-word-main {
+  font-family: 'Raleway', serif;
+  font-weight: 200;
+  font-size: 20px;
+  color: var(--canvas);
+  margin-bottom: 8px;
+}
+.four-word-sub {
+  font-size: 11px;
+  color: var(--predawn);
+  line-height: 1.5;
+}
+
+/* ── Download ────────────────────────────────────────── */
+#download {
+  background: var(--canvas);
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  padding: 160px 48px;
+  min-height: 80vh;
+}
+.download-mark {
+  margin: 0 auto 40px;
+  animation: float 6s ease-in-out infinite;
+  animation-delay: 1s;
+}
+.download-headline {
+  font-family: 'Raleway', serif;
+  font-weight: 200;
+  font-size: clamp(28px, 4vw, 52px);
+  color: var(--midnight);
+  line-height: 1.3;
+  max-width: 680px;
+  margin: 0 auto 20px;
+  letter-spacing: -0.3px;
+}
+.download-headline em { font-style: italic; color: var(--midday); }
+.download-sub {
+  font-size: 17px;
+  color: var(--text-mid);
+  margin-bottom: 48px;
+  font-weight: 300;
+}
+.download-ctas {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 48px;
+}
+.download-footnote {
+  font-size: 12px;
+  color: var(--text-lite);
+  line-height: 1.8;
+}
+
+/* ── Footer ──────────────────────────────────────────── */
+footer {
+  background: var(--midnight);
+  padding: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+.footer-wordmark {
+  font-family: 'Raleway', serif;
+  font-weight: 200;
+  font-size: 16px;
+  letter-spacing: 0.5px;
+  color: var(--canvas);
+}
+.footer-wordmark span { color: var(--sunrise); }
+.footer-links {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+.footer-link {
+  font-size: 12px;
+  color: var(--predawn);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.footer-link:hover { color: var(--canvas); }
+.footer-copy {
+  font-size: 11px;
+  color: var(--predawn);
+}
+
+/* ── Phone screen components ─────────────────────────── */
+.screen-canvas { background: var(--canvas); }
+.screen-dark { background: var(--midnight); }
+
+/* Dashboard screen */
+.dash-screen {
+  padding: 14px;
+  background: var(--canvas);
+}
+.dash-greeting {
+  font-family: 'Raleway', serif;
+  font-weight: 200;
+  font-size: 14px;
+  color: var(--text);
+  margin-bottom: 10px;
+}
+.dash-action {
+  background: var(--midday);
+  border-radius: 10px;
+  padding: 10px 12px;
+  margin-bottom: 8px;
+}
+.dash-action-title { font-size: 11px; font-weight: 500; color: var(--midnight); }
+.dash-action-sub { font-size: 9px; color: rgba(26,40,48,0.65); margin-top: 2px; }
+.dash-action-btn {
+  display: inline-block;
+  background: var(--midnight);
+  color: var(--canvas);
+  font-size: 10px;
+  font-weight: 500;
+  border-radius: 12px;
+  padding: 4px 10px;
+  margin-top: 6px;
+}
+.dash-stats-row { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 8px; }
+.dash-stat {
+  background: var(--surface);
+  border-radius: 7px;
+  padding: 8px 9px;
+}
+.dash-stat-label { font-size: 8px; text-transform: uppercase; letter-spacing: 0.4px; color: var(--text-lite); margin-bottom: 2px; }
+.dash-stat-val { font-family: 'Raleway', serif; font-weight: 300; font-size: 16px; color: var(--midday); }
+.dash-stat-delta { font-size: 8px; color: var(--flag-high); margin-top: 1px; }
+.dash-appt {
+  background: var(--card);
+  border: 0.5px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.dash-appt-name { font-size: 10px; font-weight: 500; color: var(--text); }
+.dash-appt-date { font-size: 9px; color: var(--text-lite); margin-top: 1px; }
+.dash-appt-badge {
+  font-size: 8px;
+  font-weight: 500;
+  background: var(--flag-ok-bg);
+  color: var(--flag-ok);
+  padding: 3px 7px;
+  border-radius: 8px;
+}
+/* checkin screen */
+.checkin-screen { background: var(--canvas); padding: 14px; }
+.checkin-prog { height: 3px; background: var(--surface); border-radius: 2px; margin-bottom: 14px; overflow: hidden; }
+.checkin-prog-fill { height: 100%; width: 40%; background: var(--midday); border-radius: 2px; }
+.checkin-qnum { font-size: 9px; color: var(--text-lite); margin-bottom: 3px; }
+.checkin-q { font-size: 12px; font-weight: 500; color: var(--text); margin-bottom: 4px; line-height: 1.4; }
+.checkin-sub { font-size: 10px; color: var(--text-lite); margin-bottom: 12px; }
+.scale-row { display: flex; gap: 3px; margin-bottom: 6px; }
+.sb {
+  flex: 1; height: 28px;
+  border-radius: 5px;
+  border: 0.5px solid var(--border);
+  background: var(--surface);
+  font-size: 9px; font-weight: 500;
+  color: var(--text-lite);
+  display: flex; align-items: center; justify-content: center;
+}
+.sb.sel { background: var(--midday); border-color: var(--midday); color: var(--midnight); }
+.scale-lbl { display: flex; justify-content: space-between; font-size: 8px; color: var(--text-lite); margin-bottom: 12px; }
+.checkin-enc { font-size: 10px; color: var(--flag-ok); font-style: italic; text-align: center; margin-bottom: 10px; }
+.checkin-btn {
+  background: var(--midday); color: var(--midnight);
+  border: none; border-radius: 16px;
+  font-size: 11px; font-weight: 500;
+  padding: 8px; width: 100%;
+}
+/* brief screen */
+.brief-screen { background: var(--canvas); padding: 12px; font-size: 10px; }
+.brief-hdr { border-bottom: 0.5px solid var(--border); padding-bottom: 7px; margin-bottom: 8px; }
+.brief-name { font-size: 11px; font-weight: 500; color: var(--text); }
+.brief-meta { font-size: 8px; color: var(--text-lite); margin-top: 2px; }
+.brief-sec { font-size: 8px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-lite); margin: 8px 0 5px; }
+.brief-bars { display: flex; gap: 2px; align-items: flex-end; height: 28px; margin-bottom: 4px; }
+.bb { flex: 1; border-radius: 2px 2px 0 0; background: var(--surface); }
+.bb.hi { background: var(--midday); }
+.brief-row { display: flex; justify-content: space-between; align-items: center; font-size: 9px; color: var(--text); padding: 3px 0; border-bottom: 0.5px solid var(--surface); }
+.brief-row-val { font-weight: 500; color: var(--flag-high); }
+.brief-labs { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; margin-bottom: 6px; }
+.bl { background: var(--surface); border-radius: 5px; padding: 5px 6px; }
+.bl-name { font-size: 8px; color: var(--text-lite); }
+.bl-val { font-size: 11px; font-weight: 500; color: var(--text); }
+.bl-flag { font-size: 7px; }
+.bl-flag.hi { color: var(--flag-high); }
+.bl-flag.ok { color: var(--flag-ok); }
+.pattern-row { display: flex; gap: 6px; margin-bottom: 4px; }
+.pnum { width: 14px; height: 14px; border-radius: 50%; background: var(--sunrise); color: var(--midnight); font-size: 8px; font-weight: 500; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.ptext { font-size: 9px; color: var(--text); line-height: 1.4; }
+/* tab bar */
+.tab-bar { display: flex; background: var(--card); border-top: 0.5px solid var(--border); padding: 6px 0 3px; }
+.tab { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 1px; font-size: 7px; color: var(--afternoon); }
+.tab.active { color: var(--midday); }
+.tab-ico { font-size: 12px; }
+
+/* ── Scroll reveal ───────────────────────────────────── */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+
+/* ── Responsive ──────────────────────────────────────── */
+@media (max-width: 900px) {
+  nav { padding: 16px 24px; }
+  .nav-right .nav-link { display: none; }
+  section { padding: 80px 24px; }
+  .story-inner { grid-template-columns: 1fr; gap: 48px; }
+  .how-steps { grid-template-columns: 1fr; }
+  .condition-grid { grid-template-columns: 1fr; }
+  .built-grid { grid-template-columns: 1fr; }
+  .built-four-words { flex-direction: column; }
+  /* hero-phone.secondary display:none removed */
+  footer { padding: 32px 24px; }
+}
+
+
+/* ══ PHONE FRAMES — AUTHORITATIVE SIZES ══ */
+body { min-width: 980px; }
+
+/* Hero phones */
+.hero-phone.main      { width: 210px !important; height: 460px !important; display: block !important; }
+.hero-phone.secondary { width: 210px !important; height: 460px !important; display: block !important; opacity: 1; margin-bottom: 0; }
+.hero-phones          { flex-wrap: nowrap !important; }
+
+/* How It Works step phones */
+.step-phone { width: 220px !important; min-width: 220px !important; max-width: 220px !important; height: 480px !important; }
+
+/* Phone internals */
+.phone-screen-fill {
+  width: 100% !important;
+  height: calc(100% - 28px - 40px) !important;
+  overflow: hidden !important;
+  display: flex !important;
+  flex-direction: column;
+  background: #FFFCF5;
+  font-family: 'DM Sans', sans-serif;
+}
+.phone-tab-bar {
+  height: 40px !important;
+  background: white;
+  border-top: 1px solid #D8D0C0;
+  display: flex !important;
+  align-items: center;
+  flex-shrink: 0;
+}
+.phone-tab {
+  flex: 1;
+  text-align: center;
+  font-size: 9px;
+  color: #9098A0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+  padding-top: 4px;
+}
+.phone-tab.active { color: #3EA8CC; }
+.phone-tab-icon { font-size: 14px; line-height: 1; }
+
+/* Lock how-steps to 3 columns */
+.how-steps { grid-template-columns: repeat(3, 220px) !important; justify-content: center; }
+
+/* Prevent page from compressing below min-width */
+@media (max-width: 980px) {
+  body { overflow-x: auto; }
+}
+
+</style>
+</head>
+<body>
+
+<!-- ── Navigation ── -->
+<nav id="main-nav">
+  <a href="#hero" class="nav-wordmark">Live <span>Every</span> Day</a>
+  <div class="nav-right">
+    <a href="#story" class="nav-link">Our Story</a>
+    <a href="#how" class="nav-link">How It Works</a>
+    <a href="#for-us" class="nav-link">Who It's For</a>
+    <a href="#download" class="nav-cta">Download Free</a>
+  </div>
+</nav>
+
+<!-- ── HERO ── -->
+<section id="hero" style="padding-top:140px;padding-bottom:80px;flex-direction:column;justify-content:flex-start;min-height:100vh">
+
+  <!-- Logo lockup -->
+  <div style="display:flex;align-items:center;gap:16px;margin-bottom:52px;width:100%;max-width:1200px">
+    <svg width="72" height="72" viewBox="-26 -26 52 52" style="animation:float 6s ease-in-out infinite;flex-shrink:0">
+      <circle cx="0.00"   cy="-21.00" r="3.85" fill="#3EA8CC"/>
+      <circle cx="10.50"  cy="-18.19" r="3.1"  fill="#78A0B8"/>
+      <circle cx="18.19"  cy="-10.50" r="3.1"  fill="#A89478"/>
+      <circle cx="21.00"  cy="0.00"   r="3.85" fill="#C89858"/>
+      <circle cx="18.19"  cy="10.50"  r="3.1"  fill="#303840"/>
+      <circle cx="10.50"  cy="18.19"  r="3.1"  fill="#303840"/>
+      <circle cx="0.00"   cy="21.00"  r="3.85" fill="#1A2830"/>
+      <circle cx="-10.50" cy="18.19"  r="3.1"  fill="#303840"/>
+      <circle cx="-18.19" cy="10.50"  r="3.1"  fill="#506878"/>
+      <circle cx="-21.00" cy="0.00"   r="3.85" fill="#E8CC70"/>
+      <circle cx="-18.19" cy="-10.50" r="3.1"  fill="#F0E090"/>
+      <circle cx="-10.50" cy="-18.19" r="3.1"  fill="#88B0C0"/>
+    </svg>
+    <div style="font-family:'Raleway',serif;font-weight:200;font-size:32px;letter-spacing:0.5px;color:var(--midnight)">Live <span style="color:var(--sunrise)">Every</span> Day</div>
+  </div>
+
+  <!-- Full-width headline + subhead -->
+  <div style="width:100%;max-width:1200px;margin-bottom:56px">
+    <h1 class="reveal" style="font-family:'Raleway',serif;font-weight:200;font-size:clamp(28px,4vw,56px);color:var(--midnight);line-height:1.15;letter-spacing:-0.5px;margin-bottom:20px">The most important person in your care team is you.</h1>
+    <p class="reveal reveal-delay-1" style="font-size:clamp(15px,1.8vw,22px);color:var(--text-mid);font-weight:300;line-height:1.5;max-width:900px">A companion built for people managing chronic cancer — not just on appointment day, but for every day in between.</p>
+  </div>
+
+  <!-- Two column: copy + phones -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;width:100%;max-width:1200px">
+
+    <!-- Left: Track / Understand / Prepare + CTAs -->
+    <div>
+      <div class="hero-statements reveal reveal-delay-2">
+        <div class="hero-statement">
+          <div style="width:28px;height:28px;border-radius:50%;background:var(--midday);color:white;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">1</div>
+          <div>
+            <div style="font-size:17px;font-weight:600;color:var(--midnight);margin-bottom:4px">Track</div>
+            <p>Connect your labs, wearables, and a two-minute weekly check-in.</p>
+          </div>
+        </div>
+        <div class="hero-statement">
+          <div style="width:28px;height:28px;border-radius:50%;background:var(--midday);color:white;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">2</div>
+          <div>
+            <div style="font-size:17px;font-weight:600;color:var(--midnight);margin-bottom:4px">Understand</div>
+            <p>See and know patterns across your symptoms, labs, and sleep — to live every day.</p>
+          </div>
+        </div>
+        <div class="hero-statement">
+          <div style="width:28px;height:28px;border-radius:50%;background:var(--sunrise);color:white;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">3</div>
+          <div>
+            <div style="font-size:17px;font-weight:600;color:var(--midnight);margin-bottom:4px">Prepare</div>
+            <p>Walk into every appointment with the right questions — built from how you actually live your daily life.</p>
+          </div>
+        </div>
+      </div>
+
+      <p class="hero-trust reveal reveal-delay-3">Built by a patient. For all of us. Free forever. HIPAA compliant.</p>
+
+      <div class="hero-ctas reveal reveal-delay-3">
+        <a href="#download" class="btn-primary">Download Free ↓</a>
+        <a href="#how" class="btn-secondary">See how it works</a>
+      </div>
+    </div>
+
+    <!-- Right: Phones -->
+    <div class="hero-phones reveal reveal-delay-2">
+
+      <!-- Main phone: Dashboard -->
+      <div class="hero-phone main">
+        <div class="phone-notch"><div class="notch-pill"></div></div>
+        <div class="phone-screen-fill" style="padding:12px">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;flex-shrink:0">
+            <div style="font-family:'Raleway',serif;font-weight:200;font-size:13px;color:#1A2830">Live <span style="color:#E8CC70">Every</span> Day</div>
+            <div style="width:26px;height:26px;border-radius:50%;background:#3EA8CC;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#1A2830">JG</div>
+          </div>
+          <div style="font-size:14px;font-weight:700;color:#1A2830;margin-bottom:2px;flex-shrink:0">Good morning, John.</div>
+          <div style="font-size:9px;color:#506878;margin-bottom:10px;flex-shrink:0">Wednesday, April 14 · Time for our weekly check-in</div>
+          <div style="background:#3EA8CC;border-radius:12px;padding:11px;margin-bottom:8px;flex-shrink:0">
+            <div style="font-size:7px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:rgba(26,40,48,.6);margin-bottom:3px">This week</div>
+            <div style="font-size:12px;font-weight:700;color:#1A2830;margin-bottom:4px">Weekly check-in</div>
+            <div style="background:rgba(255,255,255,.25);border-radius:6px;padding:5px 8px;margin-bottom:6px">
+              <div style="display:flex;gap:4px;flex-wrap:wrap">
+                <div style="background:rgba(255,255,255,.4);border-radius:8px;padding:2px 6px;font-size:7px;font-weight:600;color:#1A2830">Fatigue 8/10</div>
+                <div style="background:rgba(255,255,255,.4);border-radius:8px;padding:2px 6px;font-size:7px;font-weight:600;color:#1A2830">Fog 6/10</div>
+                <div style="background:rgba(255,255,255,.4);border-radius:8px;padding:2px 6px;font-size:7px;font-weight:600;color:#1A2830">Night sweats 5/10</div>
+              </div>
+            </div>
+            <div style="background:white;border-radius:6px;padding:6px;text-align:center;font-size:9px;font-weight:600;color:#3EA8CC">Start this week's check-in →</div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;flex-shrink:0">
+            <div style="background:white;border-radius:10px;padding:9px;border:1px solid #D8D0C0">
+              <div style="font-size:7px;font-weight:600;text-transform:uppercase;color:#506878;margin-bottom:2px">Platelets</div>
+              <div style="font-size:20px;font-weight:700;color:#1A2830;line-height:1">842</div>
+              <div style="background:#F4DDD8;border-radius:4px;padding:2px 5px;display:inline-block;font-size:7px;font-weight:600;color:#C87060;margin-top:3px">↑ +10% / 6mo</div>
+              <svg viewBox="0 0 90 20" style="width:100%;height:16px;margin-top:5px">
+                <path d="M0,16 L18,12 L36,9 L54,13 L72,5 L90,1" fill="none" stroke="#3EA8CC" stroke-width="1.5" stroke-linecap="round"/>
+                <circle cx="90" cy="1" r="2.5" fill="#C87060"/>
+              </svg>
+            </div>
+            <div style="background:white;border-radius:10px;padding:9px;border:1px solid #D8D0C0">
+              <div style="font-size:7px;font-weight:600;text-transform:uppercase;color:#506878;margin-bottom:2px">Next visit</div>
+              <div style="font-size:14px;font-weight:700;color:#1A2830;line-height:1.1">Apr 14</div>
+              <div style="font-size:8px;color:#506878;margin-bottom:5px">Dr. Wolanskyj-Spinner</div>
+              <div style="background:#D4EAD8;border-radius:5px;padding:3px 6px"><div style="font-size:7px;font-weight:600;color:#1A6040">Brief ready ✓</div></div>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:5px;margin-top:8px;flex-shrink:0">
+            <div style="background:white;border-radius:9px;padding:9px 11px;display:flex;align-items:center;gap:8px;border:1px solid #D8D0C0">
+              <span style="font-size:14px">📈</span>
+              <div style="flex:1"><div style="font-size:9px;font-weight:600;color:#1A2830">Our health data</div><div style="font-size:8px;color:#9098A0">Labs · symptoms · wearables</div></div>
+              <span style="font-size:12px;color:#9098A0">›</span>
+            </div>
+            <div style="background:white;border-radius:9px;padding:9px 11px;display:flex;align-items:center;gap:8px;border:1px solid #D8D0C0">
+              <span style="font-size:14px">📋</span>
+              <div style="flex:1"><div style="font-size:9px;font-weight:600;color:#1A2830">Appointment prep</div><div style="font-size:8px;color:#9098A0">Dr. Wolanskyj-Spinner · Apr 14</div></div>
+              <span style="font-size:12px;color:#9098A0">›</span>
+            </div>
+          </div>
+        </div>
+        <div class="phone-tab-bar">
+          <div class="phone-tab active"><div class="phone-tab-icon">🏠</div>Home</div>
+          <div class="phone-tab"><div class="phone-tab-icon">◎</div>Check-in</div>
+          <div class="phone-tab"><div class="phone-tab-icon">📊</div>Data</div>
+          <div class="phone-tab"><div class="phone-tab-icon">⭐</div>Prep</div>
+          <div class="phone-tab"><div class="phone-tab-icon">👤</div>Account</div>
+        </div>
+      </div>
+
+      <!-- Secondary phone: Doctor Brief -->
+      <div class="hero-phone secondary">
+        <div class="phone-notch"><div class="notch-pill"></div></div>
+        <div class="phone-screen-fill" style="padding:12px">
+          <div style="background:#1A2830;border-radius:10px;padding:10px 12px;margin-bottom:10px;flex-shrink:0">
+            <div style="font-size:10px;font-weight:600;color:white">John Grudnowski · ET · JAK2+</div>
+            <div style="font-size:8px;color:rgba(255,255,255,.5);margin-top:2px">Dr. Wolanskyj-Spinner · Apr 14 · 27 days</div>
+          </div>
+          <div style="font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#506878;margin-bottom:5px;flex-shrink:0">Symptom trend — 6 months</div>
+          <div style="display:flex;align-items:flex-end;gap:3px;height:32px;flex-shrink:0;margin-bottom:4px">
+            <div style="flex:1;border-radius:2px 2px 0 0;background:#EBE8E0;height:28%"></div>
+            <div style="flex:1;border-radius:2px 2px 0 0;background:#EBE8E0;height:36%"></div>
+            <div style="flex:1;border-radius:2px 2px 0 0;background:#EBE8E0;height:46%"></div>
+            <div style="flex:1;border-radius:2px 2px 0 0;background:#EBE8E0;height:56%"></div>
+            <div style="flex:1;border-radius:2px 2px 0 0;background:#C89858;opacity:.75;height:70%"></div>
+            <div style="flex:1;border-radius:2px 2px 0 0;background:#3EA8CC;height:100%"></div>
+          </div>
+          <div style="font-size:8px;color:#C87060;font-weight:600;margin-bottom:8px;flex-shrink:0">↑ Symptom load +28% since Oct</div>
+          <div style="display:flex;flex-direction:column;gap:4px;margin-bottom:8px;flex-shrink:0">
+            <div style="display:flex;align-items:center;justify-content:space-between"><span style="font-size:9px;color:#1A2830">Fatigue</span><div style="display:flex;align-items:center;gap:4px"><div style="width:50px;height:4px;background:#EBE8E0;border-radius:2px;overflow:hidden"><div style="width:80%;height:100%;background:#C87060;border-radius:2px"></div></div><span style="font-size:8px;font-weight:600;color:#C87060">8/10 ↑</span></div></div>
+            <div style="display:flex;align-items:center;justify-content:space-between"><span style="font-size:9px;color:#1A2830">Brain fog</span><div style="display:flex;align-items:center;gap:4px"><div style="width:50px;height:4px;background:#EBE8E0;border-radius:2px;overflow:hidden"><div style="width:60%;height:100%;background:#C89858;border-radius:2px"></div></div><span style="font-size:8px;font-weight:600;color:#C89858">6/10 ↑</span></div></div>
+            <div style="display:flex;align-items:center;justify-content:space-between"><span style="font-size:9px;color:#1A2830">Night sweats</span><div style="display:flex;align-items:center;gap:4px"><div style="width:50px;height:4px;background:#EBE8E0;border-radius:2px;overflow:hidden"><div style="width:50%;height:100%;background:#9098A0;border-radius:2px"></div></div><span style="font-size:8px;font-weight:600;color:#9098A0">5/10 →</span></div></div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-bottom:7px;flex-shrink:0">
+            <div style="background:white;border-radius:8px;padding:7px 8px;border:1px solid #D8D0C0"><div style="font-size:7px;color:#506878">Platelets</div><div style="font-size:15px;font-weight:700;color:#C87060;line-height:1.1">842</div><div style="font-size:7px;color:#C87060">↑ +10%</div></div>
+            <div style="background:white;border-radius:8px;padding:7px 8px;border:1px solid #D8D0C0"><div style="font-size:7px;color:#506878">Deep sleep</div><div style="font-size:15px;font-weight:700;color:#1A2830;line-height:1.1">52m</div><div style="font-size:7px;color:#C87060">↓ −33%</div></div>
+          </div>
+          <div style="background:#F4DDD8;border-radius:9px;padding:8px 10px;flex-shrink:0">
+            <div style="font-size:8px;font-weight:700;color:#C87060;margin-bottom:4px">3 patterns to discuss</div>
+            <div style="font-size:8px;color:#1A2830;line-height:1.6">1. Platelets ↑10% — 3 draws<br>2. Sleep −33%, HR +6 bpm<br>3. Fatigue 4→8/10 in 8 weeks</div>
+          </div>
+        </div>
+        <div class="phone-tab-bar">
+          <div class="phone-tab"><div class="phone-tab-icon">🏠</div>Home</div>
+          <div class="phone-tab"><div class="phone-tab-icon">◎</div>Check-in</div>
+          <div class="phone-tab"><div class="phone-tab-icon">📊</div>Data</div>
+          <div class="phone-tab active"><div class="phone-tab-icon">⭐</div>Prep</div>
+          <div class="phone-tab"><div class="phone-tab-icon">👤</div>Account</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── STORY ── -->
+<section id="story">
+  <div class="story-inner">
+    <div>
+      <p class="story-label reveal">Why We Built This</p>
+      <h2 class="story-headline reveal reveal-delay-1">We Live Every Day<br><em>"in between" appointments.</em></h2>
+      <p class="story-body reveal reveal-delay-2">While managing my ET, I spent nearly two months exhausted. Tired in the morning. Groggy by afternoon. I couldn't think clearly. I assumed it was the disease. I kept going.</p>
+      <p class="story-body reveal reveal-delay-2">I was doing blood testing every six weeks and quarterly appointments. In my appointment we looked at my labs together. My red blood cell count had quietly dropped just below normal. I didn't think anything of it — but it turned out my Hydrea dose was one pill per week too high. We made a simple adjustment, and within weeks I felt like myself again.</p>
+      <div class="story-pull reveal reveal-delay-3">Did I need to wait 60+ days? Could I have known earlier? I had all the data. I just didn't understand it.</div>
+      <p class="story-body reveal reveal-delay-3">I was lucky. I see my hemonc every three months. The majority of patients managing chronic cancer see their doctor every six months — or once a year. That's a long time to be in the dark.</p>
+      <p class="story-body reveal reveal-delay-3">Live Every Day is built for the time between appointments — and for making the most of the time you have with your doctor when that day finally comes.</p>
+      <a href="#" class="story-read-more reveal reveal-delay-4">Read the full story →</a>
+    </div>
+    <div class="story-visual">
+      <div class="story-stat reveal reveal-delay-1">
+        <div class="story-stat-num">6–12</div>
+        <div class="story-stat-label">months between appointments for most patients managing chronic cancer. That's a long time for something to change without anyone noticing.</div>
+        <div class="story-stat-source">Average follow-up intervals for MPN, CLL, and active surveillance patients</div>
+      </div>
+      <div class="story-stat reveal reveal-delay-2">
+        <div class="story-stat-num">61%</div>
+        <div class="story-stat-label">of MPN patients say they would benefit from a tool to track their symptoms, test results, and medication side effects between appointments</div>
+        <div class="story-stat-source">MPN Research Foundation · 2024 Patient Unmet Needs Assessment</div>
+      </div>
+      <div class="story-stat reveal reveal-delay-3">
+        <div class="story-stat-num">54%</div>
+        <div class="story-stat-label">of patients felt their individual treatment goals were considered by their provider. Better information going into every appointment changes that equation.</div>
+        <div class="story-stat-source">MPN Research Foundation · 2024 Patient Unmet Needs Assessment</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ── HOW IT WORKS ── -->
+<section id="how">
+  <div class="how-inner">
+    <p class="section-eyebrow reveal">How It Works</p>
+    <h2 class="section-headline reveal reveal-delay-1">Two minutes a week.<br>Six months of clarity.</h2>
+    <p class="section-subline reveal reveal-delay-2">Live Every Day connects our symptoms, our labs, and our wearables — and turns them into patterns our appointments can't see and questions our doctors can actually answer.</p>
+
+    <div class="how-steps">
+
+      <!-- Step 1: Track -->
+      <div class="how-step reveal reveal-delay-1">
+        <div class="step-num">1</div>
+        <div class="step-phone">
+          <div class="phone-notch"><div class="notch-pill"></div></div>
+          <div class="phone-screen-fill" style="padding:11px">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:9px;flex-shrink:0">
+          <div style="font-family:'Raleway',serif;font-weight:200;font-size:12px;color:#1A2830">Live <span style="color:#E8CC70">Every</span> Day</div>
+          <div style="width:22px;height:22px;border-radius:50%;background:#3EA8CC;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;color:#1A2830">JG</div>
+        </div>
+        <div style="font-size:13px;font-weight:700;color:#1A2830;margin-bottom:1px;flex-shrink:0">Good morning, John.</div>
+        <div style="font-size:8px;color:#506878;margin-bottom:9px;flex-shrink:0">Wednesday · Time for our weekly check-in</div>
+        <div style="background:#3EA8CC;border-radius:10px;padding:10px;margin-bottom:7px;flex-shrink:0">
+          <div style="font-size:7px;font-weight:600;text-transform:uppercase;letter-spacing:.4px;color:rgba(26,40,48,.6);margin-bottom:3px">This week</div>
+          <div style="font-size:11px;font-weight:700;color:#1A2830;margin-bottom:3px">Weekly check-in</div>
+          <div style="background:rgba(255,255,255,.25);border-radius:5px;padding:4px 7px;margin-bottom:5px;display:flex;gap:3px;flex-wrap:wrap">
+            <div style="background:rgba(255,255,255,.4);border-radius:7px;padding:2px 5px;font-size:7px;font-weight:600;color:#1A2830">Fatigue 8/10</div>
+            <div style="background:rgba(255,255,255,.4);border-radius:7px;padding:2px 5px;font-size:7px;font-weight:600;color:#1A2830">Night sweats 5/10</div>
+          </div>
+          <div style="background:white;border-radius:5px;padding:5px;text-align:center;font-size:9px;font-weight:600;color:#3EA8CC">Start this week →</div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-bottom:7px;flex-shrink:0">
+          <div style="background:white;border-radius:9px;padding:8px;border:1px solid #D8D0C0">
+            <div style="font-size:7px;font-weight:600;text-transform:uppercase;color:#506878;margin-bottom:1px">Platelets</div>
+            <div style="font-size:18px;font-weight:700;color:#1A2830;line-height:1">842</div>
+            <div style="background:#F4DDD8;border-radius:3px;padding:1px 5px;display:inline-block;font-size:7px;font-weight:600;color:#C87060;margin-top:3px">↑ +10%</div>
+            <svg viewBox="0 0 80 16" style="width:100%;height:12px;margin-top:4px">
+              <path d="M0,14 L16,11 L32,8 L48,11 L64,4 L80,1" fill="none" stroke="#3EA8CC" stroke-width="1.5" stroke-linecap="round"/>
+              <circle cx="80" cy="1" r="2" fill="#C87060"/>
+            </svg>
+          </div>
+          <div style="background:white;border-radius:9px;padding:8px;border:1px solid #D8D0C0">
+            <div style="font-size:7px;font-weight:600;text-transform:uppercase;color:#506878;margin-bottom:1px">Next visit</div>
+            <div style="font-size:13px;font-weight:700;color:#1A2830;line-height:1.1">Apr 14</div>
+            <div style="font-size:7px;color:#506878;margin-bottom:4px">27 days</div>
+            <div style="background:#D4EAD8;border-radius:4px;padding:2px 5px"><div style="font-size:7px;font-weight:600;color:#1A6040">Brief ready ✓</div></div>
+          </div>
+        </div>
+        <div style="background:white;border-radius:9px;padding:8px 10px;display:flex;align-items:center;gap:7px;border:1px solid #D8D0C0;flex-shrink:0">
+          <span style="font-size:13px">📈</span>
+          <div style="flex:1"><div style="font-size:9px;font-weight:600;color:#1A2830">Our health data</div><div style="font-size:7px;color:#9098A0">Labs · symptoms · wearables</div></div>
+          <span style="font-size:11px;color:#9098A0">›</span>
+        </div></div>
+          <div class="phone-tab-bar"><div class="phone-tab active"><div class="phone-tab-icon">🏠</div>Home</div><div class="phone-tab"><div class="phone-tab-icon">◎</div>Check-in</div><div class="phone-tab"><div class="phone-tab-icon">📊</div>Data</div><div class="phone-tab"><div class="phone-tab-icon">⭐</div>Prep</div><div class="phone-tab"><div class="phone-tab-icon">👤</div>Account</div></div>
+        </div>
+        <div class="step-title">Track</div>
+        <div class="step-desc">Connect your labs, wearables, and a two-minute weekly check-in. Live Every Day builds a longitudinal picture of your health — one day at a time.</div>
+      </div>
+
+      <!-- Step 2: Understand -->
+      <div class="how-step reveal reveal-delay-2">
+        <div class="step-num">2</div>
+        <div class="step-phone">
+          <div class="phone-notch"><div class="notch-pill"></div></div>
+          <div class="phone-screen-fill" style="padding:11px">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;flex-shrink:0">
+          <div style="font-size:12px;font-weight:700;color:#1A2830">Today's observations</div>
+          <div style="font-size:8px;color:#3EA8CC;font-weight:500">Wed, Apr 14</div>
+        </div>
+        <!-- Pattern insight card -->
+        <div style="background:#1A2830;border-radius:10px;padding:10px 11px;margin-bottom:7px;flex-shrink:0">
+          <div style="font-size:8px;font-weight:600;text-transform:uppercase;letter-spacing:.4px;color:#3EA8CC;margin-bottom:5px">Pattern noticed</div>
+          <div style="font-size:10px;font-weight:600;color:white;margin-bottom:4px;line-height:1.4">Your fatigue is higher on days after less than 6 hours of sleep.</div>
+          <div style="font-size:8px;color:rgba(255,255,255,0.6);line-height:1.5">Across your last 8 check-ins, fatigue scores averaged <span style="color:white;font-weight:600">7.2/10</span> on poor sleep nights vs <span style="color:white;font-weight:600">4.1/10</span> on nights over 7 hours.</div>
+        </div>
+        <!-- Weather card -->
+        <div style="background:white;border-radius:10px;padding:9px 11px;border:1px solid #D8D0C0;margin-bottom:7px;flex-shrink:0">
+          <div style="display:flex;align-items:center;gap:7px;margin-bottom:4px">
+            <span style="font-size:14px">🌧️</span>
+            <div style="font-size:9px;font-weight:600;color:#1A2830">Weather may be a factor today</div>
+          </div>
+          <div style="font-size:8px;color:#506878;line-height:1.5">Barometric pressure dropped 8mb overnight. You've reported higher fatigue and joint aching on similar weather days.</div>
+        </div>
+        <!-- Nudge card -->
+        <div style="background:#EEF7FB;border-radius:10px;padding:9px 11px;border:1px solid #C8E4F0;margin-bottom:7px;flex-shrink:0">
+          <div style="display:flex;align-items:center;gap:7px;margin-bottom:4px">
+            <span style="font-size:14px">💡</span>
+            <div style="font-size:9px;font-weight:600;color:#1A2830">Worth trying this week</div>
+          </div>
+          <div style="font-size:8px;color:#506878;line-height:1.5">Try sleeping 30 minutes earlier for 5 nights. Your data suggests it's your highest-leverage adjustment right now.</div>
+        </div>
+        <!-- Sleep summary -->
+        <div style="background:white;border-radius:10px;padding:9px 11px;border:1px solid #D8D0C0;flex-shrink:0">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:5px">
+            <div style="font-size:9px;font-weight:600;color:#1A2830">Sleep this week</div>
+            <div style="font-size:8px;color:#C87060;font-weight:600">↓ 45 min below baseline</div>
+          </div>
+          <div style="display:flex;align-items:flex-end;gap:3px;height:22px">
+            <div style="flex:1;border-radius:2px 2px 0 0;background:#3EA8CC;opacity:.5;height:70%"></div>
+            <div style="flex:1;border-radius:2px 2px 0 0;background:#3EA8CC;opacity:.5;height:85%"></div>
+            <div style="flex:1;border-radius:2px 2px 0 0;background:#C87060;opacity:.7;height:45%"></div>
+            <div style="flex:1;border-radius:2px 2px 0 0;background:#C87060;opacity:.7;height:50%"></div>
+            <div style="flex:1;border-radius:2px 2px 0 0;background:#3EA8CC;opacity:.5;height:75%"></div>
+            <div style="flex:1;border-radius:2px 2px 0 0;background:#C87060;opacity:.7;height:40%"></div>
+            <div style="flex:1;border-radius:2px 2px 0 0;background:#C87060;height:55%"></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;margin-top:2px">
+            <span style="font-size:7px;color:#9098A0">Mon</span>
+            <span style="font-size:7px;color:#9098A0">Tue</span>
+            <span style="font-size:7px;color:#9098A0">Wed</span>
+            <span style="font-size:7px;color:#9098A0">Thu</span>
+            <span style="font-size:7px;color:#9098A0">Fri</span>
+            <span style="font-size:7px;color:#9098A0">Sat</span>
+            <span style="font-size:7px;color:#C87060;font-weight:600">Sun</span>
+          </div>
+        </div></div>
+          <div class="phone-tab-bar"><div class="phone-tab"><div class="phone-tab-icon">🏠</div>Home</div><div class="phone-tab"><div class="phone-tab-icon">◎</div>Check-in</div><div class="phone-tab active"><div class="phone-tab-icon">📊</div>Data</div><div class="phone-tab"><div class="phone-tab-icon">⭐</div>Prep</div><div class="phone-tab"><div class="phone-tab-icon">👤</div>Account</div></div>
+        </div>
+        <div class="step-title">Understand</div>
+        <div class="step-desc">Patterns emerge that no single appointment could ever reveal — how sleep is affecting your symptoms, what the weather is doing to your body, what's worth adjusting right now.</div>
+      </div>
+
+      <!-- Step 3: Prepare -->
+      <div class="how-step reveal reveal-delay-3">
+        <div class="step-num">3</div>
+        <div class="step-phone">
+          <div class="phone-notch"><div class="notch-pill"></div></div>
+          <div class="phone-screen-fill" style="padding:10px">
+        <!-- Patient header -->
+        <div style="background:#1A2830;border-radius:9px;padding:8px 10px;margin-bottom:7px;flex-shrink:0">
+          <div style="font-size:9px;font-weight:600;color:white">John Grudnowski · ET · JAK2+</div>
+          <div style="font-size:7px;color:rgba(255,255,255,0.5);margin-top:2px">Dr. Wolanskyj-Spinner · April 14, 2025</div>
+          <div style="font-size:7px;color:rgba(255,255,255,0.35);margin-top:1px">Data: Oct 2024 – Mar 2025</div>
+        </div>
+        <!-- Symptom trend bars -->
+        <div style="background:white;border-radius:9px;padding:9px 10px;border:1px solid #D8D0C0;margin-bottom:6px;flex-shrink:0">
+          <div style="font-size:7px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;color:#506878;margin-bottom:6px">Symptom trend — 6 months</div>
+          <div style="display:flex;align-items:flex-end;gap:3px;height:36px;margin-bottom:5px">
+            <div style="flex:1;border-radius:2px 2px 0 0;background:#EBE8E0;height:28%"></div>
+            <div style="flex:1;border-radius:2px 2px 0 0;background:#EBE8E0;height:36%"></div>
+            <div style="flex:1;border-radius:2px 2px 0 0;background:#EBE8E0;height:44%"></div>
+            <div style="flex:1;border-radius:2px 2px 0 0;background:#EBE8E0;height:55%"></div>
+            <div style="flex:1;border-radius:2px 2px 0 0;background:#EBE8E0;height:68%"></div>
+            <div style="flex:1;border-radius:2px 2px 0 0;background:#3EA8CC;height:100%"></div>
+          </div>
+          <div style="font-size:7px;color:#C87060;font-weight:600;margin-bottom:7px">↑ Symptom load +28% since Oct</div>
+          <div style="display:flex;flex-direction:column;gap:5px">
+            <div style="display:flex;align-items:center;justify-content:space-between">
+              <span style="font-size:9px;color:#1A2830">Fatigue</span>
+              <div style="display:flex;align-items:center;gap:5px">
+                <div style="width:60px;height:4px;background:#EBE8E0;border-radius:2px;overflow:hidden"><div style="width:80%;height:100%;background:#C87060;border-radius:2px"></div></div>
+                <span style="font-size:8px;font-weight:600;color:#C87060">8/10 ↑</span>
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:space-between">
+              <span style="font-size:9px;color:#1A2830">Brain fog</span>
+              <div style="display:flex;align-items:center;gap:5px">
+                <div style="width:60px;height:4px;background:#EBE8E0;border-radius:2px;overflow:hidden"><div style="width:60%;height:100%;background:#C89858;border-radius:2px"></div></div>
+                <span style="font-size:8px;font-weight:600;color:#C89858">6/10 ↑</span>
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:space-between">
+              <span style="font-size:9px;color:#1A2830">Night sweats</span>
+              <div style="display:flex;align-items:center;gap:5px">
+                <div style="width:60px;height:4px;background:#EBE8E0;border-radius:2px;overflow:hidden"><div style="width:50%;height:100%;background:#506878;border-radius:2px"></div></div>
+                <span style="font-size:8px;font-weight:600;color:#506878">5/10 →</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Labs table -->
+        <div style="background:white;border-radius:9px;padding:9px 10px;border:1px solid #D8D0C0;margin-bottom:6px;flex-shrink:0">
+          <div style="font-size:7px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;color:#506878;margin-bottom:7px">CBC — last 3 draws</div>
+          <div style="display:grid;grid-template-columns:1fr 36px 36px 36px;gap:3px;padding-bottom:5px;border-bottom:1px solid #EBE8E0;margin-bottom:5px">
+            <span></span>
+            <span style="font-size:7px;color:#9098A0;text-align:right">Sep</span>
+            <span style="font-size:7px;color:#9098A0;text-align:right">Dec</span>
+            <span style="font-size:7px;font-weight:700;color:#1A2830;text-align:right">Mar</span>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 36px 36px 36px;gap:3px;padding:4px 0;border-bottom:1px solid #EBE8E0">
+            <div><div style="font-size:8px;font-weight:600;color:#1A2830">Platelets</div><div style="font-size:7px;color:#9098A0">×10³/µL</div></div>
+            <span style="font-size:8px;color:#9098A0;text-align:right;align-self:center">764</span>
+            <span style="font-size:8px;color:#9098A0;text-align:right;align-self:center">802</span>
+            <div style="text-align:right;align-self:center"><div style="font-size:9px;font-weight:700;color:#C87060">842</div><div style="font-size:7px;color:#C87060">↑+10%</div></div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 36px 36px 36px;gap:3px;padding:4px 0">
+            <div><div style="font-size:8px;font-weight:600;color:#1A2830">Hemoglobin</div><div style="font-size:7px;color:#9098A0">g/dL</div></div>
+            <span style="font-size:8px;color:#9098A0;text-align:right;align-self:center">14.8</span>
+            <span style="font-size:8px;color:#9098A0;text-align:right;align-self:center">14.5</span>
+            <div style="text-align:right;align-self:center"><div style="font-size:9px;font-weight:700;color:#1A6040">14.6</div><div style="font-size:7px;color:#1A6040">→stable</div></div>
+          </div>
+        </div>
+        <!-- Patterns -->
+        <div style="background:#F4DDD8;border-radius:9px;padding:9px 10px;border:1px solid rgba(200,112,96,.2);flex-shrink:0">
+          <div style="font-size:7px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;color:#C87060;margin-bottom:7px">3 patterns to discuss</div>
+          <div style="display:flex;gap:7px;margin-bottom:6px;align-items:flex-start">
+            <div style="width:16px;height:16px;border-radius:50%;background:#C87060;color:white;font-size:8px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">1</div>
+            <div style="font-size:8px;color:#1A2830;line-height:1.5">Platelets up 10% across 3 consecutive draws (764 → 842).</div>
+          </div>
+          <div style="display:flex;gap:7px;margin-bottom:6px;align-items:flex-start">
+            <div style="width:16px;height:16px;border-radius:50%;background:#C87060;color:white;font-size:8px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">2</div>
+            <div style="font-size:8px;color:#1A2830;line-height:1.5">Deep sleep −33%, resting HR +6 bpm, activity −25%.</div>
+          </div>
+          <div style="display:flex;gap:7px;align-items:flex-start">
+            <div style="width:16px;height:16px;border-radius:50%;background:#C87060;color:white;font-size:8px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">3</div>
+            <div style="font-size:8px;color:#1A2830;line-height:1.5">Fatigue 4→8/10 over 8 weeks. Highest since onboarding.</div>
+          </div>
+        </div>
+        </div>
+          <div class="phone-tab-bar"><div class="phone-tab"><div class="phone-tab-icon">🏠</div>Home</div><div class="phone-tab"><div class="phone-tab-icon">◎</div>Check-in</div><div class="phone-tab"><div class="phone-tab-icon">📊</div>Data</div><div class="phone-tab active"><div class="phone-tab-icon">⭐</div>Prep</div><div class="phone-tab"><div class="phone-tab-icon">👤</div>Account</div></div>
+        </div>
+        <div class="step-title">Prepare</div>
+        <div class="step-desc">Everything you've tracked between appointments — symptoms, labs, patterns — distilled into the questions that matter most. Walk in prepared, walk out with real answers.</div>
+      </div>
+
+    </div>
+
+        <div class="how-data-note reveal">
+      <div class="data-note-dot"></div>
+      <p class="data-note-text">72% of MPN patients report their quality of life is affected by their condition. Yet only 54% felt their individual treatment goals were considered by their provider. Better information changes that equation. — MPN Research Foundation, 2024</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── WHO IT'S FOR ── -->
+<section id="for-us">
+  <div class="for-us-inner">
+    <p class="section-eyebrow reveal">Who It's For</p>
+    <h2 class="section-headline reveal reveal-delay-1">There are millions of us managing cancer between appointments.<br>Most of us have never seen an app that knows our name.</h2>
+
+    <div class="condition-grid">
+      <div class="condition-card featured reveal reveal-delay-1">
+        <div class="condition-tag featured-tag">MPN · Launching first</div>
+        <div class="condition-title">Essential Thrombocythemia, Polycythemia Vera & Myelofibrosis</div>
+        <div class="condition-body">Where Live Every Day begins. Built around the MPN-10 symptom instrument, CBC trend monitoring, and the specific questions MPN patients bring to their hematologist — but never have time to ask.</div>
+      </div>
+
+      <div class="condition-card reveal reveal-delay-2">
+        <div class="condition-tag blood">CLL · Coming soon</div>
+        <div class="condition-title">Chronic Lymphocytic Leukemia & Indolent Lymphoma</div>
+        <div class="condition-body">Watch and wait can last years. The monitoring never stops, the uncertainty never fully lifts. Live Every Day tracks the full picture — so when something changes, we see it in context.</div>
+      </div>
+
+      <div class="condition-card reveal reveal-delay-3">
+        <div class="condition-tag prostate">Prostate · Coming soon</div>
+        <div class="condition-title">Prostate Cancer — Active Surveillance</div>
+        <div class="condition-body">Scheduled PSA tests, periodic biopsies, and the ongoing discipline of watching a diagnosis that may never require intervention. Show up to every monitoring appointment with the full longitudinal picture.</div>
+      </div>
+
+      <div class="condition-card reveal reveal-delay-2">
+        <div class="condition-tag post">Post-treatment · Coming soon</div>
+        <div class="condition-title">After Treatment — The Watchful Window</div>
+        <div class="condition-body">Treatment is over. We've been told the best possible news. But the work of understanding our own health isn't finished — it enters a new phase. The months of close monitoring deserve the same tools as any chronic condition.</div>
+      </div>
+
+      <div class="condition-card reveal reveal-delay-3">
+        <div class="condition-tag thyroid">Thyroid · Coming soon</div>
+        <div class="condition-title">Thyroid Cancer & Early-Stage Breast Cancer</div>
+        <div class="condition-body">High survival rates don't mean low attention requirements. Years of hormone management, regular scans, and the ongoing discipline of long-term monitoring deserve the same quality of insight.</div>
+      </div>
+
+      <div class="condition-card reveal reveal-delay-4" style="background:var(--surface);border-style:dashed">
+        <div class="condition-tag" style="background:rgba(144,152,160,0.15);color:var(--afternoon)">Expanding</div>
+        <div class="condition-title" style="color:var(--text-mid)">More conditions on the roadmap</div>
+        <div class="condition-body">Each condition requires its own validated symptom instrument and specialist clinical advisor. We're building condition by condition — with the depth each one deserves.</div>
+      </div>
+    </div>
+
+    <div class="for-us-thread reveal">
+      <p>The conditions are different. The treatments are different. The timelines are different.<br><br><strong>But the experience is the same:</strong> bodies that don't pause between appointments, a healthcare system that can only listen a few times a year, and all of us who deserve to understand our own story — not just at the next visit, but every day.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── BUILT DIFFERENT ── -->
+<section id="built">
+  <div class="built-inner">
+    <p class="section-eyebrow reveal" style="color:var(--midday)">Built Different</p>
+    <h2 class="section-headline reveal reveal-delay-1" style="color:var(--canvas)">Built by a patient who needed it.<br>For all of us who do.</h2>
+    <p class="section-subline reveal reveal-delay-2" style="color:rgba(255,252,245,0.5)">Independent. Disease-specific. Longitudinal. Patient-owned. And free — because managing a serious diagnosis is expensive enough.</p>
+
+    <div class="built-grid">
+      <div class="built-cell reveal reveal-delay-1">
+        <div class="built-cell-icon" style="background:rgba(106,176,200,0.15)">🔓</div>
+        <div class="built-cell-title">Free. Always.</div>
+        <div class="built-cell-body">Live Every Day is free to download and free to use. Our ability to understand our own health and show up prepared to every appointment should not come with a subscription fee.</div>
+      </div>
+      <div class="built-cell reveal reveal-delay-2">
+        <div class="built-cell-icon" style="background:rgba(232,204,112,0.15)">🔒</div>
+        <div class="built-cell-title">Our data. Our choice.</div>
+        <div class="built-cell-body">Our symptoms, our labs, our wearable patterns belong to us. We do not share data without explicit permission. If we choose to contribute de-identified data to research, we can — always opt-in, always reversible.</div>
+      </div>
+      <div class="built-cell reveal reveal-delay-3">
+        <div class="built-cell-icon" style="background:rgba(122,158,136,0.15)">✓</div>
+        <div class="built-cell-title">HIPAA compliant.</div>
+        <div class="built-cell-body">Built to the same federal privacy framework that governs our medical records. Our health data is encrypted, protected, and handled with the same rigor our care team applies to our clinical information.</div>
+      </div>
+      <div class="built-cell reveal reveal-delay-4">
+        <div class="built-cell-icon" style="background:rgba(200,152,88,0.15)">◎</div>
+        <div class="built-cell-title">Connected, not constrained.</div>
+        <div class="built-cell-body">We work alongside the healthcare system — connecting to labs, wearables, and patient portals — but our thinking is our own. Sitting closest to the people living it, and the people who love them.</div>
+      </div>
+    </div>
+
+    <div class="built-four-words reveal" style="margin-top:2px">
+      <div class="four-word">
+        <div class="four-word-main">Independent</div>
+        <div class="four-word-sub">No pharma funding. No advertiser agenda.</div>
+      </div>
+      <div class="four-word">
+        <div class="four-word-main">Disease-specific</div>
+        <div class="four-word-sub">Built condition by condition, not generically.</div>
+      </div>
+      <div class="four-word">
+        <div class="four-word-main">Longitudinal</div>
+        <div class="four-word-sub">Months and years of data, not today's reading.</div>
+      </div>
+      <div class="four-word">
+        <div class="four-word-main">Patient-owned</div>
+        <div class="four-word-sub">Our data never leaves without our permission.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── DOWNLOAD ── -->
+<section id="download" style="text-align:left;align-items:flex-start">
+
+  <!-- Horizontal logo lockup -->
+  <div style="display:flex;align-items:center;gap:16px;margin-bottom:48px">
+    <svg width="64" height="64" viewBox="-26 -26 52 52" style="animation:float 6s ease-in-out infinite;flex-shrink:0">
+      <circle cx="0.00"   cy="-21.00" r="3.85" fill="#3EA8CC"/>
+      <circle cx="10.50"  cy="-18.19" r="3.1"  fill="#78A0B8"/>
+      <circle cx="18.19"  cy="-10.50" r="3.1"  fill="#A89478"/>
+      <circle cx="21.00"  cy="0.00"   r="3.85" fill="#C89858"/>
+      <circle cx="18.19"  cy="10.50"  r="3.1"  fill="#303840"/>
+      <circle cx="10.50"  cy="18.19"  r="3.1"  fill="#303840"/>
+      <circle cx="0.00"   cy="21.00"  r="3.85" fill="#1A2830"/>
+      <circle cx="-10.50" cy="18.19"  r="3.1"  fill="#303840"/>
+      <circle cx="-18.19" cy="10.50"  r="3.1"  fill="#506878"/>
+      <circle cx="-21.00" cy="0.00"   r="3.85" fill="#E8CC70"/>
+      <circle cx="-18.19" cy="-10.50" r="3.1"  fill="#F0E090"/>
+      <circle cx="-10.50" cy="-18.19" r="3.1"  fill="#88B0C0"/>
+    </svg>
+    <div style="font-family:'Raleway',serif;font-weight:200;font-size:36px;letter-spacing:0.5px;color:var(--midnight)">Live <span style="color:var(--sunrise)">Every</span> Day</div>
+  </div>
+
+  <!-- Quote -->
+  <div class="reveal" style="max-width:620px;margin-bottom:20px">
+    <p class="download-headline" style="font-style:italic;text-align:left;margin:0 0 16px">"If any part of this is familiar to you — we'd be honored to be part of your journey."</p>
+    <p style="font-size:14px;color:var(--text-mid);font-weight:400;letter-spacing:0.3px;text-align:left">— John Grudnowski &nbsp;·&nbsp; ET Patient, Founder</p>
+  </div>
+
+  <!-- CTAs -->
+  <div class="download-ctas reveal reveal-delay-1" style="justify-content:flex-start;margin-top:40px">
+    <a href="#" class="btn-primary">Download on the App Store ↓</a>
+    <a href="#" class="btn-secondary">Join the Android waitlist</a>
+  </div>
+
+  <p class="download-footnote reveal reveal-delay-2" style="text-align:left">Currently available via TestFlight · Free to download · Free to use · HIPAA compliant<br>liveeveryday.health</p>
+
+</section>
+
+<!-- ── Footer ── -->
+<footer>
+  <div class="footer-wordmark">Live <span>Every</span> Day</div>
+  <div class="footer-links">
+    <a href="#" class="footer-link">Privacy Policy</a>
+    <a href="#" class="footer-link">Terms of Use</a>
+    <a href="#" class="footer-link">Contact</a>
+    <a href="#" class="footer-link">liveeveryday.health</a>
+  </div>
+  <div class="footer-copy">© 2026 Live Every Day · Built by a patient, for all of us.</div>
+</footer>
+
+<script>
+/* ── Nav scroll state ── */
+var nav = document.getElementById('main-nav');
+window.addEventListener('scroll', function() {
+  if (window.scrollY > 20) nav.classList.add('scrolled');
+  else nav.classList.remove('scrolled');
+});
+
+/* ── Scroll reveal ── */
+var reveals = document.querySelectorAll('.reveal');
+var observer = new IntersectionObserver(function(entries) {
+  entries.forEach(function(entry) {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.12 });
+reveals.forEach(function(el) { observer.observe(el); });
+
+/* ── Living mark — updates to current time ── */
+var ICS = [
+  { key:'d1030', ws:6,  we:12, base:315 },
+  { key:'d130',  ws:12, we:18, base:45  },
+  { key:'d430',  ws:18, we:24, base:135 },
+  { key:'d730',  ws:0,  we:6,  base:225 },
+];
+function posOnRing(deg, cx, cy, r) {
+  var rad = deg * Math.PI / 180;
+  return { x: cx + r * Math.sin(rad), y: cy - r * Math.cos(rad) };
+}
+function updateMark(prefix, cx, cy, r, cardR, smallR) {
+  var h = new Date().getHours() + new Date().getMinutes()/60;
+  var active = ICS.find(function(ic){ return h >= ic.ws && h < ic.we; });
+  var activeAngle = active ? active.base - 22 + ((h - active.ws)/(active.we - active.ws)) * 44 : 0;
+  ICS.forEach(function(ic) {
+    var el = document.getElementById(prefix + ic.key);
+    if (!el) return;
+    var isA = active && ic.key === active.key;
+    if (isA) {
+      var p = posOnRing(activeAngle, cx, cy, r);
+      el.setAttribute('cx', p.x.toFixed(2));
+      el.setAttribute('cy', p.y.toFixed(2));
+      el.setAttribute('r', cardR);
+    } else {
+      var bp = posOnRing(ic.base, cx, cy, r);
+      el.setAttribute('cx', bp.x.toFixed(2));
+      el.setAttribute('cy', bp.y.toFixed(2));
+      el.setAttribute('r', smallR);
+    }
+  });
+}
+updateMark('hm-', 24, 24, 21, 3.85, 3.4);
+setInterval(function(){ updateMark('hm-', 24, 24, 21, 3.85, 3.4); }, 60000);
+</script>
+</body>
+</html>
