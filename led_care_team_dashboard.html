@@ -477,6 +477,294 @@ body {
   .table-wrap { overflow-x: auto; }
   .table-head, .table-row { min-width: 1000px; }
 }
+
+/* ── Patient modal ── */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(26,40,48,0.5);
+  backdrop-filter: blur(4px);
+  z-index: 200;
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding: 0;
+}
+.modal-overlay.open { display: flex; }
+
+.patient-modal {
+  background: var(--canvas);
+  width: 760px;
+  height: 100vh;
+  overflow-y: auto;
+  box-shadow: -8px 0 40px rgba(26,40,48,0.18);
+  animation: slideIn 0.25s ease;
+}
+@keyframes slideIn {
+  from { transform: translateX(60px); opacity: 0; }
+  to   { transform: translateX(0);    opacity: 1; }
+}
+
+/* Modal nav */
+.modal-nav {
+  background: white;
+  border-bottom: 1px solid var(--border);
+  padding: 0 32px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.modal-close {
+  background: var(--surface);
+  border: none;
+  color: var(--predawn);
+  font-size: 13px;
+  font-weight: 500;
+  font-family: 'DM Sans', sans-serif;
+  padding: 6px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.15s;
+}
+.modal-close:hover { background: var(--border); color: var(--midnight); }
+.modal-nav-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--midnight);
+}
+.modal-nav-actions { display: flex; gap: 8px; }
+.modal-action-btn {
+  background: white;
+  border: 1px solid var(--border);
+  color: var(--predawn);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 6px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.modal-action-btn:hover { border-color: var(--midday); color: var(--midday); }
+.modal-action-btn.primary {
+  background: var(--midnight);
+  border-color: var(--midnight);
+  color: white;
+}
+.modal-action-btn.primary:hover { background: var(--predawn); border-color: var(--predawn); }
+
+/* Modal body */
+.modal-body { padding: 28px 32px 60px; display: flex; flex-direction: column; gap: 24px; }
+
+/* Patient hero */
+.modal-hero {
+  background: var(--midnight);
+  border-radius: 16px;
+  padding: 24px 28px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+}
+.modal-hero-left {}
+.modal-hero-name {
+  font-family: 'Raleway', serif;
+  font-weight: 200;
+  font-size: 28px;
+  color: white;
+  margin-bottom: 4px;
+}
+.modal-hero-sub { font-size: 13px; color: rgba(255,252,245,0.5); margin-bottom: 16px; font-weight: 300; }
+.modal-hero-tags { display: flex; gap: 8px; flex-wrap: wrap; }
+.hero-tag {
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+  background: rgba(255,252,245,0.08);
+  color: rgba(255,252,245,0.7);
+}
+.hero-tag.highlight { background: rgba(62,168,204,0.2); color: var(--midday); }
+.hero-tag.alert { background: rgba(200,112,96,0.2); color: var(--red); }
+
+.modal-hero-right { text-align: right; flex-shrink: 0; }
+.modal-score-label { font-size: 10px; font-weight: 600; letter-spacing: .8px; text-transform: uppercase; color: rgba(255,252,245,0.4); margin-bottom: 4px; }
+.modal-score-num {
+  font-family: 'Raleway', serif;
+  font-weight: 200;
+  font-size: 52px;
+  line-height: 1;
+  color: var(--red);
+  margin-bottom: 2px;
+}
+.modal-score-delta { font-size: 12px; color: var(--red); }
+.modal-next-appt { margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(255,252,245,0.08); }
+.modal-appt-label { font-size: 10px; font-weight: 600; letter-spacing: .8px; text-transform: uppercase; color: rgba(255,252,245,0.4); margin-bottom: 3px; }
+.modal-appt-val { font-size: 14px; font-weight: 600; color: var(--midday); }
+.modal-appt-sub { font-size: 11px; color: rgba(255,252,245,0.4); margin-top: 1px; }
+
+/* Section cards */
+.modal-card {
+  background: white;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+.modal-card-header {
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--surface);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.modal-card-title {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--predawn);
+}
+.modal-card-meta { font-size: 11px; color: var(--text-dim); }
+.modal-card-body { padding: 16px 20px; }
+
+/* Symptom grid */
+.symptom-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.symptom-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  background: var(--canvas);
+  border-radius: 10px;
+  border: 1px solid var(--border);
+}
+.symptom-item-left { display: flex; flex-direction: column; gap: 2px; }
+.symptom-item-name { font-size: 13px; font-weight: 500; color: var(--midnight); }
+.symptom-item-change { font-size: 11px; }
+.symptom-item-right { display: flex; align-items: center; gap: 8px; }
+.symptom-bar-wrap { width: 60px; height: 5px; background: var(--surface); border-radius: 3px; overflow: hidden; }
+.symptom-bar-fill { height: 100%; border-radius: 3px; }
+.symptom-score-val { font-size: 13px; font-weight: 600; min-width: 38px; text-align: right; font-family: 'DM Mono', monospace; }
+
+/* Trend chart placeholder */
+.trend-chart {
+  height: 80px;
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+.trend-bar {
+  flex: 1;
+  border-radius: 3px 3px 0 0;
+  min-height: 4px;
+  transition: height 0.3s;
+}
+.trend-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  color: var(--text-dim);
+}
+
+/* Labs table */
+.labs-table { width: 100%; border-collapse: collapse; }
+.labs-table th {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .6px;
+  text-transform: uppercase;
+  color: var(--predawn);
+  padding: 0 0 10px;
+  text-align: left;
+  border-bottom: 1px solid var(--surface);
+}
+.labs-table th:not(:first-child) { text-align: right; }
+.labs-table td {
+  padding: 10px 0;
+  border-bottom: 1px solid var(--surface);
+  font-size: 13px;
+  color: var(--midnight);
+  font-family: 'DM Mono', monospace;
+}
+.labs-table td:not(:first-child) { text-align: right; }
+.labs-table tr:last-child td { border-bottom: none; }
+.labs-table td:first-child { font-family: 'DM Sans', sans-serif; font-weight: 500; }
+.lab-flag { font-size: 10px; font-weight: 600; margin-left: 4px; }
+.lab-flag.up { color: var(--red); }
+.lab-flag.down { color: var(--green); }
+.lab-flag.stable { color: var(--text-dim); }
+
+/* Recommendations */
+.rec-item {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--surface);
+}
+.rec-item:last-child { border-bottom: none; }
+.rec-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+.rec-content {}
+.rec-title { font-size: 13px; font-weight: 600; color: var(--midnight); margin-bottom: 3px; }
+.rec-desc { font-size: 12px; color: var(--predawn); line-height: 1.55; font-weight: 300; }
+.rec-source { font-size: 10px; color: var(--text-dim); margin-top: 4px; }
+
+/* Wearables row */
+.wearable-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+.wearable-stat {
+  background: var(--canvas);
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  padding: 12px;
+  text-align: center;
+}
+.wearable-val {
+  font-size: 22px;
+  font-weight: 300;
+  font-family: 'Raleway', serif;
+  color: var(--midnight);
+  line-height: 1;
+  margin-bottom: 3px;
+}
+.wearable-unit { font-size: 11px; color: var(--predawn); }
+.wearable-label { font-size: 10px; font-weight: 600; letter-spacing: .5px; text-transform: uppercase; color: var(--text-dim); margin-bottom: 6px; }
+.wearable-delta { font-size: 10px; margin-top: 4px; }
+
+/* Patterns */
+.pattern-block {
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin-bottom: 8px;
+}
+.pattern-block:last-child { margin-bottom: 0; }
+.pattern-tag { font-size: 10px; font-weight: 700; letter-spacing: .6px; text-transform: uppercase; margin-bottom: 5px; }
+.pattern-text { font-size: 13px; color: var(--midnight); line-height: 1.55; font-weight: 300; }
+
 </style>
 </head>
 <body>
@@ -595,7 +883,7 @@ body {
         <div class="cell-patient">
           <div class="patient-avatar" style="background:rgba(200,112,96,0.2);color:var(--red)">JG</div>
           <div class="patient-info">
-            <div class="patient-name">John Grudnowski</div>
+            <div class="patient-name" onclick="event.stopPropagation();openPatientModal('john')" style="color:var(--midday);cursor:pointer;text-decoration:underline;text-decoration-color:rgba(62,168,204,0.3)">John Grudnowski</div>
             <div class="patient-sub">ET · JAK2+ · Dx 2023</div>
           </div>
         </div>
@@ -906,6 +1194,346 @@ function searchRows(val) {
     var name = row.dataset.name || '';
     row.style.display = name.includes(q) ? '' : 'none';
   });
+}
+</script>
+
+<!-- ── Patient Modal ── -->
+<div class="modal-overlay" id="patient-modal" onclick="handleOverlayClick(event)">
+  <div class="patient-modal" id="modal-panel">
+
+    <!-- Modal nav -->
+    <div class="modal-nav">
+      <button class="modal-close" onclick="closeModal()">← Back to dashboard</button>
+      <span class="modal-nav-title">Patient Overview</span>
+      <div class="modal-nav-actions">
+        <button class="modal-action-btn">Export PDF</button>
+        <button class="modal-action-btn">Message patient</button>
+        <button class="modal-action-btn primary">View appointment brief</button>
+      </div>
+    </div>
+
+    <!-- Modal body -->
+    <div class="modal-body">
+
+      <!-- Hero -->
+      <div class="modal-hero">
+        <div class="modal-hero-left">
+          <div class="modal-hero-name">John Grudnowski</div>
+          <div class="modal-hero-sub">Patient since January 2025 · 7 check-ins completed</div>
+          <div class="modal-hero-tags">
+            <span class="hero-tag highlight">Essential Thrombocythemia</span>
+            <span class="hero-tag highlight">JAK2 V617F+</span>
+            <span class="hero-tag">Dx 2023</span>
+            <span class="hero-tag">Hydroxyurea 500mg</span>
+            <span class="hero-tag alert">Fatigue ↑ 3 wks</span>
+            <span class="hero-tag alert">PLT ↑ 3 draws</span>
+          </div>
+        </div>
+        <div class="modal-hero-right">
+          <div class="modal-score-label">MPN-10 this week</div>
+          <div class="modal-score-num">38</div>
+          <div class="modal-score-delta">↑ up from 29 last week</div>
+          <div class="modal-next-appt">
+            <div class="modal-appt-label">Next appointment</div>
+            <div class="modal-appt-val">April 14, 2025</div>
+            <div class="modal-appt-sub">Dr. Wolanskyj-Spinner · tomorrow</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Symptom score trend -->
+      <div class="modal-card">
+        <div class="modal-card-header">
+          <div class="modal-card-title">MPN-10 score — 7 weeks</div>
+          <div class="modal-card-meta">Higher = more burden</div>
+        </div>
+        <div class="modal-card-body">
+          <div class="trend-chart">
+            <div class="trend-bar" style="height:32%;background:#EBE8E0"></div>
+            <div class="trend-bar" style="height:38%;background:#EBE8E0"></div>
+            <div class="trend-bar" style="height:35%;background:#EBE8E0"></div>
+            <div class="trend-bar" style="height:42%;background:#EBE8E0"></div>
+            <div class="trend-bar" style="height:56%;background:rgba(200,152,88,0.5)"></div>
+            <div class="trend-bar" style="height:74%;background:rgba(200,112,96,0.6)"></div>
+            <div class="trend-bar" style="height:100%;background:var(--red)"></div>
+          </div>
+          <div class="trend-labels">
+            <span>Mar 3</span><span>Mar 10</span><span>Mar 17</span><span>Mar 24</span><span>Mar 31</span><span>Apr 7</span><span>Apr 14</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Symptom detail -->
+      <div class="modal-card">
+        <div class="modal-card-header">
+          <div class="modal-card-title">Symptom breakdown — this week</div>
+          <div class="modal-card-meta">MPN-10 validated instrument</div>
+        </div>
+        <div class="modal-card-body">
+          <div class="symptom-grid">
+            <div class="symptom-item">
+              <div class="symptom-item-left">
+                <div class="symptom-item-name">Fatigue</div>
+                <div class="symptom-item-change" style="color:var(--red)">↑ from 6 last week</div>
+              </div>
+              <div class="symptom-item-right">
+                <div class="symptom-bar-wrap"><div class="symptom-bar-fill" style="width:80%;background:var(--red)"></div></div>
+                <div class="symptom-score-val" style="color:var(--red)">8/10</div>
+              </div>
+            </div>
+            <div class="symptom-item">
+              <div class="symptom-item-left">
+                <div class="symptom-item-name">Brain fog</div>
+                <div class="symptom-item-change" style="color:var(--amber)">↑ from 4 last week</div>
+              </div>
+              <div class="symptom-item-right">
+                <div class="symptom-bar-wrap"><div class="symptom-bar-fill" style="width:60%;background:var(--amber)"></div></div>
+                <div class="symptom-score-val" style="color:var(--amber)">6/10</div>
+              </div>
+            </div>
+            <div class="symptom-item">
+              <div class="symptom-item-left">
+                <div class="symptom-item-name">Night sweats</div>
+                <div class="symptom-item-change" style="color:var(--predawn)">→ unchanged</div>
+              </div>
+              <div class="symptom-item-right">
+                <div class="symptom-bar-wrap"><div class="symptom-bar-fill" style="width:50%;background:var(--predawn)"></div></div>
+                <div class="symptom-score-val" style="color:var(--predawn)">5/10</div>
+              </div>
+            </div>
+            <div class="symptom-item">
+              <div class="symptom-item-left">
+                <div class="symptom-item-name">Bone aches</div>
+                <div class="symptom-item-change" style="color:var(--predawn)">→ unchanged</div>
+              </div>
+              <div class="symptom-item-right">
+                <div class="symptom-bar-wrap"><div class="symptom-bar-fill" style="width:40%;background:var(--predawn)"></div></div>
+                <div class="symptom-score-val" style="color:var(--predawn)">4/10</div>
+              </div>
+            </div>
+            <div class="symptom-item">
+              <div class="symptom-item-left">
+                <div class="symptom-item-name">Itching</div>
+                <div class="symptom-item-change" style="color:var(--green)">↓ improving</div>
+              </div>
+              <div class="symptom-item-right">
+                <div class="symptom-bar-wrap"><div class="symptom-bar-fill" style="width:20%;background:var(--green)"></div></div>
+                <div class="symptom-score-val" style="color:var(--green)">2/10</div>
+              </div>
+            </div>
+            <div class="symptom-item">
+              <div class="symptom-item-left">
+                <div class="symptom-item-name">Dizziness</div>
+                <div class="symptom-item-change" style="color:var(--predawn)">→ unchanged</div>
+              </div>
+              <div class="symptom-item-right">
+                <div class="symptom-bar-wrap"><div class="symptom-bar-fill" style="width:30%;background:var(--predawn)"></div></div>
+                <div class="symptom-score-val" style="color:var(--predawn)">3/10</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Labs -->
+      <div class="modal-card">
+        <div class="modal-card-header">
+          <div class="modal-card-title">CBC — last 4 draws</div>
+          <div class="modal-card-meta">Via MyChart · Last updated Mar 28</div>
+        </div>
+        <div class="modal-card-body">
+          <table class="labs-table">
+            <thead>
+              <tr>
+                <th>Marker</th>
+                <th>Normal range</th>
+                <th>Sep 2024</th>
+                <th>Dec 2024</th>
+                <th>Mar 2025</th>
+                <th>Trend</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Platelets (×10³/µL)</td>
+                <td style="color:var(--text-dim)">150–400</td>
+                <td>764</td>
+                <td>802</td>
+                <td style="color:var(--red);font-weight:500">842</td>
+                <td><span class="lab-flag up">↑ +10%</span></td>
+              </tr>
+              <tr>
+                <td>Hemoglobin (g/dL)</td>
+                <td style="color:var(--text-dim)">13.5–17.5</td>
+                <td>14.8</td>
+                <td>14.5</td>
+                <td>14.6</td>
+                <td><span class="lab-flag stable">→ stable</span></td>
+              </tr>
+              <tr>
+                <td>WBC (×10³/µL)</td>
+                <td style="color:var(--text-dim)">4.5–11.0</td>
+                <td>7.4</td>
+                <td>7.1</td>
+                <td>7.2</td>
+                <td><span class="lab-flag stable">→ stable</span></td>
+              </tr>
+              <tr>
+                <td>Hematocrit (%)</td>
+                <td style="color:var(--text-dim)">41–53</td>
+                <td>44.2</td>
+                <td>43.8</td>
+                <td>43.0</td>
+                <td><span class="lab-flag down">↓ slight</span></td>
+              </tr>
+              <tr>
+                <td>RBC (×10⁶/µL)</td>
+                <td style="color:var(--text-dim)">4.5–5.9</td>
+                <td>5.1</td>
+                <td>4.9</td>
+                <td>4.8</td>
+                <td><span class="lab-flag stable">→ stable</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Wearables -->
+      <div class="modal-card">
+        <div class="modal-card-header">
+          <div class="modal-card-title">Wearables — weekly average</div>
+          <div class="modal-card-meta">Apple Health · Last synced Apr 14</div>
+        </div>
+        <div class="modal-card-body">
+          <div class="wearable-row">
+            <div class="wearable-stat">
+              <div class="wearable-label">Deep sleep</div>
+              <div class="wearable-val" style="color:var(--red)">52</div>
+              <div class="wearable-unit">min/night</div>
+              <div class="wearable-delta" style="color:var(--red)">↓ −33% vs baseline</div>
+            </div>
+            <div class="wearable-stat">
+              <div class="wearable-label">Resting HR</div>
+              <div class="wearable-val" style="color:var(--amber)">72</div>
+              <div class="wearable-unit">bpm</div>
+              <div class="wearable-delta" style="color:var(--amber)">↑ +6 bpm vs baseline</div>
+            </div>
+            <div class="wearable-stat">
+              <div class="wearable-label">HRV</div>
+              <div class="wearable-val" style="color:var(--amber)">28</div>
+              <div class="wearable-unit">ms</div>
+              <div class="wearable-delta" style="color:var(--amber)">↓ declining trend</div>
+            </div>
+            <div class="wearable-stat">
+              <div class="wearable-label">Daily steps</div>
+              <div class="wearable-val">4,820</div>
+              <div class="wearable-unit">steps/day</div>
+              <div class="wearable-delta" style="color:var(--amber)">↓ −25% vs baseline</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Flagged patterns -->
+      <div class="modal-card">
+        <div class="modal-card-header">
+          <div class="modal-card-title">Flagged patterns</div>
+          <div class="modal-card-meta">Identified across 7 weeks of data</div>
+        </div>
+        <div class="modal-card-body">
+          <div class="pattern-block" style="background:var(--red-bg);border:1px solid rgba(200,112,96,0.2)">
+            <div class="pattern-tag" style="color:var(--red)">High priority — platelets</div>
+            <div class="pattern-text">Platelet count has increased across 3 consecutive draws (764 → 802 → 842 ×10³/µL), a 10% rise over 6 months. Correlation with increasing fatigue load warrants discussion of Hydroxyurea dose adjustment.</div>
+          </div>
+          <div class="pattern-block" style="background:var(--red-bg);border:1px solid rgba(200,112,96,0.2)">
+            <div class="pattern-tag" style="color:var(--red)">High priority — symptom trajectory</div>
+            <div class="pattern-text">MPN-10 score has increased 3 consecutive weeks (21 → 29 → 38). Fatigue is the primary driver, rising from 4 to 8/10 over 8 weeks — the highest score since onboarding.</div>
+          </div>
+          <div class="pattern-block" style="background:var(--amber-bg);border:1px solid rgba(200,152,88,0.2)">
+            <div class="pattern-tag" style="color:var(--amber)">Notable — sleep correlation</div>
+            <div class="pattern-text">Fatigue scores average 7.2/10 on nights with under 6 hours of sleep vs 4.1/10 on nights with 7+ hours — a consistent correlation across 5 of the last 7 weeks. Deep sleep has declined 33% from baseline.</div>
+          </div>
+          <div class="pattern-block" style="background:#F0F9FF;border:1px solid rgba(62,168,204,0.15)">
+            <div class="pattern-tag" style="color:var(--midday)">Contextual — weather</div>
+            <div class="pattern-text">Patient has self-reported higher joint aching on 4 of 5 days with temperatures below 32°F. Not a clinical flag but worth noting as a life quality factor.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- What patient is seeing -->
+      <div class="modal-card">
+        <div class="modal-card-header">
+          <div class="modal-card-title">Recommendations patient is seeing</div>
+          <div class="modal-card-meta">From their weekly look ahead brief</div>
+        </div>
+        <div class="modal-card-body">
+          <div class="rec-item">
+            <div class="rec-icon" style="background:#EEF7FB">💡</div>
+            <div class="rec-content">
+              <div class="rec-title">Try sleeping 30 minutes earlier this week</div>
+              <div class="rec-desc">Based on the sleep-fatigue correlation in their data. Identified as the highest-leverage behavioral adjustment available right now.</div>
+              <div class="rec-source">Live Every Day · based on 7 weeks of personal data</div>
+            </div>
+          </div>
+          <div class="rec-item">
+            <div class="rec-icon" style="background:#FEF6F5">🌡️</div>
+            <div class="rec-content">
+              <div class="rec-title">Cold weather advisory — Thursday & Friday</div>
+              <div class="rec-desc">Flagged based on weather pattern correlation. Patient advised to plan lighter activity and additional rest time on those days.</div>
+              <div class="rec-source">Live Every Day · weather correlation pattern</div>
+            </div>
+          </div>
+          <div class="rec-item">
+            <div class="rec-icon" style="background:#FEF6F5">⚠️</div>
+            <div class="rec-content">
+              <div class="rec-title">Fatigue trend flagged for appointment</div>
+              <div class="rec-desc">Patient has been informed that 3 consecutive weeks of fatigue above 7/10 is being surfaced as a priority question for tomorrow's appointment.</div>
+              <div class="rec-source">Live Every Day · appointment brief preparation</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Questions patient is bringing -->
+      <div class="modal-card">
+        <div class="modal-card-header">
+          <div class="modal-card-title">Questions patient is bringing tomorrow</div>
+          <div class="modal-card-meta">From their appointment brief — Apr 14</div>
+        </div>
+        <div class="modal-card-body">
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <div style="display:flex;gap:12px;align-items:flex-start;padding:10px 14px;background:var(--red-bg);border-radius:10px;border:1px solid rgba(200,112,96,0.15)">
+              <div style="width:22px;height:22px;border-radius:50%;background:var(--red);color:white;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px">1</div>
+              <div style="font-size:13px;color:var(--midnight);line-height:1.5">My fatigue has gone from 4 to 8 out of 10 over the past 8 weeks. Should we look at adjusting my Hydroxyurea dose?</div>
+            </div>
+            <div style="display:flex;gap:12px;align-items:flex-start;padding:10px 14px;background:var(--red-bg);border-radius:10px;border:1px solid rgba(200,112,96,0.15)">
+              <div style="width:22px;height:22px;border-radius:50%;background:var(--red);color:white;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px">2</div>
+              <div style="font-size:13px;color:var(--midnight);line-height:1.5">My platelets have increased across my last 3 draws — 764, 802, 842. Is this a trend we should be concerned about?</div>
+            </div>
+            <div style="display:flex;gap:12px;align-items:flex-start;padding:10px 14px;background:var(--amber-bg);border-radius:10px;border:1px solid rgba(200,152,88,0.15)">
+              <div style="width:22px;height:22px;border-radius:50%;background:var(--amber);color:white;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px">3</div>
+              <div style="font-size:13px;color:var(--midnight);line-height:1.5">My deep sleep has dropped 33% and my resting heart rate is up 6 bpm. Could this be connected to my ET or my medication?</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /modal-body -->
+  </div><!-- /patient-modal -->
+</div><!-- /modal-overlay -->
+
+<script>
+function openPatientModal(name) {
+  document.getElementById('patient-modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal() {
+  document.getElementById('patient-modal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function handleOverlayClick(e) {
+  if (e.target === document.getElementById('patient-modal')) closeModal();
 }
 </script>
 </body>
