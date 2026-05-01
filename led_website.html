@@ -426,7 +426,7 @@ section {
 
 /* ── Built Different ─────────────────────────────────── */
 #built {
-  background: var(--midnight);
+  background: var(--canvas);
   flex-direction: column;
   padding: 120px 48px;
   min-height: auto;
@@ -1268,52 +1268,279 @@ body { min-width: 980px; }
 <section id="built">
   <div class="built-inner">
     <p class="section-eyebrow reveal" style="color:var(--midday)">Built Different</p>
-    <h2 class="section-headline reveal reveal-delay-1" style="color:var(--canvas)">Built by a patient who needed it.<br>For all of us who do.</h2>
-    <p class="section-subline reveal reveal-delay-2" style="color:rgba(255,252,245,0.5)">Independent. Disease-specific. Longitudinal. Patient-owned. And free — because managing a serious diagnosis is expensive enough.</p>
+    <h2 class="section-headline reveal reveal-delay-1" style="color:var(--midnight)">Built from the heart.<br>To help us live every day.</h2>
 
-    <div class="built-grid">
-      <div class="built-cell reveal reveal-delay-1">
-        <div class="built-cell-icon" style="background:rgba(106,176,200,0.15)">🔓</div>
-        <div class="built-cell-title">Free. Always.</div>
-        <div class="built-cell-body">Live Every Day is free to download and free to use. Our ability to understand our own health and show up prepared to every appointment should not come with a subscription fee.</div>
-      </div>
-      <div class="built-cell reveal reveal-delay-2">
-        <div class="built-cell-icon" style="background:rgba(232,204,112,0.15)">🔒</div>
-        <div class="built-cell-title">Our data. Our choice.</div>
-        <div class="built-cell-body">Our symptoms, our labs, our wearable patterns belong to us. We do not share data without explicit permission. If we choose to contribute de-identified data to research, we can — always opt-in, always reversible.</div>
-      </div>
-      <div class="built-cell reveal reveal-delay-3">
-        <div class="built-cell-icon" style="background:rgba(122,158,136,0.15)">✓</div>
-        <div class="built-cell-title">HIPAA compliant.</div>
-        <div class="built-cell-body">Built to the same federal privacy framework that governs our medical records. Our health data is encrypted, protected, and handled with the same rigor our care team applies to our clinical information.</div>
-      </div>
-      <div class="built-cell reveal reveal-delay-4">
-        <div class="built-cell-icon" style="background:rgba(200,152,88,0.15)">◎</div>
-        <div class="built-cell-title">Connected, not constrained.</div>
-        <div class="built-cell-body">We work alongside the healthcare system — connecting to labs, wearables, and patient portals — but our thinking is our own. Sitting closest to the people living it, and the people who love them.</div>
-      </div>
-    </div>
-
-    <div class="built-four-words reveal" style="margin-top:2px">
+    <!-- Four words — the hero of this section -->
+    <div class="built-four-words reveal reveal-delay-2" style="margin-bottom:72px">
       <div class="four-word">
         <div class="four-word-main">Independent</div>
-        <div class="four-word-sub">No pharma funding. No advertiser agenda.</div>
+        <div class="four-word-sub">No pharma funding.<br>No advertiser agenda.</div>
       </div>
       <div class="four-word">
         <div class="four-word-main">Disease-specific</div>
-        <div class="four-word-sub">Built condition by condition, not generically.</div>
+        <div class="four-word-sub">Built condition by condition,<br>not generically.</div>
       </div>
       <div class="four-word">
         <div class="four-word-main">Longitudinal</div>
-        <div class="four-word-sub">Months and years of data, not today's reading.</div>
+        <div class="four-word-sub">Months of data, not<br>today's single reading.</div>
       </div>
       <div class="four-word">
         <div class="four-word-main">Patient-owned</div>
-        <div class="four-word-sub">Our data never leaves without our permission.</div>
+        <div class="four-word-sub">Your data never leaves<br>without your permission.</div>
+      </div>
+    </div>
+
+    <!-- Four simple trust points — no dark boxes -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px 80px;max-width:900px;margin:0 auto;">
+      <div class="reveal reveal-delay-1" style="display:flex;gap:16px;align-items:flex-start;">
+        <div style="font-size:22px;flex-shrink:0;margin-top:2px;">🔓</div>
+        <div>
+          <div style="font-size:17px;font-weight:600;color:var(--midnight);margin-bottom:4px;">Free. Always.</div>
+          <div style="font-size:14px;color:var(--predawn);font-weight:300;line-height:1.6;">No subscription. No paywall. Managing a serious diagnosis is expensive enough.</div>
+        </div>
+      </div>
+      <div class="reveal reveal-delay-2" style="display:flex;gap:16px;align-items:flex-start;">
+        <div style="font-size:22px;flex-shrink:0;margin-top:2px;">🔒</div>
+        <div>
+          <div style="font-size:17px;font-weight:600;color:var(--midnight);margin-bottom:4px;">Your data. Your choice.</div>
+          <div style="font-size:14px;color:var(--predawn);font-weight:300;line-height:1.6;">Always opt-in. Always reversible. Nothing shared without your explicit permission.</div>
+        </div>
+      </div>
+      <div class="reveal reveal-delay-3" style="display:flex;gap:16px;align-items:flex-start;">
+        <div style="font-size:22px;flex-shrink:0;margin-top:2px;">✓</div>
+        <div>
+          <div style="font-size:17px;font-weight:600;color:var(--midnight);margin-bottom:4px;">HIPAA compliant.</div>
+          <div style="font-size:14px;color:var(--predawn);font-weight:300;line-height:1.6;">Built to the same privacy framework that governs your medical records.</div>
+        </div>
+      </div>
+      <div class="reveal reveal-delay-4" style="display:flex;gap:16px;align-items:flex-start;">
+        <div style="font-size:22px;flex-shrink:0;margin-top:2px;">🤝</div>
+        <div>
+          <div style="font-size:17px;font-weight:600;color:var(--midnight);margin-bottom:4px;">Built by a patient.</div>
+          <div style="font-size:14px;color:var(--predawn);font-weight:300;line-height:1.6;">Founded by an ET patient who needed this and couldn't find it. For all of us who do.</div>
+        </div>
       </div>
     </div>
   </div>
 </section>
+
+
+<!-- ── CARE TEAM DASHBOARD ── -->
+<section id="care-team" style="background:var(--midnight);padding:100px 72px;">
+  <div style="max-width:1100px;margin:0 auto;">
+
+    <!-- Label + headline -->
+    <p class="reveal" style="font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--midday);margin-bottom:20px">For your care team</p>
+    <h2 class="reveal" style="font-family:'Raleway',serif;font-weight:200;font-size:clamp(32px,3.5vw,52px);color:white;line-height:1.15;letter-spacing:-0.3px;margin-bottom:20px;max-width:820px">What if your doctor knew you needed support —<br>before your next appointment?</h2>
+    <p class="reveal reveal-delay-1" style="font-size:18px;color:rgba(255,252,245,0.55);font-weight:300;line-height:1.65;max-width:680px;margin-bottom:72px">Live Every Day gives care teams the tools to manage their entire patient panel — not just the fifteen minutes they have in the room. When something changes, they know. And they can act.</p>
+
+    <!-- Point 1 -->
+    <div class="reveal" style="display:flex;gap:24px;align-items:flex-start;margin-bottom:48px;padding-bottom:48px;border-bottom:1px solid rgba(255,252,245,0.08);">
+      <div style="width:44px;height:44px;border-radius:12px;background:rgba(62,168,204,0.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;border:1px solid rgba(62,168,204,0.25);">
+        <span style="font-size:20px;">📊</span>
+      </div>
+      <div style="max-width:700px;">
+        <div style="font-size:20px;font-weight:600;color:white;margin-bottom:8px;">Full patient panel — one view, sorted by who needs the most attention</div>
+        <div style="font-size:15px;color:rgba(255,252,245,0.55);font-weight:300;line-height:1.7;">Every patient using Live Every Day, in a single dashboard. Not sorted alphabetically — sorted by who's trending worse. The patients who need attention rise to the top automatically. Green is good. Red means act.</div>
+      </div>
+    </div>
+
+    <!-- Point 2 -->
+    <div class="reveal reveal-delay-1" style="display:flex;gap:24px;align-items:flex-start;margin-bottom:56px;">
+      <div style="width:44px;height:44px;border-radius:12px;background:rgba(200,112,96,0.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;border:1px solid rgba(200,112,96,0.25);">
+        <span style="font-size:20px;">🔔</span>
+      </div>
+      <div style="max-width:700px;">
+        <div style="font-size:20px;font-weight:600;color:white;margin-bottom:8px;">Real-time alerts when it matters — between appointments</div>
+        <div style="font-size:15px;color:rgba(255,252,245,0.55);font-weight:300;line-height:1.7;">When a patient's fatigue crosses a threshold, or symptoms trend upward for three consecutive weeks, the care team is alerted automatically. No waiting for the next appointment to find out something changed six weeks ago.</div>
+      </div>
+    </div>
+
+    <!-- Dashboard mockup — full width -->
+    <div class="reveal" style="margin-bottom:56px;">
+      <div style="background:white;border-radius:16px;overflow:hidden;border:1px solid #D8D0C0;box-shadow:0 24px 60px rgba(0,0,0,0.3);">
+
+        <!-- Nav -->
+        <div style="background:#1A2830;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;">
+          <div style="display:flex;align-items:center;gap:10px;">
+            <svg width="18" height="18" viewBox="-26 -26 52 52">
+              <circle cx="0" cy="-21" r="3.85" fill="#3EA8CC"/>
+              <circle cx="21" cy="0" r="3.85" fill="#C89858"/>
+              <circle cx="0" cy="21" r="3.85" fill="#1A2830" stroke="#506878" stroke-width="1.5"/>
+              <circle cx="-21" cy="0" r="3.85" fill="#E8CC70"/>
+            </svg>
+            <span style="font-family:'Raleway',serif;font-weight:200;font-size:13px;color:rgba(255,252,245,0.9)">Live <span style="color:#E8CC70">Every</span> Day</span>
+            <span style="font-size:12px;color:rgba(255,252,245,0.3)">· Care Team Dashboard</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <div style="width:26px;height:26px;border-radius:50%;background:#3EA8CC;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#1A2830">WS</div>
+            <span style="font-size:12px;color:rgba(255,252,245,0.5)">Dr. Wolanskyj-Spinner · Hematology · Mayo Clinic</span>
+          </div>
+        </div>
+
+        <!-- Alert banner -->
+        <div style="background:#F4DDD8;border-bottom:1px solid rgba(200,112,96,0.25);padding:10px 24px;display:flex;align-items:center;gap:10px;">
+          <div style="width:8px;height:8px;border-radius:50%;background:#C87060;flex-shrink:0;"></div>
+          <span style="font-size:12px;color:#1A2830;"><strong>2 patients need attention</strong> — John Grudnowski and Robert Kim have flagged symptom trends this week. Review before their upcoming appointments.</span>
+        </div>
+
+        <!-- Stats row -->
+        <div style="display:grid;grid-template-columns:repeat(5,1fr);border-bottom:1px solid #EBE8E0;background:#FFFCF5;">
+          <div style="padding:16px 20px;border-right:1px solid #EBE8E0;">
+            <div style="font-size:9px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:#9098A0;margin-bottom:6px;">Total patients</div>
+            <div style="font-family:'Raleway',serif;font-weight:200;font-size:28px;color:#1A2830;line-height:1;">34</div>
+            <div style="font-size:10px;color:#9098A0;margin-top:2px;">on Live Every Day</div>
+          </div>
+          <div style="padding:16px 20px;border-right:1px solid #EBE8E0;">
+            <div style="font-size:9px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:#9098A0;margin-bottom:6px;">Checked in this week</div>
+            <div style="font-family:'Raleway',serif;font-weight:200;font-size:28px;color:#5A9070;line-height:1;">28</div>
+            <div style="font-size:10px;color:#5A9070;margin-top:2px;">82% completion</div>
+          </div>
+          <div style="padding:16px 20px;border-right:1px solid #EBE8E0;">
+            <div style="font-size:9px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:#9098A0;margin-bottom:6px;">Need attention</div>
+            <div style="font-family:'Raleway',serif;font-weight:200;font-size:28px;color:#C87060;line-height:1;">2</div>
+            <div style="font-size:10px;color:#C87060;margin-top:2px;">Flagged this week</div>
+          </div>
+          <div style="padding:16px 20px;border-right:1px solid #EBE8E0;">
+            <div style="font-size:9px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:#9098A0;margin-bottom:6px;">Watch</div>
+            <div style="font-family:'Raleway',serif;font-weight:200;font-size:28px;color:#C89858;line-height:1;">5</div>
+            <div style="font-size:10px;color:#C89858;margin-top:2px;">Trending — monitor</div>
+          </div>
+          <div style="padding:16px 20px;">
+            <div style="font-size:9px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:#9098A0;margin-bottom:6px;">Appts this week</div>
+            <div style="font-family:'Raleway',serif;font-weight:200;font-size:28px;color:#1A2830;line-height:1;">3</div>
+            <div style="font-size:10px;color:#9098A0;margin-top:2px;">John G · Thu · Fri</div>
+          </div>
+        </div>
+
+        <!-- Table header -->
+        <div style="display:grid;grid-template-columns:180px 90px 70px 70px 100px 90px 90px 1fr;padding:9px 24px;background:#F5F3EF;border-bottom:1px solid #EBE8E0;">
+          <span style="font-size:9px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;color:#9098A0;">Patient</span>
+          <span style="font-size:9px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;color:#9098A0;">Status</span>
+          <span style="font-size:9px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;color:#9098A0;">MPN-10</span>
+          <span style="font-size:9px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;color:#9098A0;">Fatigue</span>
+          <span style="font-size:9px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;color:#9098A0;">Last check-in</span>
+          <span style="font-size:9px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;color:#9098A0;">Next appt</span>
+          <span style="font-size:9px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;color:#9098A0;">Flags</span>
+          <span style="font-size:9px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;color:#9098A0;">6-week trend</span>
+        </div>
+
+        <!-- Row 1 — attention -->
+        <div style="display:grid;grid-template-columns:180px 90px 70px 70px 100px 90px 90px 1fr;padding:13px 24px;background:#FEF6F5;border-bottom:1px solid #EBE8E0;align-items:center;">
+          <div><div style="font-size:13px;font-weight:600;color:#1A2830;">John Grudnowski</div><div style="font-size:10px;color:#9098A0;">ET · JAK2+ · Dx 2023</div></div>
+          <div><span style="background:#F4DDD8;color:#C87060;border-radius:20px;padding:4px 10px;font-size:10px;font-weight:700;">● Attention</span></div>
+          <span style="font-size:14px;font-weight:700;color:#C87060;">38 <span style="font-size:10px;">↑+9</span></span>
+          <span style="font-size:14px;font-weight:700;color:#C87060;">8/10</span>
+          <span style="font-size:12px;color:#506878;">Apr 13 · 1d ago</span>
+          <span style="font-size:12px;color:#3EA8CC;font-weight:600;">Apr 14 · 1d</span>
+          <div style="display:flex;flex-wrap:wrap;gap:3px;"><span style="background:#F4DDD8;color:#C87060;border-radius:4px;padding:1px 5px;font-size:9px;font-weight:700;">Fatigue↑</span><span style="background:#F4DDD8;color:#C87060;border-radius:4px;padding:1px 5px;font-size:9px;font-weight:700;">PLT↑</span></div>
+          <div style="display:flex;align-items:flex-end;gap:3px;height:22px;">
+            <div style="flex:1;border-radius:2px 2px 0 0;background:#EBE8E0;height:28%;"></div>
+            <div style="flex:1;border-radius:2px 2px 0 0;background:#EBE8E0;height:36%;"></div>
+            <div style="flex:1;border-radius:2px 2px 0 0;background:rgba(200,152,88,0.5);height:52%;"></div>
+            <div style="flex:1;border-radius:2px 2px 0 0;background:rgba(200,152,88,0.7);height:65%;"></div>
+            <div style="flex:1;border-radius:2px 2px 0 0;background:#C87060;height:82%;"></div>
+            <div style="flex:1;border-radius:2px 2px 0 0;background:#C87060;height:100%;"></div>
+          </div>
+        </div>
+
+        <!-- Row 2 — watch -->
+        <div style="display:grid;grid-template-columns:180px 90px 70px 70px 100px 90px 90px 1fr;padding:13px 24px;background:#FFFBF2;border-bottom:1px solid #EBE8E0;align-items:center;">
+          <div><div style="font-size:13px;font-weight:600;color:#1A2830;">Robert Kim</div><div style="font-size:10px;color:#9098A0;">MF · CALR+ · Dx 2021</div></div>
+          <div><span style="background:#FFF3E0;color:#C89858;border-radius:20px;padding:4px 10px;font-size:10px;font-weight:700;">● Watch</span></div>
+          <span style="font-size:14px;font-weight:700;color:#C89858;">31 <span style="font-size:10px;">↑+5</span></span>
+          <span style="font-size:14px;font-weight:700;color:#C89858;">7/10</span>
+          <span style="font-size:12px;color:#506878;">Apr 12 · 2d ago</span>
+          <span style="font-size:12px;color:#506878;">Jun 8 · 7wks</span>
+          <div><span style="background:#FFF3E0;color:#C89858;border-radius:4px;padding:1px 5px;font-size:9px;font-weight:700;">Sweats↑</span></div>
+          <div style="display:flex;align-items:flex-end;gap:3px;height:22px;">
+            <div style="flex:1;border-radius:2px 2px 0 0;background:#EBE8E0;height:35%;"></div>
+            <div style="flex:1;border-radius:2px 2px 0 0;background:#EBE8E0;height:38%;"></div>
+            <div style="flex:1;border-radius:2px 2px 0 0;background:#EBE8E0;height:42%;"></div>
+            <div style="flex:1;border-radius:2px 2px 0 0;background:rgba(200,152,88,0.5);height:58%;"></div>
+            <div style="flex:1;border-radius:2px 2px 0 0;background:rgba(200,152,88,0.7);height:70%;"></div>
+            <div style="flex:1;border-radius:2px 2px 0 0;background:#C89858;height:82%;"></div>
+          </div>
+        </div>
+
+        <!-- Row 3 — stable -->
+        <div style="display:grid;grid-template-columns:180px 90px 70px 70px 100px 90px 90px 1fr;padding:13px 24px;border-bottom:1px solid #EBE8E0;align-items:center;">
+          <div><div style="font-size:13px;font-weight:600;color:#1A2830;">Maria Chen</div><div style="font-size:10px;color:#9098A0;">PV · JAK2+ · Dx 2019</div></div>
+          <div><span style="background:#D4EAD8;color:#5A9070;border-radius:20px;padding:4px 10px;font-size:10px;font-weight:700;">● Stable</span></div>
+          <span style="font-size:14px;font-weight:700;color:#5A9070;">18</span>
+          <span style="font-size:14px;font-weight:700;color:#5A9070;">4/10</span>
+          <span style="font-size:12px;color:#506878;">Apr 14 · today</span>
+          <span style="font-size:12px;color:#506878;">May 2 · 2.5wks</span>
+          <div><span style="background:#EBE8E0;color:#506878;border-radius:4px;padding:1px 5px;font-size:9px;font-weight:600;">Consistent</span></div>
+          <div style="display:flex;align-items:flex-end;gap:3px;height:22px;">
+            <div style="flex:1;border-radius:2px 2px 0 0;background:rgba(62,168,204,0.35);height:52%;"></div>
+            <div style="flex:1;border-radius:2px 2px 0 0;background:rgba(62,168,204,0.35);height:50%;"></div>
+            <div style="flex:1;border-radius:2px 2px 0 0;background:rgba(62,168,204,0.35);height:48%;"></div>
+            <div style="flex:1;border-radius:2px 2px 0 0;background:rgba(90,144,112,0.5);height:46%;"></div>
+            <div style="flex:1;border-radius:2px 2px 0 0;background:rgba(90,144,112,0.6);height:44%;"></div>
+            <div style="flex:1;border-radius:2px 2px 0 0;background:#5A9070;height:40%;"></div>
+          </div>
+        </div>
+
+        <!-- Row 4 — stable improving -->
+        <div style="display:grid;grid-template-columns:180px 90px 70px 70px 100px 90px 90px 1fr;padding:13px 24px;border-bottom:1px solid #EBE8E0;align-items:center;">
+          <div><div style="font-size:13px;font-weight:600;color:#1A2830;">Susan Park</div><div style="font-size:10px;color:#9098A0;">ET · MPL+ · Dx 2022</div></div>
+          <div><span style="background:#D4EAD8;color:#5A9070;border-radius:20px;padding:4px 10px;font-size:10px;font-weight:700;">● Stable</span></div>
+          <span style="font-size:14px;font-weight:700;color:#5A9070;">14 <span style="font-size:10px;">↓</span></span>
+          <span style="font-size:14px;font-weight:700;color:#5A9070;">3/10</span>
+          <span style="font-size:12px;color:#506878;">Apr 13 · 1d ago</span>
+          <span style="font-size:12px;color:#3EA8CC;font-weight:600;">Apr 28 · 2wks</span>
+          <div><span style="background:#D4EAD8;color:#5A9070;border-radius:4px;padding:1px 5px;font-size:9px;font-weight:600;">Improving</span></div>
+          <div style="display:flex;align-items:flex-end;gap:3px;height:22px;">
+            <div style="flex:1;border-radius:2px 2px 0 0;background:rgba(200,152,88,0.4);height:62%;"></div>
+            <div style="flex:1;border-radius:2px 2px 0 0;background:rgba(200,152,88,0.3);height:52%;"></div>
+            <div style="flex:1;border-radius:2px 2px 0 0;background:rgba(62,168,204,0.3);height:44%;"></div>
+            <div style="flex:1;border-radius:2px 2px 0 0;background:rgba(62,168,204,0.3);height:36%;"></div>
+            <div style="flex:1;border-radius:2px 2px 0 0;background:rgba(90,144,112,0.5);height:28%;"></div>
+            <div style="flex:1;border-radius:2px 2px 0 0;background:#5A9070;height:22%;"></div>
+          </div>
+        </div>
+
+        <!-- Footer -->
+        <div style="padding:12px 24px;background:#FFFCF5;display:flex;align-items:center;justify-content:space-between;">
+          <span style="font-size:12px;color:#9098A0;">Showing 4 of 34 patients · sorted by trend</span>
+          <span style="font-size:12px;color:#3EA8CC;font-weight:500;cursor:pointer;">View all patients →</span>
+        </div>
+      </div>
+      <p style="font-size:12px;color:rgba(255,252,245,0.3);margin-top:12px;text-align:center;font-style:italic;">Care Team Dashboard — available to hematology and oncology practices</p>
+    </div>
+
+    <!-- Point 3 -->
+    <div class="reveal" style="display:flex;gap:24px;align-items:flex-start;margin-bottom:48px;padding-bottom:48px;border-bottom:1px solid rgba(255,252,245,0.08);">
+      <div style="width:44px;height:44px;border-radius:12px;background:rgba(232,204,112,0.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;border:1px solid rgba(232,204,112,0.25);">
+        <span style="font-size:20px;">📋</span>
+      </div>
+      <div style="max-width:700px;">
+        <div style="font-size:20px;font-weight:600;color:white;margin-bottom:8px;">Walk into every appointment already informed</div>
+        <div style="font-size:15px;color:rgba(255,252,245,0.55);font-weight:300;line-height:1.7;">Eight weeks of symptom trends, lab trajectories, and wearable data — distilled before the patient walks in. The patient's questions are already visible. No more starting from scratch every fifteen minutes.</div>
+      </div>
+    </div>
+
+    <!-- Point 4 -->
+    <div class="reveal reveal-delay-1" style="display:flex;gap:24px;align-items:flex-start;margin-bottom:72px;">
+      <div style="width:44px;height:44px;border-radius:12px;background:rgba(90,144,112,0.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;border:1px solid rgba(90,144,112,0.25);">
+        <span style="font-size:20px;">🌐</span>
+      </div>
+      <div style="max-width:700px;">
+        <div style="font-size:20px;font-weight:600;color:white;margin-bottom:8px;">Built for rural and non-specialist care</div>
+        <div style="font-size:15px;color:rgba(255,252,245,0.55);font-weight:300;line-height:1.7;">~60% of MPN patients live outside major metros — many seeing PAs rather than specialists. The dashboard gives any provider hematology-grade pattern recognition, without hematology training.</div>
+      </div>
+    </div>
+
+    <!-- Closing quote + CTA -->
+    <div class="reveal" style="padding-top:56px;border-top:1px solid rgba(255,252,245,0.08);display:flex;align-items:center;justify-content:space-between;gap:40px;flex-wrap:wrap;">
+      <p style="font-size:20px;font-weight:300;color:rgba(255,252,245,0.75);line-height:1.65;font-family:'Raleway',serif;max-width:560px;">"Your patients are living their lives between appointments.<br>Now you can be part of that."</p>
+      <a href="mailto:care@liveeveryday.health" class="btn-primary" style="white-space:nowrap;flex-shrink:0;">Request a practice demo →</a>
+    </div>
+
+  </div>
+</section>
+
 
 <!-- ── DOWNLOAD ── -->
 <section id="download" style="text-align:left;align-items:flex-start">
