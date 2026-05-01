@@ -34,13 +34,13 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 body {
   font-family: 'DM Sans', sans-serif;
-  background: var(--midnight);
+  background: #E8E4DC;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 32px 20px 48px;
-  color: var(--canvas);
+  color: var(--midnight);
 }
 
 /* ── Header ──────────────────────────────────────────────── */
@@ -740,7 +740,7 @@ body {
 .nav-hint { color: var(--predawn); font-size: 12px; text-align: center; margin-top: 4px; }
 .flow-chips { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin-top: 8px; max-width: 600px; }
 .flow-chip {
-  background: #243540; color: var(--predawn);
+  background: rgba(26,40,48,0.06); color: var(--predawn);
   border: 1px solid #2E4050; border-radius: 9999px;
   padding: 6px 14px; font-size: 12px; cursor: pointer; transition: all 0.15s;
   font-family: 'DM Sans', sans-serif;
@@ -1080,31 +1080,39 @@ body{background:var(--midnight);font-family:'DM Sans',sans-serif;display:flex;fl
 
     <div>
       <h1 style="font-size:26px;font-weight:700;color:var(--midnight);line-height:1.2;margin-bottom:10px">Now let's connect your data.</h1>
-      <p style="font-size:15px;color:var(--text-mid);line-height:1.7">Live Every Day works because of your real data — not estimates. Without it, the app is a blank page. <span style="font-weight:600;color:var(--midnight)">Connect what you have to get started.</span></p>
+      <p style="font-size:14px;color:var(--text-mid);line-height:1.7;font-weight:300">Live Every Day works because of your real data. Connect what you have to get started — we'll make it easy.</p>
     </div>
 
     <!-- Blood labs -->
     <div>
-      <div style="font-size:11px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;color:var(--predawn);margin-bottom:10px">Your blood work</div>
+      <div style="font-size:11px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;color:var(--predawn);margin-bottom:8px">Your blood work</div>
+      <div style="background:var(--surface);border-radius:12px;padding:10px 12px;margin-bottom:10px">
+        <div style="font-size:12px;color:var(--predawn);line-height:1.55;font-weight:300">Download your lab results from your patient portal, then bring them here. We read any format automatically — no manual entry needed.</div>
+      </div>
       <div style="background:white;border-radius:16px;overflow:hidden;border:1px solid var(--border)">
-        <div id="mychart-row" style="display:flex;align-items:center;gap:14px;padding:16px;border-bottom:1px solid var(--surface)">
-          <div style="width:44px;height:44px;border-radius:12px;background:#E8F4FF;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0">🏥</div>
-          <div style="flex:1">
-            <div style="font-size:15px;font-weight:600;color:var(--midnight)">Connect MyChart</div>
-            <div style="font-size:12px;color:var(--text-mid);margin-top:2px">Pulls your full lab history automatically</div>
-          </div>
-          <button id="mychart-btn" onclick="connectItem('mychart')" style="background:var(--midday);color:var(--midnight);border:none;border-radius:20px;padding:8px 16px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap">Connect</button>
-        </div>
-        <div id="pdf-row" style="display:flex;align-items:center;gap:14px;padding:16px">
-          <div style="width:44px;height:44px;border-radius:12px;background:var(--surface);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0">📄</div>
+
+        <!-- Option A: Upload PDF -->
+        <div onclick="go('s-lab-upload')" style="display:flex;align-items:center;gap:14px;padding:16px;border-bottom:1px solid var(--surface);cursor:pointer">
+          <div style="width:44px;height:44px;border-radius:12px;background:#EEF7FB;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0">📄</div>
           <div style="flex:1">
             <div style="font-size:15px;font-weight:600;color:var(--midnight)">Upload a lab PDF</div>
-            <div style="font-size:12px;color:var(--text-mid);margin-top:2px">We read it automatically — any lab format</div>
+            <div style="font-size:12px;color:var(--predawn);margin-top:2px">Download from MyChart or your portal — we read it automatically</div>
           </div>
-          <button id="pdf-btn" onclick="connectItem('pdf')" style="background:var(--surface);color:var(--predawn);border:1px solid var(--border);border-radius:20px;padding:8px 16px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap">Upload</button>
+          <span style="background:var(--midday);color:white;border-radius:20px;padding:6px 14px;font-size:12px;font-weight:600;white-space:nowrap">Upload</span>
         </div>
+
+        <!-- Option B: Photo capture -->
+        <div onclick="go('s-lab-photo')" style="display:flex;align-items:center;gap:14px;padding:16px;cursor:pointer">
+          <div style="width:44px;height:44px;border-radius:12px;background:#EEF7FB;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0">📷</div>
+          <div style="flex:1">
+            <div style="font-size:15px;font-weight:600;color:var(--midnight)">Take a photo</div>
+            <div style="font-size:12px;color:var(--predawn);margin-top:2px">Point your camera at a printout or your screen — AI reads the values</div>
+          </div>
+          <span style="background:var(--surface);color:var(--predawn);border:1px solid var(--border);border-radius:20px;padding:6px 14px;font-size:12px;font-weight:600;white-space:nowrap">Camera</span>
+        </div>
+
       </div>
-      <div style="font-size:12px;color:var(--predawn);margin-top:8px;padding:0 4px">Connect MyChart <em>or</em> upload a PDF — either works. Both is better.</div>
+      <div style="font-size:11px;color:var(--predawn);margin-top:6px;padding:0 4px;font-style:italic">Can't find your labs? We'll show you how to download them from your portal.</div>
     </div>
 
     <!-- Wearables -->
@@ -1141,11 +1149,12 @@ body{background:var(--midnight);font-family:'DM Sans',sans-serif;display:flex;fl
 
     <!-- CTA -->
     <div style="margin-top:auto;padding-top:8px">
-      <button id="connect-cta" onclick="go('s-connect-setup')" style="background:var(--midday);color:var(--midnight);border:none;border-radius:14px;padding:16px;width:100%;font-size:16px;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer;margin-bottom:8px">Continue →</button>
-      <p style="font-size:12px;color:var(--predawn);text-align:center;line-height:1.5">All connections are encrypted and HIPAA compliant. Your data never leaves without your permission.</p>
+      <button onclick="go('s-connect-setup')" style="background:var(--midday);color:var(--midnight);border:none;border-radius:14px;padding:16px;width:100%;font-size:16px;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer;margin-bottom:8px">Continue →</button>
+      <p style="font-size:12px;color:var(--predawn);text-align:center;line-height:1.5">Your data is encrypted and HIPAA compliant. Nothing leaves without your permission.</p>
     </div>
   </div>
 </div>
+
 
 <!-- ══ Connect: More Options ══ -->
 <div class="sim-screen" id="s-connect-setup">
@@ -1428,6 +1437,42 @@ body{background:var(--midnight);font-family:'DM Sans',sans-serif;display:flex;fl
         <div style="flex:1"><div style="font-size:14px;font-weight:500;color:var(--midnight)">Appointment prep</div><div style="font-size:12px;color:var(--text-mid)">Dr. Wolanskyj-Spinner · Apr 14</div></div>
         <span style="color:var(--predawn);font-size:18px">›</span>
       </div>
+      <!-- Research -->
+      <div style="font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--predawn);padding:8px 0 6px">Research</div>
+      <div onclick="go('s-mpnrf')" style="background:white;border-radius:14px;padding:13px 16px;display:flex;align-items:center;gap:12px;border:1px solid var(--border);cursor:pointer;margin-bottom:10px">
+        <div style="width:40px;height:40px;border-radius:8px;background:#E8F4F0;display:flex;align-items:center;justify-content:center;flex-shrink:0;border:1px solid rgba(42,139,114,0.2)">
+          <div style="text-align:center;line-height:1.1">
+            <div style="font-size:8px;font-weight:800;color:#1A6B5A;letter-spacing:-.3px">MPN</div>
+            <div style="font-size:5px;font-weight:600;color:#2A8B72;letter-spacing:0">RESEARCH</div>
+            <div style="font-size:5px;font-weight:600;color:#2A8B72;letter-spacing:0">FOUNDATION</div>
+          </div>
+        </div>
+        <div style="flex:1">
+          <div style="font-size:14px;font-weight:600;color:var(--midnight)">MPN Research Foundation</div>
+          <div style="font-size:12px;color:var(--predawn);font-weight:300">Research · Progressions database · 2026 data</div>
+        </div>
+        <span style="color:var(--predawn);font-size:18px">›</span>
+      </div>
+
+      <!-- Community -->
+      <div style="font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--predawn);padding-bottom:6px">Community</div>
+      <div onclick="go('s-community')" style="background:white;border-radius:14px;padding:13px 16px;display:flex;align-items:center;gap:12px;border:1px solid var(--border);cursor:pointer">
+        <div style="width:40px;height:40px;border-radius:8px;background:#EEF7FB;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+          <svg width="22" height="22" viewBox="-26 -26 52 52">
+            <circle cx="0" cy="-21" r="3.85" fill="#3EA8CC"/>
+            <circle cx="10.5" cy="-18.19" r="3.1" fill="#78A0B8"/>
+            <circle cx="21" cy="0" r="3.85" fill="#C89858"/>
+            <circle cx="0" cy="21" r="3.85" fill="#1A2830"/>
+            <circle cx="-21" cy="0" r="3.85" fill="#E8CC70"/>
+            <circle cx="-10.5" cy="-18.19" r="3.1" fill="#88B0C0"/>
+          </svg>
+        </div>
+        <div style="flex:1">
+          <div style="font-size:14px;font-weight:600;color:var(--midnight)">Live Every Day Community</div>
+          <div style="font-size:12px;color:var(--predawn);font-weight:300">ET · JAK2+ · Your treatment path · Coming soon</div>
+        </div>
+        <span style="color:var(--predawn);font-size:18px">›</span>
+      </div>
     </div>
   </div>
   <!-- Tab bar -->
@@ -1572,7 +1617,12 @@ body{background:var(--midnight);font-family:'DM Sans',sans-serif;display:flex;fl
       <div style="flex:1"><div style="font-size:13px;font-weight:500;color:var(--midnight)">Data up to date</div><div style="font-size:11px;color:var(--predawn)">Check-ins · CBC Mar 15 · Oura today</div></div>
       <span style="font-size:11px;color:#1A6040;font-weight:500">Synced</span>
     </div>
-    <div onclick="go('s-brief')" style="background:var(--midnight);border-radius:18px;padding:20px;cursor:pointer">
+    <div onclick="go('s-share-careteam')" style="background:white;border-radius:14px;padding:14px 16px;display:flex;align-items:center;gap:12px;border:1px solid var(--border);cursor:pointer;margin-bottom:10px">
+        <span style="font-size:20px">📤</span>
+        <div style="flex:1"><div style="font-size:14px;font-weight:500;color:var(--midnight)">Share with care team</div><div style="font-size:12px;color:var(--predawn)">Download PDF · Copy MyChart message</div></div>
+        <span style="color:var(--predawn);font-size:18px">›</span>
+      </div>
+      <div onclick="go('s-brief')" style="background:var(--midnight);border-radius:18px;padding:20px;cursor:pointer">
       <div style="font-size:22px;margin-bottom:10px">📋</div>
       <div style="font-size:18px;font-weight:600;color:white;margin-bottom:6px">Doctor brief</div>
       <div style="font-size:13px;color:rgba(255,255,255,.6);line-height:1.5;margin-bottom:14px">A 6-month summary of our symptoms, labs, and patterns — ready to share.</div>
@@ -1663,6 +1713,13 @@ body{background:var(--midnight);font-family:'DM Sans',sans-serif;display:flex;fl
     <div style="display:flex;gap:10px;padding-bottom:8px">
       <button style="flex:1;background:var(--midnight);color:white;border:none;border-radius:14px;padding:14px;font-size:14px;font-weight:500;cursor:pointer">Share with Dr. W-S</button>
       <button style="background:var(--surface);color:var(--midnight);border:none;border-radius:14px;padding:14px 16px;font-size:14px;font-weight:500;cursor:pointer">PDF</button>
+    </div>
+    <!-- Partner badge -->
+    <div style="display:flex;align-items:center;justify-content:center;gap:8px;padding:10px 0 6px;border-top:1px solid var(--surface)">
+      <div style="width:26px;height:26px;border-radius:5px;background:#1B3A6B;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+        <div style="text-align:center;line-height:1.1"><div style="font-size:6px;font-weight:900;color:white">MPN</div><div style="font-size:4px;font-weight:700;color:rgba(255,255,255,0.8)">RF</div></div>
+      </div>
+      <div style="font-size:10px;color:var(--predawn);font-weight:300">MPN-10 validated by <span style="font-weight:600;color:var(--midnight)">MPN Research Foundation</span></div>
     </div>
     <div style="font-size:11px;color:var(--predawn);text-align:center;line-height:1.5;padding-bottom:12px">For informational purposes only — not a clinical document.</div>
   </div>
@@ -2353,6 +2410,18 @@ body{background:var(--midnight);font-family:'DM Sans',sans-serif;display:flex;fl
       <div style="font-size:14px;color:var(--predawn);font-weight:300">Week of April 14 – 20</div>
     </div>
 
+    <!-- Free text note -->
+    <div style="background:white;border-radius:14px;border:1px solid var(--border);overflow:hidden">
+      <div style="padding:12px 16px;border-bottom:1px solid var(--surface)">
+        <div style="font-size:13px;font-weight:600;color:var(--midnight);margin-bottom:2px">Anything else to add?</div>
+        <div style="font-size:11px;color:var(--predawn);font-weight:300">How does this week really feel? No structure needed — just your words.</div>
+      </div>
+      <div style="padding:12px 16px;min-height:64px;position:relative">
+        <div style="font-size:12px;color:var(--midnight);line-height:1.6;font-style:italic;font-weight:300">This week felt heavier than the numbers show. The fatigue is a different kind — more like my blood is thick. Two good days Wednesday and Thursday, but the weekend wiped me out completely.</div>
+        <div style="margin-top:8px;font-size:10px;color:var(--midday);font-weight:500">Saved to your brief ✓</div>
+      </div>
+    </div>
+
     <!-- What will be shared -->
     <div style="background:white;border-radius:16px;padding:16px;border:1px solid var(--border)">
       <div style="font-size:11px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;color:var(--predawn);margin-bottom:12px">If you share, your circle sees</div>
@@ -2543,6 +2612,719 @@ body{background:var(--midnight);font-family:'DM Sans',sans-serif;display:flex;fl
   </div>
 </div>
 
+
+<!-- ══ My #1 View ══ -->
+<div class="sim-screen" id="s-my-one">
+  <div style="background:var(--canvas);padding:14px 20px 0;flex-shrink:0;border-bottom:1px solid var(--border)">
+    <div style="display:flex;align-items:center;justify-content:space-between;height:44px">
+      <button onclick="go('s-circle')" style="background:none;border:none;color:var(--midday);font-size:16px;cursor:pointer">‹ Back</button>
+      <span style="font-size:15px;font-weight:600;color:var(--midnight)">John's week</span>
+      <span style="width:48px"></span>
+    </div>
+  </div>
+  <div style="padding:16px 20px;display:flex;flex-direction:column;gap:14px;flex:1;overflow-y:auto">
+
+    <!-- Warm hero -->
+    <div style="background:var(--midnight);border-radius:16px;padding:20px">
+      <div style="font-size:10px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--midday);margin-bottom:8px">Week of April 14 – 20</div>
+      <div style="font-family:'Raleway',serif;font-weight:200;font-size:22px;color:white;margin-bottom:4px;line-height:1.2">John had a tough week.<br>He showed up anyway.</div>
+      <div style="font-size:13px;color:rgba(255,252,245,0.5);line-height:1.6;margin-top:8px;font-weight:300">His symptom score was higher than last week — fatigue especially. He completed his check-in on Sunday. His appointment with Dr. Wolanskyj-Spinner is tomorrow.</div>
+    </div>
+
+    <!-- How he's feeling -->
+    <div style="background:white;border-radius:14px;border:1px solid var(--border);overflow:hidden">
+      <div style="padding:12px 16px;border-bottom:1px solid var(--surface)">
+        <div style="font-size:10px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--predawn)">How he's been feeling</div>
+      </div>
+      <div style="padding:14px 16px;display:flex;flex-direction:column;gap:10px">
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <div>
+            <div style="font-size:14px;font-weight:500;color:var(--midnight)">Fatigue</div>
+            <div style="font-size:11px;color:var(--predawn)">His toughest symptom right now</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <div style="width:70px;height:6px;background:var(--surface);border-radius:3px;overflow:hidden"><div style="width:80%;height:100%;background:var(--flag-high);border-radius:3px"></div></div>
+            <span style="font-size:13px;font-weight:600;color:var(--flag-high)">8/10</span>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <div>
+            <div style="font-size:14px;font-weight:500;color:var(--midnight)">Brain fog</div>
+            <div style="font-size:11px;color:var(--predawn)">Trouble focusing this week</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <div style="width:70px;height:6px;background:var(--surface);border-radius:3px;overflow:hidden"><div style="width:60%;height:100%;background:var(--sunset);border-radius:3px"></div></div>
+            <span style="font-size:13px;font-weight:600;color:var(--sunset)">6/10</span>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <div>
+            <div style="font-size:14px;font-weight:500;color:var(--midnight)">Night sweats</div>
+            <div style="font-size:11px;color:var(--predawn)">About the same as last week</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <div style="width:70px;height:6px;background:var(--surface);border-radius:3px;overflow:hidden"><div style="width:50%;height:100%;background:var(--predawn);border-radius:3px"></div></div>
+            <span style="font-size:13px;font-weight:600;color:var(--predawn)">5/10</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Trend -->
+    <div style="background:white;border-radius:14px;border:1px solid var(--border);overflow:hidden">
+      <div style="padding:12px 16px;border-bottom:1px solid var(--surface)">
+        <div style="font-size:10px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--predawn)">How this week compares</div>
+      </div>
+      <div style="padding:14px 16px">
+        <div style="display:flex;align-items:flex-end;gap:4px;height:48px;margin-bottom:8px">
+          <div style="flex:1;border-radius:3px 3px 0 0;background:var(--surface);height:32%"></div>
+          <div style="flex:1;border-radius:3px 3px 0 0;background:var(--surface);height:38%"></div>
+          <div style="flex:1;border-radius:3px 3px 0 0;background:var(--surface);height:35%"></div>
+          <div style="flex:1;border-radius:3px 3px 0 0;background:var(--surface);height:42%"></div>
+          <div style="flex:1;border-radius:3px 3px 0 0;background:var(--sunset);opacity:.7;height:60%"></div>
+          <div style="flex:1;border-radius:3px 3px 0 0;background:var(--sunset);height:74%"></div>
+          <div style="flex:1;border-radius:3px 3px 0 0;background:var(--flag-high);height:100%"></div>
+        </div>
+        <div style="display:flex;justify-content:space-between">
+          <span style="font-size:10px;color:var(--predawn)">7 weeks ago</span>
+          <span style="font-size:10px;color:var(--flag-high);font-weight:600">This week ↑</span>
+        </div>
+        <div style="margin-top:10px;padding:10px 12px;background:var(--flag-bg);border-radius:9px">
+          <div style="font-size:12px;color:var(--flag-high);font-weight:500;line-height:1.5">Fatigue has been gradually increasing over the past few weeks. He's bringing this to his doctor tomorrow.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- What you can do -->
+    <div style="background:white;border-radius:14px;border:1px solid var(--border);overflow:hidden">
+      <div style="padding:12px 16px;border-bottom:1px solid var(--surface)">
+        <div style="font-size:10px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--predawn)">What might help</div>
+      </div>
+      <div style="padding:14px 16px;display:flex;flex-direction:column;gap:10px">
+        <div style="display:flex;gap:12px;align-items:flex-start">
+          <span style="font-size:18px;flex-shrink:0">💬</span>
+          <div>
+            <div style="font-size:13px;font-weight:600;color:var(--midnight);margin-bottom:2px">Check in with him</div>
+            <div style="font-size:12px;color:var(--predawn);line-height:1.5;font-weight:300">He has a big appointment tomorrow. A simple message tonight can make a real difference.</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start">
+          <span style="font-size:18px;flex-shrink:0">😴</span>
+          <div>
+            <div style="font-size:13px;font-weight:600;color:var(--midnight);margin-bottom:2px">Help him get to sleep earlier</div>
+            <div style="font-size:12px;color:var(--predawn);line-height:1.5;font-weight:300">His data shows his fatigue is noticeably lower on nights with 7+ hours of sleep. Even 30 minutes earlier helps.</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start">
+          <span style="font-size:18px;flex-shrink:0">🌡️</span>
+          <div>
+            <div style="font-size:13px;font-weight:600;color:var(--midnight);margin-bottom:2px">Cold days ahead</div>
+            <div style="font-size:12px;color:var(--predawn);line-height:1.5;font-weight:300">Thursday and Friday are cold. His body tends to respond harder on cold days — lighter plans would help.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Appointment -->
+    <div style="background:var(--midnight);border-radius:14px;padding:16px">
+      <div style="font-size:10px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--predawn);margin-bottom:8px">His appointment</div>
+      <div style="display:flex;align-items:center;justify-content:space-between">
+        <div>
+          <div style="font-size:15px;font-weight:600;color:white">Dr. Wolanskyj-Spinner</div>
+          <div style="font-size:12px;color:var(--predawn);margin-top:2px">Hematology · April 14</div>
+        </div>
+        <div style="text-align:right">
+          <div style="font-family:'Raleway',serif;font-weight:200;font-size:36px;color:var(--sunrise);line-height:1">1</div>
+          <div style="font-size:11px;color:var(--predawn)">day away</div>
+        </div>
+      </div>
+      <div style="height:1px;background:rgba(255,255,255,.08);margin:12px 0"></div>
+      <div style="font-size:12px;color:rgba(255,252,245,0.45);line-height:1.5;font-weight:300">His appointment brief is ready. He's walking in with the right questions — you've helped make that possible.</div>
+    </div>
+
+    <!-- Privacy note -->
+    <div style="padding:4px 0;text-align:center">
+      <div style="font-size:11px;color:var(--predawn);font-style:italic;line-height:1.5">John controls what you can see. Raw scores and lab data are his. This summary is what he's chosen to share with you.</div>
+    </div>
+
+    <div style="height:8px"></div>
+  </div>
+</div>
+
+
+<!-- ══ Prostate: Gleason / Stage ══ -->
+<div class="sim-screen" id="s-prostate-gleason">
+  <div style="background:var(--canvas);padding:14px 20px 0;flex-shrink:0">
+    <div style="display:flex;align-items:center;justify-content:space-between;height:44px">
+      <button onclick="go('s-condition')" style="background:none;border:none;color:var(--midday);font-size:16px;cursor:pointer;padding:4px 8px">‹</button>
+      <span style="font-size:14px;font-weight:500;color:var(--midnight)">About your diagnosis</span>
+      <button onclick="go('s-prostate-psa')" style="background:none;border:none;color:var(--midday);font-size:14px;font-weight:500;cursor:pointer">Skip</button>
+    </div>
+    <div style="height:3px;background:var(--surface);margin-top:10px"><div style="width:33%;height:100%;background:var(--midday);border-radius:2px"></div></div>
+  </div>
+  <div style="padding:24px 20px;display:flex;flex-direction:column;flex:1;gap:20px;overflow-y:auto">
+    <div>
+      <div style="font-size:24px;font-weight:700;color:var(--midnight);margin-bottom:6px">Where are you in your journey?</div>
+      <div style="font-size:14px;color:var(--predawn);font-weight:300;line-height:1.6">We'll tailor the app to what matters most at this stage.</div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <div onclick="selectProstateStage(this,'active')" class="cond-card" style="display:flex;align-items:center;gap:14px;background:white;border-radius:14px;padding:16px;border:2px solid var(--midday);cursor:pointer">
+        <div style="flex:1">
+          <div style="font-size:15px;font-weight:600;color:var(--midnight)">Active Surveillance</div>
+          <div style="font-size:12px;color:var(--predawn);margin-top:3px">Monitoring without immediate treatment</div>
+        </div>
+        <div style="width:20px;height:20px;border-radius:50%;background:var(--midday);display:flex;align-items:center;justify-content:center"><div style="width:8px;height:8px;border-radius:50%;background:white"></div></div>
+      </div>
+      <div onclick="selectProstateStage(this,'post')" class="cond-card" style="display:flex;align-items:center;gap:14px;background:white;border-radius:14px;padding:16px;border:1px solid var(--border);cursor:pointer">
+        <div style="flex:1">
+          <div style="font-size:15px;font-weight:600;color:var(--midnight)">Post-treatment</div>
+          <div style="font-size:12px;color:var(--predawn);margin-top:3px">Surgery, radiation, or hormone therapy</div>
+        </div>
+        <div style="width:20px;height:20px;border-radius:50%;background:var(--surface);border:1px solid var(--border)"></div>
+      </div>
+      <div onclick="selectProstateStage(this,'hormone')" class="cond-card" style="display:flex;align-items:center;gap:14px;background:white;border-radius:14px;padding:16px;border:1px solid var(--border);cursor:pointer">
+        <div style="flex:1">
+          <div style="font-size:15px;font-weight:600;color:var(--midnight)">Hormone therapy</div>
+          <div style="font-size:12px;color:var(--predawn);margin-top:3px">ADT or ongoing systemic treatment</div>
+        </div>
+        <div style="width:20px;height:20px;border-radius:50%;background:var(--surface);border:1px solid var(--border)"></div>
+      </div>
+    </div>
+
+    <!-- Gleason -->
+    <div>
+      <div style="font-size:14px;font-weight:600;color:var(--midnight);margin-bottom:10px">Gleason score (if known)</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <div onclick="selectGleason(this,'6')" style="padding:8px 16px;border-radius:20px;background:var(--midday);color:white;font-size:13px;font-weight:600;cursor:pointer">6</div>
+        <div onclick="selectGleason(this,'7a')" style="padding:8px 16px;border-radius:20px;background:var(--surface);font-size:13px;font-weight:500;cursor:pointer;color:var(--midnight)">3+4=7</div>
+        <div onclick="selectGleason(this,'7b')" style="padding:8px 16px;border-radius:20px;background:var(--surface);font-size:13px;font-weight:500;cursor:pointer;color:var(--midnight)">4+3=7</div>
+        <div onclick="selectGleason(this,'8+')" style="padding:8px 16px;border-radius:20px;background:var(--surface);font-size:13px;font-weight:500;cursor:pointer;color:var(--midnight)">8+</div>
+        <div onclick="selectGleason(this,'unknown')" style="padding:8px 16px;border-radius:20px;background:var(--surface);font-size:13px;font-weight:500;cursor:pointer;color:var(--midnight)">Not sure</div>
+      </div>
+    </div>
+
+    <div style="margin-top:auto">
+      <button onclick="go('s-prostate-psa')" style="background:var(--midday);color:var(--midnight);border:none;border-radius:14px;padding:16px;width:100%;font-size:15px;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer">Continue →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ Prostate: PSA History ══ -->
+<div class="sim-screen" id="s-prostate-psa">
+  <div style="background:var(--canvas);padding:14px 20px 0;flex-shrink:0">
+    <div style="display:flex;align-items:center;justify-content:space-between;height:44px">
+      <button onclick="go('s-prostate-gleason')" style="background:none;border:none;color:var(--midday);font-size:16px;cursor:pointer;padding:4px 8px">‹</button>
+      <span style="font-size:14px;font-weight:500;color:var(--midnight)">Your PSA history</span>
+      <button onclick="go('s-prostate-dashboard')" style="background:none;border:none;color:var(--midday);font-size:14px;font-weight:500;cursor:pointer">Skip</button>
+    </div>
+    <div style="height:3px;background:var(--surface);margin-top:10px"><div style="width:66%;height:100%;background:var(--midday);border-radius:2px"></div></div>
+  </div>
+  <div style="padding:24px 20px;display:flex;flex-direction:column;flex:1;gap:18px;overflow-y:auto">
+    <div>
+      <div style="font-size:22px;font-weight:700;color:var(--midnight);margin-bottom:6px">Connect your PSA data</div>
+      <div style="font-size:14px;color:var(--predawn);font-weight:300;line-height:1.6">PSA trajectory over time is the most important signal we track for active surveillance. We can pull it automatically.</div>
+    </div>
+
+    <!-- Connect options -->
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <div style="background:white;border-radius:14px;padding:14px 16px;display:flex;align-items:center;gap:12px;border:2px solid var(--midday);cursor:pointer">
+        <div style="width:36px;height:36px;border-radius:8px;background:#EEF7FB;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">🏥</div>
+        <div style="flex:1"><div style="font-size:14px;font-weight:500;color:var(--midnight)">Connect via MyChart</div><div style="font-size:12px;color:var(--predawn)">Auto-pulls PSA, biopsies, and lab history</div></div>
+        <div style="font-size:11px;font-weight:600;color:var(--midday)">Recommended</div>
+      </div>
+      <div style="background:white;border-radius:14px;padding:14px 16px;display:flex;align-items:center;gap:12px;border:1px solid var(--border);cursor:pointer">
+        <div style="width:36px;height:36px;border-radius:8px;background:var(--surface);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">✏️</div>
+        <div style="flex:1"><div style="font-size:14px;font-weight:500;color:var(--midnight)">Enter manually</div><div style="font-size:12px;color:var(--predawn)">Log your PSA results yourself</div></div>
+      </div>
+    </div>
+
+    <!-- Manual PSA entry example -->
+    <div style="background:white;border-radius:14px;border:1px solid var(--border);overflow:hidden">
+      <div style="padding:12px 16px;border-bottom:1px solid var(--surface)">
+        <div style="font-size:11px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;color:var(--predawn)">Most recent PSA</div>
+      </div>
+      <div style="padding:14px 16px;display:flex;align-items:center;justify-content:space-between">
+        <div>
+          <div style="font-size:28px;font-weight:600;color:var(--midnight);font-family:'Raleway',serif;font-weight:300">4.2</div>
+          <div style="font-size:12px;color:var(--predawn)">ng/mL · Feb 2025</div>
+        </div>
+        <div style="text-align:right">
+          <div style="font-size:11px;color:var(--predawn);margin-bottom:4px">Previous</div>
+          <div style="font-size:16px;font-weight:600;color:var(--predawn)">3.8</div>
+          <div style="font-size:11px;color:var(--amber)">↑ +0.4</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- What we track -->
+    <div style="background:var(--surface);border-radius:12px;padding:14px 16px">
+      <div style="font-size:12px;font-weight:600;color:var(--midnight);margin-bottom:8px">Beyond PSA — what Live Every Day tracks</div>
+      <div style="display:flex;flex-direction:column;gap:5px">
+        <div style="font-size:12px;color:var(--predawn)">📊 PSA velocity and doubling time</div>
+        <div style="font-size:12px;color:var(--predawn)">💬 Weekly EPIC-26 symptom check-in</div>
+        <div style="font-size:12px;color:var(--predawn)">😴 Sleep and fatigue patterns</div>
+        <div style="font-size:12px;color:var(--predawn)">📅 Biopsy and appointment history</div>
+      </div>
+    </div>
+
+    <div style="margin-top:auto">
+      <button onclick="go('s-prostate-dashboard')" style="background:var(--midday);color:var(--midnight);border:none;border-radius:14px;padding:16px;width:100%;font-size:15px;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer">Continue →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ Prostate: Dashboard ══ -->
+<div class="sim-screen" id="s-prostate-dashboard">
+  <div style="background:var(--canvas);padding:14px 20px 0;flex-shrink:0;border-bottom:1px solid var(--border)">
+    <div style="display:flex;align-items:center;justify-content:space-between;height:44px">
+      <div style="font-family:'Raleway',serif;font-weight:200;font-size:14px;color:var(--midnight)">Live <span style="color:var(--sunrise)">Every</span> Day</div>
+      <div style="width:28px;height:28px;border-radius:50%;background:var(--midday);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--midnight)">DM</div>
+    </div>
+  </div>
+  <div style="padding:14px 20px;display:flex;flex-direction:column;flex:1;overflow-y:auto;gap:10px">
+
+    <div style="font-size:16px;font-weight:700;color:var(--midnight);margin-bottom:0">Good morning, Dave.</div>
+    <div style="font-size:12px;color:var(--predawn);margin-bottom:4px">Week 8 of active surveillance · Time for your check-in</div>
+
+    <!-- Check-in card -->
+    <div style="background:#3EA8CC;border-radius:12px;padding:12px">
+      <div style="font-size:8px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:rgba(26,40,48,.6);margin-bottom:3px">This week</div>
+      <div style="font-size:13px;font-weight:700;color:var(--midnight);margin-bottom:4px">Weekly check-in</div>
+      <div style="background:rgba(255,255,255,.25);border-radius:6px;padding:4px 8px;margin-bottom:6px;display:flex;gap:4px;flex-wrap:wrap">
+        <div style="background:rgba(255,255,255,.4);border-radius:7px;padding:2px 6px;font-size:7px;font-weight:600;color:var(--midnight)">EPIC-26 · 4 domains</div>
+      </div>
+      <div style="background:white;border-radius:6px;padding:6px;text-align:center;font-size:10px;font-weight:600;color:#3EA8CC">Start this week's check-in →</div>
+    </div>
+
+    <!-- PSA card -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+      <div style="background:white;border-radius:10px;padding:10px;border:1px solid var(--border)">
+        <div style="font-size:8px;font-weight:600;text-transform:uppercase;color:var(--predawn);margin-bottom:2px">PSA</div>
+        <div style="font-size:22px;font-weight:700;color:var(--midnight);line-height:1">4.2</div>
+        <div style="font-size:8px;color:var(--amber);margin-top:2px">↑ +0.4 · Feb</div>
+        <svg viewBox="0 0 80 18" style="width:100%;height:14px;margin-top:4px">
+          <path d="M0,14 L20,12 L40,10 L60,8 L80,4" fill="none" stroke="var(--midday)" stroke-width="1.5" stroke-linecap="round"/>
+          <circle cx="80" cy="4" r="2.5" fill="var(--amber)"/>
+        </svg>
+      </div>
+      <div style="background:white;border-radius:10px;padding:10px;border:1px solid var(--border)">
+        <div style="font-size:8px;font-weight:600;text-transform:uppercase;color:var(--predawn);margin-bottom:2px">Next biopsy</div>
+        <div style="font-size:14px;font-weight:700;color:var(--midnight);line-height:1.2">Aug 2025</div>
+        <div style="font-size:8px;color:var(--predawn);margin-top:2px">Dr. Chen · 4 months</div>
+        <div style="background:var(--surface);border-radius:4px;padding:2px 5px;margin-top:5px;display:inline-block;font-size:7px;font-weight:600;color:var(--predawn)">Brief building</div>
+      </div>
+    </div>
+
+    <!-- PSA velocity -->
+    <div style="background:white;border-radius:10px;padding:10px 12px;border:1px solid var(--border)">
+      <div style="font-size:8px;font-weight:600;text-transform:uppercase;color:var(--predawn);margin-bottom:6px">PSA velocity</div>
+      <div style="display:flex;align-items:center;justify-content:space-between">
+        <div>
+          <div style="font-size:16px;font-weight:700;color:var(--midnight)">+0.4 ng/mL</div>
+          <div style="font-size:9px;color:var(--predawn)">over 12 months</div>
+        </div>
+        <div style="text-align:right">
+          <div style="font-size:10px;color:var(--midnight);font-weight:500">Doubling time</div>
+          <div style="font-size:14px;font-weight:700;color:var(--midnight)">~48 mo</div>
+          <div style="background:#D4EAD8;border-radius:4px;padding:1px 6px;font-size:8px;font-weight:600;color:#1A6040;margin-top:2px">Slow — good sign</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Weekly EPIC score -->
+    <div style="background:white;border-radius:10px;padding:10px 12px;border:1px solid var(--border)">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+        <div style="font-size:8px;font-weight:600;text-transform:uppercase;color:var(--predawn)">EPIC-26 — this week</div>
+        <div style="font-size:8px;color:var(--predawn)">Higher = better quality of life</div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <span style="font-size:10px;color:var(--midnight)">Urinary</span>
+          <span style="font-size:11px;font-weight:600;color:var(--midday)">84</span>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <span style="font-size:10px;color:var(--midnight)">Bowel</span>
+          <span style="font-size:11px;font-weight:600;color:var(--midday)">91</span>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <span style="font-size:10px;color:var(--midnight)">Sexual</span>
+          <span style="font-size:11px;font-weight:600;color:var(--amber)">62</span>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <span style="font-size:10px;color:var(--midnight)">Vitality</span>
+          <span style="font-size:11px;font-weight:600;color:var(--midday)">78</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- PCF Research section -->
+    <div style="font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--predawn);padding:4px 0 6px">Research</div>
+    <div style="background:white;border-radius:14px;padding:13px 16px;display:flex;align-items:center;gap:12px;border:1px solid var(--border);cursor:pointer;margin-bottom:10px">
+      <div style="width:40px;height:40px;border-radius:8px;background:#E8F0F8;display:flex;align-items:center;justify-content:center;flex-shrink:0;border:1px solid rgba(26,82,140,0.15)">
+        <div style="text-align:center;line-height:1.1">
+          <div style="font-size:6px;font-weight:800;color:#1A2E6B;letter-spacing:-.2px">PROSTATE</div>
+          <div style="font-size:5px;font-weight:600;color:#1A52B4;letter-spacing:0">CANCER</div>
+          <div style="font-size:5px;font-weight:600;color:#1A52B4;letter-spacing:0">FOUNDATION</div>
+        </div>
+      </div>
+      <div style="flex:1">
+        <div style="font-size:14px;font-weight:600;color:var(--midnight)">Prostate Cancer Foundation</div>
+        <div style="font-size:12px;color:var(--predawn);font-weight:300">Active surveillance research · EPIC-26 · pcf.org</div>
+      </div>
+      <span style="color:var(--predawn);font-size:18px">›</span>
+    </div>
+
+    <!-- Founder quote -->
+    <div style="background:var(--surface);border-radius:12px;padding:12px 14px;border-left:3px solid var(--midday)">
+      <div style="font-size:12px;font-style:italic;color:var(--midnight);line-height:1.6;margin-bottom:6px">"Two months ago I got a diagnosis I didn't fully understand. The hardest part isn't the numbers — it's not knowing what they mean week to week. I needed something that helped me feel less like a bystander in my own care."</div>
+      <div style="font-size:10px;color:var(--predawn);font-weight:600">— Dave · Active surveillance patient, year 1</div>
+    </div>
+
+  </div>
+  <!-- Tab bar -->
+  <div class="phone-tab-bar">
+    <div class="phone-tab active"><div class="phone-tab-icon">🏠</div>Home</div>
+    <div class="phone-tab"><div class="phone-tab-icon">◎</div>Check-in</div>
+    <div class="phone-tab"><div class="phone-tab-icon">📊</div>Data</div>
+    <div class="phone-tab"><div class="phone-tab-icon">⭐</div>Prep</div>
+    <div class="phone-tab"><div class="phone-tab-icon">👤</div>Account</div>
+  </div>
+</div>
+
+<!-- ══ Prostate: Check-in Intro ══ -->
+<div class="sim-screen" id="s-prostate-checkin-intro">
+  <div style="background:var(--canvas);padding:14px 20px 0;flex-shrink:0">
+    <div style="display:flex;align-items:center;justify-content:space-between;height:44px">
+      <button onclick="go('s-prostate-dashboard')" style="background:none;border:none;color:var(--midday);font-size:16px;cursor:pointer">‹ Home</button>
+      <span style="font-size:14px;font-weight:500;color:var(--midnight)">Weekly check-in</span>
+      <span style="width:48px"></span>
+    </div>
+  </div>
+  <div style="padding:20px;display:flex;flex-direction:column;flex:1;gap:16px;overflow-y:auto">
+
+    <!-- Header -->
+    <div style="background:var(--midnight);border-radius:16px;padding:18px 20px">
+      <div style="font-size:10px;font-weight:600;letter-spacing:.6px;text-transform:uppercase;color:var(--midday);margin-bottom:6px">Week of April 14 – 20</div>
+      <div style="font-size:18px;font-weight:600;color:white;margin-bottom:6px">Time for your weekly check-in.</div>
+      <div style="font-size:13px;color:rgba(255,252,245,0.55);line-height:1.6">26 questions across 4 domains. Be honest — this data is for you.</div>
+    </div>
+
+    <!-- EPIC-26 domains -->
+    <div style="background:white;border-radius:14px;padding:16px;border:1px solid var(--border)">
+      <div style="font-size:11px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;color:var(--predawn);margin-bottom:12px">EPIC-26 — four domains</div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div style="display:flex;align-items:center;gap:12px">
+          <div style="width:32px;height:32px;border-radius:8px;background:#EEF7FB;display:flex;align-items:center;justify-content:center;font-size:14px">🚿</div>
+          <div><div style="font-size:13px;font-weight:500;color:var(--midnight)">Urinary function</div><div style="font-size:11px;color:var(--predawn)">Frequency, control, flow</div></div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px">
+          <div style="width:32px;height:32px;border-radius:8px;background:#EEF7FB;display:flex;align-items:center;justify-content:center;font-size:14px">🫀</div>
+          <div><div style="font-size:13px;font-weight:500;color:var(--midnight)">Bowel function</div><div style="font-size:11px;color:var(--predawn)">Regularity and comfort</div></div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px">
+          <div style="width:32px;height:32px;border-radius:8px;background:#EEF7FB;display:flex;align-items:center;justify-content:center;font-size:14px">💙</div>
+          <div><div style="font-size:13px;font-weight:500;color:var(--midnight)">Sexual function</div><div style="font-size:11px;color:var(--predawn)">Function and satisfaction</div></div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px">
+          <div style="width:32px;height:32px;border-radius:8px;background:#EEF7FB;display:flex;align-items:center;justify-content:center;font-size:14px">⚡</div>
+          <div><div style="font-size:13px;font-weight:500;color:var(--midnight)">Hormonal vitality</div><div style="font-size:11px;color:var(--predawn)">Energy, mood, wellbeing</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Timing -->
+    <div style="background:var(--surface);border-radius:12px;padding:12px 14px;display:flex;align-items:center;gap:10px">
+      <span style="font-size:20px">⏱️</span>
+      <div>
+        <div style="font-size:13px;font-weight:500;color:var(--midnight)">About 8–12 minutes</div>
+        <div style="font-size:11px;color:var(--predawn)">Validated instrument used by major cancer centers</div>
+      </div>
+    </div>
+
+    <div style="margin-top:auto">
+      <button onclick="go('s-prostate-dashboard')" style="background:var(--midday);color:var(--midnight);border:none;border-radius:14px;padding:16px;width:100%;font-size:15px;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer">Begin check-in →</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══ MPN Research Foundation ══ -->
+<div class="sim-screen" id="s-mpnrf">
+  <div style="background:#1B3A6B;padding:14px 20px 0;flex-shrink:0">
+    <div style="display:flex;align-items:center;justify-content:space-between;height:44px">
+      <button onclick="go('s-dashboard')" style="background:none;border:none;color:color:#7ABADC;font-size:16px;cursor:pointer">‹ Home</button>
+      <span style="font-size:14px;font-weight:500;color:white">MPN Research Foundation</span>
+      <span style="width:48px"></span>
+    </div>
+  </div>
+
+  <!-- Foundation header -->
+  <div style="background:#1B3A6B;padding:20px 20px 24px;flex-shrink:0">
+    <div style="display:flex;align-items:center;gap:16px;margin-bottom:16px">
+      <svg width="72" height="56" viewBox="0 0 72 56" style="flex-shrink:0">
+          <rect width="72" height="56" rx="8" fill="#1B3A6B"/>
+          <text x="36" y="24" text-anchor="middle" font-family="Arial Black, Arial" font-weight="900" font-size="18" fill="white" letter-spacing="1">MPN</text>
+          <text x="36" y="36" text-anchor="middle" font-family="Arial" font-weight="700" font-size="7" fill="rgba(255,255,255,0.85)" letter-spacing=".5">RESEARCH</text>
+          <text x="36" y="46" text-anchor="middle" font-family="Arial" font-weight="700" font-size="7" fill="rgba(255,255,255,0.85)" letter-spacing=".5">FOUNDATION</text>
+        </svg>
+      <div>
+        <div style="font-size:18px;font-weight:800;color:white;letter-spacing:-.3px;line-height:1.1">MPN Research<br>Foundation</div>
+        <div style="font-size:11px;color:rgba(255,255,255,0.55);margin-top:5px;font-style:italic">Change Your Prognosis</div>
+      </div>
+    </div>
+    <div style="background:rgba(255,255,255,0.1);border-radius:10px;padding:12px 14px">
+      <div style="font-size:12px;color:rgba(255,255,255,0.85);line-height:1.65;font-weight:300">Funding original research in pursuit of new treatments — and eventually cures — for ET, PV, and MF.</div>
+    </div>
+  </div>
+
+  <div style="padding:16px 20px;display:flex;flex-direction:column;gap:16px;flex:1;overflow-y:auto">
+
+    <!-- PROGRESSIONS REGISTRY — PRIMARY CTA -->
+    <div style="background:white;border-radius:16px;overflow:hidden;border:2px solid #1B3A6B">
+      <div style="background:#1B3A6B;padding:14px 16px">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+          <div style="background:rgba(255,255,255,0.15);border-radius:6px;padding:4px 10px;border:1px solid rgba(255,255,255,0.3)">
+            <div style="font-size:10px;font-weight:800;color:white;letter-spacing:.3px">MPN PROGRESSion Registry™</div>
+          </div>
+          <div style="margin-left:auto;background:#F5C842;border-radius:10px;padding:3px 10px;font-size:9px;font-weight:800;color:#1B3A6B">JOIN NOW</div>
+        </div>
+        <div style="font-size:13px;font-weight:700;color:white;line-height:1.3">The largest patient-reported MPN outcomes registry in the world.</div>
+      </div>
+      <div style="padding:14px 16px">
+        <div style="font-size:13px;color:var(--midnight);line-height:1.65;font-weight:300;margin-bottom:12px">Enroll in the PROGRESSion Registry™ and contribute real-world data that drives breakthrough MPN research — for you and for every patient who comes after.</div>
+        <div style="display:flex;flex-direction:column;gap:7px;margin-bottom:14px">
+          <div style="display:flex;gap:10px;align-items:center">
+            <div style="width:18px;height:18px;border-radius:50%;background:#1B3A6B;display:flex;align-items:center;justify-content:center;flex-shrink:0"><span style="font-size:9px;color:white;font-weight:700">✓</span></div>
+            <span style="font-size:12px;color:var(--midnight);font-weight:300">~20 minutes to enroll · quarterly follow-ups</span>
+          </div>
+          <div style="display:flex;gap:10px;align-items:center">
+            <div style="width:18px;height:18px;border-radius:50%;background:#1B3A6B;display:flex;align-items:center;justify-content:center;flex-shrink:0"><span style="font-size:9px;color:white;font-weight:700">✓</span></div>
+            <span style="font-size:12px;color:var(--midnight);font-weight:300">Completely confidential — data de-identified</span>
+          </div>
+          <div style="display:flex;gap:10px;align-items:center">
+            <div style="width:18px;height:18px;border-radius:50%;background:#1B3A6B;display:flex;align-items:center;justify-content:center;flex-shrink:0"><span style="font-size:9px;color:white;font-weight:700">✓</span></div>
+            <span style="font-size:12px;color:var(--midnight);font-weight:300">Directly fuels the research that could change your prognosis</span>
+          </div>
+          <div style="display:flex;gap:10px;align-items:center;padding:6px 10px;background:#EEF4FB;border-radius:8px">
+            <div style="width:18px;height:18px;border-radius:50%;background:#2E6DA4;display:flex;align-items:center;justify-content:center;flex-shrink:0"><span style="font-size:9px;color:white;font-weight:700">+</span></div>
+            <span style="font-size:12px;color:#1B3A6B;font-weight:500">Your LED check-in data can contribute too — with your permission</span>
+          </div>
+        </div>
+        <div style="background:#1B3A6B;border-radius:10px;padding:14px;text-align:center;cursor:pointer">
+          <div style="font-size:14px;font-weight:700;color:white">Join the PROGRESSion Registry™ →</div>
+          <div style="font-size:10px;color:rgba(255,255,255,0.5);margin-top:3px">Opens mpnresearchfoundation.org</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
+      <div style="background:white;border-radius:12px;padding:12px 8px;text-align:center;border:1px solid var(--border)">
+        <div style="font-size:18px;font-weight:800;color:#1B3A6B;line-height:1">$47M+</div>
+        <div style="font-size:9px;color:var(--predawn);margin-top:3px;font-weight:300;line-height:1.3">In research funded</div>
+      </div>
+      <div style="background:white;border-radius:12px;padding:12px 8px;text-align:center;border:1px solid var(--border)">
+        <div style="font-size:18px;font-weight:800;color:#1B3A6B;line-height:1">250+</div>
+        <div style="font-size:9px;color:var(--predawn);margin-top:3px;font-weight:300;line-height:1.3">Researchers supported</div>
+      </div>
+      <div style="background:white;border-radius:12px;padding:12px 8px;text-align:center;border:1px solid var(--border)">
+        <div style="font-size:18px;font-weight:800;color:#1B3A6B;line-height:1">30+</div>
+        <div style="font-size:9px;color:var(--predawn);margin-top:3px;font-weight:300;line-height:1.3">Countries reached</div>
+      </div>
+    </div>
+
+    <!-- 2026 Unmet Needs -->
+    <div style="background:white;border-radius:14px;border:1px solid var(--border);overflow:hidden">
+      <div style="background:#EEF4FB;padding:12px 16px;border-bottom:1px solid #C8D8EC;display:flex;align-items:center;justify-content:space-between">
+        <div style="font-size:12px;font-weight:700;color:#1B3A6B">2026 Unmet Needs Assessment</div>
+        <div style="background:#1B3A6B;border-radius:10px;padding:2px 8px;font-size:9px;font-weight:700;color:white">NEW</div>
+      </div>
+      <div style="padding:14px 16px">
+        <div style="font-size:12px;color:var(--midnight);line-height:1.6;font-weight:300;margin-bottom:10px">What MPN patients are experiencing — and not getting — right now. This year's findings are shaping how Live Every Day captures your symptoms.</div>
+        <div style="display:flex;flex-direction:column;gap:7px;margin-bottom:12px">
+          <div style="background:#EEF4FB;border-radius:8px;padding:9px 12px;border-left:3px solid #1B3A6B">
+            <div style="font-size:12px;font-weight:600;color:#1B3A6B">61% want a tracking tool</div>
+            <div style="font-size:11px;color:var(--predawn);font-weight:300;margin-top:1px">For symptoms, labs, and side effects between appointments.</div>
+          </div>
+          <div style="background:#EEF4FB;border-radius:8px;padding:9px 12px;border-left:3px solid #2E6DA4">
+            <div style="font-size:12px;font-weight:600;color:#1B3A6B">Cognitive symptoms underreported</div>
+            <div style="font-size:11px;color:var(--predawn);font-weight:300;margin-top:1px">Brain fog appears in free-text notes at 2× the rate of MPN-10 scores.</div>
+          </div>
+          <div style="background:#EEF4FB;border-radius:8px;padding:9px 12px;border-left:3px solid #4A9FD5">
+            <div style="font-size:12px;font-weight:600;color:#1B3A6B">54% felt goals weren't considered</div>
+            <div style="font-size:11px;color:var(--predawn);font-weight:300;margin-top:1px">Better appointment prep directly changes this.</div>
+          </div>
+        </div>
+        <div style="border:1.5px solid #1B3A6B;border-radius:10px;padding:10px;text-align:center;font-size:12px;font-weight:600;color:#1B3A6B;cursor:pointer">Read the full 2026 assessment →</div>
+      </div>
+    </div>
+
+    <!-- Recent news -->
+    <div style="background:white;border-radius:14px;border:1px solid var(--border);overflow:hidden">
+      <div style="background:#EEF4FB;padding:12px 16px;border-bottom:1px solid #C8D8EC;display:flex;align-items:center;justify-content:space-between">
+        <div style="font-size:12px;font-weight:700;color:#1B3A6B">Recent news</div>
+        <div style="font-size:11px;color:#2E6DA4;font-weight:500">View all →</div>
+      </div>
+      <div style="padding:14px 16px;display:flex;flex-direction:column;gap:12px">
+        <div style="padding-bottom:12px;border-bottom:1px solid var(--surface)">
+          <div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:#2E6DA4;margin-bottom:4px">MPN News · Apr 2026</div>
+          <div style="font-size:13px;font-weight:500;color:var(--midnight);margin-bottom:3px;line-height:1.4">Honoring Dr. Richard T. Silver, MD — a career that shaped the MPN field</div>
+        </div>
+        <div style="padding-bottom:12px;border-bottom:1px solid var(--surface)">
+          <div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:#2E6DA4;margin-bottom:4px">ET Treatment · Mar 2026</div>
+          <div style="font-size:13px;font-weight:500;color:var(--midnight);margin-bottom:3px;line-height:1.4">NCCN updates guidance on interferon in essential thrombocythemia</div>
+        </div>
+        <div>
+          <div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:#2E6DA4;margin-bottom:4px">Research · Mar 2026</div>
+          <div style="font-size:13px;font-weight:500;color:var(--midnight);margin-bottom:3px;line-height:1.4">Dr. Linda Resar — in the clinic with a young MPN patient</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Patient resources -->
+    <div style="background:white;border-radius:14px;border:1px solid var(--border);overflow:hidden">
+      <div style="background:#EEF4FB;padding:12px 16px;border-bottom:1px solid #C8D8EC">
+        <div style="font-size:12px;font-weight:700;color:#1B3A6B">Patient resources</div>
+      </div>
+      <div style="padding:8px 0">
+        <div style="display:flex;align-items:center;gap:12px;padding:10px 16px;border-bottom:1px solid var(--surface);cursor:pointer">
+          <span style="font-size:16px">📖</span>
+          <div style="flex:1"><div style="font-size:13px;font-weight:500;color:var(--midnight)">Living with an MPN</div><div style="font-size:11px;color:var(--predawn)">Guides, support, and community</div></div>
+          <span style="font-size:14px;color:#2E6DA4">›</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;padding:10px 16px;border-bottom:1px solid var(--surface);cursor:pointer">
+          <span style="font-size:16px">🧪</span>
+          <div style="flex:1"><div style="font-size:13px;font-weight:500;color:var(--midnight)">MPN Clinical Trials</div><div style="font-size:11px;color:var(--predawn)">Find a trial that fits your profile</div></div>
+          <span style="font-size:14px;color:#2E6DA4">›</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;padding:10px 16px;cursor:pointer">
+          <span style="font-size:16px">🔬</span>
+          <div style="flex:1"><div style="font-size:13px;font-weight:500;color:var(--midnight)">Understanding ET, PV & MF</div><div style="font-size:11px;color:var(--predawn)">Disease info, glossary, 30 facts</div></div>
+          <span style="font-size:14px;color:#2E6DA4">›</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div style="background:#1B3A6B;border-radius:12px;padding:14px 16px;display:flex;align-items:center;justify-content:space-between">
+      <div>
+        <div style="font-size:12px;font-weight:700;color:white">MPN Research Foundation</div>
+        <div style="font-size:10px;color:rgba(255,255,255,0.45);margin-top:2px">501(c)(3) · Tax ID 36-4330967</div>
+      </div>
+      <div style="font-size:12px;color:rgba(255,255,255,0.7);font-weight:500">Visit website →</div>
+    </div>
+
+    <div style="height:8px"></div>
+  </div>
+</div>
+
+<!-- ══ LED Community ══ -->
+<div class="sim-screen" id="s-community">
+  <div style="background:var(--midnight);padding:14px 20px 0;flex-shrink:0">
+    <div style="display:flex;align-items:center;justify-content:space-between;height:44px">
+      <button onclick="go('s-dashboard')" style="background:none;border:none;color:var(--midday);font-size:16px;cursor:pointer">‹ Home</button>
+      <span style="font-size:14px;font-weight:500;color:white">LED Community</span>
+      <span style="width:48px"></span>
+    </div>
+  </div>
+
+  <div style="background:var(--midnight);padding:16px 20px 20px;flex-shrink:0">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+      <svg width="36" height="36" viewBox="-26 -26 52 52">
+        <circle cx="0" cy="-21" r="3.85" fill="#3EA8CC"/>
+        <circle cx="10.5" cy="-18.19" r="3.1" fill="#78A0B8"/>
+        <circle cx="21" cy="0" r="3.85" fill="#C89858"/>
+        <circle cx="0" cy="21" r="3.85" fill="#1A2830" stroke="#506878" stroke-width="1.5"/>
+        <circle cx="-21" cy="0" r="3.85" fill="#E8CC70"/>
+        <circle cx="-10.5" cy="-18.19" r="3.1" fill="#88B0C0"/>
+      </svg>
+      <div>
+        <div style="font-size:16px;font-weight:600;color:white">Live Every Day Community</div>
+        <div style="font-size:12px;color:var(--midday)">Built by patients · For patients</div>
+      </div>
+    </div>
+    <div style="font-size:13px;color:rgba(255,252,245,0.55);line-height:1.6;font-weight:300">People who actually get it. Opt-in, private, condition-matched. No spam — just people living the same in-between.</div>
+  </div>
+
+  <div style="padding:16px 20px;display:flex;flex-direction:column;gap:14px;flex:1;overflow-y:auto">
+
+    <!-- Stats -->
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
+      <div style="background:white;border-radius:12px;padding:12px;text-align:center;border:1px solid var(--border)">
+        <div style="font-size:22px;font-weight:300;color:var(--midday);font-family:'Raleway',serif;line-height:1">47</div>
+        <div style="font-size:10px;color:var(--predawn);margin-top:3px;font-weight:300">ET · JAK2+</div>
+      </div>
+      <div style="background:white;border-radius:12px;padding:12px;text-align:center;border:1px solid var(--border)">
+        <div style="font-size:22px;font-weight:300;color:var(--midday);font-family:'Raleway',serif;line-height:1">12</div>
+        <div style="font-size:10px;color:var(--predawn);margin-top:3px;font-weight:300">On Hydrea</div>
+      </div>
+      <div style="background:white;border-radius:12px;padding:12px;text-align:center;border:1px solid var(--border)">
+        <div style="font-size:22px;font-weight:300;color:var(--midday);font-family:'Raleway',serif;line-height:1">8</div>
+        <div style="font-size:10px;color:var(--predawn);margin-top:3px;font-weight:300">Quarterly</div>
+      </div>
+    </div>
+
+    <!-- Coming soon feature blocks -->
+    <div style="background:white;border-radius:14px;border:1px solid var(--border);overflow:hidden">
+      <div style="padding:12px 16px;border-bottom:1px solid var(--surface)">
+        <div style="font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--predawn)">What's coming</div>
+      </div>
+      <div style="padding:14px 16px;display:flex;flex-direction:column;gap:12px">
+        <div style="display:flex;gap:12px;align-items:flex-start">
+          <div style="width:32px;height:32px;border-radius:8px;background:var(--surface);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0">💬</div>
+          <div>
+            <div style="font-size:13px;font-weight:600;color:var(--midnight);margin-bottom:2px">Peer conversations</div>
+            <div style="font-size:12px;color:var(--predawn);font-weight:300;line-height:1.5">Connect with ET patients on similar treatment paths. Ask the questions you can't Google. Share what's actually working.</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start">
+          <div style="width:32px;height:32px;border-radius:8px;background:var(--surface);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0">📊</div>
+          <div>
+            <div style="font-size:13px;font-weight:600;color:var(--midnight);margin-bottom:2px">Anonymized comparisons</div>
+            <div style="font-size:12px;color:var(--predawn);font-weight:300;line-height:1.5">See how your symptom scores compare to people with your exact profile — ET, JAK2+, same medication. No names. Just patterns.</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start">
+          <div style="width:32px;height:32px;border-radius:8px;background:var(--surface);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0">🙋</div>
+          <div>
+            <div style="font-size:13px;font-weight:600;color:var(--midnight);margin-bottom:2px">Ask the community</div>
+            <div style="font-size:12px;color:var(--predawn);font-weight:300;line-height:1.5">"Has anyone else noticed fatigue get worse in winter?" Real questions from real patients — answered by people who know from experience.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Privacy commitment -->
+    <div style="background:var(--midnight);border-radius:14px;padding:16px 18px">
+      <div style="font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--midday);margin-bottom:8px">How community works</div>
+      <div style="display:flex;flex-direction:column;gap:7px">
+        <div style="display:flex;gap:10px;align-items:flex-start">
+          <span style="font-size:14px;flex-shrink:0">🔒</span>
+          <div style="font-size:12px;color:rgba(255,252,245,0.7);font-weight:300;line-height:1.5">Fully opt-in. You decide what to share, who to connect with, and when to leave.</div>
+        </div>
+        <div style="display:flex;gap:10px;align-items:flex-start">
+          <span style="font-size:14px;flex-shrink:0">🙈</span>
+          <div style="font-size:12px;color:rgba(255,252,245,0.7);font-weight:300;line-height:1.5">Your health data is never shared with community members. Ever. What you share is only what you choose to share.</div>
+        </div>
+        <div style="display:flex;gap:10px;align-items:flex-start">
+          <span style="font-size:14px;flex-shrink:0">🧩</span>
+          <div style="font-size:12px;color:rgba(255,252,245,0.7);font-weight:300;line-height:1.5">Matched by condition, mutation, and treatment — not just "cancer patients." People who are actually like you.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Notify me -->
+    <div style="background:white;border-radius:14px;padding:16px;border:1.5px solid var(--midday);text-align:center">
+      <div style="font-size:15px;font-weight:600;color:var(--midnight);margin-bottom:4px">Coming in the next release</div>
+      <div style="font-size:13px;color:var(--predawn);font-weight:300;line-height:1.5;margin-bottom:12px">Be the first to know when community launches. We'll notify you when it's ready for people like you.</div>
+      <div style="background:var(--midday);border-radius:10px;padding:12px;font-size:13px;font-weight:600;color:var(--midnight)">Notify me when it's ready</div>
+    </div>
+
+    <div style="height:8px"></div>
+  </div>
+</div>
+
 </div><!-- /phone -->
 
 <div class="nav-hint">Jump to any screen:</div>
@@ -2556,7 +3338,10 @@ body{background:var(--midnight);font-family:'DM Sans',sans-serif;display:flex;fl
   <div class="flow-chip" onclick="jumpTo('s-connect-why','Connect: Why')">Connect Why</div>
   <div class="flow-chip" onclick="jumpTo('s-connect-setup','Connect: Setup')">Connect Setup</div>
   <div class="flow-chip" onclick="jumpTo('s-life-profile','Life Profile')">Life Profile</div>
-  <div class="flow-chip" onclick="jumpTo('s-dashboard','Dashboard')">Dashboard</div>
+  <div class="flow-chip" onclick="jumpTo('s-dashboard','Dashboard')">Dashboard (ET)</div>
+  <div class="flow-chip" onclick="jumpTo('s-prostate-gleason','Prostate: Stage')">Prostate: Stage</div>
+  <div class="flow-chip" onclick="jumpTo('s-prostate-psa','Prostate: PSA')">Prostate: PSA</div>
+  <div class="flow-chip" onclick="jumpTo('s-prostate-dashboard','Prostate: Dashboard')">Prostate: Dashboard</div>
   <div class="flow-chip" onclick="jumpTo('s-checkin','Check-in')">Check-in</div>
   <div class="flow-chip" onclick="jumpTo('s-data','Data & Results')">Data</div>
   <div class="flow-chip" onclick="jumpTo('s-prep','Appointment Prep')">Appt Prep</div>
@@ -2564,6 +3349,7 @@ body{background:var(--midnight);font-family:'DM Sans',sans-serif;display:flex;fl
   <div class="flow-chip" onclick="jumpTo('s-questions','Our Questions')">Our Questions</div>
   <div class="flow-chip" onclick="jumpTo('s-account','Account')">Account</div>
   <div class="flow-chip" onclick="jumpTo('s-circle','My Circle')">My Circle</div>
+  <div class="flow-chip" onclick="jumpTo('s-my-one','My #1 View')">My #1 View</div>
   <div class="flow-chip" onclick="jumpTo('s-circle-invite','Invite')">Invite Flow</div>
   <div class="flow-chip" onclick="jumpTo('s-checkin-message','Support Message')">Support Message</div>
   <div class="flow-chip" onclick="jumpTo('s-checkin-share','Share Moment')">Share Moment</div>
@@ -2594,7 +3380,7 @@ var selectedCond = 'mpn';
 var condPaths = {
   mpn: 's-mpn-type',
   cll: 's-cond-coming',
-  prostate: 's-cond-coming',
+  prostate: 's-prostate-gleason',
   breast: 's-cond-coming',
   thyroid: 's-cond-coming',
   remission: 's-cond-coming'
@@ -2834,6 +3620,37 @@ function selectRule(el) {
 function addCustom() {
   var name = prompt('What do you want to track?');
   if (name) alert('Added: ' + name + '\nThis would open a configuration screen in the real app.');
+}
+
+
+function selectProstateStage(el, stage) {
+  document.querySelectorAll('#s-prostate-gleason .cond-card').forEach(function(c) {
+    c.style.border = '1px solid var(--border)';
+    var dot = c.querySelector('div[style*="border-radius:50%"]');
+    if (dot) { dot.style.background = 'var(--surface)'; dot.innerHTML = ''; }
+  });
+  el.style.border = '2px solid var(--midday)';
+  var dot = el.querySelector('div[style*="border-radius:50%"]');
+  if (dot) { dot.style.background = 'var(--midday)'; dot.innerHTML = '<div style="width:8px;height:8px;border-radius:50%;background:white"></div>'; }
+}
+function selectGleason(el, val) {
+  document.querySelectorAll('#s-prostate-gleason div[onclick^="selectGleason"]').forEach(function(d) {
+    d.style.background = 'var(--surface)'; d.style.color = 'var(--midnight)';
+  });
+  el.style.background = 'var(--midday)'; el.style.color = 'white';
+}
+
+
+function copyNote() {
+  var note = document.querySelector('#s-share-careteam .bg-canvas, #s-share-careteam [style*="line-height:1.7"]');
+  var btn = document.getElementById('copy-btn');
+  var confirm = document.getElementById('copy-confirm');
+  if (confirm) { confirm.style.display = 'block'; }
+  if (btn) { btn.style.background = 'var(--flag-ok-bg)'; btn.style.color = 'var(--flag-ok)'; btn.textContent = 'Copied ✓'; }
+  setTimeout(function() {
+    if (btn) { btn.style.background = 'var(--midday)'; btn.style.color = 'var(--midnight)'; btn.textContent = 'Copy message to clipboard'; }
+    if (confirm) { confirm.style.display = 'none'; }
+  }, 3000);
 }
 
 </script>
