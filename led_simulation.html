@@ -777,6 +777,21 @@ body{background:var(--midnight);font-family:'DM Sans',sans-serif;display:flex;fl
 
 .lc-chip{background:var(--surface);color:var(--midnight);border:1.5px solid var(--border);border-radius:12px;padding:10px 8px;font-size:13px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s;text-align:center;width:100%}
 .lc-chip.selected{background:var(--midday);border-color:var(--midday);color:var(--midnight)}
+
+.chip-label {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: rgba(26,40,48,0.35);
+  padding: 10px 4px 4px;
+  width: 100%;
+  flex-basis: 100%;
+}
+.flow-chips {
+  flex-wrap: wrap;
+}
+
 </style>
 </head>
 <body>
@@ -1389,7 +1404,7 @@ body{background:var(--midnight);font-family:'DM Sans',sans-serif;display:flex;fl
       <div style="font-size:14px;color:var(--text-mid);margin-top:4px">Time for our weekly check-in.</div>
     </div>
     <!-- Check-in card -->
-    <div onclick="go('s-checkin')" style="background:var(--midday);border-radius:18px;padding:20px;cursor:pointer">
+    <div onclick="go('s-checkin-intro')" style="background:var(--midday);border-radius:18px;padding:20px;cursor:pointer">
       <div style="font-size:11px;font-weight:500;letter-spacing:.7px;text-transform:uppercase;color:rgba(26,40,48,.6);margin-bottom:8px">This week</div>
       <div style="font-size:20px;font-weight:600;color:var(--midnight);margin-bottom:6px">Weekly check-in</div>
       <div style="font-size:13px;color:rgba(26,40,48,.65);margin-bottom:16px">Two minutes. Every week. The foundation of everything.</div>
@@ -1478,7 +1493,7 @@ body{background:var(--midnight);font-family:'DM Sans',sans-serif;display:flex;fl
   <!-- Tab bar -->
   <div style="background:white;border-top:1px solid var(--border);display:flex;padding:8px 0 4px;flex-shrink:0">
     <button style="flex:1;background:none;border:none;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer"><span style="font-size:18px">🏠</span><span style="font-size:10px;color:var(--midday);font-weight:600">Home</span></button>
-    <button onclick="go('s-checkin')" style="flex:1;background:none;border:none;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer"><span style="font-size:18px">◎</span><span style="font-size:10px;color:var(--predawn);font-weight:400">Check-in</span></button>
+    <button onclick="go('s-checkin-intro')" style="flex:1;background:none;border:none;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer"><span style="font-size:18px">◎</span><span style="font-size:10px;color:var(--predawn);font-weight:400">Check-in</span></button>
     <button onclick="go('s-data')" style="flex:1;background:none;border:none;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer"><span style="font-size:18px">📊</span><span style="font-size:10px;color:var(--predawn);font-weight:400">Data</span></button>
     <button onclick="go('s-prep')" style="flex:1;background:none;border:none;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer"><span style="font-size:18px">⭐</span><span style="font-size:10px;color:var(--predawn);font-weight:400">Prep</span></button>
     <button onclick="go('s-account')" style="flex:1;background:none;border:none;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer"><span style="font-size:18px">👤</span><span style="font-size:10px;color:var(--predawn);font-weight:400">Account</span></button>
@@ -1486,50 +1501,162 @@ body{background:var(--midnight);font-family:'DM Sans',sans-serif;display:flex;fl
 </div>
 
 <!-- ══ Check-in ══ -->
-<div class="sim-screen" id="s-checkin">
+
+<!-- Intro -->
+<div class="sim-screen" id="s-checkin-intro">
   <div style="background:var(--canvas);padding:14px 20px 0;flex-shrink:0">
     <div style="display:flex;align-items:center;justify-content:space-between;height:44px">
-      <button onclick="go('s-dashboard')" style="background:none;border:none;color:var(--midday);font-size:14px;font-weight:500;cursor:pointer">‹ Exit</button>
-      <span style="font-size:13px;color:var(--predawn);font-weight:500"><span id="ci-current">1</span> of 10</span>
+      <button onclick="go('s-dashboard')" style="background:none;border:none;color:var(--midday);font-size:16px;cursor:pointer">‹ Home</button>
+      <span style="font-size:14px;font-weight:500;color:var(--midnight)">Weekly check-in</span>
       <span style="width:48px"></span>
     </div>
-    <div style="height:5px;background:var(--surface);border-radius:3px;margin-top:8px;overflow:hidden">
-      <div id="ci-fill" style="width:10%;height:100%;background:var(--midday);border-radius:3px;transition:width .4s"></div>
-    </div>
   </div>
-  <div style="padding:20px 24px;display:flex;flex-direction:column;flex:1;gap:0">
-    <!-- Question card -->
-    <div style="background:white;border-radius:24px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:28px 24px;margin-bottom:16px;gap:12px;box-shadow:0 2px 16px rgba(0,0,0,.06);min-height:200px">
-      <div style="font-size:56px;line-height:1" id="ci-icon">😴</div>
-      <div style="font-size:18px;font-weight:600;color:var(--midnight);line-height:1.35;text-align:center" id="ci-text">How heavy has fatigue felt this week?</div>
-      <div style="font-size:13px;color:var(--text-mid);text-align:center;line-height:1.5" id="ci-sub">Think about our worst day.</div>
+  <div style="padding:20px;display:flex;flex-direction:column;flex:1;gap:14px;overflow-y:auto">
+
+    <div style="background:var(--midnight);border-radius:16px;padding:20px">
+      <div style="font-size:10px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--midday);margin-bottom:8px">Week of April 14 – 20</div>
+      <div style="font-size:20px;font-weight:600;color:white;margin-bottom:6px">Time for your weekly check-in.</div>
+      <div style="font-size:13px;color:rgba(255,252,245,0.55);line-height:1.6;font-weight:300">10 questions about how you've been feeling this week. Be honest — this data is only for you.</div>
     </div>
-    <!-- Score display -->
-    <div style="text-align:center;margin-bottom:12px">
-      <div style="font-size:52px;font-weight:300;font-family:'Raleway',serif;line-height:1;transition:color .3s;color:var(--midday)" id="ci-score">—</div>
-      <div style="font-size:15px;font-weight:500;color:var(--predawn);min-height:22px;transition:color .3s" id="ci-word">Slide to answer</div>
-      <div style="font-size:12px;color:var(--text-lite);min-height:18px;margin-top:4px" id="ci-enc"></div>
-    </div>
-    <!-- Slider -->
-    <div style="padding:4px 0 0">
-      <div style="display:flex;justify-content:space-between;margin-bottom:8px">
-        <span style="font-size:11px;color:var(--predawn);font-weight:500">Not at all</span>
-        <span style="font-size:11px;color:var(--predawn);font-weight:500">As bad as it gets</span>
+
+    <div style="background:white;border-radius:14px;border:1px solid var(--border);overflow:hidden">
+      <div style="padding:12px 16px;border-bottom:1px solid var(--surface)">
+        <div style="font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--predawn)">What to expect</div>
       </div>
-      <input type="range" class="q-slider" id="ci-slider" min="0" max="10" step="1" value="0" oninput="onCiSlider(this.value)">
-      <div style="display:flex;justify-content:space-between;padding:5px 2px 0">
-        <span style="font-size:10px;color:var(--text-lite)">0</span>
-        <span style="font-size:10px;color:var(--text-lite)">5</span>
-        <span style="font-size:10px;color:var(--text-lite)">10</span>
+      <div style="padding:14px 16px;display:flex;flex-direction:column;gap:10px">
+        <div style="display:flex;align-items:center;gap:12px">
+          <div style="width:34px;height:34px;border-radius:8px;background:#EEF7FB;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0">⏱️</div>
+          <div><div style="font-size:13px;font-weight:500;color:var(--midnight)">5 to 10 minutes</div><div style="font-size:11px;color:var(--predawn)">Take your time — there's no rushing this.</div></div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px">
+          <div style="width:34px;height:34px;border-radius:8px;background:#EEF7FB;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0">📋</div>
+          <div><div style="font-size:13px;font-weight:500;color:var(--midnight)">The MPN-10</div><div style="font-size:11px;color:var(--predawn)">The validated instrument your care team uses — now weekly, in your hands.</div></div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px">
+          <div style="width:34px;height:34px;border-radius:8px;background:#EEF7FB;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0">🔒</div>
+          <div><div style="font-size:13px;font-weight:500;color:var(--midnight)">This data is yours</div><div style="font-size:11px;color:var(--predawn)">Never shared without your explicit permission.</div></div>
+        </div>
       </div>
     </div>
-    <!-- Nav -->
-    <div style="display:flex;gap:12px;margin-top:16px">
-      <button onclick="prevCi()" style="flex:1;background:var(--surface);color:var(--midnight);border:none;border-radius:14px;padding:15px;font-size:15px;font-weight:500;cursor:pointer">← Back</button>
-      <button id="ci-next" onclick="nextCi()" style="flex:2;background:var(--midday);color:var(--midnight);border:none;border-radius:14px;padding:15px;font-size:15px;font-weight:500;cursor:pointer">Next →</button>
+
+    <!-- Last week score -->
+    <div style="background:var(--surface);border-radius:12px;padding:14px 16px">
+      <div style="font-size:11px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;color:var(--predawn);margin-bottom:8px">Last week's score</div>
+      <div style="display:flex;align-items:center;justify-content:space-between">
+        <div>
+          <div style="font-size:36px;font-weight:600;color:var(--sunset);font-family:'Raleway',serif;line-height:1">29</div>
+          <div style="font-size:11px;color:var(--predawn);margin-top:2px">out of 100 · Apr 7</div>
+        </div>
+        <div style="display:flex;align-items:flex-end;gap:3px;height:32px">
+          <div style="width:7px;border-radius:2px 2px 0 0;background:rgba(62,168,204,0.3);height:40%"></div>
+          <div style="width:7px;border-radius:2px 2px 0 0;background:rgba(62,168,204,0.3);height:48%"></div>
+          <div style="width:7px;border-radius:2px 2px 0 0;background:rgba(62,168,204,0.3);height:42%"></div>
+          <div style="width:7px;border-radius:2px 2px 0 0;background:rgba(200,152,88,0.6);height:60%"></div>
+          <div style="width:7px;border-radius:2px 2px 0 0;background:var(--sunset);height:74%"></div>
+        </div>
+      </div>
+      <div style="font-size:12px;color:var(--predawn);margin-top:8px">Fatigue was your highest symptom last week at 6/10.</div>
+    </div>
+
+    <div style="margin-top:auto">
+      <button onclick="startCiNew()" style="background:var(--midday);color:var(--midnight);border:none;border-radius:14px;padding:16px;width:100%;font-size:16px;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer">Answer by tapping →</button>
+      <div style="display:flex;align-items:center;gap:10px;margin-top:8px">
+        <div style="flex:1;height:1px;background:var(--border)"></div>
+        <span style="font-size:12px;color:var(--predawn)">or</span>
+        <div style="flex:1;height:1px;background:var(--border)"></div>
+      </div>
+      <button onclick="go('s-checkin-talk')" style="background:var(--midnight);color:white;border:none;border-radius:14px;padding:16px;width:100%;font-size:16px;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;margin-top:8px"><span style="font-size:20px">🎙️</span> Talk to Claude instead</button>
+      <div style="text-align:center;margin-top:8px;font-size:11px;color:var(--predawn)">Claude will ask you each question. Just respond naturally.</div>
     </div>
   </div>
 </div>
+
+<!-- Questions -->
+<div class="sim-screen" id="s-checkin">
+  <div style="background:var(--canvas);padding:12px 20px 0;flex-shrink:0">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+      <button onclick="ciBack()" style="background:none;border:none;color:var(--midday);font-size:14px;font-weight:500;cursor:pointer">‹ Back</button>
+      <span style="font-size:13px;font-weight:600;color:var(--midnight)" id="ci-group-title">Fatigue &amp; Energy</span>
+      <span style="font-size:12px;color:var(--predawn)" id="ci-time-left">~8 min</span>
+    </div>
+    <!-- Group dots -->
+    <div style="display:flex;gap:6px;margin-bottom:8px" id="ci-group-dots"></div>
+    <!-- Progress bar -->
+    <div style="height:3px;background:var(--surface);border-radius:3px;overflow:hidden">
+      <div id="ci-fill" style="width:10%;height:100%;background:var(--midday);border-radius:3px;transition:width .4s"></div>
+    </div>
+  </div>
+  <div style="padding:14px 20px;display:flex;flex-direction:column;flex:1;overflow-y:auto;gap:12px" id="ci-questions-container"></div>
+</div>
+
+<!-- Done -->
+<div class="sim-screen" id="s-checkin-done">
+  <div style="background:var(--canvas);padding:14px 20px 0;flex-shrink:0">
+    <div style="height:44px;display:flex;align-items:center;justify-content:center">
+      <span style="font-size:14px;font-weight:500;color:var(--midnight)">Check-in complete</span>
+    </div>
+  </div>
+  <div style="padding:20px;display:flex;flex-direction:column;flex:1;gap:14px;overflow-y:auto">
+
+    <div style="text-align:center;padding:8px 0">
+      <div style="width:64px;height:64px;border-radius:50%;background:#D4EAD8;display:flex;align-items:center;justify-content:center;font-size:28px;margin:0 auto 12px">✓</div>
+      <div style="font-size:22px;font-weight:700;color:var(--midnight);margin-bottom:4px">Check-in saved.</div>
+      <div style="font-size:13px;color:var(--predawn)">Week of April 14 – 20</div>
+    </div>
+
+    <!-- Score -->
+    <div style="background:white;border-radius:16px;border:1px solid var(--border);padding:16px">
+      <div style="font-size:11px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;color:var(--predawn);margin-bottom:12px">This week's score</div>
+      <div style="display:flex;align-items:flex-end;gap:16px;margin-bottom:12px">
+        <div>
+          <div style="font-size:48px;font-weight:600;color:var(--flag-high);font-family:'Raleway',serif;line-height:1" id="done-score">38</div>
+          <div style="font-size:11px;color:var(--flag-high);margin-top:2px">↑ up from 29 last week</div>
+        </div>
+        <div style="display:flex;align-items:flex-end;gap:3px;height:40px;flex:1">
+          <div style="flex:1;border-radius:2px 2px 0 0;background:var(--surface);height:32%"></div>
+          <div style="flex:1;border-radius:2px 2px 0 0;background:var(--surface);height:38%"></div>
+          <div style="flex:1;border-radius:2px 2px 0 0;background:var(--surface);height:44%"></div>
+          <div style="flex:1;border-radius:2px 2px 0 0;background:var(--sunset);opacity:.7;height:60%"></div>
+          <div style="flex:1;border-radius:2px 2px 0 0;background:var(--flag-high);height:80%"></div>
+          <div style="flex:1;border-radius:2px 2px 0 0;background:var(--flag-high);height:100%"></div>
+        </div>
+      </div>
+      <div style="border-top:1px solid var(--surface);padding-top:10px">
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <span style="font-size:13px;color:var(--midnight)">Fatigue — highest this week</span>
+          <div style="display:flex;align-items:center;gap:8px">
+            <div style="width:80px;height:5px;background:var(--surface);border-radius:3px;overflow:hidden"><div style="width:80%;height:100%;background:var(--flag-high);border-radius:3px"></div></div>
+            <span style="font-size:13px;font-weight:600;color:var(--flag-high)">8/10 ↑</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Free text note -->
+    <div style="background:white;border-radius:14px;border:1px solid var(--border);overflow:hidden">
+      <div style="padding:12px 16px;border-bottom:1px solid var(--surface)">
+        <div style="font-size:13px;font-weight:600;color:var(--midnight);margin-bottom:2px">Anything else to add?</div>
+        <div style="font-size:11px;color:var(--predawn);font-weight:300">How does this week really feel? Your words — no structure needed.</div>
+      </div>
+      <div style="padding:12px 16px">
+        <div style="font-size:12px;color:var(--midnight);line-height:1.65;font-style:italic;font-weight:300">This week felt heavier than the numbers show. The fatigue is a different kind — more like my blood is thick. Two good days Wednesday and Thursday, but the weekend wiped me out.</div>
+        <div style="font-size:10px;color:var(--midday);font-weight:500;margin-top:8px">Saved to your brief ✓</div>
+      </div>
+    </div>
+
+    <!-- Brief flag -->
+    <div style="background:#EEF7FB;border-radius:12px;padding:12px 14px;border:1px solid #C8E4F0">
+      <div style="font-size:12px;font-weight:600;color:var(--midday);margin-bottom:3px">Building your appointment brief</div>
+      <div style="font-size:12px;color:var(--midnight);line-height:1.5;font-weight:300">Fatigue above 7 for 3 consecutive weeks — flagged for Dr. Wolanskyj-Spinner.</div>
+    </div>
+
+    <div style="display:flex;gap:10px;margin-top:auto">
+      <button onclick="go('s-dashboard')" style="flex:2;background:var(--midday);color:var(--midnight);border:none;border-radius:14px;padding:14px;font-size:15px;font-weight:600;cursor:pointer">Back to home</button>
+      <button onclick="go('s-brief')" style="flex:1;background:var(--surface);color:var(--midnight);border:none;border-radius:14px;padding:14px;font-size:14px;font-weight:500;cursor:pointer">Brief →</button>
+    </div>
+  </div>
+</div>
+
 
 <!-- ══ Data & Results ══ -->
 <div class="sim-screen" id="s-data">
@@ -1589,7 +1716,7 @@ body{background:var(--midnight);font-family:'DM Sans',sans-serif;display:flex;fl
   </div>
   <div style="background:white;border-top:1px solid var(--border);display:flex;padding:8px 0 4px;flex-shrink:0">
     <button onclick="go('s-dashboard')" style="flex:1;background:none;border:none;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer"><span style="font-size:18px">🏠</span><span style="font-size:10px;color:var(--predawn);font-weight:400">Home</span></button>
-    <button onclick="go('s-checkin')" style="flex:1;background:none;border:none;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer"><span style="font-size:18px">◎</span><span style="font-size:10px;color:var(--predawn);font-weight:400">Check-in</span></button>
+    <button onclick="go('s-checkin-intro')" style="flex:1;background:none;border:none;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer"><span style="font-size:18px">◎</span><span style="font-size:10px;color:var(--predawn);font-weight:400">Check-in</span></button>
     <button style="flex:1;background:none;border:none;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer"><span style="font-size:18px">📊</span><span style="font-size:10px;color:var(--midday);font-weight:600">Data</span></button>
     <button onclick="go('s-prep')" style="flex:1;background:none;border:none;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer"><span style="font-size:18px">⭐</span><span style="font-size:10px;color:var(--predawn);font-weight:400">Prep</span></button>
     <button onclick="go('s-account')" style="flex:1;background:none;border:none;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer"><span style="font-size:18px">👤</span><span style="font-size:10px;color:var(--predawn);font-weight:400">Account</span></button>
@@ -1645,7 +1772,7 @@ body{background:var(--midnight);font-family:'DM Sans',sans-serif;display:flex;fl
   </div>
   <div style="background:white;border-top:1px solid var(--border);display:flex;padding:8px 0 4px;flex-shrink:0">
     <button onclick="go('s-dashboard')" style="flex:1;background:none;border:none;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer"><span style="font-size:18px">🏠</span><span style="font-size:10px;color:var(--predawn);font-weight:400">Home</span></button>
-    <button onclick="go('s-checkin')" style="flex:1;background:none;border:none;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer"><span style="font-size:18px">◎</span><span style="font-size:10px;color:var(--predawn);font-weight:400">Check-in</span></button>
+    <button onclick="go('s-checkin-intro')" style="flex:1;background:none;border:none;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer"><span style="font-size:18px">◎</span><span style="font-size:10px;color:var(--predawn);font-weight:400">Check-in</span></button>
     <button onclick="go('s-data')" style="flex:1;background:none;border:none;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer"><span style="font-size:18px">📊</span><span style="font-size:10px;color:var(--predawn);font-weight:400">Data</span></button>
     <button style="flex:1;background:none;border:none;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer"><span style="font-size:18px">⭐</span><span style="font-size:10px;color:var(--midday);font-weight:600">Prep</span></button>
     <button onclick="go('s-account')" style="flex:1;background:none;border:none;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer"><span style="font-size:18px">👤</span><span style="font-size:10px;color:var(--predawn);font-weight:400">Account</span></button>
@@ -1877,7 +2004,7 @@ body{background:var(--midnight);font-family:'DM Sans',sans-serif;display:flex;fl
   </div>
   <div style="background:white;border-top:1px solid var(--border);display:flex;padding:8px 0 4px;flex-shrink:0">
     <button onclick="go('s-dashboard')" style="flex:1;background:none;border:none;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer"><span style="font-size:18px">🏠</span><span style="font-size:10px;color:var(--predawn);font-weight:400">Home</span></button>
-    <button onclick="go('s-checkin')" style="flex:1;background:none;border:none;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer"><span style="font-size:18px">◎</span><span style="font-size:10px;color:var(--predawn);font-weight:400">Check-in</span></button>
+    <button onclick="go('s-checkin-intro')" style="flex:1;background:none;border:none;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer"><span style="font-size:18px">◎</span><span style="font-size:10px;color:var(--predawn);font-weight:400">Check-in</span></button>
     <button onclick="go('s-data')" style="flex:1;background:none;border:none;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer"><span style="font-size:18px">📊</span><span style="font-size:10px;color:var(--predawn);font-weight:400">Data</span></button>
     <button onclick="go('s-prep')" style="flex:1;background:none;border:none;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer"><span style="font-size:18px">⭐</span><span style="font-size:10px;color:var(--predawn);font-weight:400">Prep</span></button>
     <button style="flex:1;background:none;border:none;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer"><span style="font-size:18px">👤</span><span style="font-size:10px;color:var(--midday);font-weight:600">Account</span></button>
@@ -3325,37 +3452,112 @@ body{background:var(--midnight);font-family:'DM Sans',sans-serif;display:flex;fl
   </div>
 </div>
 
+
+<!-- ══ Check-in: Talk to Claude ══ -->
+<div class="sim-screen" id="s-checkin-talk">
+  <div style="background:var(--midnight);padding:14px 20px 0;flex-shrink:0">
+    <div style="display:flex;align-items:center;justify-content:space-between;height:44px">
+      <button onclick="go('s-checkin-intro')" style="background:none;border:none;color:rgba(255,255,255,0.6);font-size:16px;cursor:pointer">‹ Back</button>
+      <div style="display:flex;align-items:center;gap:8px">
+        <svg width="16" height="16" viewBox="-26 -26 52 52">
+          <circle cx="0" cy="-21" r="3.85" fill="#3EA8CC"/>
+          <circle cx="21" cy="0" r="3.85" fill="#C89858"/>
+          <circle cx="0" cy="21" r="3.85" fill="#1A2830" stroke="#506878" stroke-width="1.5"/>
+          <circle cx="-21" cy="0" r="3.85" fill="#E8CC70"/>
+        </svg>
+        <span style="font-size:14px;font-weight:500;color:white">Talk to Claude</span>
+      </div>
+      <span style="width:48px"></span>
+    </div>
+  </div>
+
+  <!-- Chat area -->
+  <div id="talk-messages" style="flex:1;overflow-y:auto;padding:16px 20px;display:flex;flex-direction:column;gap:12px;background:#F5F3EF">
+    <!-- Messages rendered here -->
+  </div>
+
+  <!-- Input area -->
+  <div style="background:white;border-top:1px solid var(--border);padding:12px 16px;flex-shrink:0">
+    <!-- Progress -->
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+      <span style="font-size:11px;color:var(--predawn)" id="talk-progress">Question 1 of 10</span>
+      <div style="display:flex;gap:3px" id="talk-dots"></div>
+    </div>
+    <div style="display:flex;gap:8px">
+      <input id="talk-input" type="text" placeholder="Type your response..." 
+        style="flex:1;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:10px 14px;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--midnight);outline:none"
+        onkeydown="if(event.key==='Enter')sendTalkMsg()">
+      <button onclick="sendTalkMsg()" style="background:var(--midday);border:none;border-radius:10px;padding:10px 16px;font-size:14px;font-weight:600;color:var(--midnight);cursor:pointer">Send</button>
+    </div>
+    <div style="text-align:center;margin-top:8px">
+      <span style="font-size:11px;color:var(--predawn)">Respond naturally — Claude will interpret your answer and move on</span>
+    </div>
+  </div>
+</div>
+
 </div><!-- /phone -->
 
 <div class="nav-hint">Jump to any screen:</div>
 <div class="flow-chips">
+
+  <!-- Onboarding -->
+  <div class="chip-label">Onboarding</div>
   <div class="flow-chip active-chip" onclick="jumpTo('s-welcome','Onboarding · Welcome')">Welcome</div>
-  <div class="flow-chip" onclick="jumpTo('s-condition','Onboarding · Condition')">Condition</div>
-  <div class="flow-chip" onclick="jumpTo('s-mpn-type','MPN · Type')">MPN Type</div>
-  <div class="flow-chip" onclick="jumpTo('s-mpn-mutation','MPN · Mutation')">MPN Mutation</div>
-  <div class="flow-chip" onclick="jumpTo('s-year','Onboarding · Diagnosis Year')">Diag. Year</div>
-  <div class="flow-chip" onclick="jumpTo('s-events','Onboarding · Health Events')">Health Events</div>
-  <div class="flow-chip" onclick="jumpTo('s-connect-why','Connect: Why')">Connect Why</div>
-  <div class="flow-chip" onclick="jumpTo('s-connect-setup','Connect: Setup')">Connect Setup</div>
-  <div class="flow-chip" onclick="jumpTo('s-life-profile','Life Profile')">Life Profile</div>
-  <div class="flow-chip" onclick="jumpTo('s-dashboard','Dashboard')">Dashboard (ET)</div>
-  <div class="flow-chip" onclick="jumpTo('s-prostate-gleason','Prostate: Stage')">Prostate: Stage</div>
-  <div class="flow-chip" onclick="jumpTo('s-prostate-psa','Prostate: PSA')">Prostate: PSA</div>
-  <div class="flow-chip" onclick="jumpTo('s-prostate-dashboard','Prostate: Dashboard')">Prostate: Dashboard</div>
-  <div class="flow-chip" onclick="jumpTo('s-checkin','Check-in')">Check-in</div>
+  <div class="flow-chip" onclick="jumpTo('s-condition','Onboarding · Condition')">Condition select</div>
+  <div class="flow-chip" onclick="jumpTo('s-year','Onboarding · Diagnosis Year')">Diagnosis year</div>
+  <div class="flow-chip" onclick="jumpTo('s-events','Onboarding · Health Events')">Health events</div>
+  <div class="flow-chip" onclick="jumpTo('s-connect-why','Connect Data')">Connect data</div>
+  <div class="flow-chip" onclick="jumpTo('s-lab-upload','Lab Upload')">Lab upload</div>
+  <div class="flow-chip" onclick="jumpTo('s-lab-photo','Lab Photo')">Lab photo</div>
+  <div class="flow-chip" onclick="jumpTo('s-lab-parsed','Lab Parsed')">Lab parsed</div>
+  <div class="flow-chip" onclick="jumpTo('s-life-profile','Life Profile')">Life profile</div>
+
+  <!-- MPN / ET Track -->
+  <div class="chip-label">MPN · ET Track</div>
+  <div class="flow-chip" onclick="jumpTo('s-mpn-type','MPN · Type')">MPN type</div>
+  <div class="flow-chip" onclick="jumpTo('s-mpn-mutation','MPN · Mutation')">MPN mutation</div>
+  <div class="flow-chip" onclick="jumpTo('s-dashboard','ET Dashboard')">Dashboard</div>
+  <div class="flow-chip" onclick="jumpTo('s-weekly-brief','Weekly Look Ahead')">Weekly brief</div>
+  <div class="flow-chip" onclick="jumpTo('s-mpnrf','MPN RF')">MPN RF</div>
+  <div class="flow-chip" onclick="jumpTo('s-community','Community')">Community</div>
+
+  <!-- Check-in -->
+  <div class="chip-label">Check-in</div>
+  <div class="flow-chip" onclick="jumpTo('s-checkin-intro','Check-in Intro')">Intro</div>
+  <div class="flow-chip" onclick="function_go()">Questions</div>
+  <div class="flow-chip" onclick="jumpTo('s-checkin-done','Check-in Done')">Done</div>
+  <div class="flow-chip" onclick="jumpTo('s-checkin-talk','Talk to Claude')">Talk to Claude</div>
+  <div class="flow-chip" onclick="jumpTo('s-checkin-message','Support Message')">Support message</div>
+  <div class="flow-chip" onclick="jumpTo('s-checkin-share','Share moment')">Share moment</div>
+
+  <!-- Data & Appointment -->
+  <div class="chip-label">Data & Appointment</div>
   <div class="flow-chip" onclick="jumpTo('s-data','Data & Results')">Data</div>
-  <div class="flow-chip" onclick="jumpTo('s-prep','Appointment Prep')">Appt Prep</div>
-  <div class="flow-chip" onclick="jumpTo('s-brief','Doctor Brief')">Doctor Brief</div>
-  <div class="flow-chip" onclick="jumpTo('s-questions','Our Questions')">Our Questions</div>
-  <div class="flow-chip" onclick="jumpTo('s-account','Account')">Account</div>
+  <div class="flow-chip" onclick="jumpTo('s-prep','Appointment Prep')">Appt prep</div>
+  <div class="flow-chip" onclick="jumpTo('s-share-careteam','Share w/ Care Team')">Share w/ care team</div>
+  <div class="flow-chip" onclick="jumpTo('s-brief','Doctor Brief')">Doctor brief</div>
+  <div class="flow-chip" onclick="jumpTo('s-questions','Our Questions')">Our questions</div>
+
+  <!-- My Circle -->
+  <div class="chip-label">My Circle</div>
   <div class="flow-chip" onclick="jumpTo('s-circle','My Circle')">My Circle</div>
-  <div class="flow-chip" onclick="jumpTo('s-my-one','My #1 View')">My #1 View</div>
-  <div class="flow-chip" onclick="jumpTo('s-circle-invite','Invite')">Invite Flow</div>
-  <div class="flow-chip" onclick="jumpTo('s-checkin-message','Support Message')">Support Message</div>
-  <div class="flow-chip" onclick="jumpTo('s-checkin-share','Share Moment')">Share Moment</div>
-  <div class="flow-chip" onclick="jumpTo('s-care-team','Care Team')">Care Team Dashboard</div>
-  <div class="flow-chip" onclick="jumpTo('s-acct-dashboard','Dashboard Customize')">Dash. Customize</div>
-  <div class="flow-chip" onclick="jumpTo('s-smart-rule','Smart Rule')">Smart Rule</div>
+  <div class="flow-chip" onclick="jumpTo('s-circle-invite','Invite')">Invite flow</div>
+  <div class="flow-chip" onclick="jumpTo('s-my-one','My #1 View')">My #1 view</div>
+  <div class="flow-chip" onclick="jumpTo('s-care-team','Care Team Dashboard')">Care Team dashboard</div>
+
+  <!-- Account -->
+  <div class="chip-label">Account</div>
+  <div class="flow-chip" onclick="jumpTo('s-account','Account')">Account</div>
+  <div class="flow-chip" onclick="jumpTo('s-acct-dashboard','Dashboard Customize')">Customize</div>
+  <div class="flow-chip" onclick="jumpTo('s-smart-rule','Smart Rule')">Smart rule</div>
+
+  <!-- Prostate Track -->
+  <div class="chip-label">Prostate Track</div>
+  <div class="flow-chip" onclick="jumpTo('s-prostate-gleason','Prostate: Stage')">Stage & Gleason</div>
+  <div class="flow-chip" onclick="jumpTo('s-prostate-psa','Prostate: PSA')">PSA history</div>
+  <div class="flow-chip" onclick="jumpTo('s-prostate-dashboard','Prostate: Dashboard')">Dashboard</div>
+  <div class="flow-chip" onclick="jumpTo('s-prostate-checkin-intro','Prostate: Check-in')">Check-in intro</div>
+
 </div>
 <script>
 function go(id) {
@@ -3473,64 +3675,218 @@ setTimeout(function() { buildWheel(); }, 100);
 
 
 // ── New check-in screen ──
-var ciQ = 0;
-var ciScores = new Array(10).fill(5);
-var ciTouched = new Array(10).fill(false);
-var ciQuestions = [
-  {icon:'😴', text:'How heavy has fatigue felt this week?', sub:'Think about our worst day.'},
-  {icon:'🌙', text:'How much have night sweats disrupted our sleep?', sub:'Waking up drenched or too warm to settle.'},
-  {icon:'🤲', text:'How much has itching bothered us?', sub:'The unexplained MPN itch — not from a rash.'},
-  {icon:'🦴', text:'How much have bone or muscle aches weighed on us?', sub:'Deep aches, joint pain, or heaviness.'},
-  {icon:'🫃', text:'Any discomfort under our left ribs?', sub:'Fullness, pressure, or pain in the upper left belly.'},
-  {icon:'🛋️', text:'How much has feeling unwell slowed us down?', sub:'That overall sense of not quite being ourselves.'},
-  {icon:'🧠', text:'How foggy or scattered has our thinking felt?', sub:'Trouble focusing, remembering things, staying sharp.'},
-  {icon:'💫', text:'Any dizziness or lightheadedness this week?', sub:'Feeling unsteady or a little off-balance.'},
-  {icon:'😮', text:'Has coughing been a problem?', sub:'Persistent or unusual coughing, not from a cold.'},
-  {icon:'🌡️', text:'Have we had any fevers?', sub:'Temperature above 100°F, or just feeling feverish.'},
-];
-var ciWords = ['Not present at all','Barely there','Just a little','Mild','Mild to moderate','Moderate','More than moderate','Quite significant','Really affecting me','Hard to manage','As bad as it gets'];
-var ciEncs = ["Great - thanks for checking in.","Good to know.","Got it.","Noted.","Thanks for being honest.","Helpful to track.","Good to know.","Thank you - this matters.","Noted.","Thanks for sharing.","Flagged."];
-function ciColor(v) { return v<=3?'var(--midday)':v<=6?'var(--sunset,#C89858)':'var(--flag-high)'; }
-function renderCi() {
-  var q = ciQuestions[ciQ];
-  var el = function(id) { return document.getElementById(id); };
-  if (el('ci-current')) el('ci-current').textContent = ciQ + 1;
-  if (el('ci-fill')) el('ci-fill').style.width = ((ciQ+1)/10*100) + '%';
-  if (el('ci-icon')) el('ci-icon').textContent = q.icon;
-  if (el('ci-text')) el('ci-text').textContent = q.text;
-  if (el('ci-sub')) el('ci-sub').textContent = q.sub;
-  if (el('ci-slider')) el('ci-slider').value = ciScores[ciQ];
-  updateCiUI(ciScores[ciQ], ciTouched[ciQ]);
-  if (el('ci-next')) el('ci-next').textContent = ciQ === 9 ? 'Finish ✓' : 'Next →';
-}
-function updateCiUI(val, touched) {
-  var v = parseInt(val);
-  var c = ciColor(v);
-  var sc = document.getElementById('ci-score');
-  var sw = document.getElementById('ci-word');
-  var se = document.getElementById('ci-enc');
-  var nb = document.getElementById('ci-next');
-  if (sc) { sc.textContent = touched ? v : '—'; sc.style.color = touched ? c : 'var(--predawn)'; }
-  if (sw) { sw.textContent = touched ? ciWords[v] : 'Slide to answer'; sw.style.color = touched ? c : 'var(--predawn)'; }
-  if (se) se.textContent = touched ? ciEncs[v] : '';
-  if (nb) nb.style.background = touched ? c.replace('var(--midday)','var(--midday)') : 'var(--midday)';
-}
-function onCiSlider(val) { ciScores[ciQ] = parseInt(val); ciTouched[ciQ] = true; updateCiUI(val, true); }
-function nextCi() { if (ciQ < 9) { ciQ++; renderCi(); } else go('s-dashboard'); }
-function prevCi() { if (ciQ > 0) { ciQ--; renderCi(); } else go('s-dashboard'); }
+// ── Check-in ──────────────────────────────────────────
+var ciGroup = 0;
+var ciScores = {};
 
-// Appointment questions progress
-var aqAsked = 0;
-function toggleQ(el, id) {
-  var now = el.classList.toggle('asked');
-  var c = document.getElementById(id + '-c');
-  if (c) c.textContent = now ? '✓' : '○';
-  aqAsked = now ? aqAsked + 1 : aqAsked - 1;
-  var pb = document.getElementById('qprog');
-  var pt = document.getElementById('qprog-text');
-  if (pb) pb.style.width = (aqAsked/7*100) + '%';
-  if (pt) pt.textContent = aqAsked + ' of 7 asked';
+var ciGroups = [
+  { label: 'Fatigue & Energy', time: '~8 min', questions: [
+    {id:0, icon:'😴', text:'How heavy has fatigue felt this week?', sub:'Think about your worst day this week.'},
+    {id:5, icon:'🛋️', text:'How much has feeling unwell slowed you down?', sub:'That overall sense of not quite being yourself.'},
+  ]},
+  { label: 'Physical Symptoms', time: '~5 min', questions: [
+    {id:2, icon:'🤲', text:'How much has itching bothered you?', sub:'The unexplained MPN itch — not from a rash.'},
+    {id:3, icon:'🦴', text:'How much have bone or muscle aches weighed on you?', sub:'Deep aches, joint pain, or heaviness.'},
+    {id:4, icon:'🫃', text:'Any discomfort under your left ribs?', sub:'Fullness, pressure, or pain in the upper left belly.'},
+  ]},
+  { label: 'Mind & Sleep', time: '~3 min', questions: [
+    {id:1, icon:'🌙', text:'How much have night sweats disrupted your sleep?', sub:'Waking up drenched, or too warm to settle.'},
+    {id:6, icon:'🧠', text:'How foggy or scattered has your thinking felt?', sub:'Trouble focusing, remembering things, staying sharp.'},
+    {id:7, icon:'💫', text:'Any dizziness or lightheadedness this week?', sub:'Feeling unsteady or a little off-balance.'},
+  ]},
+  { label: 'Other Symptoms', time: '~1 min', questions: [
+    {id:8, icon:'😮', text:'Has coughing been a problem this week?', sub:'Persistent or unusual coughing, not from a cold.'},
+    {id:9, icon:'🌡️', text:'Have you had any fevers?', sub:'Temperature above 100°F, or just feeling feverish.'},
+  ]},
+];
+
+var ciWords = ['Not at all','Barely there','Just a little','Mild','Mild to moderate','Moderate','More than moderate','Quite significant','Really affecting you','Hard to manage','As bad as it gets'];
+var ciColors = ['var(--midday)','var(--midday)','var(--midday)','var(--midday)','var(--sunset)','var(--sunset)','var(--sunset)','var(--flag-high)','var(--flag-high)','var(--flag-high)','var(--flag-high)'];
+
+function startCiNew() {
+  ciGroup = 0; ciScores = {};
+  go('s-checkin');
+  setTimeout(renderCiGroup, 50);
 }
+
+function renderGroupDots() {
+  var el = document.getElementById('ci-group-dots');
+  if (!el) return;
+  var html = '';
+  for (var i = 0; i < ciGroups.length; i++) {
+    var g = ciGroups[i];
+    var done = g.questions.every(function(q){ return ciScores[q.id] !== undefined; });
+    var active = i === ciGroup;
+    var w = active ? '28px' : '8px';
+    var bg = active ? 'var(--midday)' : done ? 'rgba(62,168,204,0.5)' : 'var(--surface)';
+    var border = (!active && !done) ? '1px solid var(--border)' : 'none';
+    html += '<div style="height:7px;border-radius:4px;background:'+bg+';width:'+w+';border:'+border+';transition:all .3s;flex-shrink:0"></div>';
+  }
+  el.innerHTML = html;
+}
+
+function buildNumGrid(qId) {
+  var sel = ciScores[qId];
+  var html = '<div style="display:flex;gap:3px;margin-top:10px">';
+  for (var i = 0; i <= 10; i++) {
+    var isSel = sel === i;
+    var bg = isSel ? ciColors[i] : 'white';
+    var color = isSel ? 'white' : 'var(--predawn)';
+    var fw = isSel ? '700' : '400';
+    var border = isSel ? 'none' : '1.5px solid var(--border)';
+    var shadow = isSel ? '0 2px 6px rgba(0,0,0,.15)' : 'none';
+    html += '<button onclick="pickScore('+qId+','+i+')" style="flex:1;height:32px;border-radius:7px;background:'+bg+';border:'+border+';font-size:12px;font-weight:'+fw+';color:'+color+';cursor:pointer;box-shadow:'+shadow+';transition:all .15s">'+i+'</button>';
+  }
+  html += '</div>';
+  if (sel !== undefined) {
+    html += '<div style="text-align:center;margin-top:7px;font-size:12px;font-weight:600;color:'+ciColors[sel]+'">'+ciWords[sel]+'</div>';
+  } else {
+    html += '<div style="text-align:center;margin-top:7px;font-size:11px;color:var(--predawn)">0 = not at all &nbsp;·&nbsp; 10 = as bad as it gets</div>';
+  }
+  return html;
+}
+
+function renderCiGroup() {
+  // Show ALL groups and ALL questions in one scrollable view
+  var titleEl = document.getElementById('ci-group-title');
+  var timeEl = document.getElementById('ci-time-left');
+  var fillEl = document.getElementById('ci-fill');
+  var container = document.getElementById('ci-questions-container');
+  if (titleEl) titleEl.textContent = 'MPN-10 · This week';
+  if (timeEl) timeEl.textContent = '5–10 min';
+  var answered = Object.keys(ciScores).length;
+  if (fillEl) fillEl.style.width = Math.max(8, (answered/10*100))+'%';
+  renderGroupDots();
+  if (!container) return;
+
+  var html = '';
+  for (var gi = 0; gi < ciGroups.length; gi++) {
+    var g = ciGroups[gi];
+    // Group header
+    html += '<div style="display:flex;align-items:center;gap:10px;padding:4px 2px">';
+    html += '<div style="font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--predawn)">'+g.label+'</div>';
+    html += '<div style="flex:1;height:1px;background:var(--border)"></div>';
+    var groupDone = g.questions.filter(function(q){ return ciScores[q.id] !== undefined; }).length;
+    html += '<div style="font-size:10px;color:var(--predawn)">'+groupDone+'/'+g.questions.length+'</div>';
+    html += '</div>';
+
+    for (var i = 0; i < g.questions.length; i++) {
+      var q = g.questions[i];
+      var sel = ciScores[q.id];
+      var cardBg = sel === undefined ? 'white' : sel >= 7 ? '#FEF2F0' : sel >= 4 ? '#FFFBF2' : '#F0F9FF';
+      var cardBorder = sel === undefined ? '1px solid var(--border)' : sel >= 7 ? '1.5px solid rgba(200,112,96,0.3)' : sel >= 4 ? '1.5px solid rgba(200,152,88,0.3)' : '1.5px solid rgba(62,168,204,0.3)';
+      html += '<div id="ci-card-'+q.id+'" style="background:'+cardBg+';border-radius:18px;padding:16px 16px 14px;border:'+cardBorder+';transition:all .3s">';
+      html += '<div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:10px">';
+      html += '<span style="font-size:26px;flex-shrink:0;margin-top:2px">'+q.icon+'</span>';
+      html += '<div style="flex:1"><div style="font-size:14px;font-weight:600;color:var(--midnight);line-height:1.3">'+q.text+'</div>';
+      html += '<div style="font-size:11px;color:var(--predawn);margin-top:3px;font-weight:300">'+q.sub+'</div></div>';
+      if (sel !== undefined) {
+        var scoreColor = sel >= 7 ? 'var(--flag-high)' : sel >= 4 ? 'var(--sunset)' : 'var(--midday)';
+        html += '<div style="font-size:18px;font-weight:700;color:'+scoreColor+';line-height:1;flex-shrink:0">'+sel+'</div>';
+      }
+      html += '</div>';
+      html += buildNumGrid(q.id);
+      html += '</div>';
+    }
+  }
+
+  // Finish button
+  var allDone = Object.keys(ciScores).length === 10;
+  html += '<div style="height:4px"></div>';
+  html += '<button id="ci-next-btn" onclick="ciFinishAll()" style="background:var(--midday);color:var(--midnight);border:none;border-radius:14px;padding:14px;width:100%;font-size:15px;font-weight:600;cursor:pointer;transition:opacity .2s;opacity:'+(allDone?'1':'.35')+'">Finish check-in ✓</button>';
+  html += '<div style="text-align:center;margin-top:8px;font-size:11px;color:var(--predawn)">'+(allDone ? 'All 10 answered — ready to save.' : (10 - Object.keys(ciScores).length) + ' questions remaining')+'</div>';
+  html += '<div style="height:16px"></div>';
+  container.innerHTML = html;
+}
+
+function ciFinishAll() {
+  if (Object.keys(ciScores).length < 10) return;
+  go('s-checkin-done');
+}
+
+function pickScore(qId, val) {
+  ciScores[qId] = val;
+  // Update just this card without full re-render
+  var card = document.getElementById('ci-card-'+qId);
+  if (card) {
+    var bg = val >= 7 ? '#FEF2F0' : val >= 4 ? '#FFFBF2' : '#F0F9FF';
+    var border = val >= 7 ? '1.5px solid rgba(200,112,96,0.3)' : val >= 4 ? '1.5px solid rgba(200,152,88,0.3)' : '1.5px solid rgba(62,168,204,0.3)';
+    card.style.background = bg; card.style.border = border;
+    // Update score badge in header
+    var scoreColor = val >= 7 ? 'var(--flag-high)' : val >= 4 ? 'var(--sunset)' : 'var(--midday)';
+    var existingBadge = card.querySelector('.score-badge');
+    if (!existingBadge) {
+      var headerRow = card.querySelector('div[style*="flex-shrink:0;margin-top:2px"]');
+      if (headerRow && headerRow.parentNode) {
+        var badge = document.createElement('div');
+        badge.className = 'score-badge';
+        badge.style.cssText = 'font-size:18px;font-weight:700;color:'+scoreColor+';line-height:1;flex-shrink:0';
+        badge.textContent = val;
+        headerRow.parentNode.appendChild(badge);
+      }
+    } else {
+      existingBadge.style.color = scoreColor;
+      existingBadge.textContent = val;
+    }
+    // Rebuild num grid
+    var gridWrap = card.querySelector('div[style*="display:flex;gap:3px"]');
+    if (gridWrap) {
+      var newHtml = buildNumGrid(qId);
+      var tmp = document.createElement('div');
+      tmp.innerHTML = newHtml;
+      // Replace grid container and label below it
+      var parent = gridWrap.parentNode;
+      var nextSib = gridWrap.nextSibling;
+      parent.removeChild(gridWrap);
+      if (nextSib && nextSib.textContent && (nextSib.textContent.includes('/10') || nextSib.textContent.includes('not at all') || nextSib.textContent.includes('Not at all'))) {
+        parent.removeChild(nextSib);
+      }
+      var tmpChildren = Array.from(tmp.children);
+      for (var j = 0; j < tmpChildren.length; j++) {
+        parent.appendChild(tmpChildren[j]);
+      }
+    }
+  }
+  // Update progress
+  var answered = Object.keys(ciScores).length;
+  var fillEl = document.getElementById('ci-fill');
+  if (fillEl) fillEl.style.width = Math.max(8,(answered/10*100))+'%';
+  renderGroupDots();
+  // Update finish button
+  var btn = document.getElementById('ci-next-btn');
+  if (btn) {
+    var allDone = answered === 10;
+    btn.style.opacity = allDone ? '1' : '.35';
+    if (allDone) {
+      var hint = btn.nextSibling;
+      if (hint) hint.textContent = 'All 10 answered — ready to save.';
+    }
+  }
+}
+
+function ciNextGroup() {
+  var g = ciGroups[ciGroup];
+  var allDone = g.questions.every(function(q){ return ciScores[q.id] !== undefined; });
+  if (!allDone) return;
+  if (ciGroup < ciGroups.length - 1) { ciGroup++; renderCiGroup(); }
+  else { go('s-checkin-done'); }
+}
+
+function ciBack() {
+  if (ciGroup > 0) { ciGroup--; renderCiGroup(); }
+  else go('s-checkin-intro');
+}
+
+// Route tab bar + dashboard check-in CTA to intro
+function onCiSlider() {}
+
+function function_go() { ciGroup=0; ciScores={}; _goOrig('s-checkin'); setTimeout(renderCiGroup,50); }
+var _goOrig = go;
+
+function renderCi() { renderCiGroup(); }
+function nextCi() { ciNextGroup(); }
+function prevCi() { ciBack(); }
+
 
 // Toggle health events
 function toggleEvent(el) {
@@ -3652,6 +4008,179 @@ function copyNote() {
     if (confirm) { confirm.style.display = 'none'; }
   }, 3000);
 }
+
+
+// ── Talk to Claude Check-in ─────────────────────────────
+var talkQIdx = 0;
+var talkScores = {};
+var talkHistory = [];
+
+var talkQuestions = [
+  {id:0, q:'How heavy has fatigue felt this week? Think about your worst day.'},
+  {id:1, q:'How much have night sweats disrupted your sleep this week?'},
+  {id:2, q:'How much has itching bothered you this week — the unexplained MPN itch?'},
+  {id:3, q:'How much have bone or muscle aches weighed on you?'},
+  {id:4, q:'Any discomfort under your left ribs — fullness, pressure, or pain?'},
+  {id:5, q:'How much has feeling generally unwell slowed you down?'},
+  {id:6, q:'How foggy or scattered has your thinking felt this week?'},
+  {id:7, q:'Any dizziness or lightheadedness this week?'},
+  {id:8, q:'Has coughing been a problem — anything persistent or unusual?'},
+  {id:9, q:'Have you had any fevers this week, or just felt feverish?'},
+];
+
+function addTalkMsg(role, text, score) {
+  var container = document.getElementById('talk-messages');
+  if (!container) return;
+  var isUser = role === 'user';
+  var div = document.createElement('div');
+  div.style.cssText = 'display:flex;' + (isUser ? 'justify-content:flex-end' : 'justify-content:flex-start') + ';gap:8px;align-items:flex-end';
+  
+  var bubble = document.createElement('div');
+  bubble.style.cssText = 'max-width:80%;padding:10px 14px;border-radius:' + (isUser ? '16px 16px 4px 16px' : '16px 16px 16px 4px') + ';font-size:14px;line-height:1.5;font-weight:300;' + (isUser ? 'background:var(--midday);color:var(--midnight)' : 'background:var(--midnight);color:rgba(255,252,245,0.9)');
+  bubble.textContent = text;
+  
+  if (score !== undefined) {
+    var badge = document.createElement('div');
+    var color = score >= 7 ? 'var(--flag-high)' : score >= 4 ? 'var(--sunset)' : 'var(--midday)';
+    badge.style.cssText = 'font-size:11px;font-weight:700;color:' + color + ';margin-top:4px;text-align:right';
+    badge.textContent = 'Logged: ' + score + '/10';
+    var wrap = document.createElement('div');
+    wrap.appendChild(bubble);
+    wrap.appendChild(badge);
+    if (isUser) { div.appendChild(wrap); }
+    else { div.appendChild(wrap); }
+  } else {
+    div.appendChild(bubble);
+  }
+  
+  container.appendChild(div);
+  container.scrollTop = container.scrollHeight;
+}
+
+function updateTalkProgress() {
+  var prog = document.getElementById('talk-progress');
+  var dots = document.getElementById('talk-dots');
+  var n = talkQIdx + 1;
+  if (prog) prog.textContent = 'Question ' + n + ' of 10';
+  if (dots) {
+    var html = '';
+    for (var i = 0; i < 10; i++) {
+      var done = talkScores[i] !== undefined;
+      var active = i === talkQIdx;
+      var bg = active ? 'var(--midday)' : done ? 'rgba(62,168,204,0.5)' : 'var(--border)';
+      var w = active ? '16px' : '6px';
+      html += '<div style="height:6px;border-radius:3px;background:' + bg + ';width:' + w + ';transition:all .3s"></div>';
+    }
+    dots.innerHTML = html;
+  }
+}
+
+async function sendTalkMsg() {
+  var input = document.getElementById('talk-input');
+  if (!input || !input.value.trim()) return;
+  var userText = input.value.trim();
+  input.value = '';
+  
+  addTalkMsg('user', userText);
+  
+  // Show typing indicator
+  var container = document.getElementById('talk-messages');
+  var typing = document.createElement('div');
+  typing.id = 'talk-typing';
+  typing.style.cssText = 'display:flex;justify-content:flex-start';
+  typing.innerHTML = '<div style="background:var(--midnight);border-radius:16px 16px 16px 4px;padding:10px 14px;font-size:14px;color:rgba(255,252,245,0.5);font-weight:300">Claude is thinking…</div>';
+  if (container) container.appendChild(typing);
+  if (container) container.scrollTop = container.scrollHeight;
+  
+  try {
+    var currentQ = talkQuestions[talkQIdx];
+    talkHistory.push({ role: 'user', content: userText });
+    
+    var systemPrompt = 'You are a compassionate health companion helping an MPN (blood cancer) patient complete their weekly MPN-10 symptom check-in. ' +
+      'The patient is answering this question: "' + currentQ.q + '" ' +
+      'Your job is to: 1) Acknowledge their response with warmth and empathy, 2) Extract a score from 0-10 based on what they said, 3) Briefly confirm the score you logged. ' +
+      'Be conversational, warm, and brief. Do not be clinical. ' +
+      'Always end your response with exactly this format on a new line: SCORE:[number] ' +
+      'If the next question is needed, also add: NEXT ' +
+      "Example response: Logged fatigue at 8 out of 10. SCORE:8 NEXT";
+    
+    var response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 200,
+        system: systemPrompt,
+        messages: talkHistory
+      })
+    });
+    
+    var data = await response.json();
+    var reply = data.content && data.content[0] ? data.content[0].text : 'Got it, thank you.';
+    
+    // Remove typing indicator
+    var t = document.getElementById('talk-typing');
+    if (t) t.remove();
+    
+    // Extract score
+    var scoreMatch = reply.match(/SCORE:(\d+)/);
+    var score = scoreMatch ? parseInt(scoreMatch[1]) : 5;
+    score = Math.min(10, Math.max(0, score));
+    talkScores[currentQ.id] = score;
+    
+    // Clean reply for display
+    var cleanReply = reply.replace(/SCORE:\d+/g, '').replace(/NEXT/g, '').trim();
+    addTalkMsg('claude', cleanReply, score);
+    talkHistory.push({ role: 'assistant', content: cleanReply });
+    
+    // Move to next question
+    talkQIdx++;
+    
+    if (talkQIdx < talkQuestions.length) {
+      updateTalkProgress();
+      // Small delay then ask next question
+      setTimeout(function() {
+        var nextQ = talkQuestions[talkQIdx];
+        var nextMsg = nextQ.q;
+        addTalkMsg('claude', nextMsg);
+        talkHistory.push({ role: 'assistant', content: nextMsg });
+        updateTalkProgress();
+      }, 800);
+    } else {
+      // All done — copy scores to ciScores and go to done screen
+      setTimeout(function() {
+        addTalkMsg('claude', "That's all 10 questions — thank you for being so open about how you're feeling. I've logged everything. Let me put your check-in together.");
+        setTimeout(function() {
+          // Transfer scores
+          for (var k in talkScores) { ciScores[k] = talkScores[k]; }
+          go('s-checkin-done');
+        }, 2000);
+      }, 600);
+    }
+    
+  } catch (err) {
+    var t = document.getElementById('talk-typing');
+    if (t) t.remove();
+    addTalkMsg('claude', "I couldn't connect right now. You can still type your score as a number (0-10) and I'll log it.");
+  }
+}
+
+// Initialize talk screen when opened
+var _goWithTalk = go;
+go = function(id) {
+  _goWithTalk(id);
+  if (id === 's-checkin-talk') {
+    talkQIdx = 0; talkScores = {}; talkHistory = [];
+    var container = document.getElementById('talk-messages');
+    if (container) container.innerHTML = '';
+    setTimeout(function() {
+      var opening = "Hi John. I'm going to ask you 10 questions about how you've been feeling this week. Just respond naturally — I'll take care of the rest.\n\nLet's start: " + talkQuestions[0].q;
+      addTalkMsg('claude', opening);
+      talkHistory.push({ role: 'assistant', content: opening });
+      updateTalkProgress();
+    }, 300);
+  }
+};
 
 </script>
 </body>
