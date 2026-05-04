@@ -3495,6 +3495,241 @@ body{background:var(--midnight);font-family:'DM Sans',sans-serif;display:flex;fl
   </div>
 </div>
 
+
+<!-- ══ Lab: Upload PDF ══ -->
+<div class="sim-screen" id="s-lab-upload">
+  <div style="background:var(--canvas);padding:14px 20px 0;flex-shrink:0;border-bottom:1px solid var(--border)">
+    <div style="display:flex;align-items:center;justify-content:space-between;height:44px">
+      <button onclick="go('s-connect-why')" style="background:none;border:none;color:var(--midday);font-size:16px;cursor:pointer">‹ Back</button>
+      <span style="font-size:14px;font-weight:500;color:var(--midnight)">Upload lab results</span>
+      <span style="width:48px"></span>
+    </div>
+  </div>
+  <div style="padding:20px;display:flex;flex-direction:column;flex:1;gap:14px;overflow-y:auto">
+
+    <!-- How to get the PDF -->
+    <div style="background:var(--midnight);border-radius:14px;padding:16px 18px">
+      <div style="font-size:11px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--midday);margin-bottom:10px">How to download your labs</div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div style="display:flex;gap:10px;align-items:flex-start">
+          <div style="width:22px;height:22px;border-radius:50%;background:var(--midday);color:var(--midnight);font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px">1</div>
+          <div style="font-size:12px;color:rgba(255,252,245,0.7);line-height:1.55;font-weight:300">Open MyChart, Epic, or your hospital portal on your phone or laptop</div>
+        </div>
+        <div style="display:flex;gap:10px;align-items:flex-start">
+          <div style="width:22px;height:22px;border-radius:50%;background:var(--midday);color:var(--midnight);font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px">2</div>
+          <div style="font-size:12px;color:rgba(255,252,245,0.7);line-height:1.55;font-weight:300">Go to Test Results → select your most recent panel → tap Download or Print → save as PDF</div>
+        </div>
+        <div style="display:flex;gap:10px;align-items:flex-start">
+          <div style="width:22px;height:22px;border-radius:50%;background:var(--midday);color:var(--midnight);font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px">3</div>
+          <div style="font-size:12px;color:rgba(255,252,245,0.7);line-height:1.55;font-weight:300">Come back here and upload — we handle the rest automatically</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Upload zone -->
+    <div onclick="go('s-lab-parsed')" style="border:2px dashed var(--midday);border-radius:16px;padding:32px 20px;display:flex;flex-direction:column;align-items:center;gap:10px;cursor:pointer;background:#F7FBFD">
+      <div style="font-size:40px">📄</div>
+      <div style="font-size:15px;font-weight:600;color:var(--midnight)">Tap to upload your lab PDF</div>
+      <div style="font-size:12px;color:var(--predawn);text-align:center;font-weight:300;line-height:1.5">Any format works — MyChart, Epic, LabCorp, Quest, Mayo, any hospital printout</div>
+      <div style="background:var(--midday);color:var(--midnight);border-radius:20px;padding:8px 24px;font-size:13px;font-weight:600;margin-top:4px">Choose file</div>
+    </div>
+
+    <!-- What we extract -->
+    <div style="background:white;border-radius:14px;border:1px solid var(--border);overflow:hidden">
+      <div style="padding:11px 16px;border-bottom:1px solid var(--surface)">
+        <div style="font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--predawn)">What we automatically extract</div>
+      </div>
+      <div style="padding:12px 16px;display:flex;flex-direction:column;gap:7px">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <span style="font-size:13px;color:var(--midnight)">Platelets</span>
+          <span style="font-size:11px;color:var(--predawn)">×10³/µL</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <span style="font-size:13px;color:var(--midnight)">Hemoglobin</span>
+          <span style="font-size:11px;color:var(--predawn)">g/dL</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <span style="font-size:13px;color:var(--midnight)">Hematocrit</span>
+          <span style="font-size:11px;color:var(--predawn)">%</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <span style="font-size:13px;color:var(--midnight)">WBC · RBC · MCV</span>
+          <span style="font-size:11px;color:var(--predawn)">Full CBC panel</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <span style="font-size:13px;color:var(--midnight)">Draw date</span>
+          <span style="font-size:11px;color:var(--midday);font-weight:500">Auto-detected</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="background:var(--surface);border-radius:10px;padding:10px 14px">
+      <div style="font-size:11px;color:var(--predawn);line-height:1.5;font-weight:300">You review everything before we save it. Nothing is added to your record without your confirmation.</div>
+    </div>
+
+    <div style="text-align:center;padding-top:4px">
+      <span onclick="go('s-lab-photo')" style="font-size:12px;color:var(--midday);font-weight:500;cursor:pointer">Or take a photo instead →</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══ Lab: Photo Capture ══ -->
+<div class="sim-screen" id="s-lab-photo">
+  <div style="background:var(--canvas);padding:14px 20px 0;flex-shrink:0;border-bottom:1px solid var(--border)">
+    <div style="display:flex;align-items:center;justify-content:space-between;height:44px">
+      <button onclick="go('s-connect-why')" style="background:none;border:none;color:var(--midday);font-size:16px;cursor:pointer">‹ Back</button>
+      <span style="font-size:14px;font-weight:500;color:var(--midnight)">Take a photo</span>
+      <span style="width:48px"></span>
+    </div>
+  </div>
+  <div style="padding:20px;display:flex;flex-direction:column;flex:1;gap:14px;overflow-y:auto">
+
+    <div>
+      <div style="font-size:18px;font-weight:700;color:var(--midnight);margin-bottom:6px">Point at your lab results</div>
+      <div style="font-size:14px;color:var(--predawn);font-weight:300;line-height:1.6">Works with a printout, a laptop screen, or a tablet showing your portal. AI reads the values automatically.</div>
+    </div>
+
+    <!-- Camera viewfinder mockup -->
+    <div onclick="go('s-lab-parsed')" style="background:#1A2830;border-radius:16px;overflow:hidden;cursor:pointer;position:relative">
+      <div style="padding:16px 16px 12px">
+        <!-- Simulated lab document -->
+        <div style="background:rgba(255,255,255,0.08);border-radius:8px;padding:12px;margin-bottom:8px">
+          <div style="font-size:9px;font-weight:600;color:rgba(255,255,255,0.5);margin-bottom:8px;letter-spacing:.5px;text-transform:uppercase">Mayo Clinic · CBC with Differential</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px">
+            <div style="font-size:8px;color:rgba(255,255,255,0.6)">Platelets</div>
+            <div style="font-size:8px;color:#ff8877;font-weight:600">842 H</div>
+            <div style="font-size:8px;color:rgba(255,255,255,0.35)">150–400</div>
+            <div style="font-size:8px;color:rgba(255,255,255,0.6)">Hemoglobin</div>
+            <div style="font-size:8px;color:rgba(255,255,255,0.85);font-weight:600">14.6</div>
+            <div style="font-size:8px;color:rgba(255,255,255,0.35)">13.5–17.5</div>
+            <div style="font-size:8px;color:rgba(255,255,255,0.6)">WBC</div>
+            <div style="font-size:8px;color:rgba(255,255,255,0.85);font-weight:600">7.2</div>
+            <div style="font-size:8px;color:rgba(255,255,255,0.35)">4.5–11.0</div>
+            <div style="font-size:8px;color:rgba(255,255,255,0.6)">Hematocrit</div>
+            <div style="font-size:8px;color:rgba(255,255,255,0.85);font-weight:600">43.0</div>
+            <div style="font-size:8px;color:rgba(255,255,255,0.35)">38.3–48.6</div>
+          </div>
+        </div>
+        <!-- Scan bracket corners -->
+        <div style="position:absolute;top:20px;left:20px;width:22px;height:22px;border-top:2.5px solid var(--midday);border-left:2.5px solid var(--midday);border-radius:2px 0 0 0"></div>
+        <div style="position:absolute;top:20px;right:20px;width:22px;height:22px;border-top:2.5px solid var(--midday);border-right:2.5px solid var(--midday);border-radius:0 2px 0 0"></div>
+        <div style="position:absolute;bottom:52px;left:20px;width:22px;height:22px;border-bottom:2.5px solid var(--midday);border-left:2.5px solid var(--midday);border-radius:0 0 0 2px"></div>
+        <div style="position:absolute;bottom:52px;right:20px;width:22px;height:22px;border-bottom:2.5px solid var(--midday);border-right:2.5px solid var(--midday);border-radius:0 0 2px 0"></div>
+      </div>
+      <div style="background:rgba(0,0,0,0.45);padding:12px 16px;text-align:center">
+        <div style="font-size:13px;font-weight:600;color:white">Tap to open camera</div>
+        <div style="font-size:11px;color:rgba(255,255,255,0.5);margin-top:2px">Align results within the frame</div>
+      </div>
+    </div>
+
+    <!-- Tips -->
+    <div style="background:white;border-radius:14px;border:1px solid var(--border);padding:14px 16px">
+      <div style="font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--predawn);margin-bottom:10px">Tips for best results</div>
+      <div style="display:flex;flex-direction:column;gap:9px">
+        <div style="display:flex;gap:10px;align-items:center">
+          <span style="font-size:16px;flex-shrink:0">💡</span>
+          <span style="font-size:12px;color:var(--midnight);font-weight:300">Good lighting — near a window or bright lamp works best</span>
+        </div>
+        <div style="display:flex;gap:10px;align-items:center">
+          <span style="font-size:16px;flex-shrink:0">📐</span>
+          <span style="font-size:12px;color:var(--midnight);font-weight:300">Keep the page flat and hold your phone level above it</span>
+        </div>
+        <div style="display:flex;gap:10px;align-items:center">
+          <span style="font-size:16px;flex-shrink:0">🔍</span>
+          <span style="font-size:12px;color:var(--midnight);font-weight:300">Capture the full panel — not just one section</span>
+        </div>
+        <div style="display:flex;gap:10px;align-items:center">
+          <span style="font-size:16px;flex-shrink:0">🖥️</span>
+          <span style="font-size:12px;color:var(--midnight);font-weight:300">Screen works too — zoom your portal to the results table first</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align:center">
+      <span onclick="go('s-lab-upload')" style="font-size:12px;color:var(--midday);font-weight:500;cursor:pointer">Or upload a PDF instead →</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══ Lab: Parsed Results ══ -->
+<div class="sim-screen" id="s-lab-parsed">
+  <div style="background:var(--canvas);padding:14px 20px 0;flex-shrink:0;border-bottom:1px solid var(--border)">
+    <div style="display:flex;align-items:center;justify-content:space-between;height:44px">
+      <button onclick="go('s-lab-upload')" style="background:none;border:none;color:var(--midday);font-size:16px;cursor:pointer">‹ Back</button>
+      <span style="font-size:14px;font-weight:500;color:var(--midnight)">Review & confirm</span>
+      <span style="width:48px"></span>
+    </div>
+  </div>
+  <div style="padding:16px 20px;display:flex;flex-direction:column;flex:1;gap:14px;overflow-y:auto">
+
+    <!-- Success header -->
+    <div style="background:#D4EAD8;border-radius:12px;padding:12px 14px;display:flex;align-items:center;gap:10px">
+      <span style="font-size:22px">✓</span>
+      <div>
+        <div style="font-size:13px;font-weight:600;color:#1A6040">We read your labs successfully</div>
+        <div style="font-size:11px;color:#2A7050;font-weight:300;margin-top:2px">Mayo Clinic CBC · March 28, 2025 · Review before saving</div>
+      </div>
+    </div>
+
+    <!-- Extracted values -->
+    <div style="background:white;border-radius:14px;border:1px solid var(--border);overflow:hidden">
+      <div style="padding:11px 16px;border-bottom:1px solid var(--surface);display:flex;align-items:center;justify-content:space-between">
+        <div style="font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--predawn)">Extracted values</div>
+        <div style="font-size:11px;color:var(--predawn)">Tap any value to edit</div>
+      </div>
+      <div style="display:flex;flex-direction:column">
+        <div style="display:grid;grid-template-columns:1fr 70px 80px;padding:10px 16px;border-bottom:1px solid var(--surface);align-items:center">
+          <span style="font-size:13px;font-weight:500;color:var(--midnight)">Platelets</span>
+          <span style="font-size:16px;font-weight:700;color:var(--red);text-align:right">842</span>
+          <span style="font-size:11px;color:var(--predawn);text-align:right">×10³/µL</span>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 70px 80px;padding:10px 16px;border-bottom:1px solid var(--surface);align-items:center">
+          <span style="font-size:13px;font-weight:500;color:var(--midnight)">Hemoglobin</span>
+          <span style="font-size:16px;font-weight:700;color:var(--midnight);text-align:right">14.6</span>
+          <span style="font-size:11px;color:var(--predawn);text-align:right">g/dL</span>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 70px 80px;padding:10px 16px;border-bottom:1px solid var(--surface);align-items:center">
+          <span style="font-size:13px;font-weight:500;color:var(--midnight)">Hematocrit</span>
+          <span style="font-size:16px;font-weight:700;color:var(--midnight);text-align:right">43.0</span>
+          <span style="font-size:11px;color:var(--predawn);text-align:right">%</span>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 70px 80px;padding:10px 16px;border-bottom:1px solid var(--surface);align-items:center">
+          <span style="font-size:13px;font-weight:500;color:var(--midnight)">WBC</span>
+          <span style="font-size:16px;font-weight:700;color:var(--midnight);text-align:right">7.2</span>
+          <span style="font-size:11px;color:var(--predawn);text-align:right">×10³/µL</span>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 70px 80px;padding:10px 16px;align-items:center">
+          <span style="font-size:13px;font-weight:500;color:var(--midnight)">RBC</span>
+          <span style="font-size:16px;font-weight:700;color:var(--midnight);text-align:right">4.8</span>
+          <span style="font-size:11px;color:var(--predawn);text-align:right">×10⁶/µL</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Platelet flag -->
+    <div style="background:var(--flag-bg);border-radius:10px;padding:10px 14px;border:1px solid rgba(200,112,96,0.2)">
+      <div style="font-size:12px;font-weight:600;color:var(--red);margin-bottom:2px">Platelets above normal range</div>
+      <div style="font-size:11px;color:var(--midnight);font-weight:300;line-height:1.5">842 is above the 150–400 normal range. Expected for ET — we'll track it alongside your other draws and surface the trend in your appointment brief.</div>
+    </div>
+
+    <!-- Draw date -->
+    <div style="background:white;border-radius:12px;border:1px solid var(--border);padding:12px 16px;display:flex;align-items:center;justify-content:space-between">
+      <div>
+        <div style="font-size:12px;font-weight:600;color:var(--midnight)">Draw date</div>
+        <div style="font-size:11px;color:var(--predawn)">Auto-detected from document</div>
+      </div>
+      <div style="font-size:14px;font-weight:600;color:var(--midnight)">Mar 28, 2025</div>
+    </div>
+
+    <div style="margin-top:auto;display:flex;gap:10px;padding-top:4px">
+      <button onclick="go('s-lab-upload')" style="flex:1;background:var(--surface);color:var(--midnight);border:none;border-radius:14px;padding:14px;font-size:14px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif">Re-upload</button>
+      <button onclick="go('s-dashboard')" style="flex:2;background:var(--midday);color:var(--midnight);border:none;border-radius:14px;padding:14px;font-size:15px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif">Save to my record ✓</button>
+    </div>
+
+    <div style="height:8px"></div>
+  </div>
+</div>
+
 </div><!-- /phone -->
 
 <div class="nav-hint">Jump to any screen:</div>
