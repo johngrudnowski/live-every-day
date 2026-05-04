@@ -3730,12 +3730,534 @@ body{background:var(--midnight);font-family:'DM Sans',sans-serif;display:flex;fl
   </div>
 </div>
 
+
+<!-- ══ Dashboard Concepts ══ -->
+
+<!-- Concept A: Check-in First (current baseline) -->
+<div class="sim-screen" id="s-dash-a">
+  <div style="background:var(--canvas);padding:14px 20px 0;flex-shrink:0">
+    <div style="display:flex;align-items:center;justify-content:space-between;height:44px">
+      <div style="display:flex;align-items:center;gap:8px">
+        <svg width="18" height="18" viewBox="-26 -26 52 52">
+          <circle cx="0" cy="-21" r="3.85" fill="#3EA8CC"/>
+          <circle cx="10.5" cy="-18.19" r="3.1" fill="#78A0B8"/>
+          <circle cx="21" cy="0" r="3.85" fill="#C89858"/>
+          <circle cx="0" cy="21" r="3.85" fill="#1A2830" stroke="#506878" stroke-width="1.5"/>
+          <circle cx="-21" cy="0" r="3.85" fill="#E8CC70"/>
+          <circle cx="-18.19" cy="-10.5" r="3.1" fill="#F0E090"/>
+        </svg>
+        <span style="font-size:13px;font-weight:300;color:var(--midnight)">Live <span style="color:var(--sunrise);font-weight:400">Every</span> Day</span>
+      </div>
+      <div style="width:30px;height:30px;border-radius:50%;background:var(--midday);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--midnight)">JG</div>
+    </div>
+  </div>
+
+  <div style="padding:0 20px 16px;display:flex;flex-direction:column;flex:1;gap:12px;overflow-y:auto">
+    <div style="padding-top:16px">
+      <div style="font-size:22px;font-weight:700;color:var(--midnight)">Good morning, John.</div>
+      <div style="font-size:13px;color:var(--predawn);margin-top:2px">Wednesday · April 16</div>
+    </div>
+
+    <!-- Check-in CTA — hero -->
+    <div onclick="go('s-checkin-intro')" style="background:var(--midday);border-radius:16px;padding:18px;cursor:pointer">
+      <div style="font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:rgba(26,40,48,0.6);margin-bottom:4px">This week</div>
+      <div style="font-size:17px;font-weight:700;color:var(--midnight);margin-bottom:6px">Time for your weekly check-in</div>
+      <div style="background:rgba(255,255,255,0.3);border-radius:8px;padding:8px 12px;display:flex;justify-content:space-between;align-items:center">
+        <span style="font-size:12px;color:var(--midnight);font-weight:300">Last week: 29/100 · Fatigue led at 6/10</span>
+        <span style="font-size:13px;font-weight:600;color:var(--midnight)">Begin →</span>
+      </div>
+    </div>
+
+    <!-- Stats row -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div style="background:white;border-radius:12px;padding:14px;border:1px solid var(--border)">
+        <div style="font-size:9px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;color:var(--predawn);margin-bottom:6px">Platelets</div>
+        <div style="font-size:26px;font-weight:700;color:var(--red);line-height:1">842</div>
+        <div style="font-size:11px;color:var(--predawn);margin-top:2px">↑ +10% · Mar 28</div>
+      </div>
+      <div style="background:white;border-radius:12px;padding:14px;border:1px solid var(--border)">
+        <div style="font-size:9px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;color:var(--predawn);margin-bottom:6px">Next visit</div>
+        <div style="font-size:26px;font-weight:700;color:var(--midnight);line-height:1">27</div>
+        <div style="font-size:11px;color:var(--predawn);margin-top:2px">days · Apr 14</div>
+      </div>
+    </div>
+
+    <!-- Quick links -->
+    <div style="font-size:10px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;color:var(--predawn)">Quick access</div>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <div onclick="go('s-data')" style="background:white;border-radius:12px;padding:13px 16px;display:flex;align-items:center;gap:12px;border:1px solid var(--border);cursor:pointer">
+        <span style="font-size:18px">📊</span>
+        <div style="flex:1"><div style="font-size:13px;font-weight:500;color:var(--midnight)">Your data</div><div style="font-size:11px;color:var(--predawn)">Labs · wearables · symptom history</div></div>
+        <span style="color:var(--predawn)">›</span>
+      </div>
+      <div onclick="go('s-prep')" style="background:white;border-radius:12px;padding:13px 16px;display:flex;align-items:center;gap:12px;border:1px solid var(--border);cursor:pointer">
+        <span style="font-size:18px">📋</span>
+        <div style="flex:1"><div style="font-size:13px;font-weight:500;color:var(--midnight)">Appointment prep</div><div style="font-size:11px;color:var(--predawn)">Dr. Wolanskyj-Spinner · Apr 14</div></div>
+        <span style="color:var(--predawn)">›</span>
+      </div>
+    </div>
+
+    <!-- Concept label -->
+    <div style="background:var(--surface);border-radius:8px;padding:8px 12px;text-align:center;margin-top:auto">
+      <div style="font-size:10px;font-weight:700;color:var(--predawn);letter-spacing:.5px;text-transform:uppercase">Concept A — Check-in First</div>
+      <div style="font-size:10px;color:var(--predawn);margin-top:2px">Build the habit. Data comes from you.</div>
+    </div>
+  </div>
+</div>
+
+<!-- Concept B: Observation First -->
+<div class="sim-screen" id="s-dash-b">
+  <div style="background:var(--canvas);padding:14px 20px 0;flex-shrink:0">
+    <div style="display:flex;align-items:center;justify-content:space-between;height:44px">
+      <div style="display:flex;align-items:center;gap:8px">
+        <svg width="18" height="18" viewBox="-26 -26 52 52">
+          <circle cx="0" cy="-21" r="3.85" fill="#3EA8CC"/><circle cx="10.5" cy="-18.19" r="3.1" fill="#78A0B8"/>
+          <circle cx="21" cy="0" r="3.85" fill="#C89858"/><circle cx="0" cy="21" r="3.85" fill="#1A2830" stroke="#506878" stroke-width="1.5"/>
+          <circle cx="-21" cy="0" r="3.85" fill="#E8CC70"/><circle cx="-18.19" cy="-10.5" r="3.1" fill="#F0E090"/>
+        </svg>
+        <span style="font-size:13px;font-weight:300;color:var(--midnight)">Live <span style="color:var(--sunrise);font-weight:400">Every</span> Day</span>
+      </div>
+      <div style="width:30px;height:30px;border-radius:50%;background:var(--midday);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--midnight)">JG</div>
+    </div>
+  </div>
+
+  <div style="padding:0 20px 16px;display:flex;flex-direction:column;flex:1;gap:12px;overflow-y:auto">
+    <div style="padding-top:16px">
+      <div style="font-size:22px;font-weight:700;color:var(--midnight)">Here's what we're seeing.</div>
+      <div style="font-size:13px;color:var(--predawn);margin-top:2px">Wednesday · April 16</div>
+    </div>
+
+    <!-- Primary observation card -->
+    <div style="background:var(--midnight);border-radius:16px;padding:18px">
+      <div style="font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--midday);margin-bottom:8px">Pattern we noticed</div>
+      <div style="font-size:15px;font-weight:600;color:white;line-height:1.4;margin-bottom:8px">Your fatigue runs 2 points higher after nights under 6 hours of sleep.</div>
+      <div style="font-size:12px;color:rgba(255,252,245,0.55);line-height:1.55;font-weight:300">This held in 5 of your last 7 weeks. Last night you slept 5h 22m.</div>
+    </div>
+
+    <!-- Weather nudge -->
+    <div style="background:#EEF7FB;border-radius:14px;padding:14px 16px;display:flex;align-items:flex-start;gap:12px;border:1px solid rgba(62,168,204,0.2)">
+      <span style="font-size:24px;flex-shrink:0">🌡️</span>
+      <div>
+        <div style="font-size:13px;font-weight:600;color:var(--midnight);margin-bottom:3px">Cold front coming Thursday</div>
+        <div style="font-size:12px;color:var(--predawn);line-height:1.5;font-weight:300">Dropping to 28°F overnight. Based on your data, cold weather correlates with increased bone aches. Consider lighter plans Thursday.</div>
+      </div>
+    </div>
+
+    <!-- Lab observation -->
+    <div style="background:white;border-radius:14px;padding:14px 16px;border:1px solid var(--border)">
+      <div style="font-size:10px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;color:var(--predawn);margin-bottom:8px">From your labs</div>
+      <div style="display:flex;align-items:center;gap:14px">
+        <div>
+          <div style="font-size:28px;font-weight:700;color:var(--red);line-height:1">842</div>
+          <div style="font-size:10px;color:var(--predawn);margin-top:2px">platelets · Mar 28</div>
+        </div>
+        <div style="flex:1">
+          <div style="font-size:12px;color:var(--midnight);line-height:1.5;font-weight:300">Three consecutive draws trending up: 764 → 802 → 842. This is a trajectory worth discussing at your next appointment.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sleep this week -->
+    <div style="background:white;border-radius:14px;padding:14px 16px;border:1px solid var(--border)">
+      <div style="font-size:10px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;color:var(--predawn);margin-bottom:10px">Sleep this week</div>
+      <div style="display:flex;align-items:flex-end;gap:4px;height:40px;margin-bottom:6px">
+        <div style="flex:1;border-radius:3px 3px 0 0;background:var(--red)" data-h="55%"></div>
+        <div style="flex:1;border-radius:3px 3px 0 0;background:var(--midday)" data-h="80%"></div>
+        <div style="flex:1;border-radius:3px 3px 0 0;background:var(--midday)" data-h="85%"></div>
+        <div style="flex:1;border-radius:3px 3px 0 0;background:var(--red)" data-h="40%"></div>
+        <div style="flex:1;border-radius:3px 3px 0 0;background:var(--amber)" data-h="65%"></div>
+        <div style="flex:1;border-radius:3px 3px 0 0;background:var(--red)" data-h="35%"></div>
+        <div style="flex:1;border-radius:3px 3px 0 0;background:var(--surface)" data-h="0%"></div>
+      </div>
+      <script>
+        document.querySelectorAll('#s-dash-b [data-h]').forEach(el => { el.style.height = el.dataset.h; });
+      </script>
+      <div style="display:flex;justify-content:space-between">
+        <span style="font-size:10px;color:var(--predawn)">Sun</span>
+        <span style="font-size:10px;color:var(--predawn)">Mon</span>
+        <span style="font-size:10px;color:var(--predawn)">Tue</span>
+        <span style="font-size:10px;color:var(--predawn)">Wed</span>
+        <span style="font-size:10px;color:var(--predawn)">Thu</span>
+        <span style="font-size:10px;color:var(--predawn)">Fri</span>
+        <span style="font-size:10px;color:var(--predawn)">Today</span>
+      </div>
+      <div style="font-size:11px;color:var(--predawn);margin-top:6px">Avg 5h 52m · 3 nights below 6 hours</div>
+    </div>
+
+    <div style="background:var(--surface);border-radius:8px;padding:8px 12px;text-align:center;margin-top:auto">
+      <div style="font-size:10px;font-weight:700;color:var(--predawn);letter-spacing:.5px;text-transform:uppercase">Concept B — Observation First</div>
+      <div style="font-size:10px;color:var(--predawn);margin-top:2px">LED has been watching. Here's what it sees.</div>
+    </div>
+  </div>
+</div>
+
+<!-- Concept C: Action First -->
+<div class="sim-screen" id="s-dash-c">
+  <div style="background:var(--canvas);padding:14px 20px 0;flex-shrink:0">
+    <div style="display:flex;align-items:center;justify-content:space-between;height:44px">
+      <div style="display:flex;align-items:center;gap:8px">
+        <svg width="18" height="18" viewBox="-26 -26 52 52">
+          <circle cx="0" cy="-21" r="3.85" fill="#3EA8CC"/><circle cx="10.5" cy="-18.19" r="3.1" fill="#78A0B8"/>
+          <circle cx="21" cy="0" r="3.85" fill="#C89858"/><circle cx="0" cy="21" r="3.85" fill="#1A2830" stroke="#506878" stroke-width="1.5"/>
+          <circle cx="-21" cy="0" r="3.85" fill="#E8CC70"/><circle cx="-18.19" cy="-10.5" r="3.1" fill="#F0E090"/>
+        </svg>
+        <span style="font-size:13px;font-weight:300;color:var(--midnight)">Live <span style="color:var(--sunrise);font-weight:400">Every</span> Day</span>
+      </div>
+      <div style="width:30px;height:30px;border-radius:50%;background:var(--midday);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--midnight)">JG</div>
+    </div>
+  </div>
+
+  <div style="padding:0 20px 16px;display:flex;flex-direction:column;flex:1;gap:12px;overflow-y:auto">
+    <div style="padding-top:16px">
+      <div style="font-size:22px;font-weight:700;color:var(--midnight)">One thing today.</div>
+      <div style="font-size:13px;color:var(--predawn);margin-top:2px">Wednesday · April 16</div>
+    </div>
+
+    <!-- Primary action card — most urgent -->
+    <div style="background:var(--midnight);border-radius:16px;padding:18px;position:relative;overflow:hidden">
+      <div style="position:absolute;top:0;right:0;width:80px;height:80px;background:rgba(200,112,96,0.15);border-radius:0 16px 0 80px"></div>
+      <div style="font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--red);margin-bottom:6px">Write your care team today</div>
+      <div style="font-size:15px;font-weight:600;color:white;line-height:1.4;margin-bottom:10px">Your platelet count is up for the third draw in a row.</div>
+      <div style="font-size:12px;color:rgba(255,252,245,0.55);line-height:1.5;margin-bottom:14px;font-weight:300">764 → 802 → 842 across three draws. This is worth a message before your April 14 appointment — not urgent, but worth flagging now.</div>
+      <div style="background:var(--red);border-radius:10px;padding:11px;text-align:center;font-size:13px;font-weight:600;color:white;cursor:pointer">Send a message to Dr. Wolanskyj-Spinner →</div>
+    </div>
+
+    <!-- Secondary actions -->
+    <div style="font-size:10px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;color:var(--predawn)">Also this week</div>
+
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <div onclick="go('s-checkin-intro')" style="background:white;border-radius:12px;padding:13px 16px;display:flex;align-items:center;gap:12px;border:1.5px solid var(--midday);cursor:pointer">
+        <span style="font-size:20px">✅</span>
+        <div style="flex:1">
+          <div style="font-size:13px;font-weight:600;color:var(--midnight)">Complete your check-in</div>
+          <div style="font-size:11px;color:var(--predawn)">Not done yet · takes 5–10 min</div>
+        </div>
+        <span style="color:var(--midday)">›</span>
+      </div>
+      <div style="background:white;border-radius:12px;padding:13px 16px;display:flex;align-items:center;gap:12px;border:1px solid var(--border)">
+        <span style="font-size:20px">🩸</span>
+        <div style="flex:1">
+          <div style="font-size:13px;font-weight:500;color:var(--midnight)">Get your labs</div>
+          <div style="font-size:11px;color:var(--predawn)">Last draw was 6 weeks ago · due soon</div>
+        </div>
+        <span style="color:var(--predawn)">›</span>
+      </div>
+      <div onclick="go('s-prep')" style="background:white;border-radius:12px;padding:13px 16px;display:flex;align-items:center;gap:12px;border:1px solid var(--border);cursor:pointer">
+        <span style="font-size:20px">📋</span>
+        <div style="flex:1">
+          <div style="font-size:13px;font-weight:500;color:var(--midnight)">Finish your appointment brief</div>
+          <div style="font-size:11px;color:var(--predawn)">Apr 14 · 3 questions drafted · 1 missing</div>
+        </div>
+        <span style="color:var(--predawn)">›</span>
+      </div>
+    </div>
+
+    <!-- Done items -->
+    <div style="background:var(--surface);border-radius:12px;padding:12px 14px">
+      <div style="font-size:10px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--predawn);margin-bottom:6px">Already done</div>
+      <div style="font-size:12px;color:var(--predawn);font-weight:300">✓ Labs uploaded Mar 28 &nbsp;&nbsp; ✓ Wearable connected</div>
+    </div>
+
+    <div style="background:var(--surface);border-radius:8px;padding:8px 12px;text-align:center;margin-top:auto">
+      <div style="font-size:10px;font-weight:700;color:var(--predawn);letter-spacing:.5px;text-transform:uppercase">Concept C — Action First</div>
+      <div style="font-size:10px;color:var(--predawn);margin-top:2px">One clear thing to do. Then the rest.</div>
+    </div>
+  </div>
+</div>
+
+<!-- Concept D: Appointment-Centered -->
+<div class="sim-screen" id="s-dash-d">
+  <div style="background:var(--canvas);padding:14px 20px 0;flex-shrink:0">
+    <div style="display:flex;align-items:center;justify-content:space-between;height:44px">
+      <div style="display:flex;align-items:center;gap:8px">
+        <svg width="18" height="18" viewBox="-26 -26 52 52">
+          <circle cx="0" cy="-21" r="3.85" fill="#3EA8CC"/><circle cx="10.5" cy="-18.19" r="3.1" fill="#78A0B8"/>
+          <circle cx="21" cy="0" r="3.85" fill="#C89858"/><circle cx="0" cy="21" r="3.85" fill="#1A2830" stroke="#506878" stroke-width="1.5"/>
+          <circle cx="-21" cy="0" r="3.85" fill="#E8CC70"/><circle cx="-18.19" cy="-10.5" r="3.1" fill="#F0E090"/>
+        </svg>
+        <span style="font-size:13px;font-weight:300;color:var(--midnight)">Live <span style="color:var(--sunrise);font-weight:400">Every</span> Day</span>
+      </div>
+      <div style="width:30px;height:30px;border-radius:50%;background:var(--midday);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--midnight)">JG</div>
+    </div>
+  </div>
+
+  <div style="padding:0 20px 16px;display:flex;flex-direction:column;flex:1;gap:12px;overflow-y:auto">
+    <div style="padding-top:16px">
+      <div style="font-size:22px;font-weight:700;color:var(--midnight)">Your appointment is in</div>
+      <div style="font-size:13px;color:var(--predawn);margin-top:2px">Dr. Wolanskyj-Spinner · April 14</div>
+    </div>
+
+    <!-- Countdown hero -->
+    <div style="background:var(--midnight);border-radius:16px;padding:20px;text-align:center">
+      <div style="font-size:72px;font-weight:700;color:var(--sunrise);line-height:1;font-family:'DM Mono',monospace">27</div>
+      <div style="font-size:14px;color:rgba(255,252,245,0.6);margin-top:4px">days · Monday April 14 · 9:00 AM</div>
+      <div style="font-size:12px;color:var(--midday);margin-top:10px;font-weight:300">Hematology · Mayo Clinic · Rochester</div>
+    </div>
+
+    <!-- Brief readiness -->
+    <div style="background:white;border-radius:14px;border:1px solid var(--border);overflow:hidden">
+      <div style="padding:11px 16px;border-bottom:1px solid var(--surface);display:flex;align-items:center;justify-content:space-between">
+        <div style="font-size:12px;font-weight:600;color:var(--midnight)">Appointment brief</div>
+        <div style="font-size:11px;color:var(--amber);font-weight:500">In progress</div>
+      </div>
+      <div style="padding:12px 16px;display:flex;flex-direction:column;gap:8px">
+        <div style="display:flex;align-items:center;gap:10px">
+          <span style="font-size:14px">✅</span>
+          <span style="font-size:12px;color:var(--midnight)">8 weeks of symptom data</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px">
+          <span style="font-size:14px">✅</span>
+          <span style="font-size:12px;color:var(--midnight)">3 CBC draws loaded</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px">
+          <span style="font-size:14px">✅</span>
+          <span style="font-size:12px;color:var(--midnight)">3 questions drafted from your data</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px">
+          <span style="font-size:14px">⬜</span>
+          <span style="font-size:12px;color:var(--predawn)">This week's check-in · needed to complete</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px">
+          <span style="font-size:14px">⬜</span>
+          <span style="font-size:12px;color:var(--predawn)">Your notes for this visit</span>
+        </div>
+      </div>
+      <div onclick="go('s-prep')" style="margin:0 12px 12px;background:var(--midday);border-radius:10px;padding:11px;text-align:center;font-size:13px;font-weight:600;color:var(--midnight);cursor:pointer">Finish your brief →</div>
+    </div>
+
+    <!-- Questions preview -->
+    <div style="background:white;border-radius:14px;border:1px solid var(--border);overflow:hidden">
+      <div style="padding:11px 16px;border-bottom:1px solid var(--surface)">
+        <div style="font-size:12px;font-weight:600;color:var(--midnight)">Questions you're bringing</div>
+      </div>
+      <div style="padding:12px 16px;display:flex;flex-direction:column;gap:8px">
+        <div style="font-size:12px;color:var(--midnight);line-height:1.5">1. My Hydrea dose — can we review given the fatigue trend over the last 3 weeks?</div>
+        <div style="height:1px;background:var(--surface)"></div>
+        <div style="font-size:12px;color:var(--midnight);line-height:1.5">2. Platelets up across 3 draws — is this a trend to adjust for?</div>
+        <div style="height:1px;background:var(--surface)"></div>
+        <div style="font-size:12px;color:var(--predawn);font-style:italic">+ 1 more after you complete your check-in</div>
+      </div>
+    </div>
+
+    <div style="background:var(--surface);border-radius:8px;padding:8px 12px;text-align:center;margin-top:auto">
+      <div style="font-size:10px;font-weight:700;color:var(--predawn);letter-spacing:.5px;text-transform:uppercase">Concept D — Appointment-Centered</div>
+      <div style="font-size:10px;color:var(--predawn);margin-top:2px">The visit is the anchor. Everything builds toward it.</div>
+    </div>
+  </div>
+</div>
+
+<!-- Concept E: Score & Streak -->
+<div class="sim-screen" id="s-dash-e">
+  <div style="background:var(--canvas);padding:14px 20px 0;flex-shrink:0">
+    <div style="display:flex;align-items:center;justify-content:space-between;height:44px">
+      <div style="display:flex;align-items:center;gap:8px">
+        <svg width="18" height="18" viewBox="-26 -26 52 52">
+          <circle cx="0" cy="-21" r="3.85" fill="#3EA8CC"/><circle cx="10.5" cy="-18.19" r="3.1" fill="#78A0B8"/>
+          <circle cx="21" cy="0" r="3.85" fill="#C89858"/><circle cx="0" cy="21" r="3.85" fill="#1A2830" stroke="#506878" stroke-width="1.5"/>
+          <circle cx="-21" cy="0" r="3.85" fill="#E8CC70"/><circle cx="-18.19" cy="-10.5" r="3.1" fill="#F0E090"/>
+        </svg>
+        <span style="font-size:13px;font-weight:300;color:var(--midnight)">Live <span style="color:var(--sunrise);font-weight:400">Every</span> Day</span>
+      </div>
+      <div style="width:30px;height:30px;border-radius:50%;background:var(--midday);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--midnight)">JG</div>
+    </div>
+  </div>
+
+  <div style="padding:0 20px 16px;display:flex;flex-direction:column;flex:1;gap:12px;overflow-y:auto">
+    <div style="padding-top:16px">
+      <div style="font-size:22px;font-weight:700;color:var(--midnight)">Week 8 of tracking.</div>
+      <div style="font-size:13px;color:var(--predawn);margin-top:2px">Wednesday · April 16</div>
+    </div>
+
+    <!-- Score hero -->
+    <div style="background:white;border-radius:16px;border:1px solid var(--border);padding:18px">
+      <div style="display:flex;align-items:flex-end;gap:16px;margin-bottom:14px">
+        <div>
+          <div style="font-size:9px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;color:var(--predawn);margin-bottom:4px">Last week's score</div>
+          <div style="font-size:56px;font-weight:700;color:var(--amber);line-height:1;font-family:'DM Mono',monospace">29</div>
+          <div style="font-size:11px;color:var(--amber);margin-top:3px">↑ up from 22 the week before</div>
+        </div>
+        <div style="flex:1;display:flex;align-items:flex-end;gap:3px;height:60px;padding-bottom:4px">
+          <div style="flex:1;border-radius:3px 3px 0 0;background:var(--midday);opacity:.4" style="height:30%"></div>
+          <div style="flex:1;border-radius:3px 3px 0 0;background:var(--midday);height:35%;opacity:.5"></div>
+          <div style="flex:1;border-radius:3px 3px 0 0;background:var(--midday);height:28%;opacity:.4"></div>
+          <div style="flex:1;border-radius:3px 3px 0 0;background:var(--midday);height:40%;opacity:.6"></div>
+          <div style="flex:1;border-radius:3px 3px 0 0;background:var(--midday);height:32%;opacity:.5"></div>
+          <div style="flex:1;border-radius:3px 3px 0 0;background:var(--midday);height:38%;opacity:.6"></div>
+          <div style="flex:1;border-radius:3px 3px 0 0;background:var(--amber);height:50%"></div>
+        </div>
+      </div>
+      <div style="display:flex;gap:3px">
+        <span style="font-size:9px;color:var(--predawn)">Wk 1</span>
+        <span style="flex:1"></span>
+        <span style="font-size:9px;color:var(--predawn)">Wk 7</span>
+      </div>
+    </div>
+
+    <!-- Streak -->
+    <div style="background:var(--midnight);border-radius:14px;padding:14px 16px;display:flex;align-items:center;gap:14px">
+      <div style="text-align:center">
+        <div style="font-size:36px;font-weight:700;color:var(--sunrise);line-height:1;font-family:'DM Mono',monospace">7</div>
+        <div style="font-size:9px;color:rgba(255,252,245,0.5);margin-top:2px;font-weight:300">week streak</div>
+      </div>
+      <div>
+        <div style="font-size:13px;font-weight:600;color:white;margin-bottom:3px">7 check-ins in a row.</div>
+        <div style="font-size:12px;color:rgba(255,252,245,0.55);line-height:1.5;font-weight:300">That's 7 weeks of real data your doctor doesn't have from anyone else. Don't break the streak.</div>
+      </div>
+    </div>
+
+    <!-- Symptom leaders -->
+    <div style="background:white;border-radius:14px;border:1px solid var(--border);padding:14px 16px">
+      <div style="font-size:10px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;color:var(--predawn);margin-bottom:10px">Your top symptoms this week</div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+            <span style="font-size:12px;color:var(--midnight)">Fatigue</span>
+            <span style="font-size:12px;font-weight:600;color:var(--red)">8/10 ↑</span>
+          </div>
+          <div style="height:6px;background:var(--surface);border-radius:3px;overflow:hidden">
+            <div style="width:80%;height:100%;background:var(--red);border-radius:3px"></div>
+          </div>
+        </div>
+        <div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+            <span style="font-size:12px;color:var(--midnight)">Brain fog</span>
+            <span style="font-size:12px;font-weight:600;color:var(--amber)">6/10 →</span>
+          </div>
+          <div style="height:6px;background:var(--surface);border-radius:3px;overflow:hidden">
+            <div style="width:60%;height:100%;background:var(--amber);border-radius:3px"></div>
+          </div>
+        </div>
+        <div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+            <span style="font-size:12px;color:var(--midnight)">Night sweats</span>
+            <span style="font-size:12px;font-weight:600;color:var(--predawn)">4/10 ↓</span>
+          </div>
+          <div style="height:6px;background:var(--surface);border-radius:3px;overflow:hidden">
+            <div style="width:40%;height:100%;background:var(--predawn);border-radius:3px"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Week 8 CTA -->
+    <div onclick="go('s-checkin-intro')" style="background:var(--midday);border-radius:14px;padding:14px 16px;display:flex;align-items:center;gap:12px;cursor:pointer">
+      <span style="font-size:22px">🎯</span>
+      <div style="flex:1">
+        <div style="font-size:14px;font-weight:700;color:var(--midnight)">Complete week 8</div>
+        <div style="font-size:11px;color:rgba(26,40,48,0.6)">Keep the streak going</div>
+      </div>
+      <span style="font-size:18px;color:var(--midnight)">›</span>
+    </div>
+
+    <div style="background:var(--surface);border-radius:8px;padding:8px 12px;text-align:center;margin-top:auto">
+      <div style="font-size:10px;font-weight:700;color:var(--predawn);letter-spacing:.5px;text-transform:uppercase">Concept E — Score & Streak</div>
+      <div style="font-size:10px;color:var(--predawn);margin-top:2px">Progress visible. Habit reinforced.</div>
+    </div>
+  </div>
+</div>
+
+<!-- Concept F: Circle First -->
+<div class="sim-screen" id="s-dash-f">
+  <div style="background:var(--canvas);padding:14px 20px 0;flex-shrink:0">
+    <div style="display:flex;align-items:center;justify-content:space-between;height:44px">
+      <div style="display:flex;align-items:center;gap:8px">
+        <svg width="18" height="18" viewBox="-26 -26 52 52">
+          <circle cx="0" cy="-21" r="3.85" fill="#3EA8CC"/><circle cx="10.5" cy="-18.19" r="3.1" fill="#78A0B8"/>
+          <circle cx="21" cy="0" r="3.85" fill="#C89858"/><circle cx="0" cy="21" r="3.85" fill="#1A2830" stroke="#506878" stroke-width="1.5"/>
+          <circle cx="-21" cy="0" r="3.85" fill="#E8CC70"/><circle cx="-18.19" cy="-10.5" r="3.1" fill="#F0E090"/>
+        </svg>
+        <span style="font-size:13px;font-weight:300;color:var(--midnight)">Live <span style="color:var(--sunrise);font-weight:400">Every</span> Day</span>
+      </div>
+      <div style="width:30px;height:30px;border-radius:50%;background:var(--midday);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--midnight)">JG</div>
+    </div>
+  </div>
+
+  <div style="padding:0 20px 16px;display:flex;flex-direction:column;flex:1;gap:12px;overflow-y:auto">
+    <div style="padding-top:16px">
+      <div style="font-size:22px;font-weight:700;color:var(--midnight)">Good morning, John.</div>
+      <div style="font-size:13px;color:var(--predawn);margin-top:2px">Wednesday · April 16 · Your people are here.</div>
+    </div>
+
+    <!-- Message from Dylan -->
+    <div onclick="go('s-checkin-message')" style="background:var(--midnight);border-radius:16px;padding:16px 18px;cursor:pointer">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+        <div style="width:36px;height:36px;border-radius:50%;background:var(--midday);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:var(--midnight);flex-shrink:0">D</div>
+        <div>
+          <div style="font-size:13px;font-weight:600;color:white">Dylan left you a message</div>
+          <div style="font-size:11px;color:rgba(255,252,245,0.5)">Before you check in today</div>
+        </div>
+        <div style="margin-left:auto;width:8px;height:8px;border-radius:50%;background:var(--midday)"></div>
+      </div>
+      <div style="background:rgba(255,255,255,0.07);border-radius:10px;padding:10px 12px">
+        <div style="font-size:12px;color:rgba(255,252,245,0.8);line-height:1.55;font-style:italic">"Hey Dad — thinking about you today. You've been showing up every week and that matters. Love you."</div>
+      </div>
+      <div style="font-size:11px;color:var(--midday);margin-top:8px;text-align:right">Read this before your check-in →</div>
+    </div>
+
+    <!-- Ashton's nudge -->
+    <div style="background:#FFF8EE;border-radius:14px;padding:14px 16px;border:1px solid rgba(200,152,88,0.25)">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+        <div style="width:30px;height:30px;border-radius:50%;background:var(--amber);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:white;flex-shrink:0">A</div>
+        <div style="font-size:12px;font-weight:600;color:var(--midnight)">Ashton's thinking of you</div>
+      </div>
+      <div style="font-size:12px;color:var(--predawn);line-height:1.5;font-weight:300">You had a tough week with fatigue. Ashton can see that. She's wondering if going to sleep earlier Thursday might help — cold night coming.</div>
+    </div>
+
+    <!-- Circle status -->
+    <div style="background:white;border-radius:14px;border:1px solid var(--border);overflow:hidden">
+      <div style="padding:11px 16px;border-bottom:1px solid var(--surface)">
+        <div style="font-size:12px;font-weight:600;color:var(--midnight)">Your circle</div>
+      </div>
+      <div style="padding:12px 16px;display:flex;flex-direction:column;gap:10px">
+        <div style="display:flex;align-items:center;gap:12px">
+          <div style="width:32px;height:32px;border-radius:50%;background:#D4EAD8;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--green);flex-shrink:0">A</div>
+          <div style="flex:1"><div style="font-size:13px;font-weight:500;color:var(--midnight)">Ashton</div><div style="font-size:11px;color:var(--predawn)">My #1 · Sees your weekly summary</div></div>
+          <span style="font-size:11px;color:var(--green);font-weight:500">Active</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px">
+          <div style="width:32px;height:32px;border-radius:50%;background:var(--surface);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--predawn);flex-shrink:0">D</div>
+          <div style="flex:1"><div style="font-size:13px;font-weight:500;color:var(--midnight)">Dylan</div><div style="font-size:11px;color:var(--predawn)">My Support · Left message today</div></div>
+          <span style="font-size:11px;color:var(--midday);font-weight:500">Message</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px">
+          <div style="width:32px;height:32px;border-radius:50%;background:#EEF4FB;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#1B3A6B;flex-shrink:0">WS</div>
+          <div style="flex:1"><div style="font-size:13px;font-weight:500;color:var(--midnight)">Dr. Wolanskyj-Spinner</div><div style="font-size:11px;color:var(--predawn)">Care Team · Apr 14 appointment</div></div>
+          <span style="font-size:11px;color:var(--predawn)">27d</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Check-in CTA — secondary here -->
+    <div onclick="go('s-checkin-intro')" style="background:var(--midday);border-radius:14px;padding:13px 16px;display:flex;align-items:center;gap:12px;cursor:pointer">
+      <span style="font-size:20px">📋</span>
+      <div style="flex:1">
+        <div style="font-size:14px;font-weight:600;color:var(--midnight)">Complete your check-in</div>
+        <div style="font-size:11px;color:rgba(26,40,48,0.6)">Your circle is waiting to hear how you're doing</div>
+      </div>
+      <span style="font-size:18px;color:var(--midnight)">›</span>
+    </div>
+
+    <div style="background:var(--surface);border-radius:8px;padding:8px 12px;text-align:center;margin-top:auto">
+      <div style="font-size:10px;font-weight:700;color:var(--predawn);letter-spacing:.5px;text-transform:uppercase">Concept F — Circle First</div>
+      <div style="font-size:10px;color:var(--predawn);margin-top:2px">Connection as the primary motivator.</div>
+    </div>
+  </div>
+</div>
+
 </div><!-- /phone -->
 
 <div class="nav-hint">Jump to any screen:</div>
 <div class="flow-chips">
 
   <!-- Onboarding -->
+  <div class="chip-label">Dashboard Concepts</div>
+  <div class="flow-chip" onclick="jumpTo('s-dash-a','Concept A: Check-in First')">A · Check-in First</div>
+  <div class="flow-chip" onclick="jumpTo('s-dash-b','Concept B: Observation First')">B · Observation First</div>
+  <div class="flow-chip" onclick="jumpTo('s-dash-c','Concept C: Action First')">C · Action First</div>
+  <div class="flow-chip" onclick="jumpTo('s-dash-d','Concept D: Appointment-Centered')">D · Appointment</div>
+  <div class="flow-chip" onclick="jumpTo('s-dash-e','Concept E: Score & Streak')">E · Score & Streak</div>
+  <div class="flow-chip" onclick="jumpTo('s-dash-f','Concept F: Circle First')">F · Circle First</div>
+
   <div class="chip-label">Onboarding</div>
   <div class="flow-chip active-chip" onclick="jumpTo('s-welcome','Onboarding · Welcome')">Welcome</div>
   <div class="flow-chip" onclick="jumpTo('s-condition','Onboarding · Condition')">Condition select</div>
