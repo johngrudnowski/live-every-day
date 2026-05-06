@@ -770,6 +770,15 @@ body{background:var(--midnight);font-family:'DM Sans',sans-serif;display:flex;fl
 .cond-radio{width:22px;height:22px;border-radius:50%;border:2px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .15s}
 .cond-radio.checked{background:var(--midday);border-color:var(--midday)}
 .cond-radio.checked::after{content:'';width:8px;height:8px;background:white;border-radius:50%}
+.cond-checkbox{width:22px;height:22px;border-radius:6px;border:2px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .15s}
+.cond-checkbox.checked{background:var(--midday);border-color:var(--midday)}
+.cond-checkbox.checked::after{content:'';width:6px;height:11px;border-right:2px solid white;border-bottom:2px solid white;transform:rotate(45deg);margin-bottom:3px}
+.ay-chip{background:var(--canvas);border:1.5px solid var(--border);color:var(--text-mid);padding:10px 16px;border-radius:999px;font-size:13px;font-weight:500;font-family:'DM Sans',sans-serif;cursor:pointer;transition:all .15s}
+.ay-chip-selected{background:var(--midday);border-color:var(--midday);color:var(--midnight)}
+.deep-btn{flex:1;background:var(--canvas);border:1.5px solid var(--border);color:var(--text-mid);padding:8px 4px;border-radius:10px;font-size:12px;font-weight:500;font-family:'DM Sans',sans-serif;cursor:pointer;transition:all .15s}
+.deep-btn.deep-sel-none{background:#9098A0;border-color:#9098A0;color:white}
+.deep-btn.deep-sel-some{background:var(--midday);border-color:var(--midday);color:white}
+.deep-btn.deep-sel-lot{background:var(--flag-high);border-color:var(--flag-high);color:white}
 
 .ev-toggle{width:22px;height:22px;border-radius:50%;border:2px solid var(--border);flex-shrink:0;transition:all .15s}
 .ev-on{background:var(--midday);border-color:var(--midday)}
@@ -920,25 +929,33 @@ body{background:var(--midnight);font-family:'DM Sans',sans-serif;display:flex;fl
   <div style="padding:24px 20px 20px;display:flex;flex-direction:column;gap:12px;flex:1">
     <div>
       <div style="font-size:12px;font-weight:500;color:var(--midday);letter-spacing:.5px;text-transform:uppercase;margin-bottom:8px">MPNs</div>
-      <h1 style="font-size:26px;font-weight:600;color:var(--midnight);line-height:1.2;margin-bottom:8px">Which type?</h1>
-      <p style="font-size:14px;color:var(--text-mid);line-height:1.5">Each MPN has a distinct symptom profile and lab pattern. This shapes everything in the app.</p>
+      <h1 style="font-size:26px;font-weight:600;color:var(--midnight);line-height:1.2;margin-bottom:8px">What's your current diagnosis?</h1>
+      <p style="font-size:14px;color:var(--text-mid);line-height:1.5">Each MPN has a distinct symptom profile and lab pattern. Some patients have an overlap diagnosis (like ET + PV) — pick all that apply.</p>
     </div>
     <div style="display:flex;flex-direction:column;gap:10px;margin-top:4px">
-      <div class="cond-card selected" onclick="selectSub(this)">
+      <div class="cond-card selected" onclick="toggleSub(this)">
         <div style="flex:1"><div style="font-size:16px;font-weight:600;color:var(--midnight)">Essential Thrombocythemia (ET)</div><div style="font-size:13px;color:var(--text-mid);margin-top:3px">Elevated platelets · most common MPN</div></div>
-        <div class="cond-radio checked"></div>
+        <div class="cond-checkbox checked"></div>
       </div>
-      <div class="cond-card" onclick="selectSub(this)">
+      <div class="cond-card" onclick="toggleSub(this)">
         <div style="flex:1"><div style="font-size:16px;font-weight:600;color:var(--midnight)">Polycythemia Vera (PV)</div><div style="font-size:13px;color:var(--text-mid);margin-top:3px">Elevated red cell mass</div></div>
-        <div class="cond-radio"></div>
+        <div class="cond-checkbox"></div>
       </div>
-      <div class="cond-card" onclick="selectSub(this)">
-        <div style="flex:1"><div style="font-size:16px;font-weight:600;color:var(--midnight)">Myelofibrosis (MF)</div><div style="font-size:13px;color:var(--text-mid);margin-top:3px">Primary, post-ET, or post-PV</div></div>
-        <div class="cond-radio"></div>
+      <div class="cond-card" onclick="toggleSub(this)">
+        <div style="flex:1"><div style="font-size:16px;font-weight:600;color:var(--midnight)">Primary Myelofibrosis (pMF)</div><div style="font-size:13px;color:var(--text-mid);margin-top:3px">Diagnosed without a prior history of another MPN</div></div>
+        <div class="cond-checkbox"></div>
       </div>
-      <div class="cond-card" onclick="selectSub(this)">
+      <div class="cond-card" onclick="toggleSub(this)">
+        <div style="flex:1"><div style="font-size:16px;font-weight:600;color:var(--midnight)">Secondary Myelofibrosis (sMF)</div><div style="font-size:13px;color:var(--text-mid);margin-top:3px">Develops as a progression of ET or PV</div></div>
+        <div class="cond-checkbox"></div>
+      </div>
+      <div class="cond-card" onclick="toggleSub(this)">
+        <div style="flex:1"><div style="font-size:16px;font-weight:600;color:var(--midnight)">MPN Unclassifiable (MPN-U)</div><div style="font-size:13px;color:var(--text-mid);margin-top:3px">Doesn't fit ET, PV, or MF criteria</div></div>
+        <div class="cond-checkbox"></div>
+      </div>
+      <div class="cond-card" onclick="toggleSub(this)">
         <div style="flex:1"><div style="font-size:16px;font-weight:600;color:var(--midnight)">Other MPN</div><div style="font-size:13px;color:var(--text-mid);margin-top:3px">CNL, CEL, MDS/MPN overlap</div></div>
-        <div class="cond-radio"></div>
+        <div class="cond-checkbox"></div>
       </div>
     </div>
     <div style="margin-top:auto;padding-top:8px">
@@ -1012,37 +1029,91 @@ body{background:var(--midnight);font-family:'DM Sans',sans-serif;display:flex;fl
 </div>
 
 
-<!-- ══ Onboarding · Diagnosis Year ══ -->
+<!-- ══ Onboarding · About You (birth year, gender, diagnosis year) ══ -->
 <div class="sim-screen" id="s-year">
   <div style="background:var(--canvas);padding:14px 20px 0;flex-shrink:0">
     <div style="display:flex;align-items:center;justify-content:space-between;height:44px">
       <button onclick="go('s-mpn-mutation')" style="background:none;border:none;color:var(--midday);font-size:16px;cursor:pointer;padding:4px 8px">‹</button>
-      <span style="font-size:14px;font-weight:500;color:var(--midnight)">About your diagnosis</span>
+      <span style="font-size:14px;font-weight:500;color:var(--midnight)">About you</span>
       <button onclick="go('s-events')" style="background:none;border:none;color:var(--midday);font-size:14px;font-weight:500;cursor:pointer">Skip</button>
     </div>
     <div style="height:3px;background:var(--surface);border-radius:3px;margin-top:10px;overflow:hidden">
       <div style="width:65%;height:100%;background:var(--midday);border-radius:3px"></div>
     </div>
   </div>
-  <div style="padding:28px 24px 24px;display:flex;flex-direction:column;flex:1">
-    <h1 style="font-size:26px;font-weight:600;color:var(--midnight);line-height:1.2;margin-bottom:8px">When were you diagnosed?</h1>
-    <p style="font-size:14px;color:var(--text-mid);line-height:1.5;margin-bottom:32px">This anchors everything in the app to your actual journey — not a generic timeline.</p>
-    <div style="text-align:center;margin-bottom:24px">
-      <div style="font-size:11px;font-weight:500;letter-spacing:.8px;text-transform:uppercase;color:var(--predawn);margin-bottom:12px">Diagnosis year</div>
-      <div style="font-size:72px;font-weight:300;color:var(--midday);line-height:1;font-family:'Raleway',serif" id="yr-display">2023</div>
-      <div style="font-size:14px;color:var(--predawn);margin-top:10px" id="yr-ago">About 3 years ago</div>
-    </div>
-    <div style="position:relative;height:200px;overflow:hidden;margin:0 -8px">
-      <div style="position:absolute;top:0;left:0;right:0;height:72px;background:linear-gradient(to bottom,var(--canvas),transparent);z-index:2;pointer-events:none"></div>
-      <div style="position:absolute;bottom:0;left:0;right:0;height:72px;background:linear-gradient(to top,var(--canvas),transparent);z-index:2;pointer-events:none"></div>
-      <div style="position:absolute;top:50%;left:24px;right:24px;height:52px;transform:translateY(-50%);background:var(--surface);border-radius:12px;z-index:1;border:1.5px solid var(--border)"></div>
-      <div id="yr-list" style="position:absolute;top:0;left:0;right:0;transition:transform .2s ease;z-index:3"></div>
+  <div style="padding:24px 20px 20px;display:flex;flex-direction:column;flex:1;gap:18px">
+    <div>
+      <h1 style="font-size:26px;font-weight:600;color:var(--midnight);line-height:1.2;margin-bottom:8px">Tell us about yourself.</h1>
+      <p style="font-size:14px;color:var(--text-mid);line-height:1.5">A bit of context helps us understand your patterns. You can update any of this later.</p>
     </div>
 
-    <div style="font-size:12px;color:var(--text-lite);text-align:center;margin-top:16px;line-height:1.5">Not sure of the exact year? An estimate is fine — you can update this later.</div>
-    <div style="margin-top:auto;padding-top:20px">
-      <button onclick="go('s-events')" style="background:var(--midday);color:var(--midnight);border:none;border-radius:14px;padding:16px;width:100%;font-size:16px;font-weight:500;font-family:'DM Sans',sans-serif;cursor:pointer">Continue</button>
+    <!-- Birth year -->
+    <div>
+      <div style="font-size:11px;font-weight:500;letter-spacing:.6px;text-transform:uppercase;color:var(--predawn);margin-bottom:8px">Birth year</div>
+      <div style="display:flex;align-items:center;background:var(--canvas);border:1.5px solid var(--border);border-radius:14px;padding:8px;gap:8px">
+        <button onclick="adjYear('birth',-1)" style="background:var(--surface);border:none;width:36px;height:36px;border-radius:10px;font-size:20px;color:var(--midnight);cursor:pointer;font-family:inherit;flex-shrink:0">−</button>
+        <div style="flex:1;text-align:center;font-family:'Raleway',serif;font-size:32px;font-weight:300;color:var(--midnight);line-height:1" id="ay-birth">1965</div>
+        <button onclick="adjYear('birth',1)" style="background:var(--surface);border:none;width:36px;height:36px;border-radius:10px;font-size:20px;color:var(--midnight);cursor:pointer;font-family:inherit;flex-shrink:0">+</button>
+      </div>
+      <div style="font-size:12px;color:var(--text-lite);margin-top:6px;padding-left:4px" id="ay-birth-hint">About 61 years old</div>
     </div>
+
+    <!-- Gender -->
+    <div>
+      <div style="font-size:11px;font-weight:500;letter-spacing:.6px;text-transform:uppercase;color:var(--predawn);margin-bottom:8px">Gender</div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px">
+        <button class="ay-chip" onclick="selChip(this)">Woman</button>
+        <button class="ay-chip ay-chip-selected" onclick="selChip(this)">Man</button>
+        <button class="ay-chip" onclick="selChip(this)">Non-binary</button>
+        <button class="ay-chip" onclick="selChip(this)">Prefer not to say</button>
+      </div>
+    </div>
+
+    <!-- Diagnosis year -->
+    <div>
+      <div style="font-size:11px;font-weight:500;letter-spacing:.6px;text-transform:uppercase;color:var(--predawn);margin-bottom:8px">Diagnosis year</div>
+      <div style="display:flex;align-items:center;background:var(--canvas);border:1.5px solid var(--border);border-radius:14px;padding:8px;gap:8px">
+        <button onclick="adjYear('dx',-1)" style="background:var(--surface);border:none;width:36px;height:36px;border-radius:10px;font-size:20px;color:var(--midnight);cursor:pointer;font-family:inherit;flex-shrink:0">−</button>
+        <div style="flex:1;text-align:center;font-family:'Raleway',serif;font-size:32px;font-weight:300;color:var(--midnight);line-height:1" id="ay-dx">2017</div>
+        <button onclick="adjYear('dx',1)" style="background:var(--surface);border:none;width:36px;height:36px;border-radius:10px;font-size:20px;color:var(--midnight);cursor:pointer;font-family:inherit;flex-shrink:0">+</button>
+      </div>
+      <div style="font-size:12px;color:var(--text-lite);margin-top:6px;padding-left:4px" id="ay-dx-hint">About 9 years ago</div>
+    </div>
+
+    <div style="margin-top:auto;padding-top:8px">
+      <button onclick="go('s-mpn-progression')" style="background:var(--midday);color:var(--midnight);border:none;border-radius:14px;padding:16px;width:100%;font-size:16px;font-weight:500;font-family:'DM Sans',sans-serif;cursor:pointer">Continue</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ Onboarding · MPN Progression history ══ -->
+<div class="sim-screen" id="s-mpn-progression">
+  <div style="background:var(--canvas);padding:14px 20px 0;flex-shrink:0">
+    <div style="display:flex;align-items:center;justify-content:space-between;height:44px">
+      <button onclick="go('s-year')" style="background:none;border:none;color:var(--midday);font-size:16px;cursor:pointer;padding:4px 8px">‹</button>
+      <span style="font-size:14px;font-weight:500;color:var(--midnight)">About your diagnosis</span>
+      <button onclick="go('s-events')" style="background:none;border:none;color:var(--midday);font-size:14px;font-weight:500;cursor:pointer">Skip</button>
+    </div>
+    <div style="height:3px;background:var(--surface);border-radius:3px;margin-top:10px;overflow:hidden">
+      <div style="width:74%;height:100%;background:var(--midday);border-radius:3px"></div>
+    </div>
+  </div>
+  <div style="padding:24px 20px 20px;display:flex;flex-direction:column;flex:1;gap:14px">
+    <div>
+      <div style="font-size:12px;font-weight:500;color:var(--midday);letter-spacing:.5px;text-transform:uppercase;margin-bottom:8px">MPNs · Progression</div>
+      <h1 style="font-size:26px;font-weight:600;color:var(--midnight);line-height:1.2;margin-bottom:8px">What's your progression history?</h1>
+      <p style="font-size:14px;color:var(--text-mid);line-height:1.5">Most MPNs stay stable. If yours has evolved, please share.</p>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <div style="font-size:11px;font-weight:500;letter-spacing:.6px;text-transform:uppercase;color:var(--predawn)">Progressions</div>
+      <div class="cond-card" onclick="toggleEvent(this)"><div style="flex:1"><div style="font-size:15px;font-weight:500;color:var(--midnight)">ET progressed to Myelofibrosis</div><div style="font-size:13px;color:var(--text-mid);margin-top:2px">Also called post-ET sMF</div></div><div class="ev-toggle"></div></div>
+      <div class="cond-card" onclick="toggleEvent(this)"><div style="flex:1"><div style="font-size:15px;font-weight:500;color:var(--midnight)">PV progressed to Myelofibrosis</div><div style="font-size:13px;color:var(--text-mid);margin-top:2px">Also called post-PV sMF</div></div><div class="ev-toggle"></div></div>
+      <div class="cond-card" onclick="toggleEvent(this)"><div style="flex:1"><div style="font-size:15px;font-weight:500;color:var(--midnight)">ET progressed to Polycythemia Vera</div></div><div class="ev-toggle"></div></div>
+      <div class="cond-card" onclick="toggleEvent(this)"><div style="flex:1"><div style="font-size:15px;font-weight:500;color:var(--midnight)">Transformation to acute leukemia</div><div style="font-size:13px;color:var(--text-mid);margin-top:2px">AML</div></div><div class="ev-toggle"></div></div>
+      <div class="cond-card" onclick="toggleEvent(this)"><div style="flex:1"><div style="font-size:15px;font-weight:500;color:var(--midnight)">A different kind of progression</div><div style="font-size:13px;color:var(--text-mid);margin-top:2px">You can add details to your notes anytime</div></div><div class="ev-toggle"></div></div>
+      <div class="cond-card" style="background:var(--surface);margin-top:6px" onclick="toggleEvent(this)"><div style="flex:1"><div style="font-size:15px;font-weight:500;color:var(--text-mid)">I haven't experienced progression</div></div><div class="ev-toggle"></div></div>
+    </div>
+    <div style="margin-top:auto;padding-top:8px"><button onclick="go('s-events')" style="background:var(--midday);color:var(--midnight);border:none;border-radius:14px;padding:16px;width:100%;font-size:16px;font-weight:500;font-family:'DM Sans',sans-serif;cursor:pointer">Continue →</button></div>
   </div>
 </div>
 
@@ -1050,7 +1121,7 @@ body{background:var(--midnight);font-family:'DM Sans',sans-serif;display:flex;fl
 <div class="sim-screen" id="s-events">
   <div style="background:var(--canvas);padding:14px 20px 0;flex-shrink:0">
     <div style="display:flex;align-items:center;justify-content:space-between;height:44px">
-      <button onclick="go('s-year')" style="background:none;border:none;color:var(--midday);font-size:16px;cursor:pointer;padding:4px 8px">‹</button>
+      <button onclick="go('s-mpn-progression')" style="background:none;border:none;color:var(--midday);font-size:16px;cursor:pointer;padding:4px 8px">‹</button>
       <span style="font-size:14px;font-weight:500;color:var(--midnight)">About your health</span>
       <button onclick="go('s-dashboard')" style="background:none;border:none;color:var(--midday);font-size:14px;font-weight:500;cursor:pointer">Skip</button>
     </div>
@@ -1072,9 +1143,69 @@ body{background:var(--midnight);font-family:'DM Sans',sans-serif;display:flex;fl
       <div class="cond-card" onclick="toggleEvent(this)"><div style="flex:1"><div style="font-size:15px;font-weight:500;color:var(--midnight)">Diabetes</div><div style="font-size:13px;color:var(--text-mid);margin-top:2px">Type 1 or Type 2</div></div><div class="ev-toggle"></div></div>
       <div class="cond-card" onclick="toggleEvent(this)"><div style="flex:1"><div style="font-size:15px;font-weight:500;color:var(--midnight)">High blood pressure</div><div style="font-size:13px;color:var(--text-mid);margin-top:2px">Hypertension</div></div><div class="ev-toggle"></div></div>
       <div class="cond-card" onclick="toggleEvent(this)"><div style="flex:1"><div style="font-size:15px;font-weight:500;color:var(--midnight)">Prior chemotherapy</div><div style="font-size:13px;color:var(--text-mid);margin-top:2px">Any treatment, any condition</div></div><div class="ev-toggle"></div></div>
+      <div class="cond-card" onclick="go('s-events-full')" style="cursor:pointer;margin-top:6px">
+        <div style="flex:1">
+          <div style="font-size:15px;font-weight:500;color:var(--midnight)">If you'd like, share your complete history</div>
+          <div style="font-size:13px;color:var(--text-mid);margin-top:2px">Optional — an expanded list from the MPN RF survey</div>
+        </div>
+        <div style="font-size:22px;color:var(--midday);font-weight:300;line-height:1">›</div>
+      </div>
       <div class="cond-card" style="background:var(--surface)" onclick="toggleEvent(this)"><div style="flex:1"><div style="font-size:15px;font-weight:500;color:var(--text-mid)">None of the above</div></div><div class="ev-toggle"></div></div>
     </div>
     <div style="margin-top:auto;padding-top:8px"><button onclick="go('s-connect-why')" style="background:var(--midday);color:var(--midnight);border:none;border-radius:14px;padding:16px;width:100%;font-size:16px;font-weight:500;font-family:'DM Sans',sans-serif;cursor:pointer">Continue →</button></div>
+  </div>
+</div>
+
+<!-- ══ Onboarding · Health Events · Complete history (optional) ══ -->
+<div class="sim-screen" id="s-events-full">
+  <div style="background:var(--canvas);padding:14px 20px 0;flex-shrink:0">
+    <div style="display:flex;align-items:center;justify-content:space-between;height:44px">
+      <button onclick="go('s-events')" style="background:none;border:none;color:var(--midday);font-size:16px;cursor:pointer;padding:4px 8px">‹</button>
+      <span style="font-size:14px;font-weight:500;color:var(--midnight)">Complete history</span>
+      <span style="width:48px"></span>
+    </div>
+    <div style="height:3px;background:var(--surface);border-radius:3px;margin-top:10px;overflow:hidden">
+      <div style="width:82%;height:100%;background:var(--midday);border-radius:3px"></div>
+    </div>
+  </div>
+  <div style="padding:24px 20px 20px;display:flex;flex-direction:column;flex:1;gap:14px">
+    <div>
+      <h1 style="font-size:26px;font-weight:600;color:var(--midnight);line-height:1.2;margin-bottom:8px">Your complete history</h1>
+      <p style="font-size:14px;color:var(--text-mid);line-height:1.5">Conditions and complications associated with MPNs, from the MPN Research Foundation's patient survey. Pick anything that applies — past or present.</p>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <div style="font-size:11px;font-weight:500;letter-spacing:.6px;text-transform:uppercase;color:var(--predawn)">Frequently reported</div>
+      <div class="cond-card" onclick="toggleEvent(this)"><div style="flex:1"><div style="font-size:15px;font-weight:500;color:var(--midnight)">Thrombocytosis</div><div style="font-size:13px;color:var(--text-mid);margin-top:2px">High platelet count</div></div><div class="ev-toggle"></div></div>
+      <div class="cond-card" onclick="toggleEvent(this)"><div style="flex:1"><div style="font-size:15px;font-weight:500;color:var(--midnight)">Bruising</div></div><div class="ev-toggle"></div></div>
+      <div class="cond-card" onclick="toggleEvent(this)"><div style="flex:1"><div style="font-size:15px;font-weight:500;color:var(--midnight)">High hematocrit</div><div style="font-size:13px;color:var(--text-mid);margin-top:2px">Elevated red cell volume</div></div><div class="ev-toggle"></div></div>
+      <div class="cond-card" onclick="toggleEvent(this)"><div style="flex:1"><div style="font-size:15px;font-weight:500;color:var(--midnight)">Decrease in quality of life</div></div><div class="ev-toggle"></div></div>
+      <div class="cond-card" onclick="toggleEvent(this)"><div style="flex:1"><div style="font-size:15px;font-weight:500;color:var(--midnight)">Anxiety</div></div><div class="ev-toggle"></div></div>
+      <div class="cond-card" onclick="toggleEvent(this)"><div style="flex:1"><div style="font-size:15px;font-weight:500;color:var(--midnight)">Anemia</div><div style="font-size:13px;color:var(--text-mid);margin-top:2px">Low hemoglobin</div></div><div class="ev-toggle"></div></div>
+      <div class="cond-card" onclick="toggleEvent(this)"><div style="flex:1"><div style="font-size:15px;font-weight:500;color:var(--midnight)">High blood pressure</div><div style="font-size:13px;color:var(--text-mid);margin-top:2px">Hypertension</div></div><div class="ev-toggle"></div></div>
+      <div class="cond-card" onclick="toggleEvent(this)"><div style="flex:1"><div style="font-size:15px;font-weight:500;color:var(--midnight)">Depression</div></div><div class="ev-toggle"></div></div>
+      <div class="cond-card" onclick="toggleEvent(this)"><div style="flex:1"><div style="font-size:15px;font-weight:500;color:var(--midnight)">Splenomegaly</div><div style="font-size:13px;color:var(--text-mid);margin-top:2px">Enlarged spleen</div></div><div class="ev-toggle"></div></div>
+      <div class="cond-card" onclick="toggleEvent(this)"><div style="flex:1"><div style="font-size:15px;font-weight:500;color:var(--midnight)">MPN disease progression</div></div><div class="ev-toggle"></div></div>
+      <div class="cond-card" onclick="toggleEvent(this)"><div style="flex:1"><div style="font-size:15px;font-weight:500;color:var(--midnight)">Erythrocytosis</div><div style="font-size:13px;color:var(--text-mid);margin-top:2px">High red blood cell count</div></div><div class="ev-toggle"></div></div>
+      <div class="cond-card" onclick="toggleEvent(this)"><div style="flex:1"><div style="font-size:15px;font-weight:500;color:var(--midnight)">Bleeding complications</div></div><div class="ev-toggle"></div></div>
+      <div class="cond-card" onclick="toggleEvent(this)"><div style="flex:1"><div style="font-size:15px;font-weight:500;color:var(--midnight)">Leukocytosis</div><div style="font-size:13px;color:var(--text-mid);margin-top:2px">High white blood cell count</div></div><div class="ev-toggle"></div></div>
+      <div class="cond-card" onclick="toggleEvent(this)"><div style="flex:1"><div style="font-size:15px;font-weight:500;color:var(--midnight)">Higher susceptibility to infections</div></div><div class="ev-toggle"></div></div>
+      <div class="cond-card" onclick="toggleEvent(this)"><div style="flex:1"><div style="font-size:15px;font-weight:500;color:var(--midnight)">Elevated cholesterol</div><div style="font-size:13px;color:var(--text-mid);margin-top:2px">Or other metabolic abnormalities</div></div><div class="ev-toggle"></div></div>
+
+      <div style="font-size:11px;font-weight:500;letter-spacing:.6px;text-transform:uppercase;color:var(--predawn);margin-top:6px">Less frequently reported</div>
+      <div class="cond-card" onclick="toggleEvent(this)"><div style="flex:1"><div style="font-size:15px;font-weight:500;color:var(--midnight)">Blood clots</div></div><div class="ev-toggle"></div></div>
+      <div class="cond-card" onclick="toggleEvent(this)"><div style="flex:1"><div style="font-size:15px;font-weight:500;color:var(--midnight)">Gout</div><div style="font-size:13px;color:var(--text-mid);margin-top:2px">High uric acid levels</div></div><div class="ev-toggle"></div></div>
+      <div class="cond-card" onclick="toggleEvent(this)"><div style="flex:1"><div style="font-size:15px;font-weight:500;color:var(--midnight)">Deep vein thrombosis</div><div style="font-size:13px;color:var(--text-mid);margin-top:2px">DVT</div></div><div class="ev-toggle"></div></div>
+      <div class="cond-card" onclick="toggleEvent(this)"><div style="flex:1"><div style="font-size:15px;font-weight:500;color:var(--midnight)">Leukopenia</div><div style="font-size:13px;color:var(--text-mid);margin-top:2px">Low white blood cell count</div></div><div class="ev-toggle"></div></div>
+      <div class="cond-card" onclick="toggleEvent(this)"><div style="flex:1"><div style="font-size:15px;font-weight:500;color:var(--midnight)">Hepatomegaly</div><div style="font-size:13px;color:var(--text-mid);margin-top:2px">Enlarged liver</div></div><div class="ev-toggle"></div></div>
+      <div class="cond-card" onclick="toggleEvent(this)"><div style="flex:1"><div style="font-size:15px;font-weight:500;color:var(--midnight)">Stroke or TIA</div><div style="font-size:13px;color:var(--text-mid);margin-top:2px">Transient ischemic attack</div></div><div class="ev-toggle"></div></div>
+      <div class="cond-card" onclick="toggleEvent(this)"><div style="flex:1"><div style="font-size:15px;font-weight:500;color:var(--midnight)">Thrombocytopenia</div><div style="font-size:13px;color:var(--text-mid);margin-top:2px">Low platelet count</div></div><div class="ev-toggle"></div></div>
+      <div class="cond-card" onclick="toggleEvent(this)"><div style="flex:1"><div style="font-size:15px;font-weight:500;color:var(--midnight)">Pulmonary embolism</div></div><div class="ev-toggle"></div></div>
+      <div class="cond-card" onclick="toggleEvent(this)"><div style="flex:1"><div style="font-size:15px;font-weight:500;color:var(--midnight)">Heart attack</div><div style="font-size:13px;color:var(--text-mid);margin-top:2px">Myocardial infarction (MI)</div></div><div class="ev-toggle"></div></div>
+      <div class="cond-card" onclick="toggleEvent(this)"><div style="flex:1"><div style="font-size:15px;font-weight:500;color:var(--midnight)">Portal vein thrombosis</div><div style="font-size:13px;color:var(--text-mid);margin-top:2px">Or Budd-Chiari syndrome</div></div><div class="ev-toggle"></div></div>
+      <div class="cond-card" onclick="toggleEvent(this)"><div style="flex:1"><div style="font-size:15px;font-weight:500;color:var(--midnight)">Pulmonary arterial hypertension</div></div><div class="ev-toggle"></div></div>
+      <div class="cond-card" onclick="toggleEvent(this)"><div style="flex:1"><div style="font-size:15px;font-weight:500;color:var(--midnight)">Ascites</div><div style="font-size:13px;color:var(--text-mid);margin-top:2px">Fluid in the abdomen</div></div><div class="ev-toggle"></div></div>
+    </div>
+    <div style="margin-top:auto;padding-top:8px"><button onclick="go('s-events')" style="background:var(--midday);color:var(--midnight);border:none;border-radius:14px;padding:16px;width:100%;font-size:16px;font-weight:500;font-family:'DM Sans',sans-serif;cursor:pointer">Save and go back</button></div>
   </div>
 </div>
 
@@ -1121,7 +1252,7 @@ body{background:var(--midnight);font-family:'DM Sans',sans-serif;display:flex;fl
           <div style="width:44px;height:44px;border-radius:12px;background:#EEF7FB;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0">📷</div>
           <div style="flex:1">
             <div style="font-size:15px;font-weight:600;color:var(--midnight)">Take a photo</div>
-            <div style="font-size:12px;color:var(--predawn);margin-top:2px">Point your camera at a printout or your screen — AI reads the values</div>
+            <div style="font-size:12px;color:var(--predawn);margin-top:2px">Labs, after-visit summaries, vitals — anything printed or on screen</div>
           </div>
           <span style="background:var(--surface);color:var(--predawn);border:1px solid var(--border);border-radius:20px;padding:6px 14px;font-size:12px;font-weight:600;white-space:nowrap">Camera</span>
         </div>
@@ -1160,6 +1291,44 @@ body{background:var(--midnight);font-family:'DM Sans',sans-serif;display:flex;fl
         </div>
       </div>
       <div style="font-size:12px;color:var(--predawn);margin-top:8px;padding:0 4px">Don't have a wearable? Your check-ins and labs still build a powerful picture.</div>
+    </div>
+
+    <!-- Home vitals -->
+    <div>
+      <div style="font-size:11px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;color:var(--predawn);margin-bottom:10px">Home vitals</div>
+      <div style="background:var(--surface);border-radius:12px;padding:10px 12px;margin-bottom:10px">
+        <div style="font-size:12px;color:var(--predawn);line-height:1.55;font-weight:300">Blood pressure, pulse, temperature, oxygen saturation. Useful day to day, valuable in the brief.</div>
+      </div>
+      <div style="background:white;border-radius:16px;overflow:hidden;border:1px solid var(--border)">
+        <!-- Manual entry -->
+        <div onclick="go('s-vitals-log')" style="display:flex;align-items:center;gap:14px;padding:16px;border-bottom:1px solid var(--surface);cursor:pointer">
+          <div style="width:44px;height:44px;border-radius:12px;background:#FFF8EE;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0">✏️</div>
+          <div style="flex:1">
+            <div style="font-size:15px;font-weight:600;color:var(--midnight)">Log it yourself</div>
+            <div style="font-size:12px;color:var(--text-mid);margin-top:2px">Enter readings manually — anytime</div>
+          </div>
+          <span style="background:var(--midday);color:white;border-radius:20px;padding:6px 14px;font-size:12px;font-weight:600;white-space:nowrap">Open</span>
+        </div>
+        <!-- Withings -->
+        <div style="display:flex;align-items:center;gap:14px;padding:16px;border-bottom:1px solid var(--surface)">
+          <div style="width:44px;height:44px;border-radius:12px;background:#EEF7FB;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0">🩺</div>
+          <div style="flex:1">
+            <div style="font-size:15px;font-weight:600;color:var(--midnight)">Withings</div>
+            <div style="font-size:12px;color:var(--text-mid);margin-top:2px">BP cuff, smart scale (weight, BMI), thermometer</div>
+          </div>
+          <button id="withings-btn" onclick="connectItem('withings')" style="background:var(--surface);color:var(--predawn);border:1px solid var(--border);border-radius:20px;padding:8px 16px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap">Connect</button>
+        </div>
+        <!-- Omron -->
+        <div style="display:flex;align-items:center;gap:14px;padding:16px">
+          <div style="width:44px;height:44px;border-radius:12px;background:#EEF7FB;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0">➕</div>
+          <div style="flex:1">
+            <div style="font-size:15px;font-weight:600;color:var(--midnight)">Omron Connect</div>
+            <div style="font-size:12px;color:var(--text-mid);margin-top:2px">BP monitors, pulse oximeters</div>
+          </div>
+          <button id="omron-btn" onclick="connectItem('omron')" style="background:var(--surface);color:var(--predawn);border:1px solid var(--border);border-radius:20px;padding:8px 16px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap">Connect</button>
+        </div>
+      </div>
+      <div style="font-size:12px;color:var(--predawn);margin-top:8px;padding:0 4px">No connected device? Manual logging works just as well.</div>
     </div>
 
     <!-- CTA -->
@@ -1253,6 +1422,78 @@ body{background:var(--midnight);font-family:'DM Sans',sans-serif;display:flex;fl
     <div style="margin-top:auto;padding-top:8px">
       <button onclick="go('s-dashboard')" style="background:var(--midday);color:var(--midnight);border:none;border-radius:14px;padding:16px;width:100%;font-size:16px;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer;margin-bottom:8px">Go to my dashboard →</button>
       <p style="font-size:12px;color:var(--predawn);text-align:center">All of these can be changed anytime in Settings.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ══ Vitals · Manual Log ══ -->
+<div class="sim-screen" id="s-vitals-log">
+  <div style="background:var(--canvas);padding:14px 20px 0;flex-shrink:0">
+    <div style="display:flex;align-items:center;justify-content:space-between;height:44px">
+      <button onclick="go('s-data')" style="background:none;border:none;color:var(--midday);font-size:16px;cursor:pointer;padding:4px 8px">‹</button>
+      <span style="font-size:14px;font-weight:500;color:var(--midnight)">Log vitals</span>
+      <span style="width:48px"></span>
+    </div>
+  </div>
+  <div style="padding:24px 20px 20px;display:flex;flex-direction:column;flex:1;gap:18px;overflow-y:auto">
+    <div>
+      <h1 style="font-size:26px;font-weight:600;color:var(--midnight);line-height:1.2;margin-bottom:8px">Log your reading.</h1>
+      <p style="font-size:14px;color:var(--text-mid);line-height:1.5">Tap +/− to adjust. We'll save it with the time you logged.</p>
+    </div>
+
+    <!-- Blood pressure -->
+    <div>
+      <div style="font-size:11px;font-weight:500;letter-spacing:.6px;text-transform:uppercase;color:var(--predawn);margin-bottom:8px">Blood pressure (mmHg)</div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <div style="flex:1;display:flex;align-items:center;background:var(--canvas);border:1.5px solid var(--border);border-radius:14px;padding:8px;gap:6px">
+          <button onclick="adjVital('bp-sys',-1)" style="background:var(--surface);border:none;width:32px;height:32px;border-radius:9px;font-size:18px;color:var(--midnight);cursor:pointer;font-family:inherit;flex-shrink:0">−</button>
+          <div style="flex:1;text-align:center;font-family:'Raleway',serif;font-size:26px;font-weight:300;color:var(--midnight);line-height:1" id="v-bp-sys">132</div>
+          <button onclick="adjVital('bp-sys',1)" style="background:var(--surface);border:none;width:32px;height:32px;border-radius:9px;font-size:18px;color:var(--midnight);cursor:pointer;font-family:inherit;flex-shrink:0">+</button>
+        </div>
+        <div style="font-family:'Raleway',serif;font-size:24px;font-weight:200;color:var(--text-lite)">/</div>
+        <div style="flex:1;display:flex;align-items:center;background:var(--canvas);border:1.5px solid var(--border);border-radius:14px;padding:8px;gap:6px">
+          <button onclick="adjVital('bp-dia',-1)" style="background:var(--surface);border:none;width:32px;height:32px;border-radius:9px;font-size:18px;color:var(--midnight);cursor:pointer;font-family:inherit;flex-shrink:0">−</button>
+          <div style="flex:1;text-align:center;font-family:'Raleway',serif;font-size:26px;font-weight:300;color:var(--midnight);line-height:1" id="v-bp-dia">84</div>
+          <button onclick="adjVital('bp-dia',1)" style="background:var(--surface);border:none;width:32px;height:32px;border-radius:9px;font-size:18px;color:var(--midnight);cursor:pointer;font-family:inherit;flex-shrink:0">+</button>
+        </div>
+      </div>
+      <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text-lite);margin-top:6px;padding:0 4px"><span>Systolic</span><span></span><span>Diastolic</span></div>
+    </div>
+
+    <!-- Pulse -->
+    <div>
+      <div style="font-size:11px;font-weight:500;letter-spacing:.6px;text-transform:uppercase;color:var(--predawn);margin-bottom:8px">Pulse (bpm)</div>
+      <div style="display:flex;align-items:center;background:var(--canvas);border:1.5px solid var(--border);border-radius:14px;padding:8px;gap:8px">
+        <button onclick="adjVital('pulse',-1)" style="background:var(--surface);border:none;width:36px;height:36px;border-radius:10px;font-size:20px;color:var(--midnight);cursor:pointer;font-family:inherit;flex-shrink:0">−</button>
+        <div style="flex:1;text-align:center;font-family:'Raleway',serif;font-size:32px;font-weight:300;color:var(--midnight);line-height:1" id="v-pulse">72</div>
+        <button onclick="adjVital('pulse',1)" style="background:var(--surface);border:none;width:36px;height:36px;border-radius:10px;font-size:20px;color:var(--midnight);cursor:pointer;font-family:inherit;flex-shrink:0">+</button>
+      </div>
+    </div>
+
+    <!-- Temperature -->
+    <div>
+      <div style="font-size:11px;font-weight:500;letter-spacing:.6px;text-transform:uppercase;color:var(--predawn);margin-bottom:8px">Temperature (°F)</div>
+      <div style="display:flex;align-items:center;background:var(--canvas);border:1.5px solid var(--border);border-radius:14px;padding:8px;gap:8px">
+        <button onclick="adjVital('temp',-1)" style="background:var(--surface);border:none;width:36px;height:36px;border-radius:10px;font-size:20px;color:var(--midnight);cursor:pointer;font-family:inherit;flex-shrink:0">−</button>
+        <div style="flex:1;text-align:center;font-family:'Raleway',serif;font-size:32px;font-weight:300;color:var(--midnight);line-height:1" id="v-temp">98.4</div>
+        <button onclick="adjVital('temp',1)" style="background:var(--surface);border:none;width:36px;height:36px;border-radius:10px;font-size:20px;color:var(--midnight);cursor:pointer;font-family:inherit;flex-shrink:0">+</button>
+      </div>
+    </div>
+
+    <!-- O2 -->
+    <div>
+      <div style="font-size:11px;font-weight:500;letter-spacing:.6px;text-transform:uppercase;color:var(--predawn);margin-bottom:8px">Oxygen saturation (%)</div>
+      <div style="display:flex;align-items:center;background:var(--canvas);border:1.5px solid var(--border);border-radius:14px;padding:8px;gap:8px">
+        <button onclick="adjVital('o2',-1)" style="background:var(--surface);border:none;width:36px;height:36px;border-radius:10px;font-size:20px;color:var(--midnight);cursor:pointer;font-family:inherit;flex-shrink:0">−</button>
+        <div style="flex:1;text-align:center;font-family:'Raleway',serif;font-size:32px;font-weight:300;color:var(--midnight);line-height:1" id="v-o2">97</div>
+        <button onclick="adjVital('o2',1)" style="background:var(--surface);border:none;width:36px;height:36px;border-radius:10px;font-size:20px;color:var(--midnight);cursor:pointer;font-family:inherit;flex-shrink:0">+</button>
+      </div>
+    </div>
+
+    <div style="margin-top:auto;padding-top:8px">
+      <button onclick="go('s-data')" style="background:var(--midday);color:var(--midnight);border:none;border-radius:14px;padding:16px;width:100%;font-size:16px;font-weight:500;font-family:'DM Sans',sans-serif;cursor:pointer">Save reading</button>
+      <button onclick="go('s-connect-why')" style="background:transparent;color:var(--midday);border:1.5px solid var(--midday);border-radius:14px;padding:13px;width:100%;font-size:14px;font-weight:500;font-family:'DM Sans',sans-serif;cursor:pointer;margin-top:8px">Connect my device</button>
+      <p style="font-size:11px;color:var(--predawn);text-align:center;line-height:1.5;margin-top:8px">Withings, Omron, and others can sync readings automatically.</p>
     </div>
   </div>
 </div>
@@ -1442,9 +1683,17 @@ body{background:var(--midnight);font-family:'DM Sans',sans-serif;display:flex;fl
     </div>
     <!-- Quick links -->
     <div style="display:flex;flex-direction:column;gap:8px">
+      <div onclick="go('s-vitals-log')" style="background:white;border-radius:14px;padding:14px 16px;display:flex;align-items:center;gap:12px;border:1px solid var(--border);cursor:pointer">
+        <span style="font-size:20px">💗</span>
+        <div style="flex:1">
+          <div style="font-size:14px;font-weight:500;color:var(--midnight)">Latest vitals</div>
+          <div style="font-size:12px;color:var(--text-mid)">BP 132/84 · Pulse 72 · 98.4° · O₂ 97% · 2h ago</div>
+        </div>
+        <span style="color:var(--predawn);font-size:18px">›</span>
+      </div>
       <div onclick="go('s-data')" style="background:white;border-radius:14px;padding:14px 16px;display:flex;align-items:center;gap:12px;border:1px solid var(--border);cursor:pointer">
         <span style="font-size:20px">📈</span>
-        <div style="flex:1"><div style="font-size:14px;font-weight:500;color:var(--midnight)">Our health data</div><div style="font-size:12px;color:var(--text-mid)">Labs · symptoms · wearables</div></div>
+        <div style="flex:1"><div style="font-size:14px;font-weight:500;color:var(--midnight)">Our health data</div><div style="font-size:12px;color:var(--text-mid)">Labs · symptoms · wearables · vitals</div></div>
         <span style="color:var(--predawn);font-size:18px">›</span>
       </div>
       <div onclick="go('s-prep')" style="background:white;border-radius:14px;padding:14px 16px;display:flex;align-items:center;gap:12px;border:1px solid var(--border);cursor:pointer">
@@ -1530,7 +1779,7 @@ body{background:var(--midnight);font-family:'DM Sans',sans-serif;display:flex;fl
         </div>
         <div style="display:flex;align-items:center;gap:12px">
           <div style="width:34px;height:34px;border-radius:8px;background:#EEF7FB;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0">📋</div>
-          <div><div style="font-size:13px;font-weight:500;color:var(--midnight)">The MPN-10</div><div style="font-size:11px;color:var(--predawn)">The validated instrument your care team uses — now weekly, in your hands.</div></div>
+          <div><div style="font-size:13px;font-weight:500;color:var(--midnight)">MPN-10 anchor + optional deeper</div><div style="font-size:11px;color:var(--predawn)">10 anchor questions, plus the option to add more if you want.</div></div>
         </div>
         <div style="display:flex;align-items:center;gap:12px">
           <div style="width:34px;height:34px;border-radius:8px;background:#EEF7FB;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0">🔒</div>
@@ -1566,7 +1815,7 @@ body{background:var(--midnight);font-family:'DM Sans',sans-serif;display:flex;fl
         <div style="flex:1;height:1px;background:var(--border)"></div>
       </div>
       <button onclick="go('s-checkin-talk')" style="background:var(--midnight);color:white;border:none;border-radius:14px;padding:16px;width:100%;font-size:16px;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;margin-top:8px"><span style="font-size:20px">🎙️</span> Talk to Claude instead</button>
-      <div style="text-align:center;margin-top:8px;font-size:11px;color:var(--predawn)">Claude will ask you each question. Just respond naturally.</div>
+      <div style="text-align:center;margin-top:8px;font-size:11px;color:var(--predawn);line-height:1.5">Same MPN-10 in conversation — Claude asks for your score on each. Then opens the floor for anything else.</div>
     </div>
   </div>
 </div>
@@ -1587,6 +1836,279 @@ body{background:var(--midnight);font-family:'DM Sans',sans-serif;display:flex;fl
     </div>
   </div>
   <div style="padding:14px 20px;display:flex;flex-direction:column;flex:1;overflow-y:auto;gap:12px" id="ci-questions-container"></div>
+</div>
+
+<!-- ══ Check-in · Deeper Intro (transition) ══ -->
+<div class="sim-screen" id="s-checkin-deeper-intro">
+  <div style="background:var(--canvas);padding:14px 20px 0;flex-shrink:0">
+    <div style="display:flex;align-items:center;justify-content:space-between;height:44px">
+      <span style="width:48px"></span>
+      <span style="font-size:14px;font-weight:500;color:var(--midnight)">Check-in</span>
+      <span style="width:48px"></span>
+    </div>
+  </div>
+  <div style="padding:32px 24px 24px;display:flex;flex-direction:column;flex:1;gap:18px;overflow-y:auto">
+    <div style="text-align:center;padding-top:12px">
+      <div style="width:64px;height:64px;margin:0 auto 16px;border-radius:50%;background:#D4EAD8;display:flex;align-items:center;justify-content:center;font-size:30px">✓</div>
+      <h1 style="font-size:24px;font-weight:600;color:var(--midnight);line-height:1.2;margin-bottom:10px">Anchor done.</h1>
+      <p style="font-size:14px;color:var(--text-mid);line-height:1.6;font-weight:300">All 10 MPN-10 questions answered. Want to add more detail this week?</p>
+    </div>
+
+    <div style="background:white;border-radius:14px;padding:16px;border:1px solid var(--border)">
+      <div style="font-size:11px;font-weight:500;letter-spacing:.6px;text-transform:uppercase;color:var(--predawn);margin-bottom:8px">Going deeper</div>
+      <div style="font-size:13px;color:var(--midnight);line-height:1.55;font-weight:300">22 additional symptoms patients with MPN report — across sleep, cognition, joints, GI, and quality of life. Quick three-tap rating: <span style="font-weight:500">none, some, a lot</span>. Helps the brief and Talk to Claude get richer over time.</div>
+    </div>
+
+    <div style="margin-top:auto;padding-top:8px;display:flex;flex-direction:column;gap:8px">
+      <button onclick="go('s-checkin-deeper')" style="background:var(--midday);color:var(--midnight);border:none;border-radius:14px;padding:16px;width:100%;font-size:16px;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer">Go deeper →</button>
+      <button onclick="go('s-checkin-done')" style="background:transparent;color:var(--predawn);border:none;padding:14px;width:100%;font-size:14px;font-weight:500;font-family:'DM Sans',sans-serif;cursor:pointer">Skip for now</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ Check-in · Deeper (additional symptoms) ══ -->
+<div class="sim-screen" id="s-checkin-deeper">
+  <div style="background:var(--canvas);padding:14px 20px 0;flex-shrink:0;border-bottom:1px solid var(--border)">
+    <div style="display:flex;align-items:center;justify-content:space-between;height:44px">
+      <button onclick="go('s-checkin-deeper-intro')" style="background:none;border:none;color:var(--midday);font-size:16px;cursor:pointer;padding:4px 8px">‹</button>
+      <span style="font-size:14px;font-weight:500;color:var(--midnight)">Anything else this week?</span>
+      <span style="width:48px"></span>
+    </div>
+  </div>
+  <div style="padding:18px 20px;display:flex;flex-direction:column;flex:1;gap:14px;overflow-y:auto">
+    <div>
+      <div style="font-size:13px;color:var(--text-mid);line-height:1.55;font-weight:300">Tap how each symptom has felt this week. Skip anything that doesn't apply.</div>
+    </div>
+
+    <!-- Fatigue & Energy -->
+    <div>
+      <div style="font-size:10px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;color:var(--predawn);margin-bottom:10px">Fatigue & Energy</div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div style="background:white;border-radius:14px;padding:12px 14px;border:1px solid var(--border)">
+          <div style="font-size:13px;color:var(--midnight);font-weight:500;margin-bottom:8px">Inactivity / reduced activity</div>
+          <div style="display:flex;gap:6px">
+            <button class="deep-btn" data-deep-sym="d-inactivity" data-deep-val="none" onclick="pickDeep('d-inactivity','none')">None</button>
+            <button class="deep-btn" data-deep-sym="d-inactivity" data-deep-val="some" onclick="pickDeep('d-inactivity','some')">Some</button>
+            <button class="deep-btn" data-deep-sym="d-inactivity" data-deep-val="lot" onclick="pickDeep('d-inactivity','lot')">A lot</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sleep & Autonomic -->
+    <div>
+      <div style="font-size:10px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;color:var(--predawn);margin-bottom:10px">Sleep & Autonomic</div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div style="background:white;border-radius:14px;padding:12px 14px;border:1px solid var(--border)">
+          <div style="font-size:13px;color:var(--midnight);font-weight:500;margin-bottom:8px">Difficulty falling or staying asleep</div>
+          <div style="display:flex;gap:6px">
+            <button class="deep-btn" data-deep-sym="d-sleep" data-deep-val="none" onclick="pickDeep('d-sleep','none')">None</button>
+            <button class="deep-btn" data-deep-sym="d-sleep" data-deep-val="some" onclick="pickDeep('d-sleep','some')">Some</button>
+            <button class="deep-btn" data-deep-sym="d-sleep" data-deep-val="lot" onclick="pickDeep('d-sleep','lot')">A lot</button>
+          </div>
+        </div>
+        <div style="background:white;border-radius:14px;padding:12px 14px;border:1px solid var(--border)">
+          <div style="font-size:13px;color:var(--midnight);font-weight:500;margin-bottom:8px">Restless legs</div>
+          <div style="display:flex;gap:6px">
+            <button class="deep-btn" data-deep-sym="d-restless" data-deep-val="none" onclick="pickDeep('d-restless','none')">None</button>
+            <button class="deep-btn" data-deep-sym="d-restless" data-deep-val="some" onclick="pickDeep('d-restless','some')">Some</button>
+            <button class="deep-btn" data-deep-sym="d-restless" data-deep-val="lot" onclick="pickDeep('d-restless','lot')">A lot</button>
+          </div>
+        </div>
+        <div style="background:white;border-radius:14px;padding:12px 14px;border:1px solid var(--border)">
+          <div style="font-size:13px;color:var(--midnight);font-weight:500;margin-bottom:8px">Flushing</div>
+          <div style="display:flex;gap:6px">
+            <button class="deep-btn" data-deep-sym="d-flushing" data-deep-val="none" onclick="pickDeep('d-flushing','none')">None</button>
+            <button class="deep-btn" data-deep-sym="d-flushing" data-deep-val="some" onclick="pickDeep('d-flushing','some')">Some</button>
+            <button class="deep-btn" data-deep-sym="d-flushing" data-deep-val="lot" onclick="pickDeep('d-flushing','lot')">A lot</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cognitive & Neurologic -->
+    <div>
+      <div style="font-size:10px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;color:var(--predawn);margin-bottom:10px">Cognitive & Neurologic</div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div style="background:white;border-radius:14px;padding:12px 14px;border:1px solid var(--border)">
+          <div style="font-size:13px;color:var(--midnight);font-weight:500;margin-bottom:8px">Trouble concentrating / brain fog</div>
+          <div style="display:flex;gap:6px">
+            <button class="deep-btn" data-deep-sym="d-fog" data-deep-val="none" onclick="pickDeep('d-fog','none')">None</button>
+            <button class="deep-btn deep-sel-some" data-deep-sym="d-fog" data-deep-val="some" onclick="pickDeep('d-fog','some')">Some</button>
+            <button class="deep-btn" data-deep-sym="d-fog" data-deep-val="lot" onclick="pickDeep('d-fog','lot')">A lot</button>
+          </div>
+        </div>
+        <div style="background:white;border-radius:14px;padding:12px 14px;border:1px solid var(--border)">
+          <div style="font-size:13px;color:var(--midnight);font-weight:500;margin-bottom:8px">Headaches</div>
+          <div style="display:flex;gap:6px">
+            <button class="deep-btn" data-deep-sym="d-headache" data-deep-val="none" onclick="pickDeep('d-headache','none')">None</button>
+            <button class="deep-btn" data-deep-sym="d-headache" data-deep-val="some" onclick="pickDeep('d-headache','some')">Some</button>
+            <button class="deep-btn" data-deep-sym="d-headache" data-deep-val="lot" onclick="pickDeep('d-headache','lot')">A lot</button>
+          </div>
+        </div>
+        <div style="background:white;border-radius:14px;padding:12px 14px;border:1px solid var(--border)">
+          <div style="font-size:13px;color:var(--midnight);font-weight:500;margin-bottom:8px">Migraines</div>
+          <div style="display:flex;gap:6px">
+            <button class="deep-btn" data-deep-sym="d-migraine" data-deep-val="none" onclick="pickDeep('d-migraine','none')">None</button>
+            <button class="deep-btn" data-deep-sym="d-migraine" data-deep-val="some" onclick="pickDeep('d-migraine','some')">Some</button>
+            <button class="deep-btn" data-deep-sym="d-migraine" data-deep-val="lot" onclick="pickDeep('d-migraine','lot')">A lot</button>
+          </div>
+        </div>
+        <div style="background:white;border-radius:14px;padding:12px 14px;border:1px solid var(--border)">
+          <div style="font-size:13px;color:var(--midnight);font-weight:500;margin-bottom:8px">Numbness or tingling in hands or feet</div>
+          <div style="display:flex;gap:6px">
+            <button class="deep-btn" data-deep-sym="d-numb" data-deep-val="none" onclick="pickDeep('d-numb','none')">None</button>
+            <button class="deep-btn" data-deep-sym="d-numb" data-deep-val="some" onclick="pickDeep('d-numb','some')">Some</button>
+            <button class="deep-btn" data-deep-sym="d-numb" data-deep-val="lot" onclick="pickDeep('d-numb','lot')">A lot</button>
+          </div>
+        </div>
+        <div style="background:white;border-radius:14px;padding:12px 14px;border:1px solid var(--border)">
+          <div style="font-size:13px;color:var(--midnight);font-weight:500;margin-bottom:8px">Ringing in the ears (tinnitus)</div>
+          <div style="display:flex;gap:6px">
+            <button class="deep-btn" data-deep-sym="d-tinnitus" data-deep-val="none" onclick="pickDeep('d-tinnitus','none')">None</button>
+            <button class="deep-btn" data-deep-sym="d-tinnitus" data-deep-val="some" onclick="pickDeep('d-tinnitus','some')">Some</button>
+            <button class="deep-btn" data-deep-sym="d-tinnitus" data-deep-val="lot" onclick="pickDeep('d-tinnitus','lot')">A lot</button>
+          </div>
+        </div>
+        <div style="background:white;border-radius:14px;padding:12px 14px;border:1px solid var(--border)">
+          <div style="font-size:13px;color:var(--midnight);font-weight:500;margin-bottom:8px">Blurred or double vision</div>
+          <div style="display:flex;gap:6px">
+            <button class="deep-btn" data-deep-sym="d-vision" data-deep-val="none" onclick="pickDeep('d-vision','none')">None</button>
+            <button class="deep-btn" data-deep-sym="d-vision" data-deep-val="some" onclick="pickDeep('d-vision','some')">Some</button>
+            <button class="deep-btn" data-deep-sym="d-vision" data-deep-val="lot" onclick="pickDeep('d-vision','lot')">A lot</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Musculoskeletal -->
+    <div>
+      <div style="font-size:10px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;color:var(--predawn);margin-bottom:10px">Musculoskeletal</div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div style="background:white;border-radius:14px;padding:12px 14px;border:1px solid var(--border)">
+          <div style="font-size:13px;color:var(--midnight);font-weight:500;margin-bottom:8px">Joint pain</div>
+          <div style="display:flex;gap:6px">
+            <button class="deep-btn" data-deep-sym="d-joint" data-deep-val="none" onclick="pickDeep('d-joint','none')">None</button>
+            <button class="deep-btn" data-deep-sym="d-joint" data-deep-val="some" onclick="pickDeep('d-joint','some')">Some</button>
+            <button class="deep-btn" data-deep-sym="d-joint" data-deep-val="lot" onclick="pickDeep('d-joint','lot')">A lot</button>
+          </div>
+        </div>
+        <div style="background:white;border-radius:14px;padding:12px 14px;border:1px solid var(--border)">
+          <div style="font-size:13px;color:var(--midnight);font-weight:500;margin-bottom:8px">Muscle cramping</div>
+          <div style="display:flex;gap:6px">
+            <button class="deep-btn" data-deep-sym="d-cramp" data-deep-val="none" onclick="pickDeep('d-cramp','none')">None</button>
+            <button class="deep-btn" data-deep-sym="d-cramp" data-deep-val="some" onclick="pickDeep('d-cramp','some')">Some</button>
+            <button class="deep-btn" data-deep-sym="d-cramp" data-deep-val="lot" onclick="pickDeep('d-cramp','lot')">A lot</button>
+          </div>
+        </div>
+        <div style="background:white;border-radius:14px;padding:12px 14px;border:1px solid var(--border)">
+          <div style="font-size:13px;color:var(--midnight);font-weight:500;margin-bottom:8px">Muscle spasms</div>
+          <div style="display:flex;gap:6px">
+            <button class="deep-btn" data-deep-sym="d-spasm" data-deep-val="none" onclick="pickDeep('d-spasm','none')">None</button>
+            <button class="deep-btn" data-deep-sym="d-spasm" data-deep-val="some" onclick="pickDeep('d-spasm','some')">Some</button>
+            <button class="deep-btn" data-deep-sym="d-spasm" data-deep-val="lot" onclick="pickDeep('d-spasm','lot')">A lot</button>
+          </div>
+        </div>
+        <div style="background:white;border-radius:14px;padding:12px 14px;border:1px solid var(--border)">
+          <div style="font-size:13px;color:var(--midnight);font-weight:500;margin-bottom:8px">Generalized aches or heaviness</div>
+          <div style="display:flex;gap:6px">
+            <button class="deep-btn" data-deep-sym="d-ache" data-deep-val="none" onclick="pickDeep('d-ache','none')">None</button>
+            <button class="deep-btn" data-deep-sym="d-ache" data-deep-val="some" onclick="pickDeep('d-ache','some')">Some</button>
+            <button class="deep-btn" data-deep-sym="d-ache" data-deep-val="lot" onclick="pickDeep('d-ache','lot')">A lot</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- GI / Abdominal / Spleen -->
+    <div>
+      <div style="font-size:10px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;color:var(--predawn);margin-bottom:10px">GI, Abdominal & Spleen</div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div style="background:white;border-radius:14px;padding:12px 14px;border:1px solid var(--border)">
+          <div style="font-size:13px;color:var(--midnight);font-weight:500;margin-bottom:8px">Abdominal discomfort</div>
+          <div style="display:flex;gap:6px">
+            <button class="deep-btn" data-deep-sym="d-abdom" data-deep-val="none" onclick="pickDeep('d-abdom','none')">None</button>
+            <button class="deep-btn" data-deep-sym="d-abdom" data-deep-val="some" onclick="pickDeep('d-abdom','some')">Some</button>
+            <button class="deep-btn" data-deep-sym="d-abdom" data-deep-val="lot" onclick="pickDeep('d-abdom','lot')">A lot</button>
+          </div>
+        </div>
+        <div style="background:white;border-radius:14px;padding:12px 14px;border:1px solid var(--border)">
+          <div style="font-size:13px;color:var(--midnight);font-weight:500;margin-bottom:8px">Poor appetite</div>
+          <div style="display:flex;gap:6px">
+            <button class="deep-btn" data-deep-sym="d-appetite" data-deep-val="none" onclick="pickDeep('d-appetite','none')">None</button>
+            <button class="deep-btn" data-deep-sym="d-appetite" data-deep-val="some" onclick="pickDeep('d-appetite','some')">Some</button>
+            <button class="deep-btn" data-deep-sym="d-appetite" data-deep-val="lot" onclick="pickDeep('d-appetite','lot')">A lot</button>
+          </div>
+        </div>
+        <div style="background:white;border-radius:14px;padding:12px 14px;border:1px solid var(--border)">
+          <div style="font-size:13px;color:var(--midnight);font-weight:500;margin-bottom:8px">Bloating</div>
+          <div style="display:flex;gap:6px">
+            <button class="deep-btn" data-deep-sym="d-bloat" data-deep-val="none" onclick="pickDeep('d-bloat','none')">None</button>
+            <button class="deep-btn" data-deep-sym="d-bloat" data-deep-val="some" onclick="pickDeep('d-bloat','some')">Some</button>
+            <button class="deep-btn" data-deep-sym="d-bloat" data-deep-val="lot" onclick="pickDeep('d-bloat','lot')">A lot</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Constitutional -->
+    <div>
+      <div style="font-size:10px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;color:var(--predawn);margin-bottom:10px">Constitutional</div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div style="background:white;border-radius:14px;padding:12px 14px;border:1px solid var(--border)">
+          <div style="font-size:13px;color:var(--midnight);font-weight:500;margin-bottom:8px">Weight gain</div>
+          <div style="display:flex;gap:6px">
+            <button class="deep-btn" data-deep-sym="d-gain" data-deep-val="none" onclick="pickDeep('d-gain','none')">None</button>
+            <button class="deep-btn" data-deep-sym="d-gain" data-deep-val="some" onclick="pickDeep('d-gain','some')">Some</button>
+            <button class="deep-btn" data-deep-sym="d-gain" data-deep-val="lot" onclick="pickDeep('d-gain','lot')">A lot</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Functional Impact & QoL -->
+    <div>
+      <div style="font-size:10px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;color:var(--predawn);margin-bottom:10px">Functional Impact & Quality of Life</div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div style="background:white;border-radius:14px;padding:12px 14px;border:1px solid var(--border)">
+          <div style="font-size:13px;color:var(--midnight);font-weight:500;margin-bottom:8px">Difficulty being physically active</div>
+          <div style="display:flex;gap:6px">
+            <button class="deep-btn" data-deep-sym="d-active" data-deep-val="none" onclick="pickDeep('d-active','none')">None</button>
+            <button class="deep-btn" data-deep-sym="d-active" data-deep-val="some" onclick="pickDeep('d-active','some')">Some</button>
+            <button class="deep-btn" data-deep-sym="d-active" data-deep-val="lot" onclick="pickDeep('d-active','lot')">A lot</button>
+          </div>
+        </div>
+        <div style="background:white;border-radius:14px;padding:12px 14px;border:1px solid var(--border)">
+          <div style="font-size:13px;color:var(--midnight);font-weight:500;margin-bottom:8px">Concentration affecting daily life</div>
+          <div style="display:flex;gap:6px">
+            <button class="deep-btn" data-deep-sym="d-conc" data-deep-val="none" onclick="pickDeep('d-conc','none')">None</button>
+            <button class="deep-btn" data-deep-sym="d-conc" data-deep-val="some" onclick="pickDeep('d-conc','some')">Some</button>
+            <button class="deep-btn" data-deep-sym="d-conc" data-deep-val="lot" onclick="pickDeep('d-conc','lot')">A lot</button>
+          </div>
+        </div>
+        <div style="background:white;border-radius:14px;padding:12px 14px;border:1px solid var(--border)">
+          <div style="font-size:13px;color:var(--midnight);font-weight:500;margin-bottom:8px">Changes in sexual health or intimacy</div>
+          <div style="display:flex;gap:6px">
+            <button class="deep-btn" data-deep-sym="d-intimacy" data-deep-val="none" onclick="pickDeep('d-intimacy','none')">None</button>
+            <button class="deep-btn" data-deep-sym="d-intimacy" data-deep-val="some" onclick="pickDeep('d-intimacy','some')">Some</button>
+            <button class="deep-btn" data-deep-sym="d-intimacy" data-deep-val="lot" onclick="pickDeep('d-intimacy','lot')">A lot</button>
+          </div>
+        </div>
+        <div style="background:white;border-radius:14px;padding:12px 14px;border:1px solid var(--border)">
+          <div style="font-size:13px;color:var(--midnight);font-weight:500;margin-bottom:8px">Overall sense of "not being yourself"</div>
+          <div style="display:flex;gap:6px">
+            <button class="deep-btn" data-deep-sym="d-self" data-deep-val="none" onclick="pickDeep('d-self','none')">None</button>
+            <button class="deep-btn" data-deep-sym="d-self" data-deep-val="some" onclick="pickDeep('d-self','some')">Some</button>
+            <button class="deep-btn" data-deep-sym="d-self" data-deep-val="lot" onclick="pickDeep('d-self','lot')">A lot</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:8px;padding-top:4px">
+      <button onclick="go('s-checkin-done')" style="background:var(--midday);color:var(--midnight);border:none;border-radius:14px;padding:16px;width:100%;font-size:16px;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer">Save and finish ✓</button>
+    </div>
+  </div>
 </div>
 
 <!-- Done -->
@@ -1712,6 +2234,19 @@ body{background:var(--midnight);font-family:'DM Sans',sans-serif;display:flex;fl
         <div style="background:white;border-radius:14px;padding:14px;border:1px solid var(--border)"><div style="font-size:11px;color:var(--predawn);margin-bottom:4px">Steps/day</div><div style="font-size:22px;font-weight:600;color:var(--midnight)">4,820</div><div style="font-size:11px;color:var(--flag-high);margin-top:2px">↓ from 6,400</div></div>
       </div>
     </div>
+    <!-- Home vitals -->
+    <div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+        <div style="font-size:11px;font-weight:500;letter-spacing:.6px;text-transform:uppercase;color:var(--predawn)">Home vitals — last 30 days</div>
+        <button onclick="go('s-vitals-log')" style="background:var(--surface);color:var(--midnight);border:none;border-radius:20px;padding:5px 12px;font-size:11px;font-weight:600;cursor:pointer;font-family:inherit">+ Log</button>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+        <div style="background:white;border-radius:14px;padding:14px;border:1px solid var(--border)"><div style="font-size:11px;color:var(--predawn);margin-bottom:4px">Blood pressure</div><div style="font-size:22px;font-weight:600;color:var(--midnight)">132<span style="font-size:14px;font-weight:400">/84</span></div><div style="font-size:11px;color:var(--sunset,#C89858);margin-top:2px">Slightly elevated</div></div>
+        <div style="background:white;border-radius:14px;padding:14px;border:1px solid var(--border)"><div style="font-size:11px;color:var(--predawn);margin-bottom:4px">Pulse</div><div style="font-size:22px;font-weight:600;color:var(--midnight)">72<span style="font-size:12px;font-weight:400"> bpm</span></div><div style="font-size:11px;color:#1A6040;margin-top:2px">→ steady</div></div>
+        <div style="background:white;border-radius:14px;padding:14px;border:1px solid var(--border)"><div style="font-size:11px;color:var(--predawn);margin-bottom:4px">Temperature</div><div style="font-size:22px;font-weight:600;color:var(--midnight)">98.4<span style="font-size:12px;font-weight:400"> °F</span></div><div style="font-size:11px;color:#1A6040;margin-top:2px">→ normal</div></div>
+        <div style="background:white;border-radius:14px;padding:14px;border:1px solid var(--border)"><div style="font-size:11px;color:var(--predawn);margin-bottom:4px">O₂ saturation</div><div style="font-size:22px;font-weight:600;color:var(--midnight)">97<span style="font-size:12px;font-weight:400">%</span></div><div style="font-size:11px;color:#1A6040;margin-top:2px">→ normal</div></div>
+      </div>
+    </div>
     <div style="height:8px"></div>
   </div>
   <div style="background:white;border-top:1px solid var(--border);display:flex;padding:8px 0 4px;flex-shrink:0">
@@ -1830,6 +2365,16 @@ body{background:var(--midnight);font-family:'DM Sans',sans-serif;display:flex;fl
         <div style="text-align:right;align-self:center"><div style="font-size:13px;font-weight:600;color:#1A6040">14.6</div><div style="font-size:9px;color:#1A6040">→ stable</div></div>
       </div>
     </div>
+    <!-- Home vitals -->
+    <div style="background:white;border-radius:14px;padding:16px;border:1px solid var(--border)">
+      <div style="font-size:11px;font-weight:500;letter-spacing:.6px;text-transform:uppercase;color:var(--predawn);margin-bottom:12px">Home vitals — last 30 days, self-logged</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+        <div style="border-right:1px solid var(--surface);padding-right:8px"><div style="font-size:10px;color:var(--predawn)">Blood pressure</div><div style="font-size:15px;font-weight:600;color:var(--midnight)">132/84 <span style="font-size:9px;font-weight:400;color:var(--sunset,#C89858)">slightly ↑</span></div></div>
+        <div><div style="font-size:10px;color:var(--predawn)">Pulse</div><div style="font-size:15px;font-weight:600;color:var(--midnight)">72 bpm <span style="font-size:9px;font-weight:400;color:#1A6040">→</span></div></div>
+        <div style="border-right:1px solid var(--surface);padding-right:8px;padding-top:4px"><div style="font-size:10px;color:var(--predawn)">Temperature</div><div style="font-size:15px;font-weight:600;color:var(--midnight)">98.4 °F <span style="font-size:9px;font-weight:400;color:#1A6040">→</span></div></div>
+        <div style="padding-top:4px"><div style="font-size:10px;color:var(--predawn)">O₂ saturation</div><div style="font-size:15px;font-weight:600;color:var(--midnight)">97% <span style="font-size:9px;font-weight:400;color:#1A6040">→</span></div></div>
+      </div>
+    </div>
     <!-- Patterns -->
     <div style="background:var(--flag-bg);border-radius:14px;padding:16px;border:1px solid rgba(200,112,96,.2)">
       <div style="font-size:11px;font-weight:500;letter-spacing:.6px;text-transform:uppercase;color:var(--flag-high);margin-bottom:12px">3 patterns to discuss</div>
@@ -1846,7 +2391,7 @@ body{background:var(--midnight);font-family:'DM Sans',sans-serif;display:flex;fl
       <div style="width:26px;height:26px;border-radius:5px;background:#1B3A6B;display:flex;align-items:center;justify-content:center;flex-shrink:0">
         <div style="text-align:center;line-height:1.1"><div style="font-size:6px;font-weight:900;color:white">MPN</div><div style="font-size:4px;font-weight:700;color:rgba(255,255,255,0.8)">RF</div></div>
       </div>
-      <div style="font-size:10px;color:var(--predawn);font-weight:300">MPN-10 validated by <span style="font-weight:600;color:var(--midnight)">MPN Research Foundation</span></div>
+      <div style="font-size:10px;color:var(--predawn);font-weight:300">Aligned with the MPN-SAF TSS · <span style="font-weight:600;color:var(--midnight)">MPN Research Foundation</span></div>
     </div>
     <div style="font-size:11px;color:var(--predawn);text-align:center;line-height:1.5;padding-bottom:12px">For informational purposes only — not a clinical document.</div>
   </div>
@@ -2278,12 +2823,20 @@ body{background:var(--midnight);font-family:'DM Sans',sans-serif;display:flex;fl
     <div style="display:flex;flex-direction:column;gap:10px">
       <div style="font-size:13px;font-weight:600;color:var(--midnight);margin-bottom:2px">Promote to primary when…</div>
 
-      <div class="cond-card selected" id="rule-high" onclick="selectRule(this)">
-        <div style="flex:1"><div style="font-size:14px;font-weight:600;color:var(--midnight)">Value is above normal range</div><div style="font-size:12px;color:var(--text-mid);margin-top:2px">Flagged as High on any lab result</div></div>
+      <div class="cond-card selected" id="rule-outside" onclick="selectRule(this)">
+        <div style="flex:1">
+          <div style="font-size:14px;font-weight:600;color:var(--midnight)">Value is outside normal range</div>
+          <div style="font-size:12px;color:var(--text-mid);margin-top:2px">Above OR below — flagged on any lab result</div>
+          <div style="font-size:11px;color:var(--predawn);margin-top:6px;font-style:italic;line-height:1.4">Recommended — catches both highs (active disease) and lows (progression or over-treatment)</div>
+        </div>
         <div class="cond-radio checked"></div>
       </div>
+      <div class="cond-card" id="rule-high" onclick="selectRule(this)">
+        <div style="flex:1"><div style="font-size:14px;font-weight:600;color:var(--midnight)">Value is above normal range</div><div style="font-size:12px;color:var(--text-mid);margin-top:2px">Flagged as High only</div></div>
+        <div class="cond-radio"></div>
+      </div>
       <div class="cond-card" id="rule-low" onclick="selectRule(this)">
-        <div style="flex:1"><div style="font-size:14px;font-weight:600;color:var(--midnight)">Value is below normal range</div><div style="font-size:12px;color:var(--text-mid);margin-top:2px">Flagged as Low on any lab result</div></div>
+        <div style="flex:1"><div style="font-size:14px;font-weight:600;color:var(--midnight)">Value is below normal range</div><div style="font-size:12px;color:var(--text-mid);margin-top:2px">Flagged as Low only</div></div>
         <div class="cond-radio"></div>
       </div>
       <div class="cond-card" id="rule-pct" onclick="selectRule(this)">
@@ -3321,13 +3874,47 @@ body{background:var(--midnight);font-family:'DM Sans',sans-serif;display:flex;fl
           <span style="font-size:14px;color:#2E6DA4">›</span>
         </div>
         <div style="display:flex;align-items:center;gap:12px;padding:10px 16px;border-bottom:1px solid var(--surface);cursor:pointer">
+          <span style="font-size:16px">🔬</span>
+          <div style="flex:1"><div style="font-size:13px;font-weight:500;color:var(--midnight)">Understanding ET, PV & MF</div><div style="font-size:11px;color:var(--predawn)">Disease info, glossary, 30 facts</div></div>
+          <span style="font-size:14px;color:#2E6DA4">›</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;padding:10px 16px;border-bottom:1px solid var(--surface);cursor:pointer">
+          <span style="font-size:16px">📚</span>
+          <div style="flex:1"><div style="font-size:13px;font-weight:500;color:var(--midnight)">You and MPN</div><div style="font-size:11px;color:var(--predawn)">Patient-facing education site · youandmpn.com</div></div>
+          <span style="font-size:14px;color:#2E6DA4">›</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;padding:10px 16px;border-bottom:1px solid var(--surface);cursor:pointer">
           <span style="font-size:16px">🧪</span>
-          <div style="flex:1"><div style="font-size:13px;font-weight:500;color:var(--midnight)">MPN Clinical Trials</div><div style="font-size:11px;color:var(--predawn)">Find a trial that fits your profile</div></div>
+          <div style="flex:1"><div style="font-size:13px;font-weight:500;color:var(--midnight)">MPN Clinical Trial Finder</div><div style="font-size:11px;color:var(--predawn)">Find a trial that fits your profile</div></div>
+          <span style="font-size:14px;color:#2E6DA4">›</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;padding:10px 16px;border-bottom:1px solid var(--surface);cursor:pointer">
+          <span style="font-size:16px">📋</span>
+          <div style="flex:1"><div style="font-size:13px;font-weight:500;color:var(--midnight)">NCCN Patient Guidelines</div><div style="font-size:11px;color:var(--predawn)">Comprehensive MPN treatment guide · PDF</div></div>
           <span style="font-size:14px;color:#2E6DA4">›</span>
         </div>
         <div style="display:flex;align-items:center;gap:12px;padding:10px 16px;cursor:pointer">
-          <span style="font-size:16px">🔬</span>
-          <div style="flex:1"><div style="font-size:13px;font-weight:500;color:var(--midnight)">Understanding ET, PV & MF</div><div style="font-size:11px;color:var(--predawn)">Disease info, glossary, 30 facts</div></div>
+          <span style="font-size:16px">🎓</span>
+          <div style="flex:1"><div style="font-size:13px;font-weight:500;color:var(--midnight)">MPN Pathways</div><div style="font-size:11px;color:var(--predawn)">Empowered Voices in Research training series</div></div>
+          <span style="font-size:14px;color:#2E6DA4">›</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Connect with MPN RF -->
+    <div style="background:white;border-radius:14px;border:1px solid var(--border);overflow:hidden">
+      <div style="background:#EEF4FB;padding:12px 16px;border-bottom:1px solid #C8D8EC">
+        <div style="font-size:12px;font-weight:700;color:#1B3A6B">Connect with the foundation</div>
+      </div>
+      <div style="padding:8px 0">
+        <div style="display:flex;align-items:center;gap:12px;padding:10px 16px;border-bottom:1px solid var(--surface);cursor:pointer">
+          <span style="font-size:16px">📄</span>
+          <div style="flex:1"><div style="font-size:13px;font-weight:500;color:var(--midnight)">About MPN Research Foundation</div><div style="font-size:11px;color:var(--predawn)">One-page overview · PDF</div></div>
+          <span style="font-size:14px;color:#2E6DA4">›</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;padding:10px 16px;cursor:pointer">
+          <span style="font-size:16px">✉️</span>
+          <div style="flex:1"><div style="font-size:13px;font-weight:500;color:var(--midnight)">Patient engagement</div><div style="font-size:11px;color:var(--predawn)">patientengagement@mpnrf.org</div></div>
           <span style="font-size:14px;color:#2E6DA4">›</span>
         </div>
       </div>
@@ -3490,7 +4077,7 @@ body{background:var(--midnight);font-family:'DM Sans',sans-serif;display:flex;fl
       <button onclick="sendTalkMsg()" style="background:var(--midday);border:none;border-radius:10px;padding:10px 16px;font-size:14px;font-weight:600;color:var(--midnight);cursor:pointer">Send</button>
     </div>
     <div style="text-align:center;margin-top:8px">
-      <span style="font-size:11px;color:var(--predawn)">Respond naturally — Claude will interpret your answer and move on</span>
+      <span style="font-size:11px;color:var(--predawn)">Give a number, or describe — Claude will calibrate with you</span>
     </div>
   </div>
 </div>
@@ -3578,47 +4165,51 @@ body{background:var(--midnight);font-family:'DM Sans',sans-serif;display:flex;fl
   <div style="background:var(--canvas);padding:14px 20px 0;flex-shrink:0;border-bottom:1px solid var(--border)">
     <div style="display:flex;align-items:center;justify-content:space-between;height:44px">
       <button onclick="go('s-connect-why')" style="background:none;border:none;color:var(--midday);font-size:16px;cursor:pointer">‹ Back</button>
-      <span style="font-size:14px;font-weight:500;color:var(--midnight)">Take a photo</span>
+      <span style="font-size:14px;font-weight:500;color:var(--midnight)">Capture</span>
       <span style="width:48px"></span>
     </div>
   </div>
   <div style="padding:20px;display:flex;flex-direction:column;flex:1;gap:14px;overflow-y:auto">
 
     <div>
-      <div style="font-size:18px;font-weight:700;color:var(--midnight);margin-bottom:6px">Point at your lab results</div>
-      <div style="font-size:14px;color:var(--predawn);font-weight:300;line-height:1.6">Works with a printout, a laptop screen, or a tablet showing your portal. AI reads the values automatically.</div>
+      <div style="font-size:18px;font-weight:700;color:var(--midnight);margin-bottom:6px">Capture a document.</div>
+      <div style="font-size:14px;color:var(--predawn);font-weight:300;line-height:1.6">Lab results, after-visit summaries, vitals readings, medication lists — anything printed or on screen. AI reads the values automatically.</div>
+    </div>
+
+    <!-- Document type selector -->
+    <div>
+      <div style="font-size:11px;font-weight:500;letter-spacing:.6px;text-transform:uppercase;color:var(--predawn);margin-bottom:8px">What are you capturing?</div>
+      <div style="display:flex;flex-wrap:wrap;gap:6px">
+        <button class="ay-chip ay-chip-selected" onclick="selChip(this)">🩸 Labs</button>
+        <button class="ay-chip" onclick="selChip(this)">📄 After-visit summary</button>
+        <button class="ay-chip" onclick="selChip(this)">💗 Vitals</button>
+        <button class="ay-chip" onclick="selChip(this)">💊 Meds</button>
+        <button class="ay-chip" onclick="selChip(this)">📋 Other</button>
+      </div>
     </div>
 
     <!-- Camera viewfinder mockup -->
-    <div onclick="go('s-lab-parsed')" style="background:#1A2830;border-radius:16px;overflow:hidden;cursor:pointer;position:relative">
-      <div style="padding:16px 16px 12px">
-        <!-- Simulated lab document -->
-        <div style="background:rgba(255,255,255,0.08);border-radius:8px;padding:12px;margin-bottom:8px">
-          <div style="font-size:9px;font-weight:600;color:rgba(255,255,255,0.5);margin-bottom:8px;letter-spacing:.5px;text-transform:uppercase">Mayo Clinic · CBC with Differential</div>
-          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px">
-            <div style="font-size:8px;color:rgba(255,255,255,0.6)">Platelets</div>
-            <div style="font-size:8px;color:#ff8877;font-weight:600">842 H</div>
-            <div style="font-size:8px;color:rgba(255,255,255,0.35)">150–400</div>
-            <div style="font-size:8px;color:rgba(255,255,255,0.6)">Hemoglobin</div>
-            <div style="font-size:8px;color:rgba(255,255,255,0.85);font-weight:600">14.6</div>
-            <div style="font-size:8px;color:rgba(255,255,255,0.35)">13.5–17.5</div>
-            <div style="font-size:8px;color:rgba(255,255,255,0.6)">WBC</div>
-            <div style="font-size:8px;color:rgba(255,255,255,0.85);font-weight:600">7.2</div>
-            <div style="font-size:8px;color:rgba(255,255,255,0.35)">4.5–11.0</div>
-            <div style="font-size:8px;color:rgba(255,255,255,0.6)">Hematocrit</div>
-            <div style="font-size:8px;color:rgba(255,255,255,0.85);font-weight:600">43.0</div>
-            <div style="font-size:8px;color:rgba(255,255,255,0.35)">38.3–48.6</div>
-          </div>
-        </div>
+    <div onclick="go('s-lab-parsed')" style="background:#1A2830;border-radius:16px;overflow:hidden;cursor:pointer;position:relative;min-height:200px">
+      <div style="padding:32px 24px;display:flex;flex-direction:column;gap:10px;align-items:stretch">
+        <!-- Simulated document lines -->
+        <div style="height:6px;background:rgba(255,255,255,0.18);border-radius:3px;width:55%"></div>
+        <div style="height:4px;background:rgba(255,255,255,0.10);border-radius:2px;width:90%"></div>
+        <div style="height:4px;background:rgba(255,255,255,0.10);border-radius:2px;width:85%"></div>
+        <div style="height:4px;background:rgba(255,255,255,0.10);border-radius:2px;width:78%"></div>
+        <div style="height:4px;background:rgba(255,255,255,0.10);border-radius:2px;width:88%"></div>
+        <div style="height:4px;background:rgba(255,255,255,0.10);border-radius:2px;width:72%"></div>
+        <div style="height:4px;background:rgba(255,255,255,0.10);border-radius:2px;width:82%"></div>
         <!-- Scan bracket corners -->
-        <div style="position:absolute;top:20px;left:20px;width:22px;height:22px;border-top:2.5px solid var(--midday);border-left:2.5px solid var(--midday);border-radius:2px 0 0 0"></div>
-        <div style="position:absolute;top:20px;right:20px;width:22px;height:22px;border-top:2.5px solid var(--midday);border-right:2.5px solid var(--midday);border-radius:0 2px 0 0"></div>
-        <div style="position:absolute;bottom:52px;left:20px;width:22px;height:22px;border-bottom:2.5px solid var(--midday);border-left:2.5px solid var(--midday);border-radius:0 0 0 2px"></div>
-        <div style="position:absolute;bottom:52px;right:20px;width:22px;height:22px;border-bottom:2.5px solid var(--midday);border-right:2.5px solid var(--midday);border-radius:0 0 2px 0"></div>
+        <div style="position:absolute;top:14px;left:14px;width:22px;height:22px;border-top:2.5px solid var(--midday);border-left:2.5px solid var(--midday);border-radius:2px 0 0 0"></div>
+        <div style="position:absolute;top:14px;right:14px;width:22px;height:22px;border-top:2.5px solid var(--midday);border-right:2.5px solid var(--midday);border-radius:0 2px 0 0"></div>
+        <div style="position:absolute;bottom:60px;left:14px;width:22px;height:22px;border-bottom:2.5px solid var(--midday);border-left:2.5px solid var(--midday);border-radius:0 0 0 2px"></div>
+        <div style="position:absolute;bottom:60px;right:14px;width:22px;height:22px;border-bottom:2.5px solid var(--midday);border-right:2.5px solid var(--midday);border-radius:0 0 2px 0"></div>
+        <!-- Type label inside viewfinder -->
+        <div style="position:absolute;top:14px;left:50%;transform:translateX(-50%);background:rgba(62,168,204,0.18);border:1px solid rgba(62,168,204,0.4);border-radius:20px;padding:4px 12px;font-size:10px;font-weight:600;color:var(--midday);letter-spacing:.4px;text-transform:uppercase">Document detected</div>
       </div>
       <div style="background:rgba(0,0,0,0.45);padding:12px 16px;text-align:center">
         <div style="font-size:13px;font-weight:600;color:white">Tap to open camera</div>
-        <div style="font-size:11px;color:rgba(255,255,255,0.5);margin-top:2px">Align results within the frame</div>
+        <div style="font-size:11px;color:rgba(255,255,255,0.5);margin-top:2px">Align the document within the frame</div>
       </div>
     </div>
 
@@ -3636,11 +4227,11 @@ body{background:var(--midnight);font-family:'DM Sans',sans-serif;display:flex;fl
         </div>
         <div style="display:flex;gap:10px;align-items:center">
           <span style="font-size:16px;flex-shrink:0">🔍</span>
-          <span style="font-size:12px;color:var(--midnight);font-weight:300">Capture the full panel — not just one section</span>
+          <span style="font-size:12px;color:var(--midnight);font-weight:300">Capture the full page — not just one section</span>
         </div>
         <div style="display:flex;gap:10px;align-items:center">
           <span style="font-size:16px;flex-shrink:0">🖥️</span>
-          <span style="font-size:12px;color:var(--midnight);font-weight:300">Screen works too — zoom your portal to the results table first</span>
+          <span style="font-size:12px;color:var(--midnight);font-weight:300">Phone screens, monitors, and printouts all work</span>
         </div>
       </div>
     </div>
@@ -4261,9 +4852,11 @@ body{background:var(--midnight);font-family:'DM Sans',sans-serif;display:flex;fl
   <div class="chip-label">Onboarding</div>
   <div class="flow-chip active-chip" onclick="jumpTo('s-welcome','Onboarding · Welcome')">Welcome</div>
   <div class="flow-chip" onclick="jumpTo('s-condition','Onboarding · Condition')">Condition select</div>
-  <div class="flow-chip" onclick="jumpTo('s-year','Onboarding · Diagnosis Year')">Diagnosis year</div>
+  <div class="flow-chip" onclick="jumpTo('s-year','Onboarding · About You')">About you</div>
   <div class="flow-chip" onclick="jumpTo('s-events','Onboarding · Health Events')">Health events</div>
+  <div class="flow-chip" onclick="jumpTo('s-events-full','Onboarding · Complete history')">Complete history</div>
   <div class="flow-chip" onclick="jumpTo('s-connect-why','Connect Data')">Connect data</div>
+  <div class="flow-chip" onclick="jumpTo('s-vitals-log','Vitals · Manual Log')">Vitals log</div>
   <div class="flow-chip" onclick="jumpTo('s-lab-upload','Lab Upload')">Lab upload</div>
   <div class="flow-chip" onclick="jumpTo('s-lab-photo','Lab Photo')">Lab photo</div>
   <div class="flow-chip" onclick="jumpTo('s-lab-parsed','Lab Parsed')">Lab parsed</div>
@@ -4273,6 +4866,7 @@ body{background:var(--midnight);font-family:'DM Sans',sans-serif;display:flex;fl
   <div class="chip-label">MPN · ET Track</div>
   <div class="flow-chip" onclick="jumpTo('s-mpn-type','MPN · Type')">MPN type</div>
   <div class="flow-chip" onclick="jumpTo('s-mpn-mutation','MPN · Mutation')">MPN mutation</div>
+  <div class="flow-chip" onclick="jumpTo('s-mpn-progression','MPN · Progression')">MPN progression</div>
   <div class="flow-chip" onclick="jumpTo('s-dashboard','ET Dashboard')">Dashboard</div>
   <div class="flow-chip" onclick="jumpTo('s-weekly-brief','Weekly Look Ahead')">Weekly brief</div>
   <div class="flow-chip" onclick="jumpTo('s-mpnrf','MPN RF')">MPN RF</div>
@@ -4283,6 +4877,8 @@ body{background:var(--midnight);font-family:'DM Sans',sans-serif;display:flex;fl
   <div class="flow-chip" onclick="jumpTo('s-checkin-intro','Check-in Intro')">Intro</div>
   <div class="flow-chip" onclick="function_go()">Questions</div>
   <div class="flow-chip" onclick="jumpTo('s-checkin-done','Check-in Done')">Done</div>
+  <div class="flow-chip" onclick="jumpTo('s-checkin-deeper-intro','Check-in Deeper Intro')">Deeper intro</div>
+  <div class="flow-chip" onclick="jumpTo('s-checkin-deeper','Check-in Deeper')">Deeper symptoms</div>
   <div class="flow-chip" onclick="jumpTo('s-checkin-talk','Talk to Claude')">Talk to Claude</div>
   <div class="flow-chip" onclick="jumpTo('s-checkin-message','Support Message')">Support message</div>
   <div class="flow-chip" onclick="jumpTo('s-checkin-share','Share moment')">Share moment</div>
@@ -4366,6 +4962,62 @@ function selectSub(el) {
   el.classList.add('selected');
   el.querySelector('.cond-radio').classList.add('checked');
 }
+function toggleSub(el) {
+  el.classList.toggle('selected');
+  el.querySelector('.cond-checkbox').classList.toggle('checked');
+}
+function adjYear(field, delta) {
+  var el = document.getElementById('ay-' + field);
+  if (!el) return;
+  var year = parseInt(el.textContent);
+  year += delta;
+  var thisYear = new Date().getFullYear();
+  if (field === 'birth') year = Math.max(1900, Math.min(thisYear, year));
+  else if (field === 'dx') year = Math.max(1970, Math.min(thisYear, year));
+  el.textContent = year;
+  var hintEl = document.getElementById('ay-' + field + '-hint');
+  if (!hintEl) return;
+  if (field === 'birth') {
+    hintEl.textContent = 'About ' + (thisYear - year) + ' years old';
+  } else {
+    var diff = thisYear - year;
+    if (diff === 0) hintEl.textContent = 'This year';
+    else if (diff === 1) hintEl.textContent = 'About 1 year ago';
+    else hintEl.textContent = 'About ' + diff + ' years ago';
+  }
+}
+function adjVital(field, delta) {
+  var el = document.getElementById('v-' + field);
+  if (!el) return;
+  var step = (field === 'temp') ? 0.1 : 1;
+  var val = parseFloat(el.textContent);
+  val += delta * step;
+  // Bounds
+  var bounds = {
+    'bp-sys': [60, 250], 'bp-dia': [30, 150],
+    'pulse': [30, 220], 'temp': [94.0, 108.0], 'o2': [70, 100]
+  };
+  if (bounds[field]) {
+    val = Math.max(bounds[field][0], Math.min(bounds[field][1], val));
+  }
+  el.textContent = (field === 'temp') ? val.toFixed(1) : Math.round(val);
+}
+function selChip(el) {
+  var siblings = el.parentNode.querySelectorAll('.ay-chip');
+  siblings.forEach(function(s){ s.classList.remove('ay-chip-selected'); });
+  el.classList.add('ay-chip-selected');
+}
+var ciDeepState = {};
+function pickDeep(symId, val) {
+  ciDeepState[symId] = val;
+  var btns = document.querySelectorAll('button[data-deep-sym="'+symId+'"]');
+  btns.forEach(function(b){
+    b.classList.remove('deep-sel-none','deep-sel-some','deep-sel-lot');
+    if (b.dataset.deepVal === val) {
+      b.classList.add('deep-sel-' + val);
+    }
+  });
+}
 
 // ── Year wheel ──────────────────────────────────────────────
 var yrSelected = 2023;
@@ -4437,23 +5089,23 @@ var ciGroup = 0;
 var ciScores = {};
 
 var ciGroups = [
-  { label: 'Fatigue & Energy', time: '~8 min', questions: [
+  { label: 'Fatigue & Energy', time: '~2 min', questions: [
     {id:0, icon:'😴', text:'How heavy has fatigue felt this week?', sub:'Think about your worst day this week.'},
-    {id:5, icon:'🛋️', text:'How much has feeling unwell slowed you down?', sub:'That overall sense of not quite being yourself.'},
+    {id:1, icon:'🛋️', text:'How much has feeling unwell slowed you down?', sub:'That overall sense of not quite being yourself.'},
   ]},
-  { label: 'Physical Symptoms', time: '~5 min', questions: [
+  { label: 'Pain & Body', time: '~2 min', questions: [
     {id:2, icon:'🤲', text:'How much has itching bothered you?', sub:'The unexplained MPN itch — not from a rash.'},
-    {id:3, icon:'🦴', text:'How much have bone or muscle aches weighed on you?', sub:'Deep aches, joint pain, or heaviness.'},
-    {id:4, icon:'🫃', text:'Any discomfort under your left ribs?', sub:'Fullness, pressure, or pain in the upper left belly.'},
+    {id:3, icon:'🦴', text:'How bothered have you been by bone pain?', sub:'Deep aches in the bones themselves.'},
+    {id:4, icon:'💪', text:'How bothered have you been by muscle pain?', sub:'Soreness, tension, or aching in muscles.'},
   ]},
-  { label: 'Mind & Sleep', time: '~3 min', questions: [
-    {id:1, icon:'🌙', text:'How much have night sweats disrupted your sleep?', sub:'Waking up drenched, or too warm to settle.'},
-    {id:6, icon:'🧠', text:'How foggy or scattered has your thinking felt?', sub:'Trouble focusing, remembering things, staying sharp.'},
-    {id:7, icon:'💫', text:'Any dizziness or lightheadedness this week?', sub:'Feeling unsteady or a little off-balance.'},
+  { label: 'Abdominal & Appetite', time: '~1 min', questions: [
+    {id:5, icon:'🫃', text:'Any pain or discomfort under your left ribs?', sub:'Fullness, pressure, or pain in the upper left belly.'},
+    {id:6, icon:'🍽️', text:'Are you feeling full faster than usual?', sub:'Early satiety — full after a few bites.'},
   ]},
-  { label: 'Other Symptoms', time: '~1 min', questions: [
-    {id:8, icon:'😮', text:'Has coughing been a problem this week?', sub:'Persistent or unusual coughing, not from a cold.'},
-    {id:9, icon:'🌡️', text:'Have you had any fevers?', sub:'Temperature above 100°F, or just feeling feverish.'},
+  { label: 'Constitutional', time: '~1 min', questions: [
+    {id:7, icon:'🌙', text:'How disruptive have night sweats been?', sub:'Waking up drenched, or too warm to settle.'},
+    {id:8, icon:'🌡️', text:'Have you had any fevers?', sub:'Above 100°F, or persistent feverish feeling.'},
+    {id:9, icon:'⚖️', text:'Any unintentional weight loss?', sub:'Weight dropping without trying to lose it.'},
   ]},
 ];
 
@@ -4558,7 +5210,7 @@ function renderCiGroup() {
 
 function ciFinishAll() {
   if (Object.keys(ciScores).length < 10) return;
-  go('s-checkin-done');
+  go('s-checkin-deeper-intro');
 }
 
 function pickScore(qId, val) {
@@ -4723,7 +5375,7 @@ function openRule(btn, markerName) {
   go('s-smart-rule');
 }
 function selectRule(el) {
-  ['rule-high','rule-low','rule-pct','rule-trend'].forEach(function(id) {
+  ['rule-outside','rule-high','rule-low','rule-pct','rule-trend'].forEach(function(id) {
     var r = document.getElementById(id);
     if (r) { r.classList.remove('selected'); r.querySelector('.cond-radio').classList.remove('checked'); }
   });
@@ -4773,16 +5425,17 @@ var talkScores = {};
 var talkHistory = [];
 
 var talkQuestions = [
-  {id:0, q:'How heavy has fatigue felt this week? Think about your worst day.'},
-  {id:1, q:'How much have night sweats disrupted your sleep this week?'},
-  {id:2, q:'How much has itching bothered you this week — the unexplained MPN itch?'},
-  {id:3, q:'How much have bone or muscle aches weighed on you?'},
-  {id:4, q:'Any discomfort under your left ribs — fullness, pressure, or pain?'},
-  {id:5, q:'How much has feeling generally unwell slowed you down?'},
-  {id:6, q:'How foggy or scattered has your thinking felt this week?'},
-  {id:7, q:'Any dizziness or lightheadedness this week?'},
-  {id:8, q:'Has coughing been a problem — anything persistent or unusual?'},
-  {id:9, q:'Have you had any fevers this week, or just felt feverish?'},
+  {id:0, q:'How heavy has fatigue felt this week? Think about your worst day. On a scale of 0 to 10 — where 0 is no fatigue and 10 is the worst imaginable — what number feels right?'},
+  {id:1, q:'How much has feeling generally unwell or "off" slowed you down? 0 to 10.'},
+  {id:2, q:'How much has itching bothered you — the unexplained MPN itch, not from a rash? 0 to 10.'},
+  {id:3, q:'How much has bone pain weighed on you this week — deep aches in the bones themselves? 0 to 10.'},
+  {id:4, q:'How much has muscle pain or aching bothered you — soreness, tension, weariness? 0 to 10.'},
+  {id:5, q:'Any pain or discomfort under your left ribs — fullness, pressure, or sharp pain? 0 to 10.'},
+  {id:6, q:'Have you been feeling full quickly when eating, before you used to? 0 to 10.'},
+  {id:7, q:'How disruptive have night sweats been this week — waking up drenched, or too warm to settle? 0 to 10.'},
+  {id:8, q:'Have you had any fevers — above 100°F, or just feeling feverish? 0 to 10.'},
+  {id:9, q:'Any unintentional weight loss this week — pounds dropping when you weren\'t trying? 0 to 10.'},
+  {id:'free', q:'Last one — and this one\'s open. Anything else weighing on you this week? Could be a symptom, a side effect, a worry, something on your mind. Or just tell me everything else is good.', freeForm: true}
 ];
 
 function addTalkMsg(role, text, score) {
@@ -4817,8 +5470,14 @@ function addTalkMsg(role, text, score) {
 function updateTalkProgress() {
   var prog = document.getElementById('talk-progress');
   var dots = document.getElementById('talk-dots');
-  var n = talkQIdx + 1;
-  if (prog) prog.textContent = 'Question ' + n + ' of 10';
+  var current = talkQuestions[talkQIdx];
+  if (prog) {
+    if (current && current.freeForm) {
+      prog.textContent = 'Anything else?';
+    } else {
+      prog.textContent = 'Question ' + (talkQIdx + 1) + ' of 10';
+    }
+  }
   if (dots) {
     var html = '';
     for (var i = 0; i < 10; i++) {
@@ -4827,6 +5486,10 @@ function updateTalkProgress() {
       var bg = active ? 'var(--midday)' : done ? 'rgba(62,168,204,0.5)' : 'var(--border)';
       var w = active ? '16px' : '6px';
       html += '<div style="height:6px;border-radius:3px;background:' + bg + ';width:' + w + ';transition:all .3s"></div>';
+    }
+    // On the free-form turn, all anchor dots are done — show a small + after them
+    if (current && current.freeForm) {
+      html += '<div style="height:6px;border-radius:3px;background:var(--sunrise);width:16px;transition:all .3s;margin-left:4px"></div>';
     }
     dots.innerHTML = html;
   }
@@ -4853,13 +5516,23 @@ async function sendTalkMsg() {
     var currentQ = talkQuestions[talkQIdx];
     talkHistory.push({ role: 'user', content: userText });
     
-    var systemPrompt = 'You are a compassionate health companion helping an MPN (blood cancer) patient complete their weekly MPN-10 symptom check-in. ' +
-      'The patient is answering this question: "' + currentQ.q + '" ' +
-      'Your job is to: 1) Acknowledge their response with warmth and empathy, 2) Extract a score from 0-10 based on what they said, 3) Briefly confirm the score you logged. ' +
-      'Be conversational, warm, and brief. Do not be clinical. ' +
-      'Always end your response with exactly this format on a new line: SCORE:[number] ' +
-      'If the next question is needed, also add: NEXT ' +
-      "Example response: Logged fatigue at 8 out of 10. SCORE:8 NEXT";
+    var systemPrompt;
+    if (currentQ.freeForm) {
+      systemPrompt = 'You are a compassionate health companion helping an MPN (blood cancer) patient finish their weekly check-in. ' +
+        'They have just answered an open-ended question: "Anything else weighing on you this week?" ' +
+        'Their response: "' + userText + '" ' +
+        'Your job: 1) Acknowledge what they shared with warmth and empathy. 2) If they mentioned a specific symptom, side effect, or concern, briefly reflect it back so they know it has been captured as a note for their care team. 3) Close warmly with something like "I have everything I need — let me put your check-in together." ' +
+        'Do not score anything in this turn. Be brief — 2 to 3 sentences. Do not add SCORE or NEXT markers. Do not be clinical. ' +
+        'If they said "no" or "nothing," respond gently and close warmly.';
+    } else {
+      systemPrompt = 'You are a compassionate health companion helping an MPN (blood cancer) patient complete their weekly MPN-10 symptom check-in. ' +
+        'The patient is answering this question: "' + currentQ.q + '" ' +
+        'Your job: 1) Acknowledge their response with warmth and empathy. 2) Determine a 0–10 score based on what they said. 3) If the patient gave you a clear number, log it directly. If they described without a number, propose a calibration ("That sounds like maybe a 7 — does that feel right?") — but for this turn, go ahead and log your best estimate so the conversation flows. 4) Briefly confirm the score you logged. ' +
+        'Be conversational, warm, and brief. Do not be clinical. ' +
+        'Always end your response with exactly this format on a new line: SCORE:[number] ' +
+        'If the next question is needed, also add: NEXT ' +
+        'Example response: Logged fatigue at 8 out of 10. SCORE:8 NEXT';
+    }
     
     var response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
@@ -4879,40 +5552,46 @@ async function sendTalkMsg() {
     var t = document.getElementById('talk-typing');
     if (t) t.remove();
     
-    // Extract score
-    var scoreMatch = reply.match(/SCORE:(\d+)/);
-    var score = scoreMatch ? parseInt(scoreMatch[1]) : 5;
-    score = Math.min(10, Math.max(0, score));
-    talkScores[currentQ.id] = score;
-    
-    // Clean reply for display
-    var cleanReply = reply.replace(/SCORE:\d+/g, '').replace(/NEXT/g, '').trim();
-    addTalkMsg('claude', cleanReply, score);
-    talkHistory.push({ role: 'assistant', content: cleanReply });
-    
-    // Move to next question
-    talkQIdx++;
-    
-    if (talkQIdx < talkQuestions.length) {
-      updateTalkProgress();
-      // Small delay then ask next question
+    if (currentQ.freeForm) {
+      // Free-form turn — no score, just acknowledge and finish
+      addTalkMsg('claude', reply);
+      talkHistory.push({ role: 'assistant', content: reply });
       setTimeout(function() {
-        var nextQ = talkQuestions[talkQIdx];
-        var nextMsg = nextQ.q;
-        addTalkMsg('claude', nextMsg);
-        talkHistory.push({ role: 'assistant', content: nextMsg });
-        updateTalkProgress();
-      }, 800);
+        // Transfer scores to ciScores and finish
+        for (var k in talkScores) { ciScores[k] = talkScores[k]; }
+        go('s-checkin-done');
+      }, 2200);
     } else {
-      // All done — copy scores to ciScores and go to done screen
-      setTimeout(function() {
-        addTalkMsg('claude', "That's all 10 questions — thank you for being so open about how you're feeling. I've logged everything. Let me put your check-in together.");
+      // Scored turn — extract score
+      var scoreMatch = reply.match(/SCORE:(\d+)/);
+      var score = scoreMatch ? parseInt(scoreMatch[1]) : 5;
+      score = Math.min(10, Math.max(0, score));
+      talkScores[currentQ.id] = score;
+      
+      // Clean reply for display
+      var cleanReply = reply.replace(/SCORE:\d+/g, '').replace(/NEXT/g, '').trim();
+      addTalkMsg('claude', cleanReply, score);
+      talkHistory.push({ role: 'assistant', content: cleanReply });
+      
+      // Move to next question
+      talkQIdx++;
+      
+      if (talkQIdx < talkQuestions.length) {
+        updateTalkProgress();
+        // Small delay then ask next question
         setTimeout(function() {
-          // Transfer scores
+          var nextQ = talkQuestions[talkQIdx];
+          addTalkMsg('claude', nextQ.q);
+          talkHistory.push({ role: 'assistant', content: nextQ.q });
+          updateTalkProgress();
+        }, 800);
+      } else {
+        // Should not reach here — free-form turn is last
+        setTimeout(function() {
           for (var k in talkScores) { ciScores[k] = talkScores[k]; }
           go('s-checkin-done');
-        }, 2000);
-      }, 600);
+        }, 600);
+      }
     }
     
   } catch (err) {
@@ -4931,7 +5610,7 @@ go = function(id) {
     var container = document.getElementById('talk-messages');
     if (container) container.innerHTML = '';
     setTimeout(function() {
-      var opening = "Hi John. I'm going to ask you 10 questions about how you've been feeling this week. Just respond naturally — I'll take care of the rest.\n\nLet's start: " + talkQuestions[0].q;
+      var opening = "Hi John. This is the same MPN-10 as the slider check-in — I'll just ask each question and you can give me a 0 to 10 score in your own words. At the end I'll ask if there's anything else weighing on you.\n\nLet's start: " + talkQuestions[0].q;
       addTalkMsg('claude', opening);
       talkHistory.push({ role: 'assistant', content: opening });
       updateTalkProgress();
