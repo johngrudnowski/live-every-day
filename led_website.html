@@ -703,46 +703,40 @@ footer {
 .reveal-delay-4 { transition-delay: 0.4s; }
 
 /* ── Responsive ──────────────────────────────────────── */
+/* Tablet breakpoint */
 @media (max-width: 900px) {
   nav { padding: 16px 24px; }
   .nav-right .nav-link { display: none; }
   section { padding: 80px 24px; }
   .story-inner { grid-template-columns: 1fr; gap: 48px; }
-  .how-steps { grid-template-columns: 1fr; }
   .condition-grid { grid-template-columns: 1fr; }
   .built-grid { grid-template-columns: 1fr; }
   .built-four-words { flex-direction: column; }
-  /* hero-phone.secondary display:none removed */
   footer { padding: 32px 24px; }
 }
 
 
-/* ══ PHONE FRAMES — AUTHORITATIVE SIZES ══ */
-body { min-width: 980px; }
+/* ══ PHONE FRAMES — desktop-default sizes ══ */
+.hero-phone.main      { width: 210px; height: 460px; display: block; }
+.hero-phone.secondary { width: 210px; height: 460px; display: block; opacity: 1; margin-bottom: 0; }
 
-/* Hero phones */
-.hero-phone.main      { width: 210px !important; height: 460px !important; display: block !important; }
-.hero-phone.secondary { width: 210px !important; height: 460px !important; display: block !important; opacity: 1; margin-bottom: 0; }
-.hero-phones          { flex-wrap: nowrap !important; }
-
-/* How It Works step phones */
-.step-phone { width: 220px !important; min-width: 220px !important; max-width: 220px !important; height: 480px !important; }
+.step-phone { width: 220px; min-width: 220px; max-width: 220px; height: 480px; }
 
 /* Phone internals */
 .phone-screen-fill {
-  width: 100% !important;
-  height: calc(100% - 28px - 40px) !important;
-  overflow: hidden !important;
-  display: flex !important;
+  width: 100%;
+  height: calc(100% - 28px - 40px);
+  overflow: hidden;
+  display: flex;
   flex-direction: column;
   background: #FFFCF5;
   font-family: 'DM Sans', sans-serif;
 }
 .phone-tab-bar {
-  height: 40px !important;
+  height: 40px;
   background: white;
   border-top: 1px solid #D8D0C0;
-  display: flex !important;
+  display: flex;
   align-items: center;
   flex-shrink: 0;
 }
@@ -760,12 +754,56 @@ body { min-width: 980px; }
 .phone-tab.active { color: #3EA8CC; }
 .phone-tab-icon { font-size: 14px; line-height: 1; }
 
-/* Lock how-steps to 3 columns */
-.how-steps { grid-template-columns: repeat(3, 220px) !important; justify-content: center; }
+/* Desktop-only: lock how-steps to 3 columns side-by-side */
+@media (min-width: 769px) {
+  .hero-phones { flex-wrap: nowrap; }
+  .how-steps { grid-template-columns: repeat(3, 220px); justify-content: center; }
+}
 
-/* Prevent page from compressing below min-width */
-@media (max-width: 980px) {
-  body { overflow-x: auto; }
+/* ══ MOBILE BREAKPOINT (≤ 768px) ══ */
+@media (max-width: 768px) {
+  /* Section padding */
+  section { padding: 56px 20px !important; }
+  nav { padding: 14px 20px; }
+  .nav-right .nav-link { display: none; }
+  footer { padding: 32px 20px; }
+
+  /* Hero — stack the 2-column page grid */
+  .hero-grid { grid-template-columns: 1fr !important; gap: 48px !important; }
+
+  /* Hero phones — keep side-by-side but smaller */
+  .hero-phones { gap: 12px; flex-wrap: wrap; justify-content: center; }
+  .hero-phone.main, .hero-phone.secondary {
+    width: 168px; height: 368px;
+  }
+
+  /* How It Works — stack to 1 column */
+  .how-steps { grid-template-columns: 1fr !important; gap: 56px; }
+  .step-phone { margin-left: auto; margin-right: auto; }
+
+  /* Care Team Dashboard intro grid — stack */
+  .care-team-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
+
+  /* Care Team section — override inline 100px 72px padding */
+  #care-team { padding: 64px 20px !important; }
+
+  /* Care Team dashboard mockup — allow horizontal scroll for the table */
+  .care-team-table-wrap { overflow-x: auto !important; -webkit-overflow-scrolling: touch; }
+
+  /* Story section already stacked at 900px breakpoint above */
+  /* Conditions, built-grid, built-four-words also handled by 900px breakpoint */
+}
+
+/* ══ SMALL PHONE BREAKPOINT (≤ 480px) ══ */
+@media (max-width: 480px) {
+  section { padding: 48px 16px !important; }
+  nav { padding: 12px 16px; }
+  footer { padding: 28px 16px; }
+
+  .hero-phone.main, .hero-phone.secondary {
+    width: 150px; height: 332px;
+  }
+  .hero-phones { gap: 10px; }
 }
 
 </style>
@@ -812,7 +850,7 @@ body { min-width: 980px; }
   </div>
 
   <!-- Two column: copy + phones -->
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;width:100%;max-width:1200px">
+  <div class="hero-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;width:100%;max-width:1200px">
 
     <!-- Left: Collect / Understand / Prepare + CTAs -->
     <div>
@@ -1291,7 +1329,7 @@ body { min-width: 980px; }
     </div>
 
     <!-- Four simple trust points — no dark boxes -->
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px 80px;max-width:900px;margin:0 auto;">
+    <div class="care-team-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:40px 80px;max-width:900px;margin:0 auto;">
       <div class="reveal reveal-delay-1" style="display:flex;gap:16px;align-items:flex-start;">
         <div style="font-size:22px;flex-shrink:0;margin-top:2px;">🔓</div>
         <div>
@@ -1358,7 +1396,7 @@ body { min-width: 980px; }
 
     <!-- Dashboard mockup — full width -->
     <div class="reveal" style="margin-bottom:56px;">
-      <div style="background:white;border-radius:16px;overflow:hidden;border:1px solid #D8D0C0;box-shadow:0 24px 60px rgba(0,0,0,0.3);">
+      <div class="care-team-table-wrap" style="background:white;border-radius:16px;overflow:hidden;border:1px solid #D8D0C0;box-shadow:0 24px 60px rgba(0,0,0,0.3);">
 
         <!-- Nav -->
         <div style="background:#1A2830;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;">
