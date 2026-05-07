@@ -1648,7 +1648,7 @@ body{background:var(--midnight);font-family:'DM Sans',sans-serif;display:flex;fl
     <div onclick="go('s-checkin-intro')" style="background:var(--midday);border-radius:18px;padding:20px;cursor:pointer">
       <div style="font-size:11px;font-weight:500;letter-spacing:.7px;text-transform:uppercase;color:rgba(26,40,48,.6);margin-bottom:8px">This week</div>
       <div style="font-size:20px;font-weight:600;color:var(--midnight);margin-bottom:6px">Weekly check-in</div>
-      <div style="font-size:13px;color:rgba(26,40,48,.65);margin-bottom:16px">Two minutes. Every week. The foundation of everything.</div>
+      <div style="font-size:13px;color:rgba(26,40,48,.65);margin-bottom:16px">Daily or weekly. The foundation of everything.</div>
       <div style="background:rgba(255,255,255,.25);border-radius:10px;padding:10px 12px;margin-bottom:16px">
         <div style="font-size:10px;font-weight:500;color:rgba(26,40,48,.55);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">Last week</div>
         <div style="display:flex;gap:6px;flex-wrap:wrap">
@@ -1814,8 +1814,8 @@ body{background:var(--midnight);font-family:'DM Sans',sans-serif;display:flex;fl
         <span style="font-size:12px;color:var(--predawn)">or</span>
         <div style="flex:1;height:1px;background:var(--border)"></div>
       </div>
-      <button onclick="go('s-checkin-talk')" style="background:var(--midnight);color:white;border:none;border-radius:14px;padding:16px;width:100%;font-size:16px;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;margin-top:8px"><span style="font-size:20px">🎙️</span> Talk to Claude instead</button>
-      <div style="text-align:center;margin-top:8px;font-size:11px;color:var(--predawn);line-height:1.5">Same MPN-10 in conversation — Claude asks for your score on each. Then opens the floor for anything else.</div>
+      <button onclick="go('s-checkin-talk')" style="background:var(--midnight);color:white;border:none;border-radius:14px;padding:16px;width:100%;font-size:16px;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;margin-top:8px"><span style="font-size:20px">🎙️</span> Talk to LED instead</button>
+      <div style="text-align:center;margin-top:8px;font-size:11px;color:var(--predawn);line-height:1.5">Same MPN-10 in conversation — LED asks for your score on each. Then opens the floor for anything else.</div>
     </div>
   </div>
 </div>
@@ -1856,7 +1856,7 @@ body{background:var(--midnight);font-family:'DM Sans',sans-serif;display:flex;fl
 
     <div style="background:white;border-radius:14px;padding:16px;border:1px solid var(--border)">
       <div style="font-size:11px;font-weight:500;letter-spacing:.6px;text-transform:uppercase;color:var(--predawn);margin-bottom:8px">Going deeper</div>
-      <div style="font-size:13px;color:var(--midnight);line-height:1.55;font-weight:300">22 additional symptoms patients with MPN report — across sleep, cognition, joints, GI, and quality of life. Quick three-tap rating: <span style="font-weight:500">none, some, a lot</span>. Helps the brief and Talk to Claude get richer over time.</div>
+      <div style="font-size:13px;color:var(--midnight);line-height:1.55;font-weight:300">22 additional symptoms patients with MPN report — across sleep, cognition, joints, GI, and quality of life. Quick three-tap rating: <span style="font-weight:500">none, some, a lot</span>. Helps the brief and Talk to LED get richer over time.</div>
     </div>
 
     <div style="margin-top:auto;padding-top:8px;display:flex;flex-direction:column;gap:8px">
@@ -4052,7 +4052,7 @@ body{background:var(--midnight);font-family:'DM Sans',sans-serif;display:flex;fl
           <circle cx="0" cy="21" r="3.85" fill="#1A2830" stroke="#506878" stroke-width="1.5"/>
           <circle cx="-21" cy="0" r="3.85" fill="#E8CC70"/>
         </svg>
-        <span style="font-size:14px;font-weight:500;color:white">Talk to Claude</span>
+        <span style="font-size:14px;font-weight:500;color:white">Talk to LED</span>
       </div>
       <span style="width:48px"></span>
     </div>
@@ -4077,7 +4077,7 @@ body{background:var(--midnight);font-family:'DM Sans',sans-serif;display:flex;fl
       <button onclick="sendTalkMsg()" style="background:var(--midday);border:none;border-radius:10px;padding:10px 16px;font-size:14px;font-weight:600;color:var(--midnight);cursor:pointer">Send</button>
     </div>
     <div style="text-align:center;margin-top:8px">
-      <span style="font-size:11px;color:var(--predawn)">Give a number, or describe — Claude will calibrate with you</span>
+      <span style="font-size:11px;color:var(--predawn)">Give a number, or describe — LED will calibrate with you</span>
     </div>
   </div>
 </div>
@@ -4879,7 +4879,7 @@ body{background:var(--midnight);font-family:'DM Sans',sans-serif;display:flex;fl
   <div class="flow-chip" onclick="jumpTo('s-checkin-done','Check-in Done')">Done</div>
   <div class="flow-chip" onclick="jumpTo('s-checkin-deeper-intro','Check-in Deeper Intro')">Deeper intro</div>
   <div class="flow-chip" onclick="jumpTo('s-checkin-deeper','Check-in Deeper')">Deeper symptoms</div>
-  <div class="flow-chip" onclick="jumpTo('s-checkin-talk','Talk to Claude')">Talk to Claude</div>
+  <div class="flow-chip" onclick="jumpTo('s-checkin-talk','Talk to LED')">Talk to LED</div>
   <div class="flow-chip" onclick="jumpTo('s-checkin-message','Support Message')">Support message</div>
   <div class="flow-chip" onclick="jumpTo('s-checkin-share','Share moment')">Share moment</div>
 
@@ -5508,7 +5508,7 @@ async function sendTalkMsg() {
   var typing = document.createElement('div');
   typing.id = 'talk-typing';
   typing.style.cssText = 'display:flex;justify-content:flex-start';
-  typing.innerHTML = '<div style="background:var(--midnight);border-radius:16px 16px 16px 4px;padding:10px 14px;font-size:14px;color:rgba(255,252,245,0.5);font-weight:300">Claude is thinking…</div>';
+  typing.innerHTML = '<div style="background:var(--midnight);border-radius:16px 16px 16px 4px;padding:10px 14px;font-size:14px;color:rgba(255,252,245,0.5);font-weight:300">LED is thinking…</div>';
   if (container) container.appendChild(typing);
   if (container) container.scrollTop = container.scrollHeight;
   
