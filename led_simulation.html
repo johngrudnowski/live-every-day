@@ -5264,6 +5264,64 @@ body{background:var(--midnight);font-family:'DM Sans',sans-serif;display:flex;fl
   </div>
 </div>
 
+<!-- ════ INTRO OVERLAY (auto-shown on page load) ════ -->
+<div id="intro-overlay" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:#FFFCF5;z-index:2000;overflow:hidden;font-family:'DM Sans',sans-serif">
+  <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;width:90%;max-width:1100px;padding:0 6vw">
+
+    <!-- LED lockup (mark + wordmark, locked together) -->
+    <div class="intro-lockup" style="display:flex;align-items:center;justify-content:center;gap:24px;margin-bottom:72px;opacity:0;animation:introFade 1.2s ease-out 0.1s forwards">
+      <svg id="intro-mark" width="128" height="128" viewBox="-26 -26 52 52" style="flex-shrink:0;animation:introMark 5s ease-in-out infinite">
+        <circle cx="0.00"   cy="-21.00" r="3.85" fill="#3EA8CC"/>
+        <circle cx="10.50"  cy="-18.19" r="3.10" fill="#78A0B8"/>
+        <circle cx="18.19"  cy="-10.50" r="3.10" fill="#A89478"/>
+        <circle cx="21.00"  cy="0.00"   r="3.85" fill="#C89858"/>
+        <circle cx="18.19"  cy="10.50"  r="3.10" fill="#303840"/>
+        <circle cx="10.50"  cy="18.19"  r="3.10" fill="#303840"/>
+        <circle cx="0.00"   cy="21.00"  r="3.85" fill="#1A2830"/>
+        <circle cx="-10.50" cy="18.19"  r="3.10" fill="#303840"/>
+        <circle cx="-18.19" cy="10.50"  r="3.10" fill="#506878"/>
+        <circle cx="-21.00" cy="0.00"   r="3.85" fill="#E8CC70"/>
+        <circle cx="-18.19" cy="-10.50" r="3.10" fill="#F0E090"/>
+        <circle cx="-10.50" cy="-18.19" r="3.10" fill="#88B0C0"/>
+      </svg>
+      <div style="font-family:'Raleway',serif;font-weight:200;font-size:56px;letter-spacing:0.5px;color:#1A2830;line-height:1">
+        Live <span style="color:#C8A85A">Every</span> Day
+      </div>
+    </div>
+
+    <div class="intro-eyebrow" style="font-size:12px;font-weight:600;letter-spacing:2.8px;text-transform:uppercase;color:#6AB0C8;margin-bottom:36px;opacity:0;animation:introFadeUp 1s ease-out 1s forwards">
+      For the MPN Research Foundation · May 2026
+    </div>
+
+    <h1 class="intro-headline" style="font-family:'Raleway',serif;font-weight:300;font-size:clamp(40px,5.4vw,76px);line-height:1.14;color:#1A2830;letter-spacing:-0.6px;max-width:1100px;margin:0 auto 28px;opacity:0;animation:introFadeUp 1.2s ease-out 1.3s forwards">
+      The best parts of life<br>happen between appointments.
+    </h1>
+
+    <p class="intro-subhead" style="font-family:'Raleway',serif;font-weight:300;font-size:clamp(18px,1.6vw,23px);line-height:1.5;color:#506878;max-width:720px;margin:0 auto 56px;opacity:0;animation:introFadeUp 1s ease-out 1.7s forwards">
+      A look at what we've built — and what we hope to learn together.
+    </p>
+
+    <div class="intro-speaker" style="font-size:13px;color:#506878;letter-spacing:0.5px;margin-bottom:44px;opacity:0;animation:introFadeUp 1s ease-out 2.1s forwards">
+      <strong style="color:#1A2830;font-weight:600">John Grudnowski</strong> <span style="color:#C8A85A;margin:0 10px">·</span> Founder
+    </div>
+
+    <button onclick="dismissIntro()" style="background:#1A2830;color:white;border:none;padding:14px 32px;border-radius:10px;font-size:14px;font-weight:600;letter-spacing:0.5px;cursor:pointer;font-family:'DM Sans',sans-serif;opacity:0;animation:introFadeUp 1s ease-out 2.5s forwards;transition:transform 0.2s,box-shadow 0.2s" onmouseover="this.style.transform='translateY(-1px)';this.style.boxShadow='0 6px 18px rgba(26,40,48,0.18)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+      Begin →
+    </button>
+
+  </div>
+
+  <div style="position:absolute;bottom:20px;left:0;right:0;text-align:center;font-size:11px;color:#9098A0;letter-spacing:0.3px;opacity:0;animation:introFadeUp 1s ease-out 2.9s forwards">
+    Full screen: ⌃⌘F (Mac) · F11 (Windows) · Built with the MPN community
+  </div>
+</div>
+
+<style>
+@keyframes introMark { 0%,100% { transform:scale(1); } 50% { transform:scale(1.04); } }
+@keyframes introFade { to { opacity:1; } }
+@keyframes introFadeUp { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+</style>
+
 <div class="nav-hint">Jump to any screen:</div>
 <div class="flow-chips">
 
@@ -5325,6 +5383,7 @@ body{background:var(--midnight);font-family:'DM Sans',sans-serif;display:flex;fl
   <div class="flow-chip" onclick="jumpTo('s-my-one','My #1 View')">My #1 view</div>
   <div class="flow-chip" onclick="jumpTo('s-care-team','Care Team Dashboard')">Care Team dashboard</div>
   <div class="flow-chip" onclick="openDesktop()" style="background:#1A2830;color:white">⛶ Care Team Desktop</div>
+  <div class="flow-chip" onclick="showIntro()" style="background:#FFFCF5;color:#1A2830;border:1px solid #1A2830">⌂ Intro screen</div>
 
   <!-- Account -->
   <div class="chip-label">Account</div>
@@ -5405,6 +5464,28 @@ function openPatientBrief(patient) {
     alert('Patient detail for ' + patient + ' opens here (demo placeholder — John\'s detail is fully built out).');
   }
 }
+
+// ════ Intro overlay ════
+function showIntro() {
+  document.getElementById('intro-overlay').style.display = 'block';
+  // Hide chrome so intro is the only thing visible
+  document.querySelector('.phone').style.display = 'none';
+  var ph = document.querySelector('.page-header');  if (ph) ph.style.display = 'none';
+  var sl = document.getElementById('screen-label'); if (sl) sl.style.display = 'none';
+  var nh = document.querySelector('.nav-hint');     if (nh) nh.style.display = 'none';
+  var fc = document.querySelector('.flow-chips');   if (fc) fc.style.display = 'none';
+  window.scrollTo(0, 0);
+}
+function dismissIntro() {
+  document.getElementById('intro-overlay').style.display = 'none';
+  document.querySelector('.phone').style.display = '';
+  var ph = document.querySelector('.page-header');  if (ph) ph.style.display = '';
+  var sl = document.getElementById('screen-label'); if (sl) sl.style.display = '';
+  var nh = document.querySelector('.nav-hint');     if (nh) nh.style.display = '';
+  var fc = document.querySelector('.flow-chips');   if (fc) fc.style.display = '';
+}
+// Auto-show intro on page load
+window.addEventListener('DOMContentLoaded', function() { showIntro(); });
 function jumpTo(id, label) {
   go(id);
   document.getElementById('screen-label').textContent = label;
