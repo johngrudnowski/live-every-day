@@ -3149,7 +3149,7 @@ body{background:var(--midnight);font-family:'DM Sans',sans-serif;display:flex;fl
     <div style="display:flex;align-items:center;justify-content:space-between;height:44px">
       <button onclick="go('s-circle')" style="background:none;border:none;color:var(--midday);font-size:16px;cursor:pointer">‹ Back</button>
       <span style="font-size:14px;font-weight:600;color:white">Care Team View</span>
-      <span style="width:48px"></span>
+      <button onclick="openDesktop()" title="Open desktop view" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.18);color:white;padding:5px 9px;border-radius:6px;font-size:11px;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:500">⛶ Desktop</button>
     </div>
   </div>
 
@@ -4837,6 +4837,433 @@ body{background:var(--midnight);font-family:'DM Sans',sans-serif;display:flex;fl
 
 </div><!-- /phone -->
 
+<!-- ════ DESKTOP VIEW (Care Team Dashboard) ════ -->
+<div id="desktop-view" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:#0A1218;z-index:1000;overflow-y:auto;padding:24px;font-family:'DM Sans',sans-serif">
+  <div style="max-width:1400px;margin:0 auto;background:#FFFCF5;border-radius:14px;overflow:hidden;box-shadow:0 24px 80px rgba(0,0,0,0.5)">
+
+    <!-- Header band -->
+    <div style="background:#1A2830;padding:18px 24px;display:flex;align-items:center;justify-content:space-between;color:white">
+      <div style="display:flex;align-items:center;gap:14px">
+        <svg width="26" height="26" viewBox="-26 -26 52 52" style="flex-shrink:0">
+          <circle cx="0.00"   cy="-21.00" r="3.85" fill="#3EA8CC"/>
+          <circle cx="10.50"  cy="-18.19" r="3.10" fill="#78A0B8"/>
+          <circle cx="18.19"  cy="-10.50" r="3.10" fill="#A89478"/>
+          <circle cx="21.00"  cy="0.00"   r="3.85" fill="#C89858"/>
+          <circle cx="18.19"  cy="10.50"  r="3.10" fill="#303840"/>
+          <circle cx="10.50"  cy="18.19"  r="3.10" fill="#303840"/>
+          <circle cx="0.00"   cy="21.00"  r="3.85" fill="#1A2830"/>
+          <circle cx="-10.50" cy="18.19"  r="3.10" fill="#303840"/>
+          <circle cx="-18.19" cy="10.50"  r="3.10" fill="#506878"/>
+          <circle cx="-21.00" cy="0.00"   r="3.85" fill="#E8CC70"/>
+          <circle cx="-18.19" cy="-10.50" r="3.10" fill="#F0E090"/>
+          <circle cx="-10.50" cy="-18.19" r="3.10" fill="#88B0C0"/>
+        </svg>
+        <div style="font-family:'Raleway',serif;font-weight:200;font-size:20px;letter-spacing:0.3px">Live <span style="color:#C8A85A">Every</span> Day</div>
+        <span style="color:rgba(255,255,255,0.4);font-size:14px;margin-left:6px">· Care Team Dashboard</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:14px">
+        <div style="width:36px;height:36px;border-radius:50%;background:#3EA8CC;display:flex;align-items:center;justify-content:center;color:white;font-weight:600;font-size:12px">WS</div>
+        <div style="line-height:1.3">
+          <div style="font-size:14px;font-weight:600">Dr. Wolanskyj-Spinner</div>
+          <div style="font-size:11px;color:rgba(255,255,255,0.5)">Hematology · Mayo Clinic</div>
+        </div>
+        <button onclick="closeDesktop()" style="margin-left:14px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.2);color:white;padding:7px 14px;border-radius:8px;font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif">← Back to mobile</button>
+      </div>
+    </div>
+
+    <!-- Attention banner -->
+    <div style="background:#F8DDD8;padding:13px 24px;display:flex;align-items:center;gap:10px;border-bottom:1px solid #ECCAC5">
+      <div style="width:8px;height:8px;border-radius:50%;background:#C87060;flex-shrink:0"></div>
+      <div style="font-size:13px;color:#1A2830;line-height:1.5">
+        <strong>2 patients need attention</strong> — John Grudnowski and Robert Kim have flagged symptom trends this week. Review before their upcoming appointments.
+      </div>
+    </div>
+
+    <!-- KPI Cards -->
+    <div style="padding:22px 24px 16px;display:grid;grid-template-columns:repeat(5,1fr);gap:14px">
+      <div style="background:#FFFCF5;border-radius:10px;padding:16px 18px;border:1px solid #E0DCCF">
+        <div style="font-size:10px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:#506878;margin-bottom:8px">Total Patients</div>
+        <div style="font-size:36px;font-weight:300;color:#1A2830;font-family:'Raleway',serif;line-height:1">34</div>
+        <div style="font-size:11px;color:#506878;margin-top:6px">on Live Every Day</div>
+      </div>
+      <div style="background:#FFFCF5;border-radius:10px;padding:16px 18px;border:1px solid #E0DCCF">
+        <div style="font-size:10px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:#506878;margin-bottom:8px">Checked In This Week</div>
+        <div style="font-size:36px;font-weight:300;color:#6E9B72;font-family:'Raleway',serif;line-height:1">28</div>
+        <div style="font-size:11px;color:#6E9B72;margin-top:6px">82% completion</div>
+      </div>
+      <div style="background:#FFFCF5;border-radius:10px;padding:16px 18px;border:1px solid #E0DCCF">
+        <div style="font-size:10px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:#506878;margin-bottom:8px">Need Attention</div>
+        <div style="font-size:36px;font-weight:300;color:#C87060;font-family:'Raleway',serif;line-height:1">2</div>
+        <div style="font-size:11px;color:#C87060;margin-top:6px">Flagged this week</div>
+      </div>
+      <div style="background:#FFFCF5;border-radius:10px;padding:16px 18px;border:1px solid #E0DCCF">
+        <div style="font-size:10px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:#506878;margin-bottom:8px">Watch</div>
+        <div style="font-size:36px;font-weight:300;color:#C8A85A;font-family:'Raleway',serif;line-height:1">5</div>
+        <div style="font-size:11px;color:#C8A85A;margin-top:6px">Trending — monitor</div>
+      </div>
+      <div style="background:#FFFCF5;border-radius:10px;padding:16px 18px;border:1px solid #E0DCCF">
+        <div style="font-size:10px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:#506878;margin-bottom:8px">Appts This Week</div>
+        <div style="font-size:36px;font-weight:300;color:#1A2830;font-family:'Raleway',serif;line-height:1">3</div>
+        <div style="font-size:11px;color:#506878;margin-top:6px">John G · Thu · Fri</div>
+      </div>
+    </div>
+
+    <!-- Filter chips -->
+    <div style="padding:0 24px 14px;display:flex;align-items:center;gap:10px">
+      <button onclick="dtFilter(this,'all')" class="dt-filter dt-active" style="background:#E5F0F5;border:1px solid #B8DDEA;color:#2A6E85;padding:7px 14px;border-radius:18px;font-size:12px;font-weight:600;cursor:pointer">All patients</button>
+      <button onclick="dtFilter(this,'attention')" class="dt-filter" style="background:white;border:1px solid #E0DCCF;color:#506878;padding:7px 14px;border-radius:18px;font-size:12px;font-weight:500;cursor:pointer">Needs attention</button>
+      <button onclick="dtFilter(this,'watch')" class="dt-filter" style="background:white;border:1px solid #E0DCCF;color:#506878;padding:7px 14px;border-radius:18px;font-size:12px;font-weight:500;cursor:pointer">Watch</button>
+      <button onclick="dtFilter(this,'stable')" class="dt-filter" style="background:white;border:1px solid #E0DCCF;color:#506878;padding:7px 14px;border-radius:18px;font-size:12px;font-weight:500;cursor:pointer">Stable</button>
+      <div style="flex:1"></div>
+      <div style="background:white;border:1px solid #E0DCCF;border-radius:18px;padding:7px 14px;font-size:12px;color:#9098A0;display:flex;align-items:center;gap:6px"><span>🔍</span>Search patients…</div>
+    </div>
+
+    <!-- Patient table -->
+    <div style="padding:0 24px 20px">
+      <!-- Header row -->
+      <div style="display:grid;grid-template-columns:2fr 1fr 0.8fr 0.7fr 1.2fr 1.2fr 1.4fr 1.5fr;gap:14px;padding:11px 16px;background:#EBE8E0;border-radius:8px 8px 0 0;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#506878">
+        <div>Patient ↑</div>
+        <div>Status</div>
+        <div>MPN-10</div>
+        <div>Fatigue</div>
+        <div>Last Check-In</div>
+        <div>Next Appt</div>
+        <div>Flags</div>
+        <div>6-Week Trend</div>
+      </div>
+
+      <!-- John Grudnowski -->
+      <div class="dt-row" onmouseover="this.style.background='#F5DDD7'" onmouseout="this.style.background='#FCEFEA'" onclick="openPatientBrief('john')" style="display:grid;grid-template-columns:2fr 1fr 0.8fr 0.7fr 1.2fr 1.2fr 1.4fr 1.5fr;gap:14px;padding:14px 16px;background:#FCEFEA;border-left:1px solid #F5DDD7;border-right:1px solid #F5DDD7;border-bottom:1px solid #F5DDD7;align-items:center;font-size:13px;cursor:pointer;transition:background 0.15s">
+        <div>
+          <div style="font-weight:600;color:#1A2830;line-height:1.2">John Grudnowski</div>
+          <div style="font-size:11px;color:#506878;margin-top:2px">ET · JAK2+ · Dx 2023</div>
+        </div>
+        <div><span style="display:inline-block;background:#FCEAE5;color:#C87060;padding:4px 12px;border-radius:14px;font-size:11px;font-weight:600">● Attention</span></div>
+        <div><span style="color:#C87060;font-weight:600;font-size:15px">38</span><span style="color:#C87060;font-size:11px;margin-left:4px">↑+9</span></div>
+        <div><span style="color:#C87060;font-weight:600">8/10</span><div style="font-size:10px;color:#C87060;margin-top:2px">3 wks ↑ row</div></div>
+        <div style="color:#1A2830">Apr 13<div style="font-size:10px;color:#506878;margin-top:2px">1d ago</div></div>
+        <div style="color:#3EA8CC;font-weight:500">Apr 14<div style="font-size:10px;color:#3EA8CC;margin-top:2px">1d</div></div>
+        <div style="display:flex;gap:4px;flex-wrap:wrap">
+          <span style="background:#FCEAE5;color:#C87060;padding:3px 8px;border-radius:10px;font-size:10px;font-weight:600">Fatigue↑</span>
+          <span style="background:#FCEAE5;color:#C87060;padding:3px 8px;border-radius:10px;font-size:10px;font-weight:600">PLT↑</span>
+        </div>
+        <div style="display:flex;gap:4px;align-items:flex-end;height:34px">
+          <div style="width:12px;height:45%;background:#DAD4C5;border-radius:2px"></div>
+          <div style="width:12px;height:50%;background:#DAD4C5;border-radius:2px"></div>
+          <div style="width:12px;height:60%;background:#E5C9A1;border-radius:2px"></div>
+          <div style="width:12px;height:72%;background:#E5B58A;border-radius:2px"></div>
+          <div style="width:12px;height:85%;background:#D88B7A;border-radius:2px"></div>
+          <div style="width:12px;height:100%;background:#C87060;border-radius:2px"></div>
+        </div>
+      </div>
+
+      <!-- Robert Kim -->
+      <div class="dt-row" onmouseover="this.style.background='#FAF7F0'" onmouseout="this.style.background='white'" onclick="openPatientBrief('robert')" style="display:grid;grid-template-columns:2fr 1fr 0.8fr 0.7fr 1.2fr 1.2fr 1.4fr 1.5fr;gap:14px;padding:14px 16px;background:white;border-left:1px solid #E0DCCF;border-right:1px solid #E0DCCF;border-bottom:1px solid #E0DCCF;align-items:center;font-size:13px;cursor:pointer;transition:background 0.15s">
+        <div>
+          <div style="font-weight:600;color:#1A2830;line-height:1.2">Robert Kim</div>
+          <div style="font-size:11px;color:#506878;margin-top:2px">MF · CALR+ · Dx 2021</div>
+        </div>
+        <div><span style="display:inline-block;background:#FAEBD0;color:#A08139;padding:4px 12px;border-radius:14px;font-size:11px;font-weight:600">● Watch</span></div>
+        <div><span style="color:#A08139;font-weight:600;font-size:15px">31</span><span style="color:#A08139;font-size:11px;margin-left:4px">↑+5</span></div>
+        <div><span style="color:#A08139;font-weight:600">7/10</span><div style="font-size:10px;color:#A08139;margin-top:2px">2 wks ↑</div></div>
+        <div style="color:#1A2830">Apr 12<div style="font-size:10px;color:#506878;margin-top:2px">2d ago</div></div>
+        <div style="color:#506878">Jun 8<div style="font-size:10px;color:#506878;margin-top:2px">7 wks</div></div>
+        <div><span style="background:#FAEBD0;color:#A08139;padding:3px 8px;border-radius:10px;font-size:10px;font-weight:600">Sweats↑</span></div>
+        <div style="display:flex;gap:4px;align-items:flex-end;height:34px">
+          <div style="width:12px;height:45%;background:#DAD4C5;border-radius:2px"></div>
+          <div style="width:12px;height:48%;background:#DAD4C5;border-radius:2px"></div>
+          <div style="width:12px;height:55%;background:#DAD4C5;border-radius:2px"></div>
+          <div style="width:12px;height:72%;background:#E5C9A1;border-radius:2px"></div>
+          <div style="width:12px;height:88%;background:#D8B580;border-radius:2px"></div>
+          <div style="width:12px;height:100%;background:#C8A85A;border-radius:2px"></div>
+        </div>
+      </div>
+
+      <!-- Maria Chen -->
+      <div class="dt-row" onmouseover="this.style.background='#FAF7F0'" onmouseout="this.style.background='white'" onclick="openPatientBrief('maria')" style="display:grid;grid-template-columns:2fr 1fr 0.8fr 0.7fr 1.2fr 1.2fr 1.4fr 1.5fr;gap:14px;padding:14px 16px;background:white;border-left:1px solid #E0DCCF;border-right:1px solid #E0DCCF;border-bottom:1px solid #E0DCCF;align-items:center;font-size:13px;cursor:pointer;transition:background 0.15s">
+        <div>
+          <div style="font-weight:600;color:#1A2830;line-height:1.2">Maria Chen</div>
+          <div style="font-size:11px;color:#506878;margin-top:2px">PV · JAK2+ · Dx 2019</div>
+        </div>
+        <div><span style="display:inline-block;background:#E0EBE0;color:#6E9B72;padding:4px 12px;border-radius:14px;font-size:11px;font-weight:600">● Stable</span></div>
+        <div><span style="color:#1A2830;font-weight:600;font-size:15px">18</span><div style="font-size:10px;color:#506878;margin-top:2px">→ stable</div></div>
+        <div><span style="color:#6E9B72;font-weight:600">4/10</span><div style="font-size:10px;color:#6E9B72;margin-top:2px">→ stable</div></div>
+        <div style="color:#1A2830">Apr 14<div style="font-size:10px;color:#506878;margin-top:2px">today</div></div>
+        <div style="color:#506878">May 2<div style="font-size:10px;color:#506878;margin-top:2px">2.5 wks</div></div>
+        <div><span style="background:#E5EEF2;color:#3E8FA8;padding:3px 8px;border-radius:10px;font-size:10px;font-weight:600">Consistent</span></div>
+        <div style="display:flex;gap:4px;align-items:flex-end;height:34px">
+          <div style="width:12px;height:55%;background:#BDD0DC;border-radius:2px"></div>
+          <div style="width:12px;height:60%;background:#BDD0DC;border-radius:2px"></div>
+          <div style="width:12px;height:52%;background:#BDD0DC;border-radius:2px"></div>
+          <div style="width:12px;height:58%;background:#C4D8B5;border-radius:2px"></div>
+          <div style="width:12px;height:55%;background:#A4C58D;border-radius:2px"></div>
+          <div style="width:12px;height:60%;background:#7BA56A;border-radius:2px"></div>
+        </div>
+      </div>
+
+      <!-- Susan Park -->
+      <div class="dt-row" onmouseover="this.style.background='#FAF7F0'" onmouseout="this.style.background='white'" onclick="openPatientBrief('susan')" style="display:grid;grid-template-columns:2fr 1fr 0.8fr 0.7fr 1.2fr 1.2fr 1.4fr 1.5fr;gap:14px;padding:14px 16px;background:white;border-left:1px solid #E0DCCF;border-right:1px solid #E0DCCF;border-bottom:1px solid #E0DCCF;border-radius:0 0 8px 8px;align-items:center;font-size:13px;cursor:pointer;transition:background 0.15s">
+        <div>
+          <div style="font-weight:600;color:#1A2830;line-height:1.2">Susan Park</div>
+          <div style="font-size:11px;color:#506878;margin-top:2px">ET · MPL+ · Dx 2022</div>
+        </div>
+        <div><span style="display:inline-block;background:#E0EBE0;color:#6E9B72;padding:4px 12px;border-radius:14px;font-size:11px;font-weight:600">● Stable</span></div>
+        <div><span style="color:#1A2830;font-weight:600;font-size:15px">14</span><span style="color:#6E9B72;font-size:11px;margin-left:4px">↓</span><div style="font-size:10px;color:#6E9B72;margin-top:2px">improving</div></div>
+        <div><span style="color:#6E9B72;font-weight:600">3/10</span><div style="font-size:10px;color:#6E9B72;margin-top:2px">improving</div></div>
+        <div style="color:#1A2830">Apr 13<div style="font-size:10px;color:#506878;margin-top:2px">1d ago</div></div>
+        <div style="color:#3EA8CC;font-weight:500">Apr 28<div style="font-size:10px;color:#3EA8CC;margin-top:2px">2 wks</div></div>
+        <div><span style="background:#E0EBE0;color:#6E9B72;padding:3px 8px;border-radius:10px;font-size:10px;font-weight:600">Improving</span></div>
+        <div style="display:flex;gap:4px;align-items:flex-end;height:34px">
+          <div style="width:12px;height:78%;background:#E5C9A1;border-radius:2px"></div>
+          <div style="width:12px;height:65%;background:#DAD4C5;border-radius:2px"></div>
+          <div style="width:12px;height:55%;background:#BDD0DC;border-radius:2px"></div>
+          <div style="width:12px;height:52%;background:#C4D8B5;border-radius:2px"></div>
+          <div style="width:12px;height:55%;background:#A4C58D;border-radius:2px"></div>
+          <div style="width:12px;height:48%;background:#7BA56A;border-radius:2px"></div>
+        </div>
+      </div>
+
+      <!-- Footer row -->
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:14px 4px;color:#506878;font-size:12px;margin-top:6px">
+        <span>Showing 4 of 34 patients · sorted by trend</span>
+        <a href="#" onclick="event.preventDefault(); alert('Full panel view — 34 patients sorted by trend (demo placeholder)')" style="color:#3EA8CC;text-decoration:none;font-weight:600;cursor:pointer">View all patients →</a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ════ DESKTOP PATIENT DETAIL (Care Team) ════ -->
+<div id="desktop-patient" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:#0A1218;z-index:1000;overflow-y:auto;padding:24px;font-family:'DM Sans',sans-serif">
+  <div style="max-width:1400px;margin:0 auto;background:#FFFCF5;border-radius:14px;overflow:hidden;box-shadow:0 24px 80px rgba(0,0,0,0.5)">
+
+    <!-- Header band -->
+    <div style="background:#1A2830;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;color:white">
+      <div style="display:flex;align-items:center;gap:14px">
+        <svg width="22" height="22" viewBox="-26 -26 52 52" style="flex-shrink:0">
+          <circle cx="0.00"   cy="-21.00" r="3.85" fill="#3EA8CC"/>
+          <circle cx="10.50"  cy="-18.19" r="3.10" fill="#78A0B8"/>
+          <circle cx="18.19"  cy="-10.50" r="3.10" fill="#A89478"/>
+          <circle cx="21.00"  cy="0.00"   r="3.85" fill="#C89858"/>
+          <circle cx="18.19"  cy="10.50"  r="3.10" fill="#303840"/>
+          <circle cx="10.50"  cy="18.19"  r="3.10" fill="#303840"/>
+          <circle cx="0.00"   cy="21.00"  r="3.85" fill="#1A2830"/>
+          <circle cx="-10.50" cy="18.19"  r="3.10" fill="#303840"/>
+          <circle cx="-18.19" cy="10.50"  r="3.10" fill="#506878"/>
+          <circle cx="-21.00" cy="0.00"   r="3.85" fill="#E8CC70"/>
+          <circle cx="-18.19" cy="-10.50" r="3.10" fill="#F0E090"/>
+          <circle cx="-10.50" cy="-18.19" r="3.10" fill="#88B0C0"/>
+        </svg>
+        <button onclick="closePatientDetail()" style="background:none;border:none;color:rgba(255,255,255,0.7);font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif">‹ Care Team Dashboard</button>
+        <span style="color:rgba(255,255,255,0.3)">/</span>
+        <span style="font-size:14px;font-weight:600">John Grudnowski</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:14px">
+        <div style="width:32px;height:32px;border-radius:50%;background:#3EA8CC;display:flex;align-items:center;justify-content:center;color:white;font-weight:600;font-size:11px">WS</div>
+        <div style="line-height:1.3">
+          <div style="font-size:13px;font-weight:600">Dr. Wolanskyj-Spinner</div>
+          <div style="font-size:10px;color:rgba(255,255,255,0.5)">Hematology · Mayo Clinic</div>
+        </div>
+        <button onclick="closeDesktop()" style="margin-left:8px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.2);color:white;padding:6px 12px;border-radius:7px;font-size:11px;cursor:pointer;font-family:'DM Sans',sans-serif">← Back to mobile</button>
+      </div>
+    </div>
+
+    <!-- Patient banner -->
+    <div style="background:linear-gradient(180deg,#FCEFEA 0%,#FFFCF5 100%);padding:22px 28px;border-bottom:1px solid #ECCAC5">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:32px">
+        <div style="flex:1">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">
+            <span style="display:inline-block;background:#FCEAE5;color:#C87060;padding:4px 12px;border-radius:14px;font-size:11px;font-weight:600">● Attention</span>
+            <span style="font-size:11px;color:#506878;font-weight:500">Flagged this week · 3 patterns to discuss</span>
+          </div>
+          <div style="font-family:'Raleway',serif;font-weight:300;font-size:28px;color:#1A2830;line-height:1.1;margin-bottom:8px">John Grudnowski</div>
+          <div style="font-size:13px;color:#303840;line-height:1.5;margin-bottom:10px">
+            <strong>Essential Thrombocythemia (ET)</strong> · JAK2+ · Dx 2023 · DOB 1965 (60 yrs) · MRN 4827193
+          </div>
+          <div style="font-size:12px;color:#506878;display:flex;align-items:center;gap:18px;flex-wrap:wrap">
+            <span>📞 (910) 555-0142</span>
+            <span>✉ john.grudnowski@gmail.com</span>
+            <span>📍 Wilmington, NC</span>
+            <span>Last check-in <strong style="color:#1A2830">Apr 13 · 1d ago</strong></span>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;flex-shrink:0;min-width:230px">
+          <div style="background:white;border:1px solid #E0DCCF;border-radius:10px;padding:11px 14px">
+            <div style="font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:#506878;margin-bottom:3px">Next Appointment</div>
+            <div style="font-size:18px;font-weight:600;color:#1A2830;line-height:1.1">April 14, 2025</div>
+            <div style="font-size:11px;color:#3EA8CC;margin-top:2px;font-weight:500">1 day away</div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+            <a href="tel:+19105550142" style="background:#1A2830;color:white;text-decoration:none;padding:9px 10px;border-radius:7px;font-size:11px;font-weight:600;text-align:center;cursor:pointer">📞 Call</a>
+            <a href="mailto:john.grudnowski@gmail.com" style="background:white;border:1px solid #1A2830;color:#1A2830;text-decoration:none;padding:9px 10px;border-radius:7px;font-size:11px;font-weight:600;text-align:center;cursor:pointer">✉ Message</a>
+            <a href="https://mychart.mayoclinic.org/" target="_blank" style="grid-column:span 2;background:#A0394A;color:white;text-decoration:none;padding:9px 10px;border-radius:7px;font-size:11px;font-weight:600;text-align:center;cursor:pointer">⚕ Open in EPIC →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Two-column body -->
+    <div style="display:grid;grid-template-columns:1.45fr 1fr;gap:22px;padding:22px 24px 28px">
+
+      <!-- LEFT column: data -->
+      <div style="display:flex;flex-direction:column;gap:16px">
+
+        <!-- Patterns to Discuss -->
+        <div style="background:#FCEFEA;border-left:3px solid #C87060;border-radius:8px;padding:16px 18px">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+            <div style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#A0394A">Patterns to Discuss</div>
+            <span style="background:#C87060;color:white;font-size:10px;font-weight:600;padding:2px 7px;border-radius:9px">3</span>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <div style="display:flex;gap:10px;align-items:flex-start">
+              <div style="width:20px;height:20px;border-radius:50%;background:#C8A85A;color:white;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;flex-shrink:0">1</div>
+              <div style="font-size:12.5px;color:#1A2830;line-height:1.5">Platelets up 10% across 3 consecutive draws (764 → 802 → 842). Trajectory is consistent.</div>
+            </div>
+            <div style="display:flex;gap:10px;align-items:flex-start">
+              <div style="width:20px;height:20px;border-radius:50%;background:#C8A85A;color:white;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;flex-shrink:0">2</div>
+              <div style="font-size:12.5px;color:#1A2830;line-height:1.5">Deep sleep -33%, resting HR +6 bpm, activity -25%. Sustained physiological stress signal.</div>
+            </div>
+            <div style="display:flex;gap:10px;align-items:flex-start">
+              <div style="width:20px;height:20px;border-radius:50%;background:#C8A85A;color:white;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;flex-shrink:0">3</div>
+              <div style="font-size:12.5px;color:#1A2830;line-height:1.5">Fatigue 4 → 8/10 over 8 weeks. Symptom load at highest point since onboarding.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Symptom trend -->
+        <div style="background:white;border:1px solid #E0DCCF;border-radius:8px;padding:16px 18px">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+            <div style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#506878">Symptom Trend — 6 Months</div>
+            <div style="font-size:11px;color:#C87060;font-weight:600">↑ +28% since Oct</div>
+          </div>
+          <div style="display:flex;align-items:flex-end;gap:14px;height:70px">
+            <div style="flex:1;height:30%;background:#BDD0DC;border-radius:3px"></div>
+            <div style="flex:1;height:40%;background:#BDD0DC;border-radius:3px"></div>
+            <div style="flex:1;height:48%;background:#BDD0DC;border-radius:3px"></div>
+            <div style="flex:1;height:62%;background:#E5C9A1;border-radius:3px"></div>
+            <div style="flex:1;height:76%;background:#D88B7A;border-radius:3px"></div>
+            <div style="flex:1;height:100%;background:#C87060;border-radius:3px"></div>
+          </div>
+          <div style="display:flex;gap:14px;margin-top:6px">
+            <div style="flex:1;text-align:center;font-size:10px;color:#506878">Oct</div>
+            <div style="flex:1;text-align:center;font-size:10px;color:#506878">Nov</div>
+            <div style="flex:1;text-align:center;font-size:10px;color:#506878">Dec</div>
+            <div style="flex:1;text-align:center;font-size:10px;color:#506878">Jan</div>
+            <div style="flex:1;text-align:center;font-size:10px;color:#506878">Feb</div>
+            <div style="flex:1;text-align:center;font-size:10px;color:#1A2830;font-weight:600">Mar</div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px">
+            <div style="display:flex;align-items:center;justify-content:space-between;font-size:12px"><span style="color:#303840">Fatigue</span><span style="color:#C87060;font-weight:600">8/10 ↑</span></div>
+            <div style="display:flex;align-items:center;justify-content:space-between;font-size:12px"><span style="color:#303840">Brain fog</span><span style="color:#C89858;font-weight:600">6/10 ↑</span></div>
+            <div style="display:flex;align-items:center;justify-content:space-between;font-size:12px"><span style="color:#303840">Night sweats</span><span style="color:#506878;font-weight:600">5/10 →</span></div>
+            <div style="display:flex;align-items:center;justify-content:space-between;font-size:12px"><span style="color:#303840">Itching</span><span style="color:#6E9B72;font-weight:600">3/10 ↓</span></div>
+          </div>
+        </div>
+
+        <!-- Key Labs -->
+        <div style="background:white;border:1px solid #E0DCCF;border-radius:8px;padding:16px 18px">
+          <div style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#506878;margin-bottom:12px">Key Lab Values — MyChart · Quest</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+            <div style="background:#FFFCF5;border:1px solid #E0DCCF;border-radius:6px;padding:10px 12px;display:flex;align-items:center;justify-content:space-between">
+              <div><div style="font-size:12px;font-weight:600;color:#1A2830">Platelets</div><div style="font-size:9px;color:#506878">×10³/µL</div></div>
+              <div style="text-align:right"><div style="font-size:18px;font-weight:600;color:#C87060;line-height:1">842</div><div style="font-size:10px;color:#C87060;font-weight:600;margin-top:2px">↑ +10%</div></div>
+            </div>
+            <div style="background:#FFFCF5;border:1px solid #E0DCCF;border-radius:6px;padding:10px 12px;display:flex;align-items:center;justify-content:space-between">
+              <div><div style="font-size:12px;font-weight:600;color:#1A2830">WBC</div><div style="font-size:9px;color:#506878">×10³/µL</div></div>
+              <div style="text-align:right"><div style="font-size:18px;font-weight:600;color:#1A2830;line-height:1">10.4</div><div style="font-size:10px;color:#C89858;font-weight:600;margin-top:2px">↑ steady</div></div>
+            </div>
+            <div style="background:#FFFCF5;border:1px solid #E0DCCF;border-radius:6px;padding:10px 12px;display:flex;align-items:center;justify-content:space-between">
+              <div><div style="font-size:12px;font-weight:600;color:#1A2830">Hemoglobin</div><div style="font-size:9px;color:#506878">g/dL</div></div>
+              <div style="text-align:right"><div style="font-size:18px;font-weight:600;color:#1A2830;line-height:1">14.6</div><div style="font-size:10px;color:#6E9B72;font-weight:600;margin-top:2px">→ stable</div></div>
+            </div>
+            <div style="background:#FFFCF5;border:1px solid #E0DCCF;border-radius:6px;padding:10px 12px;display:flex;align-items:center;justify-content:space-between">
+              <div><div style="font-size:12px;font-weight:600;color:#1A2830">Hematocrit</div><div style="font-size:9px;color:#506878">%</div></div>
+              <div style="text-align:right"><div style="font-size:18px;font-weight:600;color:#1A2830;line-height:1">44.0</div><div style="font-size:10px;color:#6E9B72;font-weight:600;margin-top:2px">→ stable</div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Wearables -->
+        <div style="background:white;border:1px solid #E0DCCF;border-radius:8px;padding:16px 18px">
+          <div style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#506878;margin-bottom:12px">Wearables — Oura · Apple Health</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px">
+            <div style="background:#FFFCF5;border:1px solid #E0DCCF;border-radius:6px;padding:10px 12px"><div style="font-size:10px;color:#506878;margin-bottom:4px">Resting HR</div><div style="font-size:18px;font-weight:600;color:#1A2830;line-height:1">72 <span style="font-size:11px;font-weight:400">bpm</span></div><div style="font-size:10px;color:#C87060;font-weight:600;margin-top:4px">↑ +6 since Oct</div></div>
+            <div style="background:#FFFCF5;border:1px solid #E0DCCF;border-radius:6px;padding:10px 12px"><div style="font-size:10px;color:#506878;margin-bottom:4px">Deep sleep</div><div style="font-size:18px;font-weight:600;color:#1A2830;line-height:1">52 <span style="font-size:11px;font-weight:400">min</span></div><div style="font-size:10px;color:#C87060;font-weight:600;margin-top:4px">↓ from 78</div></div>
+            <div style="background:#FFFCF5;border:1px solid #E0DCCF;border-radius:6px;padding:10px 12px"><div style="font-size:10px;color:#506878;margin-bottom:4px">Steps / day</div><div style="font-size:18px;font-weight:600;color:#1A2830;line-height:1">4,820</div><div style="font-size:10px;color:#C87060;font-weight:600;margin-top:4px">↓ from 6,400</div></div>
+            <div style="background:#FFFCF5;border:1px solid #E0DCCF;border-radius:6px;padding:10px 12px"><div style="font-size:10px;color:#506878;margin-bottom:4px">HRV</div><div style="font-size:18px;font-weight:600;color:#1A2830;line-height:1">28 <span style="font-size:11px;font-weight:400">ms</span></div><div style="font-size:10px;color:#C87060;font-weight:600;margin-top:4px">↓ significant</div></div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- RIGHT column: questions -->
+      <div>
+        <div style="background:white;border:1px solid #E0DCCF;border-radius:8px;padding:16px 18px">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+            <div style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#506878">Patient's Prepared Questions</div>
+            <span style="background:#3EA8CC;color:white;font-size:10px;font-weight:600;padding:2px 7px;border-radius:9px">7</span>
+          </div>
+          <div style="font-size:11px;color:#506878;margin-bottom:14px;font-style:italic">Built from John's own data — check off as you address each.</div>
+
+          <div style="font-size:9.5px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#A0394A;margin-bottom:8px">High Priority</div>
+          <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px">
+            <div style="background:#FCEFEA;border-radius:6px;padding:10px 12px;display:flex;gap:10px;align-items:flex-start">
+              <input type="checkbox" style="margin-top:2px;flex-shrink:0">
+              <div><div style="font-size:12px;color:#1A2830;line-height:1.45">Fatigue has gone from 4/10 to 8/10 over the past two months. What is driving this and what can we do about it?</div><div style="font-size:10px;color:#A0394A;margin-top:5px;font-weight:500">From: Symptom check-ins · Oura sleep data</div></div>
+            </div>
+            <div style="background:#FCEFEA;border-radius:6px;padding:10px 12px;display:flex;gap:10px;align-items:flex-start">
+              <input type="checkbox" style="margin-top:2px;flex-shrink:0">
+              <div><div style="font-size:12px;color:#1A2830;line-height:1.45">Platelets have risen 10% across three consecutive draws (764 → 802 → 842). Is this a trajectory we need to act on now?</div><div style="font-size:10px;color:#A0394A;margin-top:5px;font-weight:500">From: CBC via MyChart · Quest Diagnostics</div></div>
+            </div>
+          </div>
+
+          <div style="font-size:9.5px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#2A6E85;margin-bottom:8px">Sleep & Wearables</div>
+          <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px">
+            <div style="background:#E5F0F5;border-radius:6px;padding:10px 12px;display:flex;gap:10px;align-items:flex-start">
+              <input type="checkbox" style="margin-top:2px;flex-shrink:0">
+              <div><div style="font-size:12px;color:#1A2830;line-height:1.45">Deep sleep has dropped by a third since October and HRV has fallen significantly. How much does this level of sleep disruption affect ET?</div><div style="font-size:10px;color:#2A6E85;margin-top:5px;font-weight:500">From: Oura Ring · 6-month trend</div></div>
+            </div>
+            <div style="background:#E5F0F5;border-radius:6px;padding:10px 12px;display:flex;gap:10px;align-items:flex-start">
+              <input type="checkbox" style="margin-top:2px;flex-shrink:0">
+              <div><div style="font-size:12px;color:#1A2830;line-height:1.45">Daily activity is down from 6,400 to 4,800 steps. Is it safe to push harder, or could increased exertion be a problem at my platelet level?</div><div style="font-size:10px;color:#2A6E85;margin-top:5px;font-weight:500">From: Apple Health · activity data</div></div>
+            </div>
+          </div>
+
+          <div style="font-size:9.5px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#A08139;margin-bottom:8px">Medications</div>
+          <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px">
+            <div style="background:#FAEBD0;border-radius:6px;padding:10px 12px;display:flex;gap:10px;align-items:flex-start">
+              <input type="checkbox" style="margin-top:2px;flex-shrink:0">
+              <div><div style="font-size:12px;color:#1A2830;line-height:1.45">Could hydroxyurea be contributing to the fatigue and brain fog I've been experiencing? Should we reconsider the dose or timing?</div><div style="font-size:10px;color:#A08139;margin-top:5px;font-weight:500">From: Symptom trend · medication log</div></div>
+            </div>
+          </div>
+
+          <div style="font-size:9.5px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#6E9B72;margin-bottom:8px">Cardiology Crossover</div>
+          <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px">
+            <div style="background:#E0EBE0;border-radius:6px;padding:10px 12px;display:flex;gap:10px;align-items:flex-start">
+              <input type="checkbox" style="margin-top:2px;flex-shrink:0">
+              <div><div style="font-size:12px;color:#1A2830;line-height:1.45">My resting heart rate has risen 6 bpm over six months. Is this connected to ET? Should my cardiologist be seeing this data too?</div><div style="font-size:10px;color:#6E9B72;margin-top:5px;font-weight:500">From: Oura Ring · resting HR trend</div></div>
+            </div>
+          </div>
+
+          <div style="font-size:9.5px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#506878;margin-bottom:8px">Next Steps</div>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <div style="background:#F5F1E8;border-radius:6px;padding:10px 12px;display:flex;gap:10px;align-items:flex-start">
+              <input type="checkbox" style="margin-top:2px;flex-shrink:0">
+              <div><div style="font-size:12px;color:#1A2830;line-height:1.45">What warning signs should prompt us to come in before the next scheduled visit?</div><div style="font-size:10px;color:#506878;margin-top:5px;font-weight:500">From: General ET management</div></div>
+            </div>
+          </div>
+
+          <div style="margin-top:16px;padding-top:12px;border-top:1px solid #E0DCCF;font-size:10px;color:#9098A0;line-height:1.5;font-style:italic">
+            Questions built from John's longitudinal data — not clinical advice. Source: Live Every Day patient companion · Generated Apr 13, 2025.
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
 <div class="nav-hint">Jump to any screen:</div>
 <div class="flow-chips">
 
@@ -4897,6 +5324,7 @@ body{background:var(--midnight);font-family:'DM Sans',sans-serif;display:flex;fl
   <div class="flow-chip" onclick="jumpTo('s-circle-invite','Invite')">Invite flow</div>
   <div class="flow-chip" onclick="jumpTo('s-my-one','My #1 View')">My #1 view</div>
   <div class="flow-chip" onclick="jumpTo('s-care-team','Care Team Dashboard')">Care Team dashboard</div>
+  <div class="flow-chip" onclick="openDesktop()" style="background:#1A2830;color:white">⛶ Care Team Desktop</div>
 
   <!-- Account -->
   <div class="chip-label">Account</div>
@@ -4918,6 +5346,64 @@ function go(id) {
   const el = document.getElementById(id);
   if (el) { el.classList.add('active'); el.scrollTop = 0; }
   document.querySelectorAll('.flow-chip').forEach(c => c.classList.remove('active-chip'));
+}
+
+// ════ Desktop view (Care Team Dashboard) ════
+function openDesktop() {
+  document.getElementById('desktop-view').style.display = 'block';
+  document.getElementById('desktop-patient').style.display = 'none';
+  document.querySelector('.phone').style.display = 'none';
+  var ph = document.querySelector('.page-header');     if (ph) ph.style.display = 'none';
+  var sl = document.getElementById('screen-label');    if (sl) sl.style.display = 'none';
+  var nh = document.querySelector('.nav-hint');        if (nh) nh.style.display = 'none';
+  var fc = document.querySelector('.flow-chips');      if (fc) fc.style.display = 'none';
+  window.scrollTo(0, 0);
+}
+function closeDesktop() {
+  document.getElementById('desktop-view').style.display = 'none';
+  document.getElementById('desktop-patient').style.display = 'none';
+  document.querySelector('.phone').style.display = '';
+  var ph = document.querySelector('.page-header');     if (ph) ph.style.display = '';
+  var sl = document.getElementById('screen-label');    if (sl) sl.style.display = '';
+  var nh = document.querySelector('.nav-hint');        if (nh) nh.style.display = '';
+  var fc = document.querySelector('.flow-chips');      if (fc) fc.style.display = '';
+}
+function openPatientDetail(patient) {
+  document.getElementById('desktop-view').style.display = 'none';
+  document.getElementById('desktop-patient').style.display = 'block';
+  // Ensure mobile chrome is hidden (in case entered directly)
+  document.querySelector('.phone').style.display = 'none';
+  var ph = document.querySelector('.page-header');     if (ph) ph.style.display = 'none';
+  var sl = document.getElementById('screen-label');    if (sl) sl.style.display = 'none';
+  var nh = document.querySelector('.nav-hint');        if (nh) nh.style.display = 'none';
+  var fc = document.querySelector('.flow-chips');      if (fc) fc.style.display = 'none';
+  window.scrollTo(0, 0);
+}
+function closePatientDetail() {
+  document.getElementById('desktop-patient').style.display = 'none';
+  document.getElementById('desktop-view').style.display = 'block';
+  window.scrollTo(0, 0);
+}
+function dtFilter(btn, group) {
+  document.querySelectorAll('.dt-filter').forEach(b => {
+    b.style.background = 'white';
+    b.style.border = '1px solid #E0DCCF';
+    b.style.color = '#506878';
+    b.style.fontWeight = '500';
+    b.classList.remove('dt-active');
+  });
+  btn.style.background = '#E5F0F5';
+  btn.style.border = '1px solid #B8DDEA';
+  btn.style.color = '#2A6E85';
+  btn.style.fontWeight = '600';
+  btn.classList.add('dt-active');
+}
+function openPatientBrief(patient) {
+  if (patient === 'john') {
+    openPatientDetail('john');
+  } else {
+    alert('Patient detail for ' + patient + ' opens here (demo placeholder — John\'s detail is fully built out).');
+  }
 }
 function jumpTo(id, label) {
   go(id);
