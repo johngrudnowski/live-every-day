@@ -30,8 +30,19 @@
 - Default local URLs:
   - API: `http://localhost:3000`
   - Web: `http://localhost:3001`
+- API docs:
+  - Swagger UI: `http://localhost:3000/api/docs`
+  - OpenAPI JSON: `http://localhost:3000/api/openapi.json`
 - Web auth client env:
   - `VITE_API_URL` (defaults to `http://localhost:3000`)
+
+## OpenAPI client generation
+
+1. Start the API (`pnpm dev:api` or `pnpm --filter api start`).
+2. Generate the shared API client:
+   - `pnpm generate`
+
+Generated output is written to `packages/api-client/src/generated`.
 
 ## Better Auth setup order
 

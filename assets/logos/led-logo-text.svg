@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="120" viewBox="0 0 480 120" role="img" aria-labelledby="title desc">
+  <title id="title">Live Every Day wordmark</title>
+  <desc id="desc">The Live Every Day wordmark with Every highlighted in sunrise gold.</desc>
+  <defs>
+    <style>
+      .wordmark {
+        font-family: Raleway, Avenir, Helvetica, Arial, sans-serif;
+        font-weight: 200;
+        font-size: 48px;
+        letter-spacing: 0.75px;
+        fill: #1A2830;
+      }
+      .highlight { fill: #E8CC70; }
+    </style>
+  </defs>
+  <text class="wordmark" x="24" y="74">
+    <tspan>Live </tspan><tspan class="highlight">Every</tspan><tspan> Day</tspan>
+  </text>
+</svg>

@@ -1,0 +1,25 @@
+{
+  "name": "@led/api-client",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Shared OpenAPI client generated with Orval",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "generate": "orval --config ./orval.config.ts",
+    "check-types": "tsc -p tsconfig.json --noEmit",
+    "lint": "oxlint --deny-warnings --node-plugin src orval.config.ts",
+    "lint:fix": "oxlint --deny-warnings --node-plugin --fix src orval.config.ts",
+    "format": "oxfmt --write \"src/**/*.ts\" orval.config.ts"
+  },
+  "dependencies": {
+    "@tanstack/react-query": "^5.90.5"
+  },
+  "devDependencies": {
+    "@types/node": "^25.7.0",
+    "orval": "^8.9.1",
+    "typescript": "^5.9.2"
+  }
+}
