@@ -1420,8 +1420,205 @@ body{background:var(--midnight);font-family:'DM Sans',sans-serif;display:flex;fl
     </div>
 
     <div style="margin-top:auto;padding-top:8px">
-      <button onclick="go('s-dashboard')" style="background:var(--midday);color:var(--midnight);border:none;border-radius:14px;padding:16px;width:100%;font-size:16px;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer;margin-bottom:8px">Go to my dashboard →</button>
+      <button onclick="go('s-consent-tiers')" style="background:var(--midday);color:var(--midnight);border:none;border-radius:14px;padding:16px;width:100%;font-size:16px;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer;margin-bottom:8px">Continue →</button>
       <p style="font-size:12px;color:var(--predawn);text-align:center">All of these can be changed anytime in Settings.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ══ Consent Tiers (onboarding) ══ -->
+<div class="sim-screen" id="s-consent-tiers">
+  <div style="background:var(--canvas);padding:14px 20px 0;flex-shrink:0">
+    <div style="display:flex;align-items:center;justify-content:space-between;height:44px">
+      <button onclick="go('s-connect-setup')" style="background:none;border:none;color:var(--midday);font-size:16px;cursor:pointer">‹ Back</button>
+      <span style="font-size:11px;color:var(--predawn);font-weight:500">Step 7 of 8</span>
+      <span style="width:48px"></span>
+    </div>
+  </div>
+  <div style="padding:8px 20px 20px;overflow-y:auto;flex:1;background:var(--canvas)">
+
+    <!-- Title -->
+    <div style="margin-bottom:18px">
+      <div style="font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--predawn);margin-bottom:4px">Your data, your choice</div>
+      <div style="font-family:'Raleway',serif;font-weight:300;font-size:26px;color:var(--midnight);line-height:1.15;margin-bottom:8px">How would you like to use your data?</div>
+      <div style="font-size:13px;color:var(--predawn);line-height:1.5">Your personal data always stays yours. Beyond that, you can choose what to contribute — and to whom. Every option can be changed anytime.</div>
+    </div>
+
+    <!-- Foundation tier (always on, not a toggle) -->
+    <div style="background:white;border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin-bottom:12px">
+      <div style="display:flex;align-items:flex-start;gap:12px">
+        <div style="width:28px;height:28px;border-radius:50%;background:#E0EBE0;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:14px">🔒</div>
+        <div style="flex:1">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+            <div style="font-size:13px;font-weight:600;color:var(--midnight)">Personal use</div>
+            <span style="background:#E0EBE0;color:#3F6B43;font-size:9px;font-weight:700;padding:3px 8px;border-radius:9px;letter-spacing:0.5px">ALWAYS ON</span>
+          </div>
+          <div style="font-size:11.5px;color:var(--predawn);line-height:1.5">Your symptoms, labs, and patterns power your own dashboard and your doctor brief. This data stays with you. We never sell it.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section header -->
+    <div style="font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--predawn);margin:14px 4px 8px">Optional · Help others living with MPN</div>
+
+    <!-- Tier: Aggregate research -->
+    <div style="background:white;border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin-bottom:10px">
+      <div style="display:flex;align-items:flex-start;gap:12px">
+        <div style="width:28px;height:28px;border-radius:50%;background:#E5F0F5;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:14px">📊</div>
+        <div style="flex:1">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+            <div style="font-size:13px;font-weight:600;color:var(--midnight)">Aggregate research</div>
+            <div onclick="toggleConsent(this)" data-on="false" style="width:38px;height:22px;background:#D8D0C0;border-radius:11px;position:relative;cursor:pointer;flex-shrink:0;transition:background 0.2s">
+              <div style="position:absolute;top:2px;left:2px;width:18px;height:18px;background:white;border-radius:50%;transition:left 0.2s;box-shadow:0 1px 3px rgba(0,0,0,0.2)"></div>
+            </div>
+          </div>
+          <div style="font-size:11.5px;color:var(--predawn);line-height:1.5;margin-bottom:6px">Your de-identified data joins thousands of other MPN patients to help researchers find patterns. Names, addresses, and identifying details are removed. Individual records are never shared.</div>
+          <div style="display:flex;gap:14px;font-size:10px;color:var(--predawn)">
+            <span><strong style="color:#3F6B43">You give:</strong> anonymized trends</span>
+            <span><strong style="color:#3F6B43">You get:</strong> insights from people like you</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tier: Specific studies -->
+    <div style="background:white;border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin-bottom:10px">
+      <div style="display:flex;align-items:flex-start;gap:12px">
+        <div style="width:28px;height:28px;border-radius:50%;background:#FAEBD0;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:14px">🔬</div>
+        <div style="flex:1">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+            <div style="font-size:13px;font-weight:600;color:var(--midnight)">Specific studies</div>
+            <div onclick="toggleConsent(this)" data-on="false" style="width:38px;height:22px;background:#D8D0C0;border-radius:11px;position:relative;cursor:pointer;flex-shrink:0;transition:background 0.2s">
+              <div style="position:absolute;top:2px;left:2px;width:18px;height:18px;background:white;border-radius:50%;transition:left 0.2s;box-shadow:0 1px 3px rgba(0,0,0,0.2)"></div>
+            </div>
+          </div>
+          <div style="font-size:11.5px;color:var(--predawn);line-height:1.5;margin-bottom:6px">When a researcher asks for participants in a specific study (e.g., MPN PROGRESSion Registry), we'll show it to you. Each study is its own decision — you say yes or no, one at a time.</div>
+          <div style="display:flex;gap:14px;font-size:10px;color:var(--predawn)">
+            <span><strong style="color:#A08139">You give:</strong> per-study consent</span>
+            <span><strong style="color:#A08139">You get:</strong> advance notice of relevant trials</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tier: Direct contact -->
+    <div style="background:white;border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin-bottom:10px">
+      <div style="display:flex;align-items:flex-start;gap:12px">
+        <div style="width:28px;height:28px;border-radius:50%;background:#FCEAE5;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:14px">✉️</div>
+        <div style="flex:1">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+            <div style="font-size:13px;font-weight:600;color:var(--midnight)">Direct contact</div>
+            <div onclick="toggleConsent(this)" data-on="false" style="width:38px;height:22px;background:#D8D0C0;border-radius:11px;position:relative;cursor:pointer;flex-shrink:0;transition:background 0.2s">
+              <div style="position:absolute;top:2px;left:2px;width:18px;height:18px;background:white;border-radius:50%;transition:left 0.2s;box-shadow:0 1px 3px rgba(0,0,0,0.2)"></div>
+            </div>
+          </div>
+          <div style="font-size:11.5px;color:var(--predawn);line-height:1.5;margin-bottom:6px">The MPN Research Foundation and approved researchers can reach you directly about trials you're a good fit for, surveys, and ways to get involved. You can decline anything they ask.</div>
+          <div style="display:flex;gap:14px;font-size:10px;color:var(--predawn)">
+            <span><strong style="color:#A0394A">You give:</strong> permission to be contacted</span>
+            <span><strong style="color:#A0394A">You get:</strong> direct invitations</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Reassurance footer -->
+    <div style="background:var(--surface);border-radius:12px;padding:12px 14px;margin-top:14px;display:flex;gap:10px;align-items:flex-start">
+      <span style="font-size:16px;flex-shrink:0">🛡️</span>
+      <div style="font-size:11px;color:var(--midnight);line-height:1.5"><strong>Always your choice.</strong> Change any of these in Settings. Withdraw at any time. We're transparent that no de-identification is perfect for rare diseases — which is why every step beyond personal use is opt-in.</div>
+    </div>
+
+    <div style="padding:18px 0 8px">
+      <button onclick="go('s-engagement')" style="background:var(--midday);color:var(--midnight);border:none;border-radius:14px;padding:16px;width:100%;font-size:16px;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer">Continue →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ Engagement preference (onboarding) ══ -->
+<div class="sim-screen" id="s-engagement">
+  <div style="background:var(--canvas);padding:14px 20px 0;flex-shrink:0">
+    <div style="display:flex;align-items:center;justify-content:space-between;height:44px">
+      <button onclick="go('s-consent-tiers')" style="background:none;border:none;color:var(--midday);font-size:16px;cursor:pointer">‹ Back</button>
+      <span style="font-size:11px;color:var(--predawn);font-weight:500">Step 8 of 8</span>
+      <span style="width:48px"></span>
+    </div>
+  </div>
+  <div style="padding:8px 20px 20px;overflow-y:auto;flex:1;background:var(--canvas)">
+
+    <!-- Title -->
+    <div style="margin-bottom:18px">
+      <div style="font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--predawn);margin-bottom:4px">How you'd like to use LED</div>
+      <div style="font-family:'Raleway',serif;font-weight:300;font-size:26px;color:var(--midnight);line-height:1.15;margin-bottom:8px">How much do you want to check in?</div>
+      <div style="font-size:13px;color:var(--predawn);line-height:1.5">Some people want deep daily tracking. Others want LED ready around their appointments. Pick what fits your life — you can change it anytime.</div>
+    </div>
+
+    <!-- Option 1: Daily -->
+    <div onclick="selectEngagement(this, 'daily')" data-mode="daily" class="engagement-card" style="background:white;border:2px solid var(--border);border-radius:12px;padding:14px 16px;margin-bottom:10px;cursor:pointer;transition:border-color 0.15s,background 0.15s">
+      <div style="display:flex;align-items:flex-start;gap:12px">
+        <div style="width:30px;height:30px;border-radius:50%;background:#E5F0F5;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:14px">📊</div>
+        <div style="flex:1">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:3px">
+            <div style="font-size:14px;font-weight:600;color:var(--midnight)">Daily tracker</div>
+            <div class="engagement-radio" style="width:20px;height:20px;border-radius:50%;border:2px solid #D8D0C0;flex-shrink:0;background:white"></div>
+          </div>
+          <div style="font-size:11.5px;color:var(--predawn);line-height:1.5;margin-bottom:8px;font-style:italic">"I want depth. Track everything."</div>
+          <div style="font-size:10.5px;color:var(--midnight);line-height:1.6">
+            <div>· Daily check-in prompts</div>
+            <div>· Full symptom + wearable tracking</div>
+            <div>· Pattern insights as they emerge</div>
+            <div>· Best for: newly diagnosed, treatment changes, advocates</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Option 2: Companion (default) -->
+    <div onclick="selectEngagement(this, 'companion')" data-mode="companion" class="engagement-card" style="background:#FFFBEF;border:2px solid #C8A85A;border-radius:12px;padding:14px 16px;margin-bottom:10px;cursor:pointer;transition:border-color 0.15s,background 0.15s">
+      <div style="display:flex;align-items:flex-start;gap:12px">
+        <div style="width:30px;height:30px;border-radius:50%;background:#FAEBD0;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:14px">☀️</div>
+        <div style="flex:1">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:3px">
+            <div style="font-size:14px;font-weight:600;color:var(--midnight)">Steady companion</div>
+            <div class="engagement-radio" style="width:20px;height:20px;border-radius:50%;border:2px solid #C8A85A;flex-shrink:0;background:white;display:flex;align-items:center;justify-content:center"><div style="width:10px;height:10px;border-radius:50%;background:#C8A85A"></div></div>
+          </div>
+          <div style="font-size:11.5px;color:var(--predawn);line-height:1.5;margin-bottom:8px;font-style:italic">"A few times a week, light touch."</div>
+          <div style="font-size:10.5px;color:var(--midnight);line-height:1.6">
+            <div>· Weekly check-ins, gentle reminders</div>
+            <div>· Symptoms when you want to log them</div>
+            <div>· Patterns surfaced when meaningful</div>
+            <div>· Best for: most patients, most of the time</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Option 3: Touchpoint -->
+    <div onclick="selectEngagement(this, 'touchpoint')" data-mode="touchpoint" class="engagement-card" style="background:white;border:2px solid var(--border);border-radius:12px;padding:14px 16px;margin-bottom:10px;cursor:pointer;transition:border-color 0.15s,background 0.15s">
+      <div style="display:flex;align-items:flex-start;gap:12px">
+        <div style="width:30px;height:30px;border-radius:50%;background:#E0EBE0;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:14px">📅</div>
+        <div style="flex:1">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:3px">
+            <div style="font-size:14px;font-weight:600;color:var(--midnight)">Appointment ready</div>
+            <div class="engagement-radio" style="width:20px;height:20px;border-radius:50%;border:2px solid #D8D0C0;flex-shrink:0;background:white"></div>
+          </div>
+          <div style="font-size:11.5px;color:var(--predawn);line-height:1.5;margin-bottom:8px;font-style:italic">"Mostly around my appointments."</div>
+          <div style="font-size:10.5px;color:var(--midnight);line-height:1.6">
+            <div>· Minimal notifications between visits</div>
+            <div>· Brief auto-generated before appointments</div>
+            <div>· Quick check-in when you open the app</div>
+            <div>· Best for: stable patients, busy lives</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Adaptive note -->
+    <div style="background:var(--surface);border-radius:12px;padding:12px 14px;margin-top:14px;display:flex;gap:10px;align-items:flex-start">
+      <span style="font-size:16px;flex-shrink:0">💡</span>
+      <div style="font-size:11px;color:var(--midnight);line-height:1.5"><strong>LED adapts with you.</strong> If your usage pattern doesn't match what you picked, we'll gently suggest a different fit. Treatment changes? Switch to daily tracking. Things stabilize? Dial back. Your life moves — LED moves with it.</div>
+    </div>
+
+    <div style="padding:18px 0 8px">
+      <button onclick="go('s-dashboard')" style="background:var(--midday);color:var(--midnight);border:none;border-radius:14px;padding:16px;width:100%;font-size:16px;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer">Save and go to my dashboard →</button>
     </div>
   </div>
 </div>
@@ -1627,6 +1824,133 @@ body{background:var(--midnight);font-family:'DM Sans',sans-serif;display:flex;fl
     <div style="padding-bottom:8px">
       <button onclick="go('s-connect-setup')" style="background:var(--midday);color:var(--midnight);border:none;border-radius:14px;padding:16px;width:100%;font-size:16px;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer">Save and continue →</button>
     </div>
+  </div>
+</div>
+
+<!-- ══ Life-First Dashboard (new patient default concept) ══ -->
+<div class="sim-screen" id="s-life-dashboard">
+  <div style="background:var(--canvas);padding:14px 20px 0;flex-shrink:0">
+    <div style="display:flex;align-items:center;justify-content:space-between;height:44px">
+      <div style="font-family:'Raleway',serif;font-weight:200;font-size:18px;letter-spacing:.3px;color:var(--midnight)">Live <span style="color:var(--sunrise)">Every</span> Day</div>
+      <div style="width:32px;height:32px;border-radius:50%;background:var(--surface);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;color:var(--midnight)">JG</div>
+    </div>
+  </div>
+  <div style="padding:8px 16px 20px;overflow-y:auto;flex:1;background:var(--canvas)">
+
+    <!-- 1. Plain-language observation -->
+    <div style="background:white;border:1px solid var(--border);border-radius:16px;padding:18px 18px 14px;margin-bottom:12px">
+      <div style="font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--predawn);margin-bottom:6px">How you're doing</div>
+      <div style="font-family:'Raleway',serif;font-weight:300;font-size:22px;color:var(--midnight);line-height:1.25;margin-bottom:6px">This week feels steadier than the last three.</div>
+      <div style="font-size:12.5px;color:var(--predawn);line-height:1.5;margin-bottom:10px">Sleep is up. Fatigue is down. Three weeks of small wins.</div>
+      <!-- Mini sparkline -->
+      <svg viewBox="0 0 280 38" width="100%" height="36">
+        <polyline points="10,28 40,26 70,28 100,25 130,22 160,18 190,16 220,14 250,12 270,10" stroke="#6AB0C8" stroke-width="2.5" fill="none"/>
+        <circle cx="10" cy="28" r="2.5" fill="#6AB0C8" opacity="0.45"/>
+        <circle cx="100" cy="25" r="2.5" fill="#6AB0C8" opacity="0.7"/>
+        <circle cx="190" cy="16" r="2.5" fill="#6AB0C8" opacity="0.85"/>
+        <circle cx="270" cy="10" r="4" fill="#6AB0C8"/>
+      </svg>
+      <div style="display:flex;justify-content:space-between;font-size:9.5px;color:var(--predawn);margin-top:2px">
+        <span>10 wks ago</span>
+        <span style="color:var(--midnight);font-weight:600">This week</span>
+      </div>
+    </div>
+
+    <!-- 2. Circle voice -->
+    <div style="background:#FFFBEF;border:1px solid #E5D9B8;border-radius:16px;padding:14px 16px;margin-bottom:12px">
+      <div style="display:flex;align-items:flex-start;gap:11px">
+        <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#E8CC70,#C8A85A);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:white;flex-shrink:0">S</div>
+        <div style="flex:1;min-width:0">
+          <div style="font-size:14px;color:var(--midnight);line-height:1.45;margin-bottom:6px">"How are you feeling today, Dad? Mom says you've been doing the morning walks again 🌅"</div>
+          <div style="font-size:10.5px;color:var(--predawn);display:flex;justify-content:space-between;align-items:center">
+            <span><strong style="color:var(--midnight)">Sarah</strong> · your #1 · 2 hours ago</span>
+            <div style="display:flex;gap:5px">
+              <button style="background:white;border:1px solid #D8C896;color:#A08139;font-size:10px;font-weight:600;padding:5px 10px;border-radius:6px;cursor:pointer;font-family:'DM Sans',sans-serif">Reply</button>
+              <button style="background:none;border:none;font-size:14px;cursor:pointer;padding:3px 6px">💛</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. Attention bump (singular, gentle) -->
+    <div style="background:#EEF6FB;border:1px solid #C8DDE8;border-radius:16px;padding:14px 16px;margin-bottom:18px;display:flex;align-items:center;gap:12px;cursor:pointer" onclick="go('s-prep')">
+      <div style="width:36px;height:36px;border-radius:50%;background:#6AB0C8;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0">📅</div>
+      <div style="flex:1">
+        <div style="font-size:13px;font-weight:600;color:var(--midnight);line-height:1.3;margin-bottom:2px">Appointment in 4 days</div>
+        <div style="font-size:11.5px;color:var(--predawn);line-height:1.4">Dr. Wolanskyj-Spinner · April 14 · Want to start your brief?</div>
+      </div>
+      <span style="font-size:18px;color:#2E6DA4;flex-shrink:0">›</span>
+    </div>
+
+    <!-- Divider -->
+    <div style="display:flex;align-items:center;gap:10px;margin:4px 4px 12px">
+      <div style="height:1px;flex:1;background:var(--border)"></div>
+      <div style="font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--predawn)">Dive deeper</div>
+      <div style="height:1px;flex:1;background:var(--border)"></div>
+    </div>
+
+    <!-- Quick-access tile grid -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
+
+      <div onclick="go('s-data')" style="background:white;border:1px solid var(--border);border-radius:14px;padding:14px 14px 12px;cursor:pointer">
+        <div style="width:32px;height:32px;border-radius:50%;background:#E5F0F5;display:flex;align-items:center;justify-content:center;font-size:15px;margin-bottom:8px">📊</div>
+        <div style="font-size:13px;font-weight:600;color:var(--midnight);line-height:1.3;margin-bottom:3px">Your data</div>
+        <div style="font-size:10.5px;color:var(--predawn);line-height:1.4">Symptoms, labs, vitals, history</div>
+      </div>
+
+      <div onclick="go('s-insights')" style="background:white;border:1px solid var(--border);border-radius:14px;padding:14px 14px 12px;cursor:pointer">
+        <div style="width:32px;height:32px;border-radius:50%;background:#FCEAE5;display:flex;align-items:center;justify-content:center;font-size:15px;margin-bottom:8px">🔍</div>
+        <div style="font-size:13px;font-weight:600;color:var(--midnight);line-height:1.3;margin-bottom:3px">Patterns</div>
+        <div style="font-size:10.5px;color:var(--predawn);line-height:1.4">How your data moves together</div>
+      </div>
+
+      <div onclick="go('s-community')" style="background:white;border:1px solid var(--border);border-radius:14px;padding:14px 14px 12px;cursor:pointer">
+        <div style="width:32px;height:32px;border-radius:50%;background:#E0EBE0;display:flex;align-items:center;justify-content:center;font-size:15px;margin-bottom:8px">🤝</div>
+        <div style="font-size:13px;font-weight:600;color:var(--midnight);line-height:1.3;margin-bottom:3px">Find your community</div>
+        <div style="font-size:10.5px;color:var(--predawn);line-height:1.4">Support groups, others who get it</div>
+      </div>
+
+      <div onclick="go('s-mpnrf')" style="background:white;border:1px solid var(--border);border-radius:14px;padding:14px 14px 12px;cursor:pointer">
+        <div style="width:32px;height:32px;border-radius:50%;background:#EEF4FB;display:flex;align-items:center;justify-content:center;font-size:15px;margin-bottom:8px">🔬</div>
+        <div style="font-size:13px;font-weight:600;color:var(--midnight);line-height:1.3;margin-bottom:3px">Latest research</div>
+        <div style="font-size:10.5px;color:var(--predawn);line-height:1.4">This month's MPN RF digest</div>
+      </div>
+
+      <div onclick="go('s-checkin-intro')" style="background:white;border:1px solid var(--border);border-radius:14px;padding:14px 14px 12px;cursor:pointer">
+        <div style="width:32px;height:32px;border-radius:50%;background:#FAEBD0;display:flex;align-items:center;justify-content:center;font-size:15px;margin-bottom:8px">💬</div>
+        <div style="font-size:13px;font-weight:600;color:var(--midnight);line-height:1.3;margin-bottom:3px">Talk to LED</div>
+        <div style="font-size:10.5px;color:var(--predawn);line-height:1.4">A check-in, your pace</div>
+      </div>
+
+      <div onclick="go('s-clinical-metrics')" style="background:white;border:1px solid var(--border);border-radius:14px;padding:14px 14px 12px;cursor:pointer">
+        <div style="width:32px;height:32px;border-radius:50%;background:#F0E8DC;display:flex;align-items:center;justify-content:center;font-size:15px;margin-bottom:8px">🧬</div>
+        <div style="font-size:13px;font-weight:600;color:var(--midnight);line-height:1.3;margin-bottom:3px">Clinical metrics</div>
+        <div style="font-size:10.5px;color:var(--predawn);line-height:1.4">VAF, spleen, mutations, more</div>
+      </div>
+
+      <div onclick="go('s-brief')" style="background:white;border:1px solid var(--border);border-radius:14px;padding:14px 14px 12px;cursor:pointer">
+        <div style="width:32px;height:32px;border-radius:50%;background:#E5F0F5;display:flex;align-items:center;justify-content:center;font-size:15px;margin-bottom:8px">📋</div>
+        <div style="font-size:13px;font-weight:600;color:var(--midnight);line-height:1.3;margin-bottom:3px">Doctor brief</div>
+        <div style="font-size:10.5px;color:var(--predawn);line-height:1.4">What you'll share at the visit</div>
+      </div>
+
+      <div onclick="go('s-account')" style="background:white;border:1px solid var(--border);border-radius:14px;padding:14px 14px 12px;cursor:pointer">
+        <div style="width:32px;height:32px;border-radius:50%;background:var(--surface);display:flex;align-items:center;justify-content:center;font-size:15px;margin-bottom:8px">⚙️</div>
+        <div style="font-size:13px;font-weight:600;color:var(--midnight);line-height:1.3;margin-bottom:3px">Settings</div>
+        <div style="font-size:10.5px;color:var(--predawn);line-height:1.4">Your circle, consent, preferences</div>
+      </div>
+
+    </div>
+
+    <!-- Footer: engagement preference indicator -->
+    <div style="background:var(--surface);border-radius:12px;padding:10px 14px;display:flex;align-items:center;gap:10px;font-size:11px;color:var(--predawn)">
+      <span style="font-size:14px;flex-shrink:0">☀️</span>
+      <div style="flex:1;line-height:1.4">You're on <strong style="color:var(--midnight)">Steady companion</strong> — gentle check-ins, weekly rhythm.</div>
+      <span style="color:#2E6DA4;font-weight:600;font-size:11px;cursor:pointer">Change</span>
+    </div>
+
+    <div style="height:8px"></div>
   </div>
 </div>
 
@@ -4120,6 +4444,21 @@ body{background:var(--midnight);font-family:'DM Sans',sans-serif;display:flex;fl
       <div style="padding:10px 14px;background:var(--surface);font-size:10px;font-weight:700;letter-spacing:0.8px;text-transform:uppercase;color:var(--predawn)">Available to enable</div>
       <div style="padding:8px 0">
         <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;border-bottom:1px solid var(--surface);cursor:pointer">
+          <span style="font-size:14px">🧬</span>
+          <div style="flex:1"><div style="font-size:12px;font-weight:600;color:var(--midnight)">CALR allele burden</div><div style="font-size:10px;color:var(--predawn)">For CALR-positive ET or MF</div></div>
+          <button style="background:var(--midday);color:white;border:none;padding:5px 10px;border-radius:5px;font-size:10px;font-weight:600">Enable</button>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;border-bottom:1px solid var(--surface);cursor:pointer">
+          <span style="font-size:14px">🧬</span>
+          <div style="flex:1"><div style="font-size:12px;font-weight:600;color:var(--midnight)">MPL allele burden</div><div style="font-size:10px;color:var(--predawn)">For MPL-positive MPNs</div></div>
+          <button style="background:var(--midday);color:white;border:none;padding:5px 10px;border-radius:5px;font-size:10px;font-weight:600">Enable</button>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;border-bottom:1px solid var(--surface);cursor:pointer">
+          <span style="font-size:14px">🔬</span>
+          <div style="flex:1"><div style="font-size:12px;font-weight:600;color:var(--midnight)">Co-mutation panel</div><div style="font-size:10px;color:var(--predawn)">ASXL1, EZH2, IDH1/2, TP53, SRSF2…</div></div>
+          <button style="background:var(--midday);color:white;border:none;padding:5px 10px;border-radius:5px;font-size:10px;font-weight:600">Enable</button>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;border-bottom:1px solid var(--surface);cursor:pointer">
           <span style="font-size:14px">📐</span>
           <div style="flex:1"><div style="font-size:12px;font-weight:600;color:var(--midnight)">Liver size</div><div style="font-size:10px;color:var(--predawn)">Palpation, cm below costal margin</div></div>
           <button style="background:var(--midday);color:white;border:none;padding:5px 10px;border-radius:5px;font-size:10px;font-weight:600">Enable</button>
@@ -5871,6 +6210,9 @@ body{background:var(--midnight);font-family:'DM Sans',sans-serif;display:flex;fl
   <div class="flow-chip" onclick="openDigestDesktop()" style="background:#1B3A6B;color:white">⛶ Resource Library Desktop</div>
   <div class="flow-chip" onclick="jumpTo('s-clinical-metrics','Clinical Metrics')">Clinical Metrics</div>
   <div class="flow-chip" onclick="jumpTo('s-insights','Patterns / Charts')">Patterns / Charts</div>
+  <div class="flow-chip" onclick="jumpTo('s-life-dashboard','Life-First Dashboard')" style="background:#FFFBEF;color:#1A2830;border:1px solid #C8A85A;font-weight:600">☀ Life-First Home</div>
+  <div class="flow-chip" onclick="jumpTo('s-consent-tiers','Consent Tiers')">Consent Tiers</div>
+  <div class="flow-chip" onclick="jumpTo('s-engagement','Engagement')">Engagement</div>
 
   <!-- Account -->
   <div class="chip-label">Account</div>
@@ -6142,6 +6484,48 @@ function removePoint(id) {
 function resetChart(id) {
   chartState[id].points = JSON.parse(JSON.stringify(chartState[id].initial));
   renderChart(id);
+}
+
+// ════ Consent toggle (onboarding) ════
+function toggleConsent(el) {
+  var on = el.getAttribute('data-on') === 'true';
+  var newState = !on;
+  el.setAttribute('data-on', newState);
+  el.style.background = newState ? '#6AB0C8' : '#D8D0C0';
+  var knob = el.querySelector('div');
+  if (knob) knob.style.left = newState ? '18px' : '2px';
+}
+
+// ════ Engagement preference (onboarding) ════
+function selectEngagement(card, mode) {
+  // Visual reset of all cards
+  var all = document.querySelectorAll('.engagement-card');
+  all.forEach(function(c){
+    c.style.background = 'white';
+    c.style.borderColor = 'var(--border)';
+    var radio = c.querySelector('.engagement-radio');
+    if (radio) {
+      radio.style.borderColor = '#D8D0C0';
+      radio.innerHTML = '';
+    }
+  });
+  // Highlight selected
+  var colors = {
+    daily:       {bg:'#EEF6FB', border:'#3EA8CC', dot:'#3EA8CC'},
+    companion:   {bg:'#FFFBEF', border:'#C8A85A', dot:'#C8A85A'},
+    touchpoint:  {bg:'#F0F6F0', border:'#6E9B72', dot:'#6E9B72'}
+  };
+  var c = colors[mode];
+  card.style.background = c.bg;
+  card.style.borderColor = c.border;
+  var radio = card.querySelector('.engagement-radio');
+  if (radio) {
+    radio.style.borderColor = c.border;
+    radio.innerHTML = '<div style="width:10px;height:10px;border-radius:50%;background:'+c.dot+'"></div>';
+    radio.style.display = 'flex';
+    radio.style.alignItems = 'center';
+    radio.style.justifyContent = 'center';
+  }
 }
 
 // Initialize charts after DOM is ready
