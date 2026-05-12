@@ -5871,7 +5871,6 @@ body{background:var(--midnight);font-family:'DM Sans',sans-serif;display:flex;fl
   <div class="flow-chip" onclick="openDigestDesktop()" style="background:#1B3A6B;color:white">⛶ Resource Library Desktop</div>
   <div class="flow-chip" onclick="jumpTo('s-clinical-metrics','Clinical Metrics')">Clinical Metrics</div>
   <div class="flow-chip" onclick="jumpTo('s-insights','Patterns / Charts')">Patterns / Charts</div>
-  <div class="flow-chip" onclick="showIntro()" style="background:#FFFCF5;color:#1A2830;border:1px solid #1A2830">⌂ Intro screen</div>
 
   <!-- Account -->
   <div class="chip-label">Account</div>
@@ -5973,7 +5972,8 @@ function dismissIntro() {
   var fc = document.querySelector('.flow-chips');   if (fc) fc.style.display = '';
 }
 // Auto-show intro on page load
-window.addEventListener('DOMContentLoaded', function() { showIntro(); });
+// Intro overlay no longer auto-shows on load.
+// Available via the "⌂ Intro screen" dev chip when needed.
 
 // ════ Live Chart Engine (Patterns / Insights page) ════
 var chartState = {
