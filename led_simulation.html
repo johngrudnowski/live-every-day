@@ -3901,6 +3901,87 @@ body{background:var(--midnight);font-family:'DM Sans',sans-serif;display:flex;fl
       </div>
     </div>
 
+    <!-- MPN This Month — curated digest -->
+    <div style="background:white;border-radius:14px;border:1px solid var(--border);overflow:hidden">
+      <div style="background:#EEF4FB;padding:14px 16px;border-bottom:1px solid #C8D8EC;display:flex;align-items:flex-start;justify-content:space-between;gap:8px">
+        <div style="flex:1">
+          <div style="font-size:9.5px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#1B3A6B;margin-bottom:2px">MPN This Month · April 2026</div>
+          <div style="font-size:14px;font-weight:600;color:var(--midnight);line-height:1.2">A few things worth knowing this month</div>
+        </div>
+        <button onclick="openDigestDesktop()" title="Open desktop view" style="background:white;border:1px solid #C8D8EC;color:#1B3A6B;padding:5px 8px;border-radius:6px;font-size:10px;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:600;flex-shrink:0">⛶ Desktop</button>
+      </div>
+
+      <div style="padding:6px 0">
+
+        <!-- Card 1: Community pulse -->
+        <div style="display:flex;gap:12px;padding:12px 16px;border-bottom:1px solid var(--surface);cursor:pointer" onclick="alert('Opens full article in MPN RF community section')">
+          <div style="width:30px;height:30px;border-radius:50%;background:#FCEAE5;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:14px">💬</div>
+          <div style="flex:1;min-width:0">
+            <div style="font-size:9px;font-weight:700;letter-spacing:0.8px;text-transform:uppercase;color:#C87060;margin-bottom:3px">What patients are talking about</div>
+            <div style="font-size:13px;font-weight:600;color:var(--midnight);line-height:1.3;margin-bottom:3px">Explaining MPN fatigue to family who can't see it</div>
+            <div style="font-size:11px;color:var(--predawn);line-height:1.4">A common thread in recent support groups — patients sharing how they communicate invisible exhaustion to loved ones.</div>
+            <div style="font-size:10px;color:#1B3A6B;font-weight:600;margin-top:5px">MPN RF support groups · April 14</div>
+          </div>
+          <span style="font-size:13px;color:#2E6DA4;flex-shrink:0;align-self:center">›</span>
+        </div>
+
+        <!-- Card 2: Research -->
+        <div style="display:flex;gap:12px;padding:12px 16px;border-bottom:1px solid var(--surface);cursor:pointer" onclick="alert('Opens research summary')">
+          <div style="width:30px;height:30px;border-radius:50%;background:#E5F0F5;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:14px">🔬</div>
+          <div style="flex:1;min-width:0">
+            <div style="font-size:9px;font-weight:700;letter-spacing:0.8px;text-transform:uppercase;color:#2A6E85;margin-bottom:3px">Research worth knowing</div>
+            <div style="font-size:13px;font-weight:600;color:var(--midnight);line-height:1.3;margin-bottom:3px">Interferon for myelofibrosis — 2025 study challenges 'watch and wait'</div>
+            <div style="font-size:11px;color:var(--predawn);line-height:1.4">New evidence on early intervention for MF. What it means for current treatment conversations with your hematologist.</div>
+            <div style="font-size:10px;color:#1B3A6B;font-weight:600;margin-top:5px">Blood Journal · summarized by PV Reporter</div>
+          </div>
+          <span style="font-size:13px;color:#2E6DA4;flex-shrink:0;align-self:center">›</span>
+        </div>
+
+        <!-- Card 3: Upcoming -->
+        <div style="display:flex;gap:12px;padding:12px 16px;border-bottom:1px solid var(--surface);cursor:pointer" onclick="alert('Opens event registration')">
+          <div style="width:30px;height:30px;border-radius:50%;background:#FAEBD0;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:14px">📅</div>
+          <div style="flex:1;min-width:0">
+            <div style="font-size:9px;font-weight:700;letter-spacing:0.8px;text-transform:uppercase;color:#A08139;margin-bottom:3px">Coming up</div>
+            <div style="font-size:13px;font-weight:600;color:var(--midnight);line-height:1.3;margin-bottom:3px">Webinar: Understanding next-generation sequencing</div>
+            <div style="font-size:11px;color:var(--predawn);line-height:1.4">Dr. Ruben Mesa on what NGS results mean for your treatment path — and what questions to bring to your appointment.</div>
+            <div style="font-size:10px;color:#1B3A6B;font-weight:600;margin-top:5px">MPN RF webinar · Thursday May 16, 7pm ET</div>
+          </div>
+          <span style="font-size:13px;color:#2E6DA4;flex-shrink:0;align-self:center">›</span>
+        </div>
+
+        <!-- Card 4: Treatment & access -->
+        <div style="display:flex;gap:12px;padding:12px 16px;border-bottom:1px solid var(--surface);cursor:pointer" onclick="alert('Opens copay assistance info')">
+          <div style="width:30px;height:30px;border-radius:50%;background:#E0EBE0;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:14px">💊</div>
+          <div style="flex:1;min-width:0">
+            <div style="font-size:9px;font-weight:700;letter-spacing:0.8px;text-transform:uppercase;color:#6E9B72;margin-bottom:3px">Treatment & access</div>
+            <div style="font-size:13px;font-weight:600;color:var(--midnight);line-height:1.3;margin-bottom:3px">Updated copay assistance for ruxolitinib</div>
+            <div style="font-size:11px;color:var(--predawn);line-height:1.4">2026 program updates from manufacturer and LLS. Eligibility, how to apply, what's changed.</div>
+            <div style="font-size:10px;color:#1B3A6B;font-weight:600;margin-top:5px">MPN RF · LLS Co-pay Assistance Program</div>
+          </div>
+          <span style="font-size:13px;color:#2E6DA4;flex-shrink:0;align-self:center">›</span>
+        </div>
+
+        <!-- Card 5: Patient story -->
+        <div style="display:flex;gap:12px;padding:12px 16px;cursor:pointer" onclick="alert('Opens full patient story')">
+          <div style="width:30px;height:30px;border-radius:50%;background:#F5E8D8;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:14px">📖</div>
+          <div style="flex:1;min-width:0">
+            <div style="font-size:9px;font-weight:700;letter-spacing:0.8px;text-transform:uppercase;color:#A08139;margin-bottom:3px">From one of us</div>
+            <div style="font-size:13px;font-weight:600;color:var(--midnight);line-height:1.3;margin-bottom:3px">"I had no idea this was what fatigue meant"</div>
+            <div style="font-size:11px;color:var(--predawn);line-height:1.4">Ruth's 25-year journey with ET — what she'd tell her newly diagnosed self about advocating for care between appointments.</div>
+            <div style="font-size:10px;color:#1B3A6B;font-weight:600;margin-top:5px">Patient Power · patient story</div>
+          </div>
+          <span style="font-size:13px;color:#2E6DA4;flex-shrink:0;align-self:center">›</span>
+        </div>
+
+      </div>
+
+      <!-- Footer note -->
+      <div style="padding:10px 16px;background:#FAF7F0;border-top:1px solid var(--surface);display:flex;align-items:center;justify-content:space-between;font-size:10px;color:var(--predawn)">
+        <span>Curated monthly by MPN Research Foundation</span>
+        <span style="color:#1B3A6B;font-weight:600;cursor:pointer">Archive →</span>
+      </div>
+    </div>
+
     <!-- Connect with MPN RF -->
     <div style="background:white;border-radius:14px;border:1px solid var(--border);overflow:hidden">
       <div style="background:#EEF4FB;padding:12px 16px;border-bottom:1px solid #C8D8EC">
@@ -3930,6 +4011,221 @@ body{background:var(--midnight);font-family:'DM Sans',sans-serif;display:flex;fl
     </div>
 
     <div style="height:8px"></div>
+  </div>
+</div>
+
+<!-- ══ Clinical Metrics (Advanced manual tracking) ══ -->
+<div class="sim-screen" id="s-clinical-metrics">
+  <div style="background:var(--midnight);padding:14px 20px 0;flex-shrink:0">
+    <div style="display:flex;align-items:center;justify-content:space-between;height:44px">
+      <button onclick="go('s-dashboard')" style="background:none;border:none;color:var(--midday);font-size:16px;cursor:pointer">‹ Home</button>
+      <span style="font-size:14px;font-weight:600;color:white">Clinical Metrics</span>
+      <span style="width:48px"></span>
+    </div>
+  </div>
+  <div style="padding:16px 16px 20px;overflow-y:auto;flex:1;display:flex;flex-direction:column;gap:14px;background:var(--canvas)">
+
+    <!-- Intro -->
+    <div>
+      <div style="font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--predawn);margin-bottom:4px">Track what your doctor tracks</div>
+      <div style="font-family:'Raleway',serif;font-weight:300;font-size:22px;color:var(--midnight);line-height:1.2;margin-bottom:6px">Clinical metrics</div>
+      <div style="font-size:12px;color:var(--predawn);line-height:1.5">Optional measurements that hematologists use to track MPN over time. Activated for you by Dr. Wolanskyj-Spinner.</div>
+    </div>
+
+    <!-- Spleen size -->
+    <div style="background:white;border:1px solid var(--border);border-radius:12px;padding:14px 16px">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px">
+        <div style="flex:1">
+          <div style="font-size:10px;font-weight:700;letter-spacing:0.8px;text-transform:uppercase;color:#2A6E85;margin-bottom:2px">Spleen size</div>
+          <div style="font-size:14px;font-weight:600;color:var(--midnight)">cm below costal margin</div>
+          <div style="font-size:11px;color:var(--predawn);margin-top:2px">Palpation or ultrasound</div>
+        </div>
+        <div style="text-align:right">
+          <div style="font-size:22px;font-weight:600;color:var(--midnight);line-height:1">4 <span style="font-size:11px;font-weight:400;color:var(--predawn)">cm</span></div>
+          <div style="font-size:10px;color:#C87060;font-weight:600;margin-top:2px">↑ from 2 cm</div>
+        </div>
+      </div>
+      <!-- Mini trend -->
+      <div style="display:flex;align-items:flex-end;gap:6px;height:32px;margin-bottom:8px">
+        <div style="flex:1;height:35%;background:#BDD0DC;border-radius:2px"></div>
+        <div style="flex:1;height:40%;background:#BDD0DC;border-radius:2px"></div>
+        <div style="flex:1;height:45%;background:#BDD0DC;border-radius:2px"></div>
+        <div style="flex:1;height:60%;background:#E5C9A1;border-radius:2px"></div>
+        <div style="flex:1;height:75%;background:#D88B7A;border-radius:2px"></div>
+        <div style="flex:1;height:100%;background:#C87060;border-radius:2px"></div>
+      </div>
+      <div style="display:flex;justify-content:space-between;font-size:9px;color:var(--predawn)">
+        <span>Oct</span><span>Nov</span><span>Dec</span><span>Jan</span><span>Feb</span><span>Mar</span>
+      </div>
+      <div style="margin-top:10px;display:flex;gap:6px">
+        <button style="flex:1;background:var(--midnight);color:white;border:none;padding:8px;border-radius:7px;font-size:11px;font-weight:600;cursor:pointer">+ Log measurement</button>
+        <button style="background:var(--surface);color:var(--midnight);border:none;padding:8px 10px;border-radius:7px;font-size:11px;font-weight:600;cursor:pointer">History</button>
+      </div>
+    </div>
+
+    <!-- VAF -->
+    <div style="background:white;border:1px solid var(--border);border-radius:12px;padding:14px 16px">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px">
+        <div style="flex:1">
+          <div style="font-size:10px;font-weight:700;letter-spacing:0.8px;text-transform:uppercase;color:#2A6E85;margin-bottom:2px">JAK2 V617F · Allele burden</div>
+          <div style="font-size:14px;font-weight:600;color:var(--midnight)">Variant Allele Frequency</div>
+          <div style="font-size:11px;color:var(--predawn);margin-top:2px">From NGS panel · Quest Diagnostics</div>
+        </div>
+        <div style="text-align:right">
+          <div style="font-size:22px;font-weight:600;color:var(--midnight);line-height:1">42<span style="font-size:14px">%</span></div>
+          <div style="font-size:10px;color:#C87060;font-weight:600;margin-top:2px">↑ from 31%</div>
+        </div>
+      </div>
+      <!-- Mini line trend -->
+      <svg viewBox="0 0 290 50" width="100%" height="40" style="margin-bottom:4px">
+        <polyline points="10,40 70,35 130,30 190,22 250,12 280,5" stroke="#3EA8CC" stroke-width="2.5" fill="none"/>
+        <circle cx="10" cy="40" r="3" fill="#3EA8CC"/>
+        <circle cx="70" cy="35" r="3" fill="#3EA8CC"/>
+        <circle cx="130" cy="30" r="3" fill="#3EA8CC"/>
+        <circle cx="190" cy="22" r="3" fill="#3EA8CC"/>
+        <circle cx="250" cy="12" r="3" fill="#3EA8CC"/>
+        <circle cx="280" cy="5" r="4" fill="#C87060"/>
+      </svg>
+      <div style="display:flex;justify-content:space-between;font-size:9px;color:var(--predawn);margin-bottom:10px">
+        <span>2022</span><span>'23</span><span>'24</span><span>Q3</span><span>Q1</span><span>Now</span>
+      </div>
+      <button style="width:100%;background:var(--surface);color:var(--midnight);border:none;padding:8px;border-radius:7px;font-size:11px;font-weight:600;cursor:pointer">+ Add result from lab</button>
+    </div>
+
+    <!-- Phlebotomy log -->
+    <div style="background:white;border:1px solid var(--border);border-radius:12px;padding:14px 16px">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px">
+        <div style="flex:1">
+          <div style="font-size:10px;font-weight:700;letter-spacing:0.8px;text-transform:uppercase;color:#A0394A;margin-bottom:2px">Phlebotomy log</div>
+          <div style="font-size:14px;font-weight:600;color:var(--midnight)">Treatment count</div>
+          <div style="font-size:11px;color:var(--predawn);margin-top:2px">For PV management</div>
+        </div>
+        <div style="text-align:right">
+          <div style="font-size:22px;font-weight:600;color:var(--midnight);line-height:1">8</div>
+          <div style="font-size:10px;color:var(--predawn);margin-top:2px">in last 12 mo</div>
+        </div>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:10px">
+        <span style="background:#FCEAE5;color:#A0394A;font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px">Apr 8</span>
+        <span style="background:#FCEAE5;color:#A0394A;font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px">Mar 11</span>
+        <span style="background:#FCEAE5;color:#A0394A;font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px">Feb 4</span>
+        <span style="background:#FCEAE5;color:#A0394A;font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px">Jan 14</span>
+        <span style="background:var(--surface);color:var(--predawn);font-size:10px;font-weight:500;padding:3px 8px;border-radius:10px">+4 earlier</span>
+      </div>
+      <button style="width:100%;background:var(--surface);color:var(--midnight);border:none;padding:8px;border-radius:7px;font-size:11px;font-weight:600;cursor:pointer">+ Log phlebotomy</button>
+    </div>
+
+    <!-- Available to enable -->
+    <div style="background:white;border:1px solid var(--border);border-radius:12px;overflow:hidden">
+      <div style="padding:10px 14px;background:var(--surface);font-size:10px;font-weight:700;letter-spacing:0.8px;text-transform:uppercase;color:var(--predawn)">Available to enable</div>
+      <div style="padding:8px 0">
+        <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;border-bottom:1px solid var(--surface);cursor:pointer">
+          <span style="font-size:14px">📐</span>
+          <div style="flex:1"><div style="font-size:12px;font-weight:600;color:var(--midnight)">Liver size</div><div style="font-size:10px;color:var(--predawn)">Palpation, cm below costal margin</div></div>
+          <button style="background:var(--midday);color:white;border:none;padding:5px 10px;border-radius:5px;font-size:10px;font-weight:600">Enable</button>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;border-bottom:1px solid var(--surface);cursor:pointer">
+          <span style="font-size:14px">💉</span>
+          <div style="flex:1"><div style="font-size:12px;font-weight:600;color:var(--midnight)">Transfusion log</div><div style="font-size:10px;color:var(--predawn)">Units, date, response</div></div>
+          <button style="background:var(--midday);color:white;border:none;padding:5px 10px;border-radius:5px;font-size:10px;font-weight:600">Enable</button>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;border-bottom:1px solid var(--surface);cursor:pointer">
+          <span style="font-size:14px">🩸</span>
+          <div style="flex:1"><div style="font-size:12px;font-weight:600;color:var(--midnight)">Clot or bleed events</div><div style="font-size:10px;color:var(--predawn)">Date, type, action taken</div></div>
+          <button style="background:var(--midday);color:white;border:none;padding:5px 10px;border-radius:5px;font-size:10px;font-weight:600">Enable</button>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;cursor:pointer">
+          <span style="font-size:14px">＋</span>
+          <div style="flex:1"><div style="font-size:12px;font-weight:600;color:var(--midnight)">Custom metric</div><div style="font-size:10px;color:var(--predawn)">Add a field your team wants tracked</div></div>
+          <button style="background:var(--surface);color:var(--midnight);border:none;padding:5px 10px;border-radius:5px;font-size:10px;font-weight:600">Add</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer note -->
+    <div style="font-size:10px;color:var(--predawn);text-align:center;padding:4px 0 8px;font-style:italic">
+      Clinical metrics are optional. Your care team can request which ones to track.
+    </div>
+  </div>
+</div>
+
+<!-- ══ Insights / Overlay Charts ══ -->
+<div class="sim-screen" id="s-insights">
+  <div style="background:var(--midnight);padding:14px 20px 0;flex-shrink:0">
+    <div style="display:flex;align-items:center;justify-content:space-between;height:44px">
+      <button onclick="go('s-dashboard')" style="background:none;border:none;color:var(--midday);font-size:16px;cursor:pointer">‹ Home</button>
+      <span style="font-size:14px;font-weight:600;color:white">Patterns</span>
+      <span style="width:48px"></span>
+    </div>
+  </div>
+  <div style="padding:16px 16px 20px;overflow-y:auto;flex:1;display:flex;flex-direction:column;gap:14px;background:var(--canvas)">
+
+    <!-- Intro -->
+    <div>
+      <div style="font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--predawn);margin-bottom:4px">What your data is telling us</div>
+      <div style="font-family:'Raleway',serif;font-weight:300;font-size:22px;color:var(--midnight);line-height:1.2;margin-bottom:6px">Patterns we've found</div>
+      <div style="font-size:12px;color:var(--predawn);line-height:1.5">Your data overlaid to show relationships, not just levels. These patterns inform what's in your doctor brief.</div>
+    </div>
+
+    <!-- Chart 1: Sleep vs Fatigue (LIVE) -->
+    <div style="background:white;border:1px solid var(--border);border-radius:12px;padding:14px 16px">
+      <div style="font-size:10px;font-weight:700;letter-spacing:0.8px;text-transform:uppercase;color:#2A6E85;margin-bottom:4px">Pattern · Sleep predicts fatigue</div>
+      <div style="font-size:14px;font-weight:600;color:var(--midnight);line-height:1.3;margin-bottom:8px">When your deep sleep drops, fatigue rises within 1-2 days.</div>
+      <div style="display:flex;gap:14px;margin-bottom:4px;font-size:10px">
+        <div style="display:flex;align-items:center;gap:5px"><div style="width:12px;height:2.5px;background:#3EA8CC"></div><span style="color:var(--predawn)">Deep sleep (min)</span></div>
+        <div style="display:flex;align-items:center;gap:5px"><div style="width:12px;height:2.5px;background:#C87060"></div><span style="color:var(--predawn)">Fatigue (0–10)</span></div>
+      </div>
+      <div id="chart-sleepfatigue"></div>
+      <div style="display:flex;gap:5px;margin-top:8px">
+        <button onclick="removePoint('sleepfatigue')" style="flex:1;background:var(--surface);border:none;padding:8px 4px;border-radius:6px;font-size:10.5px;font-weight:600;color:var(--midnight);cursor:pointer">← Remove</button>
+        <button onclick="addPoint('sleepfatigue','good')" style="flex:1.2;background:#E0EBE0;border:none;padding:8px 4px;border-radius:6px;font-size:10.5px;font-weight:600;color:#3F6B43;cursor:pointer">+ Good month</button>
+        <button onclick="addPoint('sleepfatigue','bad')" style="flex:1.2;background:#FCEAE5;border:none;padding:8px 4px;border-radius:6px;font-size:10.5px;font-weight:600;color:#A0394A;cursor:pointer">+ Bad month</button>
+        <button onclick="resetChart('sleepfatigue')" style="background:var(--surface);border:none;padding:8px 10px;border-radius:6px;font-size:12px;font-weight:600;color:var(--midnight);cursor:pointer">↺</button>
+      </div>
+      <div style="font-size:11px;color:var(--predawn);line-height:1.5;margin-top:8px;padding-top:8px;border-top:1px solid var(--surface)"><strong style="color:var(--midnight)">Try it:</strong> Add a good month or two — see how the lines respond. The relationship holds either way.</div>
+    </div>
+
+    <!-- Chart 2: Platelets vs MPN-10 (LIVE) -->
+    <div style="background:white;border:1px solid var(--border);border-radius:12px;padding:14px 16px">
+      <div style="font-size:10px;font-weight:700;letter-spacing:0.8px;text-transform:uppercase;color:#A0394A;margin-bottom:4px">Pattern · Platelets and symptoms move together</div>
+      <div style="font-size:14px;font-weight:600;color:var(--midnight);line-height:1.3;margin-bottom:8px">As your platelets have risen, your MPN-10 score has risen with them.</div>
+      <div style="display:flex;gap:14px;margin-bottom:4px;font-size:10px">
+        <div style="display:flex;align-items:center;gap:5px"><div style="width:12px;height:8px;background:#C8A85A"></div><span style="color:var(--predawn)">Platelets (×10³)</span></div>
+        <div style="display:flex;align-items:center;gap:5px"><div style="width:12px;height:2.5px;background:#C87060"></div><span style="color:var(--predawn)">MPN-10 score</span></div>
+      </div>
+      <div id="chart-plateletsymptoms"></div>
+      <div style="display:flex;gap:5px;margin-top:8px">
+        <button onclick="removePoint('plateletsymptoms')" style="flex:1;background:var(--surface);border:none;padding:8px 4px;border-radius:6px;font-size:10.5px;font-weight:600;color:var(--midnight);cursor:pointer">← Remove</button>
+        <button onclick="addPoint('plateletsymptoms','good')" style="flex:1.2;background:#E0EBE0;border:none;padding:8px 4px;border-radius:6px;font-size:10.5px;font-weight:600;color:#3F6B43;cursor:pointer">+ Treatment working</button>
+        <button onclick="addPoint('plateletsymptoms','bad')" style="flex:1.2;background:#FCEAE5;border:none;padding:8px 4px;border-radius:6px;font-size:10.5px;font-weight:600;color:#A0394A;cursor:pointer">+ Worsening</button>
+        <button onclick="resetChart('plateletsymptoms')" style="background:var(--surface);border:none;padding:8px 10px;border-radius:6px;font-size:12px;font-weight:600;color:var(--midnight);cursor:pointer">↺</button>
+      </div>
+      <div style="font-size:11px;color:var(--predawn);line-height:1.5;margin-top:8px;padding-top:8px;border-top:1px solid var(--surface)"><strong style="color:var(--midnight)">Try it:</strong> Add a "treatment working" month to see both lines drop together — the relationship is visible in both directions.</div>
+    </div>
+
+    <!-- Chart 3: VAF + Spleen (LIVE) -->
+    <div style="background:white;border:1px solid var(--border);border-radius:12px;padding:14px 16px">
+      <div style="font-size:10px;font-weight:700;letter-spacing:0.8px;text-transform:uppercase;color:#6E9B72;margin-bottom:4px">Pattern · Clinical disease markers</div>
+      <div style="font-size:14px;font-weight:600;color:var(--midnight);line-height:1.3;margin-bottom:8px">JAK2 allele burden and spleen size are rising in parallel — a progression signal.</div>
+      <div style="display:flex;gap:14px;margin-bottom:4px;font-size:10px;flex-wrap:wrap">
+        <div style="display:flex;align-items:center;gap:5px"><div style="width:12px;height:2.5px;background:#3EA8CC"></div><span style="color:var(--predawn)">VAF (%)</span></div>
+        <div style="display:flex;align-items:center;gap:5px"><div style="width:12px;height:2.5px;background:#A0394A"></div><span style="color:var(--predawn)">Spleen (cm)</span></div>
+      </div>
+      <div id="chart-vafspleen"></div>
+      <div style="display:flex;gap:5px;margin-top:8px">
+        <button onclick="removePoint('vafspleen')" style="flex:1;background:var(--surface);border:none;padding:8px 4px;border-radius:6px;font-size:10.5px;font-weight:600;color:var(--midnight);cursor:pointer">← Remove</button>
+        <button onclick="addPoint('vafspleen','good')" style="flex:1.2;background:#E0EBE0;border:none;padding:8px 4px;border-radius:6px;font-size:10.5px;font-weight:600;color:#3F6B43;cursor:pointer">+ Stable year</button>
+        <button onclick="addPoint('vafspleen','bad')" style="flex:1.2;background:#FCEAE5;border:none;padding:8px 4px;border-radius:6px;font-size:10.5px;font-weight:600;color:#A0394A;cursor:pointer">+ Progression</button>
+        <button onclick="resetChart('vafspleen')" style="background:var(--surface);border:none;padding:8px 10px;border-radius:6px;font-size:12px;font-weight:600;color:var(--midnight);cursor:pointer">↺</button>
+      </div>
+      <div style="font-size:11px;color:var(--predawn);line-height:1.5;margin-top:8px;padding-top:8px;border-top:1px solid var(--surface)"><strong style="color:var(--midnight)">Try it:</strong> Add a year of progression to see how the doctor would catch it. Two independent markers moving together is the signal.</div>
+    </div>
+
+    <!-- More patterns coming -->
+    <div style="background:var(--surface);border-radius:12px;padding:14px 16px;text-align:center">
+      <div style="font-size:12px;font-weight:600;color:var(--midnight);margin-bottom:3px">More patterns appear as you log more data</div>
+      <div style="font-size:11px;color:var(--predawn);line-height:1.5">Activity vs brain fog · Weather vs itching · HRV vs symptom load · and more</div>
+    </div>
   </div>
 </div>
 
@@ -5322,6 +5618,195 @@ body{background:var(--midnight);font-family:'DM Sans',sans-serif;display:flex;fl
 @keyframes introFadeUp { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
 </style>
 
+<!-- ════ DESKTOP DIGEST (MPN This Month) ════ -->
+<div id="desktop-digest" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:#0A1218;z-index:1000;overflow-y:auto;padding:24px;font-family:'DM Sans',sans-serif">
+  <div style="max-width:1400px;margin:0 auto;background:#FFFCF5;border-radius:14px;overflow:hidden;box-shadow:0 24px 80px rgba(0,0,0,0.5)">
+
+    <!-- Header band -->
+    <div style="background:#1B3A6B;padding:18px 28px;display:flex;align-items:center;justify-content:space-between;color:white">
+      <div style="display:flex;align-items:center;gap:16px">
+        <svg width="26" height="26" viewBox="-26 -26 52 52" style="flex-shrink:0">
+          <circle cx="0.00"   cy="-21.00" r="3.85" fill="#3EA8CC"/>
+          <circle cx="10.50"  cy="-18.19" r="3.10" fill="#78A0B8"/>
+          <circle cx="18.19"  cy="-10.50" r="3.10" fill="#A89478"/>
+          <circle cx="21.00"  cy="0.00"   r="3.85" fill="#C89858"/>
+          <circle cx="18.19"  cy="10.50"  r="3.10" fill="#303840"/>
+          <circle cx="10.50"  cy="18.19"  r="3.10" fill="#303840"/>
+          <circle cx="0.00"   cy="21.00"  r="3.85" fill="#1A2830"/>
+          <circle cx="-10.50" cy="18.19"  r="3.10" fill="#303840"/>
+          <circle cx="-18.19" cy="10.50"  r="3.10" fill="#506878"/>
+          <circle cx="-21.00" cy="0.00"   r="3.85" fill="#E8CC70"/>
+          <circle cx="-18.19" cy="-10.50" r="3.10" fill="#F0E090"/>
+          <circle cx="-10.50" cy="-18.19" r="3.10" fill="#88B0C0"/>
+        </svg>
+        <div style="font-family:'Raleway',serif;font-weight:200;font-size:20px;letter-spacing:0.3px">Live <span style="color:#E8CC70">Every</span> Day</div>
+        <span style="color:rgba(255,255,255,0.4);font-size:14px;margin-left:4px">· Resource Library</span>
+      </div>
+      <button onclick="closeDigestDesktop()" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.2);color:white;padding:7px 14px;border-radius:8px;font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif">← Back to mobile</button>
+    </div>
+
+    <!-- Title banner -->
+    <div style="background:linear-gradient(180deg,#EEF4FB 0%,#FFFCF5 100%);padding:32px 32px 28px;border-bottom:1px solid #C8D8EC">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:32px">
+        <div style="flex:1">
+          <div style="font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#1B3A6B;margin-bottom:8px">MPN This Month · April 2026</div>
+          <div style="font-family:'Raleway',serif;font-weight:300;font-size:34px;color:#1A2830;line-height:1.1;margin-bottom:10px">A few things worth knowing this month.</div>
+          <div style="font-size:14px;color:#506878;line-height:1.5;max-width:680px">Curated by the MPN Research Foundation. Five things from the community, the research, and the path ahead — refreshed monthly.</div>
+        </div>
+        <div style="background:white;border:1px solid #C8D8EC;border-radius:10px;padding:14px 18px;flex-shrink:0">
+          <div style="font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:#1B3A6B;margin-bottom:4px">Next refresh</div>
+          <div style="font-size:16px;font-weight:600;color:#1A2830">May 1, 2026</div>
+          <div style="font-size:11px;color:#506878;margin-top:2px">17 days</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Find a support group -->
+    <div style="padding:24px 32px 0">
+      <div style="background:#1B3A6B;border-radius:12px;padding:24px 28px;color:white;display:flex;align-items:center;gap:32px">
+        <div style="flex:1">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px">
+            <div style="width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,0.12);display:flex;align-items:center;justify-content:center;font-size:18px">🤝</div>
+            <div>
+              <div style="font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#A8C8E8">Connect with others living with MPN</div>
+              <div style="font-family:'Raleway',serif;font-weight:400;font-size:22px;color:white;line-height:1.2;margin-top:2px">Find a support group</div>
+            </div>
+          </div>
+          <div style="font-size:13px;color:rgba(255,255,255,0.75);line-height:1.5;max-width:620px;margin-left:50px">Weekly virtual groups facilitated by trained MPN patients and the foundation team. Free to join. Drop in once or come every week — whatever helps.</div>
+        </div>
+        <button onclick="alert('Opens MPN RF support group directory')" style="background:#E8CC70;color:#1A2830;border:none;padding:12px 22px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;flex-shrink:0">Browse all groups →</button>
+      </div>
+
+      <!-- Group type chips -->
+      <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:14px">
+        <div onclick="alert('Opens ET support group details')" style="background:white;border:1px solid #C8D8EC;border-radius:10px;padding:12px 14px;cursor:pointer;transition:transform 0.15s,box-shadow 0.15s" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 6px 18px rgba(0,0,0,0.08)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+          <div style="font-size:10px;font-weight:700;letter-spacing:0.8px;text-transform:uppercase;color:#1B3A6B;margin-bottom:4px">ET Group</div>
+          <div style="font-size:12px;color:#1A2830;font-weight:600;line-height:1.3">Essential thrombocythemia</div>
+          <div style="font-size:11px;color:#506878;margin-top:6px">Thu · 7pm ET</div>
+        </div>
+        <div onclick="alert('Opens PV support group details')" style="background:white;border:1px solid #C8D8EC;border-radius:10px;padding:12px 14px;cursor:pointer;transition:transform 0.15s,box-shadow 0.15s" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 6px 18px rgba(0,0,0,0.08)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+          <div style="font-size:10px;font-weight:700;letter-spacing:0.8px;text-transform:uppercase;color:#1B3A6B;margin-bottom:4px">PV Group</div>
+          <div style="font-size:12px;color:#1A2830;font-weight:600;line-height:1.3">Polycythemia vera</div>
+          <div style="font-size:11px;color:#506878;margin-top:6px">Tue · 6pm ET</div>
+        </div>
+        <div onclick="alert('Opens MF support group details')" style="background:white;border:1px solid #C8D8EC;border-radius:10px;padding:12px 14px;cursor:pointer;transition:transform 0.15s,box-shadow 0.15s" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 6px 18px rgba(0,0,0,0.08)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+          <div style="font-size:10px;font-weight:700;letter-spacing:0.8px;text-transform:uppercase;color:#1B3A6B;margin-bottom:4px">MF Group</div>
+          <div style="font-size:12px;color:#1A2830;font-weight:600;line-height:1.3">Myelofibrosis</div>
+          <div style="font-size:11px;color:#506878;margin-top:6px">Wed · 7pm ET</div>
+        </div>
+        <div onclick="alert('Opens caregivers group details')" style="background:white;border:1px solid #C8D8EC;border-radius:10px;padding:12px 14px;cursor:pointer;transition:transform 0.15s,box-shadow 0.15s" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 6px 18px rgba(0,0,0,0.08)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+          <div style="font-size:10px;font-weight:700;letter-spacing:0.8px;text-transform:uppercase;color:#1B3A6B;margin-bottom:4px">Caregivers</div>
+          <div style="font-size:12px;color:#1A2830;font-weight:600;line-height:1.3">For partners & family</div>
+          <div style="font-size:11px;color:#506878;margin-top:6px">Mon · 8pm ET</div>
+        </div>
+        <div onclick="alert('Opens newly diagnosed group details')" style="background:white;border:1px solid #C8D8EC;border-radius:10px;padding:12px 14px;cursor:pointer;transition:transform 0.15s,box-shadow 0.15s" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 6px 18px rgba(0,0,0,0.08)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+          <div style="font-size:10px;font-weight:700;letter-spacing:0.8px;text-transform:uppercase;color:#1B3A6B;margin-bottom:4px">Newly Diagnosed</div>
+          <div style="font-size:12px;color:#1A2830;font-weight:600;line-height:1.3">First 12 months</div>
+          <div style="font-size:11px;color:#506878;margin-top:6px">Fri · 6pm ET</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cards grid -->
+    <div style="padding:24px 32px 32px">
+
+      <!-- Featured card (first one full-width) -->
+      <div onclick="alert('Opens full article in MPN RF community section')" style="background:#FCEFEA;border-left:4px solid #C87060;border-radius:10px;padding:22px 26px;display:flex;gap:20px;align-items:flex-start;margin-bottom:20px;cursor:pointer;transition:transform 0.15s,box-shadow 0.15s" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 24px rgba(0,0,0,0.08)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+        <div style="width:48px;height:48px;border-radius:50%;background:#FCEAE5;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:22px">💬</div>
+        <div style="flex:1">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">
+            <span style="font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#A0394A">What patients are talking about</span>
+            <span style="background:#C87060;color:white;font-size:9px;font-weight:700;padding:2px 7px;border-radius:9px;letter-spacing:0.5px">FEATURED</span>
+          </div>
+          <div style="font-family:'Raleway',serif;font-weight:400;font-size:22px;color:#1A2830;line-height:1.2;margin-bottom:8px">Explaining MPN fatigue to family who can't see it</div>
+          <div style="font-size:13.5px;color:#303840;line-height:1.5;margin-bottom:10px;max-width:780px">A common thread in recent support groups: how patients communicate invisible exhaustion to loved ones who see them "looking fine." Practical scripts, analogies, and ways to talk about it without feeling like a complaint.</div>
+          <div style="display:flex;align-items:center;gap:14px;font-size:11px;color:#506878">
+            <span style="color:#1B3A6B;font-weight:600">MPN RF support groups · April 14</span>
+            <span>5 min read</span>
+            <span>·</span>
+            <span style="color:#C87060;font-weight:600">Read article →</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2x2 grid for remaining 4 cards -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+
+        <!-- Card 2: Research -->
+        <div onclick="alert('Opens research summary')" style="background:white;border:1px solid #C8D8EC;border-radius:10px;padding:20px 22px;cursor:pointer;transition:transform 0.15s,box-shadow 0.15s" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 24px rgba(0,0,0,0.08)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
+            <div style="width:42px;height:42px;border-radius:50%;background:#E5F0F5;display:flex;align-items:center;justify-content:center;font-size:19px">🔬</div>
+            <div style="font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#2A6E85">Research worth knowing</div>
+          </div>
+          <div style="font-family:'Raleway',serif;font-weight:400;font-size:17px;color:#1A2830;line-height:1.25;margin-bottom:8px">Interferon for myelofibrosis: 2025 study challenges "watch and wait"</div>
+          <div style="font-size:12.5px;color:#506878;line-height:1.5;margin-bottom:12px">New evidence on early intervention for MF. What it means for current treatment conversations with your hematologist.</div>
+          <div style="display:flex;align-items:center;justify-content:space-between;font-size:11px;color:#506878">
+            <span style="color:#1B3A6B;font-weight:600">Blood Journal · PV Reporter</span>
+            <span style="color:#2A6E85;font-weight:600">Read →</span>
+          </div>
+        </div>
+
+        <!-- Card 3: Upcoming -->
+        <div onclick="alert('Opens event registration')" style="background:white;border:1px solid #C8D8EC;border-radius:10px;padding:20px 22px;cursor:pointer;transition:transform 0.15s,box-shadow 0.15s" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 24px rgba(0,0,0,0.08)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
+            <div style="width:42px;height:42px;border-radius:50%;background:#FAEBD0;display:flex;align-items:center;justify-content:center;font-size:19px">📅</div>
+            <div style="font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#A08139">Coming up</div>
+          </div>
+          <div style="font-family:'Raleway',serif;font-weight:400;font-size:17px;color:#1A2830;line-height:1.25;margin-bottom:8px">Webinar: Understanding next-generation sequencing</div>
+          <div style="font-size:12.5px;color:#506878;line-height:1.5;margin-bottom:12px">Dr. Ruben Mesa on what NGS results mean for your treatment path — and what questions to bring to your appointment.</div>
+          <div style="display:flex;align-items:center;justify-content:space-between;font-size:11px;color:#506878">
+            <span style="color:#1B3A6B;font-weight:600">Thu May 16 · 7pm ET</span>
+            <span style="color:#A08139;font-weight:600">Register →</span>
+          </div>
+        </div>
+
+        <!-- Card 4: Treatment & access -->
+        <div onclick="alert('Opens copay assistance info')" style="background:white;border:1px solid #C8D8EC;border-radius:10px;padding:20px 22px;cursor:pointer;transition:transform 0.15s,box-shadow 0.15s" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 24px rgba(0,0,0,0.08)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
+            <div style="width:42px;height:42px;border-radius:50%;background:#E0EBE0;display:flex;align-items:center;justify-content:center;font-size:19px">💊</div>
+            <div style="font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#6E9B72">Treatment & access</div>
+          </div>
+          <div style="font-family:'Raleway',serif;font-weight:400;font-size:17px;color:#1A2830;line-height:1.25;margin-bottom:8px">Updated copay assistance for ruxolitinib</div>
+          <div style="font-size:12.5px;color:#506878;line-height:1.5;margin-bottom:12px">2026 program updates from manufacturer and LLS. Eligibility, how to apply, what's changed.</div>
+          <div style="display:flex;align-items:center;justify-content:space-between;font-size:11px;color:#506878">
+            <span style="color:#1B3A6B;font-weight:600">MPN RF · LLS Co-pay Assistance</span>
+            <span style="color:#6E9B72;font-weight:600">Read →</span>
+          </div>
+        </div>
+
+        <!-- Card 5: Patient story -->
+        <div onclick="alert('Opens full patient story')" style="background:white;border:1px solid #C8D8EC;border-radius:10px;padding:20px 22px;cursor:pointer;transition:transform 0.15s,box-shadow 0.15s" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 24px rgba(0,0,0,0.08)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
+            <div style="width:42px;height:42px;border-radius:50%;background:#F5E8D8;display:flex;align-items:center;justify-content:center;font-size:19px">📖</div>
+            <div style="font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#A08139">From one of us</div>
+          </div>
+          <div style="font-family:'Raleway',serif;font-weight:400;font-size:17px;color:#1A2830;line-height:1.25;margin-bottom:8px">"I had no idea this was what fatigue meant"</div>
+          <div style="font-size:12.5px;color:#506878;line-height:1.5;margin-bottom:12px">Ruth's 25-year journey with ET — what she'd tell her newly diagnosed self about advocating for care between appointments.</div>
+          <div style="display:flex;align-items:center;justify-content:space-between;font-size:11px;color:#506878">
+            <span style="color:#1B3A6B;font-weight:600">Patient Power · patient story</span>
+            <span style="color:#A08139;font-weight:600">Read →</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Footer attribution -->
+      <div style="margin-top:28px;padding:18px 22px;background:#FAF7F0;border:1px solid #E0DCCF;border-radius:10px;display:flex;align-items:center;justify-content:space-between">
+        <div>
+          <div style="font-size:12px;font-weight:600;color:#1A2830;margin-bottom:2px">Curated monthly by the MPN Research Foundation</div>
+          <div style="font-size:11px;color:#506878">Editorial: Sara Douglas · Approved by MPN RF leadership · Sources verified</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:14px">
+          <a href="#" onclick="event.preventDefault();alert('Opens archive of past months')" style="color:#1B3A6B;text-decoration:none;font-weight:600;font-size:13px">Archive →</a>
+          <a href="#" onclick="event.preventDefault();alert('Subscribe to monthly email digest')" style="background:#1B3A6B;color:white;text-decoration:none;font-weight:600;font-size:13px;padding:8px 14px;border-radius:7px">Subscribe to monthly →</a>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
 <div class="nav-hint">Jump to any screen:</div>
 <div class="flow-chips">
 
@@ -5383,6 +5868,9 @@ body{background:var(--midnight);font-family:'DM Sans',sans-serif;display:flex;fl
   <div class="flow-chip" onclick="jumpTo('s-my-one','My #1 View')">My #1 view</div>
   <div class="flow-chip" onclick="jumpTo('s-care-team','Care Team Dashboard')">Care Team dashboard</div>
   <div class="flow-chip" onclick="openDesktop()" style="background:#1A2830;color:white">⛶ Care Team Desktop</div>
+  <div class="flow-chip" onclick="openDigestDesktop()" style="background:#1B3A6B;color:white">⛶ Resource Library Desktop</div>
+  <div class="flow-chip" onclick="jumpTo('s-clinical-metrics','Clinical Metrics')">Clinical Metrics</div>
+  <div class="flow-chip" onclick="jumpTo('s-insights','Patterns / Charts')">Patterns / Charts</div>
   <div class="flow-chip" onclick="showIntro()" style="background:#FFFCF5;color:#1A2830;border:1px solid #1A2830">⌂ Intro screen</div>
 
   <!-- Account -->
@@ -5486,6 +5974,203 @@ function dismissIntro() {
 }
 // Auto-show intro on page load
 window.addEventListener('DOMContentLoaded', function() { showIntro(); });
+
+// ════ Live Chart Engine (Patterns / Insights page) ════
+var chartState = {
+  sleepfatigue: {
+    initial: [
+      {label:'Oct', sleep:78, fatigue:4},
+      {label:'Nov', sleep:70, fatigue:5},
+      {label:'Dec', sleep:62, fatigue:5.5},
+      {label:'Jan', sleep:54, fatigue:6.5},
+      {label:'Feb', sleep:46, fatigue:7.5},
+      {label:'Mar', sleep:40, fatigue:8}
+    ],
+    points: null,
+    series: [
+      {key:'sleep', color:'#3EA8CC', min:30, max:90, unit:'m', type:'line'},
+      {key:'fatigue', color:'#C87060', min:0, max:10, unit:'', type:'line'}
+    ]
+  },
+  plateletsymptoms: {
+    initial: [
+      {label:'Oct', platelets:640, mpn10:14},
+      {label:'Nov', platelets:680, mpn10:18},
+      {label:'Dec', platelets:730, mpn10:22},
+      {label:'Jan', platelets:780, mpn10:28},
+      {label:'Feb', platelets:830, mpn10:34},
+      {label:'Mar', platelets:870, mpn10:38}
+    ],
+    points: null,
+    series: [
+      {key:'platelets', color:'#C8A85A', min:500, max:1000, unit:'', type:'bar'},
+      {key:'mpn10', color:'#C87060', min:0, max:50, unit:'', type:'line'}
+    ]
+  },
+  vafspleen: {
+    initial: [
+      {label:'2022', vaf:15, spleen:1.5},
+      {label:'2023', vaf:22, spleen:2.0},
+      {label:'2024', vaf:30, spleen:2.8},
+      {label:'2025', vaf:38, spleen:3.5},
+      {label:'Now', vaf:42, spleen:4}
+    ],
+    points: null,
+    series: [
+      {key:'vaf', color:'#3EA8CC', min:0, max:60, unit:'%', type:'line'},
+      {key:'spleen', color:'#A0394A', min:0, max:6, unit:'cm', type:'line'}
+    ]
+  }
+};
+
+function renderChart(id) {
+  var st = chartState[id];
+  if (!st.points) st.points = JSON.parse(JSON.stringify(st.initial));
+  var data = st.points;
+  var s = st.series;
+  var n = data.length;
+  var W = 320, H = 140;
+  var L = 26, R = 26, T = 14, B = 28;
+  var pw = W - L - R, ph = H - T - B;
+  var xPos = function(i){ return L + (n === 1 ? pw/2 : (i / (n - 1)) * pw); };
+  var yPos = function(ser, val){
+    var pct = (val - ser.min) / (ser.max - ser.min);
+    pct = Math.max(0, Math.min(1, pct));
+    return T + (1 - pct) * ph;
+  };
+  var fmt = function(v, u){ return (Math.round(v*10)/10) + u; };
+
+  var svg = '<svg viewBox="0 0 '+W+' '+H+'" width="100%" height="'+H+'">';
+  // Gridlines
+  svg += '<line x1="'+L+'" y1="'+T+'" x2="'+(W-R)+'" y2="'+T+'" stroke="#EBE8E0" stroke-width="1"/>';
+  svg += '<line x1="'+L+'" y1="'+(T+ph/2)+'" x2="'+(W-R)+'" y2="'+(T+ph/2)+'" stroke="#EBE8E0" stroke-width="1"/>';
+  svg += '<line x1="'+L+'" y1="'+(T+ph)+'" x2="'+(W-R)+'" y2="'+(T+ph)+'" stroke="#EBE8E0" stroke-width="1"/>';
+  // Y labels left (series 0) and right (series 1)
+  var mid0 = (s[0].max + s[0].min) / 2;
+  var mid1 = (s[1].max + s[1].min) / 2;
+  svg += '<text x="2" y="'+(T+3)+'" font-size="8" fill="'+s[0].color+'">'+fmt(s[0].max, s[0].unit)+'</text>';
+  svg += '<text x="2" y="'+(T+ph/2+3)+'" font-size="8" fill="'+s[0].color+'">'+fmt(mid0, s[0].unit)+'</text>';
+  svg += '<text x="2" y="'+(T+ph+3)+'" font-size="8" fill="'+s[0].color+'">'+fmt(s[0].min, s[0].unit)+'</text>';
+  svg += '<text x="'+(W-R+3)+'" y="'+(T+3)+'" font-size="8" fill="'+s[1].color+'">'+fmt(s[1].max, s[1].unit)+'</text>';
+  svg += '<text x="'+(W-R+3)+'" y="'+(T+ph/2+3)+'" font-size="8" fill="'+s[1].color+'">'+fmt(mid1, s[1].unit)+'</text>';
+  svg += '<text x="'+(W-R+3)+'" y="'+(T+ph+3)+'" font-size="8" fill="'+s[1].color+'">'+fmt(s[1].min, s[1].unit)+'</text>';
+
+  // Render each series
+  s.forEach(function(ser){
+    if (ser.type === 'bar') {
+      var barW = Math.min(pw / n * 0.55, 18);
+      data.forEach(function(d, i){
+        var x = xPos(i) - barW/2;
+        var y = yPos(ser, d[ser.key]);
+        var h = Math.max(1, (T + ph) - y);
+        var opacity = 0.55 + 0.45 * (i / Math.max(n-1, 1));
+        svg += '<rect x="'+x+'" y="'+y+'" width="'+barW+'" height="'+h+'" fill="'+ser.color+'" opacity="'+opacity+'" rx="2"/>';
+      });
+    } else {
+      var pts = data.map(function(d, i){ return xPos(i)+','+yPos(ser, d[ser.key]); }).join(' ');
+      svg += '<polyline points="'+pts+'" stroke="'+ser.color+'" stroke-width="2.5" fill="none"/>';
+      data.forEach(function(d, i){
+        var isLast = i === n - 1;
+        svg += '<circle cx="'+xPos(i)+'" cy="'+yPos(ser, d[ser.key])+'" r="'+(isLast?4:3)+'" fill="'+ser.color+'"/>';
+      });
+    }
+  });
+
+  // X labels
+  data.forEach(function(d, i){
+    var isLast = i === n - 1;
+    svg += '<text x="'+xPos(i)+'" y="'+(H-6)+'" font-size="9" fill="'+(isLast?'#1A2830':'#506878')+'" font-weight="'+(isLast?'600':'400')+'" text-anchor="middle">'+d.label+'</text>';
+  });
+
+  svg += '</svg>';
+  var el = document.getElementById('chart-' + id);
+  if (el) el.innerHTML = svg;
+}
+
+function addPoint(id, scenario) {
+  var st = chartState[id];
+  if (!st.points) st.points = JSON.parse(JSON.stringify(st.initial));
+  if (st.points.length >= 12) return; // cap at 12 points
+  var last = st.points[st.points.length - 1];
+  // Compute next label
+  var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  var nextLabel;
+  var midx = months.indexOf(last.label);
+  if (midx >= 0) {
+    nextLabel = months[(midx + 1) % 12];
+  } else if (last.label === 'Now') {
+    nextLabel = '+1yr';
+  } else if (!isNaN(parseInt(last.label))) {
+    nextLabel = String(parseInt(last.label) + 1);
+  } else {
+    nextLabel = '+' + (st.points.length - st.initial.length + 1);
+  }
+  // Compute new values based on scenario per chart
+  var newPt = {label: nextLabel};
+  st.series.forEach(function(ser){
+    var cur = last[ser.key];
+    var range = ser.max - ser.min;
+    var delta = 0;
+    if (id === 'sleepfatigue') {
+      // good: sleep up, fatigue down. bad: sleep down, fatigue up.
+      if (ser.key === 'sleep') delta = (scenario === 'good') ? range*0.13 : -range*0.10;
+      else                     delta = (scenario === 'good') ? -range*0.18 : range*0.12;
+    } else if (id === 'plateletsymptoms') {
+      // good: both fall. bad: both rise.
+      delta = (scenario === 'good') ? -range*0.10 : range*0.08;
+    } else if (id === 'vafspleen') {
+      // good (stable): tiny change. bad (progression): both rise.
+      delta = (scenario === 'good') ? range*0.01 : range*0.10;
+    }
+    var v = cur + delta;
+    v = Math.max(ser.min, Math.min(ser.max, v));
+    newPt[ser.key] = Math.round(v*10)/10;
+  });
+  st.points.push(newPt);
+  renderChart(id);
+}
+
+function removePoint(id) {
+  var st = chartState[id];
+  if (!st.points) st.points = JSON.parse(JSON.stringify(st.initial));
+  if (st.points.length > 2) {
+    st.points.pop();
+    renderChart(id);
+  }
+}
+
+function resetChart(id) {
+  chartState[id].points = JSON.parse(JSON.stringify(chartState[id].initial));
+  renderChart(id);
+}
+
+// Initialize charts after DOM is ready
+window.addEventListener('DOMContentLoaded', function() {
+  setTimeout(function(){
+    Object.keys(chartState).forEach(function(id){
+      if (document.getElementById('chart-' + id)) renderChart(id);
+    });
+  }, 50);
+});
+
+// ════ Desktop digest (MPN This Month resource library) ════
+function openDigestDesktop() {
+  document.getElementById('desktop-digest').style.display = 'block';
+  document.querySelector('.phone').style.display = 'none';
+  var ph = document.querySelector('.page-header');  if (ph) ph.style.display = 'none';
+  var sl = document.getElementById('screen-label'); if (sl) sl.style.display = 'none';
+  var nh = document.querySelector('.nav-hint');     if (nh) nh.style.display = 'none';
+  var fc = document.querySelector('.flow-chips');   if (fc) fc.style.display = 'none';
+  window.scrollTo(0, 0);
+}
+function closeDigestDesktop() {
+  document.getElementById('desktop-digest').style.display = 'none';
+  document.querySelector('.phone').style.display = '';
+  var ph = document.querySelector('.page-header');  if (ph) ph.style.display = '';
+  var sl = document.getElementById('screen-label'); if (sl) sl.style.display = '';
+  var nh = document.querySelector('.nav-hint');     if (nh) nh.style.display = '';
+  var fc = document.querySelector('.flow-chips');   if (fc) fc.style.display = '';
+}
 function jumpTo(id, label) {
   go(id);
   document.getElementById('screen-label').textContent = label;
