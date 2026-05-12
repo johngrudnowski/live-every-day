@@ -1,0 +1,33 @@
+{
+  "name": "web",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Web app workspace package",
+  "scripts": {
+    "build": "vite build",
+    "dev": "vite",
+    "lint": "oxlint --deny-warnings --react-plugin --jsx-a11y-plugin . --no-error-on-unmatched-pattern",
+    "lint:fix": "oxlint --deny-warnings --react-plugin --jsx-a11y-plugin --fix . --no-error-on-unmatched-pattern",
+    "format": "oxfmt --write .",
+    "check-types": "tsc -p tsconfig.app.json --noEmit && tsc -p tsconfig.node.json --noEmit",
+    "preview": "vite preview"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "@mantine/core": "^9.2.0",
+    "@mantine/hooks": "^9.2.0",
+    "better-auth": "^1.6.10",
+    "react": "^19.2.6",
+    "react-dom": "^19.2.6"
+  },
+  "devDependencies": {
+    "@types/node": "^24.12.3",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.1",
+    "typescript": "^5.9.2",
+    "vite": "^8.0.12"
+  }
+}
