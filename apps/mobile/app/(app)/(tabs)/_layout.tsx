@@ -28,7 +28,7 @@ export default function TabLayout() {
         headerShown: useClientOnlyValue(false, true),
       }}>
       <Tabs.Screen
-        name="index"
+        name="home"
         options={{
           title: 'Today',
           tabBarIcon: ({ color }) => <TabBarIcon name="calendar-check-o" color={color} />,
@@ -49,7 +49,7 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="two"
+        name="progress"
         options={{
           title: 'Progress',
           tabBarIcon: ({ color }) => <TabBarIcon name="line-chart" color={color} />,

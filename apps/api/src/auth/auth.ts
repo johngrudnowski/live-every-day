@@ -1,5 +1,6 @@
-import { betterAuth, type BetterAuthOptions } from 'better-auth';
+import { betterAuth, type Auth, type BetterAuthOptions } from 'better-auth';
 import { drizzleAdapter } from 'better-auth/adapters/drizzle';
+import { expo } from '@better-auth/expo';
 import type { DbClient } from 'database/client';
 
 const defaultBaseUrl = 'http://localhost:3000';
@@ -46,7 +47,26 @@ function buildSocialProviders(): BetterAuthOptions['socialProviders'] {
     : undefined;
 }
 
-export function createAuth(db: DbClient) {
+function buildTrustedOrigins() {
+  const configuredOrigins = parseCsvEnv('BETTER_AUTH_TRUSTED_ORIGINS');
+  const nativeOrigins = [
+    'liveeveryday://',
+    'liveeveryday://*',
+    'liveeveryday-development://',
+    'liveeveryday-development://*',
+    'liveeveryday-preview://',
+    'liveeveryday-preview://*',
+  ];
+
+  const devOrigins =
+    process.env.NODE_ENV === 'production'
+      ? []
+      : ['exp://', 'exp://**', 'exp://192.168.*.*:*/**', 'exp://10.*.*.*:*/**'];
+
+  return [...new Set([...configuredOrigins, ...nativeOrigins, ...devOrigins])];
+}
+
+export function createAuth(db: DbClient): Auth<any> {
   return betterAuth({
     database: drizzleAdapter(db, {
       provider: 'pg',
@@ -54,11 +74,12 @@ export function createAuth(db: DbClient) {
     baseURL: process.env.BETTER_AUTH_URL ?? defaultBaseUrl,
     basePath: '/auth',
     secret: resolveAuthSecret(),
-    trustedOrigins: parseCsvEnv('BETTER_AUTH_TRUSTED_ORIGINS'),
+    trustedOrigins: buildTrustedOrigins(),
     socialProviders: buildSocialProviders(),
     emailAndPassword: {
       enabled: false,
     },
+    plugins: [expo()],
   });
 }
 

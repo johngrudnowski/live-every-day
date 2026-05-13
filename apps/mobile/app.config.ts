@@ -71,6 +71,19 @@ export default ({ config }: ConfigContext): LiveEveryDayExpoConfig => ({
   plugins: [
     'expo-router',
     [
+      'expo-font',
+      {
+        fonts: [
+          './node_modules/@expo-google-fonts/dm-sans/400Regular/DMSans_400Regular.ttf',
+          './node_modules/@expo-google-fonts/dm-sans/500Medium/DMSans_500Medium.ttf',
+          './node_modules/@expo-google-fonts/dm-sans/600SemiBold/DMSans_600SemiBold.ttf',
+          './node_modules/@expo-google-fonts/dm-sans/700Bold/DMSans_700Bold.ttf',
+          './node_modules/@expo-google-fonts/raleway/200ExtraLight/Raleway_200ExtraLight.ttf',
+          './node_modules/@expo-google-fonts/raleway/300Light/Raleway_300Light.ttf',
+        ],
+      },
+    ],
+    [
       'expo-build-properties',
       {
         ios: {
