@@ -8,7 +8,7 @@
     ".": "./src/index.ts"
   },
   "scripts": {
-    "generate": "orval --config ./orval.config.ts",
+    "generate": "OPENAPI_OUTPUT=/tmp/live-every-day-openapi.json pnpm --filter api openapi:json && ORVAL_OPENAPI_URL=/tmp/live-every-day-openapi.json orval --config ./orval.config.ts",
     "check-types": "tsc -p tsconfig.json --noEmit",
     "lint": "oxlint --deny-warnings --node-plugin src orval.config.ts",
     "lint:fix": "oxlint --deny-warnings --node-plugin --fix src orval.config.ts",

@@ -1,12 +1,16 @@
 import type { ConfigContext, ExpoConfig } from 'expo/config';
 
 type AppVariant = 'development' | 'preview' | 'production';
+
 type LiveEveryDayExpoConfig = ExpoConfig & {
   newArchEnabled?: boolean;
 };
 
 const appVariant = parseAppVariant(process.env.APP_VARIANT);
 const projectId = process.env.EAS_PROJECT_ID;
+
+const shouldUseEasUpdates =
+  process.env.ENABLE_EAS_UPDATES === '1' && Boolean(projectId);
 
 function parseAppVariant(value: string | undefined): AppVariant {
   if (value === 'preview' || value === 'production') {
@@ -21,11 +25,15 @@ function variantSuffix() {
 }
 
 function displayName() {
-  return appVariant === 'production' ? 'Live Every Day' : `Live Every Day ${appVariant}`;
+  return appVariant === 'production'
+    ? 'Live Every Day'
+    : `Live Every Day ${appVariant}`;
 }
 
 function scheme() {
-  return appVariant === 'production' ? 'liveeveryday' : `liveeveryday-${appVariant}`;
+  return appVariant === 'production'
+    ? 'liveeveryday'
+    : `liveeveryday-${appVariant}`;
 }
 
 export default ({ config }: ConfigContext): LiveEveryDayExpoConfig => ({
@@ -60,14 +68,16 @@ export default ({ config }: ConfigContext): LiveEveryDayExpoConfig => ({
     output: 'static',
     favicon: './assets/images/favicon.png',
   },
-  updates: projectId
+  updates: shouldUseEasUpdates
     ? {
         url: `https://u.expo.dev/${projectId}`,
       }
     : undefined,
-  runtimeVersion: {
-    policy: 'appVersion',
-  },
+  runtimeVersion: shouldUseEasUpdates
+    ? {
+        policy: 'appVersion',
+      }
+    : undefined,
   plugins: [
     'expo-router',
     [

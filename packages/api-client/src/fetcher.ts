@@ -7,15 +7,31 @@ type CustomFetchOptions<TBody = unknown> = RequestInit & {
   params?: QueryParams;
 };
 
+type HeaderProvider = () => HeadersInit | Promise<HeadersInit>;
+
+type ApiClientConfig = {
+  baseUrl?: string | (() => string);
+  getHeaders?: HeaderProvider;
+};
+
+let apiClientConfig: ApiClientConfig = {};
+
+export function configureApiClient(config: ApiClientConfig) {
+  apiClientConfig = {
+    ...apiClientConfig,
+    ...config,
+  };
+}
+
 function stripTrailingSlash(url: string) {
   return url.replace(/\/$/, '');
 }
 
 function resolveApiBaseUrl() {
-  const viteEnv = (import.meta as ImportMeta & { env?: Record<string, string | undefined> }).env;
-  const viteApiUrl = viteEnv?.VITE_API_URL;
-  if (viteApiUrl) {
-    return stripTrailingSlash(viteApiUrl);
+  const configuredBaseUrl =
+    typeof apiClientConfig.baseUrl === 'function' ? apiClientConfig.baseUrl() : apiClientConfig.baseUrl;
+  if (configuredBaseUrl) {
+    return stripTrailingSlash(configuredBaseUrl);
   }
 
   const processEnv = (globalThis as { process?: { env?: Record<string, string | undefined> } }).process?.env;
@@ -73,12 +89,14 @@ export async function customFetch<TResponse, TBody = unknown>(
     ...init
   }: CustomFetchOptions<TBody> = {},
 ): Promise<TResponse> {
+  const headers = new Headers();
+  headers.set('Content-Type', 'application/json');
+  applyHeaders(headers, await apiClientConfig.getHeaders?.());
+  applyHeaders(headers, init.headers);
+
   const response = await fetch(buildUrl(url, params), {
     ...init,
-    headers: {
-      'Content-Type': 'application/json',
-      ...init.headers,
-    },
+    headers,
     credentials: 'include',
     body: data === undefined ? body : JSON.stringify(data),
   });
@@ -107,4 +125,14 @@ export async function customFetch<TResponse, TBody = unknown>(
     status: response.status,
     headers: response.headers,
   } as TResponse;
+}
+
+function applyHeaders(headers: Headers, headersInit: HeadersInit | undefined) {
+  if (!headersInit) {
+    return;
+  }
+
+  new Headers(headersInit).forEach((value, key) => {
+    headers.set(key, value);
+  });
 }

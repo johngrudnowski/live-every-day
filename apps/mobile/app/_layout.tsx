@@ -16,6 +16,7 @@ import 'react-native-reanimated';
 import { useColorScheme } from '@/components/useColorScheme';
 import { LoadingScreen } from '@/features/launch/components/LoadingScreen';
 import { ApiProvider } from '@/lib/query-client';
+import '@/lib/api-client';
 
 export {
   // Catch any errors thrown by the Layout component.

@@ -14,7 +14,7 @@ function resolveLocalApiUrl() {
   return host ? `http://${host}:3000` : 'http://localhost:3000';
 }
 
-function resolveApiUrl() {
+export function resolveApiUrl() {
   return stripTrailingSlash(process.env.EXPO_PUBLIC_API_URL ?? resolveLocalApiUrl());
 }
 
