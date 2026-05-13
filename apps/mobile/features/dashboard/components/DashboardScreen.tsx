@@ -26,16 +26,39 @@ export function DashboardScreen() {
   }, [data?.session, isPending]);
 
   useEffect(() => {
+    if (conditionGate.shouldResumeCondition && conditionGate.draftProfile) {
+      router.replace({
+        pathname: '/conditions/[conditionId]',
+        params: {
+          conditionId: conditionGate.draftProfile.conditionId,
+          stepId: conditionGate.draftResumeStepId,
+        },
+      });
+      return;
+    }
+
     if (conditionGate.shouldSelectCondition) {
       router.replace('/conditions');
     }
-  }, [conditionGate.shouldSelectCondition]);
+  }, [
+    conditionGate.draftProfile,
+    conditionGate.draftResumeStepId,
+    conditionGate.shouldResumeCondition,
+    conditionGate.shouldSelectCondition,
+  ]);
 
-  if (isPending || !data?.session || conditionGate.isPending || conditionGate.shouldSelectCondition) {
+  if (
+    isPending ||
+    !data?.session ||
+    conditionGate.isPending ||
+    conditionGate.shouldResumeCondition ||
+    conditionGate.shouldSelectCondition
+  ) {
     return <LoadingScreen message="Checking your session" />;
   }
 
-  const shouldShowConditionCard = conditionGate.isSuccess && !conditionGate.data.hasConditionProfile;
+  const shouldShowConditionCard =
+    conditionGate.isSuccess && !conditionGate.data.hasConditionProfile;
 
   return (
     <AppScreen padded={false} style={styles.screen}>
@@ -51,7 +74,12 @@ export function DashboardScreen() {
 
       <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
         <GreetingBlock dateLabel={getDashboardDateLabel()} name={displayName} />
-        {shouldShowConditionCard ? <SelectConditionCard /> : null}
+        {shouldShowConditionCard ? (
+          <SelectConditionCard
+            draftProfile={conditionGate.draftProfile}
+            draftResumeStepId={conditionGate.draftResumeStepId}
+          />
+        ) : null}
         <WeeklyCheckInCard />
         <DashboardWidgets />
         <QuickLinks />

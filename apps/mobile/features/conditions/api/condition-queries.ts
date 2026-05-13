@@ -19,6 +19,8 @@ export type SaveConditionProfileInput = {
   conditionId: string;
   conditionDefinitionVersion: number;
   values: Record<string, SemanticValue>;
+  complete?: boolean;
+  currentStepId?: string;
 };
 
 export const conditionQueryKeys = {
@@ -74,7 +76,7 @@ export function useSkipConditionOnboardingMutation() {
     {
       mutation: {
         onSuccess: (response) => {
-          queryClient.setQueryData(conditionQueryKeys.summary, response.data);
+          queryClient.setQueryData(conditionQueryKeys.summary, response);
         },
       },
     },
@@ -89,7 +91,7 @@ export function useSaveConditionProfileMutation() {
     {
       mutation: {
         onSuccess: (response) => {
-          queryClient.setQueryData(conditionQueryKeys.summary, response.data);
+          queryClient.setQueryData(conditionQueryKeys.summary, response);
         },
       },
     },
@@ -129,5 +131,7 @@ function mapSaveConditionProfileInput(input: SaveConditionProfileInput): SaveCon
   return {
     conditionDefinitionVersion: input.conditionDefinitionVersion,
     values: input.values,
+    complete: input.complete,
+    currentStepId: input.currentStepId,
   };
 }

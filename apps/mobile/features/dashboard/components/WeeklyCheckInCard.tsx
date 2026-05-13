@@ -1,9 +1,15 @@
+import { router } from 'expo-router';
 import { StyleSheet, View } from 'react-native';
 import { LedText, PrimaryButton, colors, radii, shadows, spacing } from '@led/design-system';
-
-const lastWeekSymptoms = ['Fatigue 8/10', 'Night sweats 5/10', 'Brain fog 6/10'];
+import { useWeeklyCheckinSummaryQuery } from '@/features/weekly-checkin/api/weekly-checkin-queries';
+import { routeToWeeklyCheckin } from '@/features/weekly-checkin/lib/weeklyCheckinRoutes';
 
 export function WeeklyCheckInCard() {
+  const summaryQuery = useWeeklyCheckinSummaryQuery();
+  const summary = summaryQuery.data;
+  const previous = summary?.previousWeekCheckin;
+  const completed = summary?.hasCompletedCurrentWeek;
+
   return (
     <View style={styles.card}>
       <LedText variant="label" style={styles.eyebrow}>
@@ -13,25 +19,40 @@ export function WeeklyCheckInCard() {
         Weekly check-in
       </LedText>
       <LedText variant="bodySmall" style={styles.copy}>
-        Daily or weekly. The foundation of everything.
+        {completed
+          ? 'This week is saved. You can review your answers anytime.'
+          : 'Daily or weekly. The foundation of everything.'}
       </LedText>
 
-      <View style={styles.lastWeekPanel}>
-        <LedText variant="label" style={styles.lastWeekLabel}>
-          Last week
-        </LedText>
-        <View style={styles.symptomList}>
-          {lastWeekSymptoms.map((symptom) => (
-            <View key={symptom} style={styles.symptomPill}>
+      {previous ? (
+        <View style={styles.lastWeekPanel}>
+          <LedText variant="label" style={styles.lastWeekLabel}>
+            Last week
+          </LedText>
+          <View style={styles.symptomList}>
+            <View style={styles.symptomPill}>
               <LedText variant="bodySmall" style={styles.symptomText}>
-                {symptom}
+                Score {previous.score.total}/{previous.score.max}
               </LedText>
             </View>
-          ))}
+          </View>
         </View>
-      </View>
+      ) : null}
 
-      <PrimaryButton label="Start this week's check-in" variant="secondary" fullWidth style={styles.button} />
+      <PrimaryButton
+        label={completed ? 'View saved check-in' : 'Start this week'}
+        variant="secondary"
+        fullWidth
+        style={styles.button}
+        onPress={() => {
+          if (summary) {
+            routeToWeeklyCheckin(summary);
+            return;
+          }
+
+          router.push('/check-in');
+        }}
+      />
     </View>
   );
 }

@@ -5,12 +5,16 @@ type ConditionFlowAction =
   | { type: 'set_value'; stepId: string; semanticKey: SemanticKey; value: SemanticValue }
   | { type: 'skip_step'; stepId: string };
 
-export function createInitialConditionFlowState(conditionId: ConditionId, firstStepId: string): ConditionFlowState {
+export function createInitialConditionFlowState(
+  conditionId: ConditionId,
+  firstStepId: string,
+  semanticValues: ConditionFlowState['semanticValues'] = {},
+): ConditionFlowState {
   return {
     conditionId,
     currentStepId: firstStepId,
     answers: {},
-    semanticValues: {},
+    semanticValues,
     skippedStepIds: [],
   };
 }
