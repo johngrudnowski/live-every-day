@@ -1,76 +1,214 @@
-# live-every-day
+# Live Every Day
 
-## Database stack
+Live Every Day is a TypeScript monorepo for the Live Every Day product. It includes a NestJS API, a React web app, an Expo mobile app, shared database schema, a generated API client, and a React Native design system.
 
-- ORM: Drizzle (`packages/database`)
-- Driver: `postgres` (PostgreSQL)
-- Auth tables: Better Auth-compatible Drizzle schema
-- Local runtime: Docker Compose Postgres
+## Repository Structure
 
-## Quick start
+```txt
+apps/
+  api/      NestJS API
+  web/      React + Vite web app
+  mobile/   Expo + React Native app
 
-1. Copy env values:
-   - `cp .env.example .env`
-2. Start Postgres:
-   - `pnpm db:up`
-3. Generate migration SQL from schema:
-   - `DATABASE_URL=postgresql://postgres:postgres@localhost:5432/live_every_day pnpm --filter database db:generate`
-4. Apply migrations:
-   - `DATABASE_URL=postgresql://postgres:postgres@localhost:5432/live_every_day pnpm --filter database db:migrate`
-5. Open Drizzle Studio (optional):
-   - `DATABASE_URL=postgresql://postgres:postgres@localhost:5432/live_every_day pnpm --filter database db:studio`
+packages/
+  database/       Drizzle schema and Postgres client
+  api-client/     Orval-generated OpenAPI client
+  design-system/  Shared React Native design tokens and primitives
+```
 
-## App development
+## Tech Stack
 
-- Run both apps with Turbo:
-  - `pnpm dev`
-- Run one app only:
-  - API: `pnpm dev:api`
-  - Web: `pnpm dev:web`
-- Default local URLs:
-  - API: `http://localhost:3000`
-  - Web: `http://localhost:3001`
-- API docs:
-  - Swagger UI: `http://localhost:3000/api/docs`
-  - OpenAPI JSON: `http://localhost:3000/api/openapi.json`
-- Web auth client env:
-  - `VITE_API_URL` (defaults to `http://localhost:3000`)
+- Package manager: `pnpm`
+- Monorepo orchestration: Turborepo
+- API: NestJS
+- Web: React, Vite, Mantine
+- Mobile: Expo, React Native, Expo Router
+- Auth: Better Auth, Google OAuth
+- Database: PostgreSQL, Drizzle ORM
+- API client generation: OpenAPI + Orval
 
-## OpenAPI client generation
+## Prerequisites
 
-1. Start the API (`pnpm dev:api` or `pnpm --filter api start`).
-2. Generate the shared API client:
-   - `pnpm generate`
+- Node.js `>=18`
+- pnpm
+- Docker, for local Postgres
 
-Generated output is written to `packages/api-client/src/generated`.
+This repo is configured with `mise.toml`, so you can also use `mise` to install the expected local toolchain.
 
-## Better Auth setup order
+## Local Setup
 
-1. Bring up local Postgres.
-2. Finalize Drizzle client and schema package.
-3. Generate + apply migrations.
-4. Wire API to shared DB package.
-5. Configure Better Auth runtime against Drizzle adapter.
+1. Install dependencies:
 
-This order avoids auth setup drift and keeps auth/domain tables in one migration history.
+```sh
+pnpm install
+```
 
-## Better Auth (OAuth-only) notes
+2. Create local environment values:
 
-- Better Auth is mounted in API at `/auth/*`.
-- Email/password is disabled for now (`emailAndPassword.enabled = false`).
-- Web login screen uses Better Auth social sign-in buttons (Google/GitHub) against the API `/auth/*` routes.
-- Configure at least one provider:
-  - `GOOGLE_CLIENT_ID` + `GOOGLE_CLIENT_SECRET`
-  - and/or `GITHUB_CLIENT_ID` + `GITHUB_CLIENT_SECRET`
-- Required auth env vars:
-  - `BETTER_AUTH_URL` (server base URL)
-  - `BETTER_AUTH_SECRET` (long random secret)
-  - `BETTER_AUTH_TRUSTED_ORIGINS` (comma-separated frontend origins)
-  - `CORS_ORIGIN` (comma-separated frontend origins for Nest CORS)
+```sh
+cp .env.example .env
+```
 
-## Cloud SQL cutover notes
+3. Start Postgres:
 
-- Keep using PostgreSQL dialect and `DATABASE_URL`.
-- For Cloud SQL Auth Proxy, keep `DB_SSL=false` and point `DATABASE_URL` to proxy host/port.
-- For direct Cloud SQL TLS, set `DB_SSL=true` (and keep `DB_SSL_REJECT_UNAUTHORIZED=true` unless you have a controlled reason to relax it).
-- No Drizzle schema rewrite is required for local-to-Cloud SQL transition.
+```sh
+pnpm db:up
+```
+
+4. Apply database migrations:
+
+```sh
+pnpm db:migrate
+```
+
+5. Start the apps:
+
+```sh
+pnpm dev
+```
+
+## Development Commands
+
+Run the full stack:
+
+```sh
+pnpm dev
+```
+
+Run individual apps:
+
+```sh
+pnpm dev:api
+pnpm dev:web
+pnpm dev:mobile
+```
+
+Default local URLs:
+
+- API: `http://localhost:3000`
+- Web: `http://localhost:3001`
+- Expo dev server: `http://localhost:8081`
+- Swagger UI: `http://localhost:3000/api/docs`
+- OpenAPI JSON: `http://localhost:3000/api/openapi.json`
+
+## Database
+
+Local Postgres runs through Docker Compose.
+
+```sh
+pnpm db:up       # start Postgres
+pnpm db:down     # stop services
+pnpm db:reset    # reset local database volume
+pnpm db:migrate  # apply migrations
+pnpm db:studio   # open Drizzle Studio
+```
+
+Local database URL:
+
+```txt
+postgresql://postgres:postgres@localhost:5432/live_every_day
+```
+
+## API Client Generation
+
+The shared API client is generated from the API OpenAPI document.
+
+1. Start the API:
+
+```sh
+pnpm dev:api
+```
+
+2. Generate the client:
+
+```sh
+pnpm generate
+```
+
+Generated files are written to:
+
+```txt
+packages/api-client/src/generated
+```
+
+## Mobile App
+
+The mobile app lives in `apps/mobile` and uses Expo Router, development builds, typed routes, and Continuous Native Generation.
+
+Start the Expo dev server:
+
+```sh
+pnpm dev:mobile
+```
+
+`pnpm dev:mobile` starts Expo in development-build mode. Use it with an installed development build of the app, not Expo Go.
+
+For quick testing in Expo Go:
+
+```sh
+pnpm dev:mobile:go
+```
+
+For local API access from mobile, set:
+
+```txt
+EXPO_PUBLIC_API_URL=http://YOUR_LAN_IP:3000
+```
+
+For local browser-based Expo testing, include `http://localhost:8081` in both `CORS_ORIGIN` and `BETTER_AUTH_TRUSTED_ORIGINS`.
+
+## Auth
+
+Better Auth is mounted by the API at:
+
+```txt
+/auth/*
+```
+
+Email/password auth is disabled for now. Google OAuth is the supported provider.
+
+Required auth environment variables:
+
+```txt
+BETTER_AUTH_URL=http://localhost:3000
+BETTER_AUTH_SECRET=replace-with-a-long-random-secret
+BETTER_AUTH_TRUSTED_ORIGINS=http://localhost:3001,http://localhost:8081,http://localhost:19006
+CORS_ORIGIN=http://localhost:3001,http://localhost:8081,http://localhost:19006
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
+```
+
+## Quality Checks
+
+Run all checks:
+
+```sh
+pnpm typecheck
+pnpm lint
+pnpm test
+pnpm build
+```
+
+Run targeted checks:
+
+```sh
+pnpm --filter api build
+pnpm --filter api lint
+pnpm --filter web check-types
+pnpm --filter mobile check-types
+pnpm --filter @led/design-system check-types
+```
+
+## Formatting
+
+```sh
+pnpm format
+pnpm format:check
+```
+
+## Cloud SQL Notes
+
+The database package uses PostgreSQL and `DATABASE_URL`, so moving from local Postgres to Cloud SQL does not require a schema rewrite.
+
+- Cloud SQL Auth Proxy: keep `DB_SSL=false` and point `DATABASE_URL` at the proxy host/port.
+- Direct Cloud SQL TLS: set `DB_SSL=true` and keep `DB_SSL_REJECT_UNAUTHORIZED=true` unless there is a controlled reason to relax it.

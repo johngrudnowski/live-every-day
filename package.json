@@ -13,6 +13,7 @@
     "dev:api": "pnpm --filter api start:dev",
     "dev:web": "turbo run dev --filter=web",
     "dev:mobile": "turbo run dev --filter=mobile",
+    "dev:mobile:go": "pnpm --filter mobile start:go",
     "lint": "turbo run lint",
     "lint:fix": "turbo run lint:fix",
     "format": "oxfmt --write .",

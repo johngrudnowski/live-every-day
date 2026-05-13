@@ -2,13 +2,39 @@ import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 
-function parseCorsOrigins() {
-  const origins = (process.env.CORS_ORIGIN ?? '')
+const localDevOriginPattern =
+  /^https?:\/\/(localhost|127\.0\.0\.1|0\.0\.0\.0|\[::1\]|10\.\d+\.\d+\.\d+|192\.168\.\d+\.\d+|172\.(1[6-9]|2\d|3[0-1])\.\d+\.\d+)(:\d+)?$/;
+
+function parseCsvEnv(name: string) {
+  return (process.env[name] ?? '')
     .split(',')
     .map((origin) => origin.trim())
     .filter((origin) => origin.length > 0);
+}
 
-  return origins.length > 0 ? origins : true;
+function parseCorsOrigins() {
+  const configuredOrigins = parseCsvEnv('CORS_ORIGIN');
+  const developmentOrigins =
+    process.env.NODE_ENV === 'production'
+      ? []
+      : [
+          'http://localhost:3001',
+          'http://localhost:8081',
+          'http://localhost:19006',
+          'http://127.0.0.1:3001',
+          'http://127.0.0.1:8081',
+          'http://127.0.0.1:19006',
+        ];
+  const allowedOrigins = new Set([...configuredOrigins, ...developmentOrigins]);
+
+  return (origin: string | undefined, callback: (error: Error | null, allow?: boolean) => void) => {
+    if (!origin || allowedOrigins.has(origin) || (process.env.NODE_ENV !== 'production' && localDevOriginPattern.test(origin))) {
+      callback(null, true);
+      return;
+    }
+
+    callback(null, false);
+  };
 }
 
 async function bootstrap() {
