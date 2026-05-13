@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 1,
-    borderRadius: radii.pill,
+    borderRadius: radii.xxl,
     paddingHorizontal: spacing.xxl,
     paddingVertical: spacing.md,
   },
