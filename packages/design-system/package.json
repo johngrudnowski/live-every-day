@@ -1,0 +1,28 @@
+{
+  "name": "@led/design-system",
+  "version": "0.0.1",
+  "private": true,
+  "description": "React Native design tokens and primitives for Live Every Day",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "check-types": "tsc -p tsconfig.json --noEmit",
+    "lint": "oxlint --deny-warnings --react-plugin src --no-error-on-unmatched-pattern",
+    "lint:fix": "oxlint --deny-warnings --react-plugin --fix src --no-error-on-unmatched-pattern",
+    "format": "oxfmt --write ."
+  },
+  "peerDependencies": {
+    "react": ">=19",
+    "react-native": ">=0.83",
+    "react-native-svg": ">=15"
+  },
+  "devDependencies": {
+    "@types/react": "~19.2.14",
+    "react": "19.2.0",
+    "react-native": "0.83.6",
+    "react-native-svg": "15.15.3",
+    "typescript": "^5.9.2"
+  }
+}
