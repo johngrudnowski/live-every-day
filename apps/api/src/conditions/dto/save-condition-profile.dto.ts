@@ -1,4 +1,4 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class SaveConditionProfileDto {
   @ApiProperty({ example: 1 })
@@ -13,4 +13,10 @@ export class SaveConditionProfileDto {
     },
   })
   values!: Record<string, unknown>;
+
+  @ApiPropertyOptional({ example: false })
+  complete?: boolean;
+
+  @ApiPropertyOptional({ example: 'about_you' })
+  currentStepId?: string;
 }

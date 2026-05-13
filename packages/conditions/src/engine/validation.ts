@@ -14,8 +14,10 @@ import { isStepVisible } from './visibility';
 export function validateConditionValues(
   conditionDefinition: ConditionDefinition,
   values: Partial<Record<SemanticKey, SemanticValue>>,
+  options: { requireRequiredFields?: boolean } = {},
 ): ConditionValidationResult {
   const issues: ConditionValidationIssue[] = [];
+  const requireRequiredFields = options.requireRequiredFields ?? true;
 
   for (const step of conditionDefinition.flow) {
     if (!isStepVisible(step.visibleWhen, values)) {
@@ -23,7 +25,7 @@ export function validateConditionValues(
     }
 
     if (step.fields) {
-      issues.push(...validateStepFields(step.id, step.fields, values));
+      issues.push(...validateStepFields(step.id, step.fields, values, requireRequiredFields));
       continue;
     }
 
@@ -33,7 +35,7 @@ export function validateConditionValues(
 
     const value = values[step.semanticKey];
 
-    if (step.required && isEmptyValue(value)) {
+    if (requireRequiredFields && step.required && isEmptyValue(value)) {
       issues.push({
         stepId: step.id,
         field: step.semanticKey,
@@ -59,18 +61,23 @@ type ValidatableStep = ConditionFlowStep | ConditionStepField;
 
 export function getAllowedOptionValues(step: ValidatableStep): Set<string> {
   const optionGroups = 'optionGroups' in step ? step.optionGroups : undefined;
-  return new Set([...flattenOptions(step.options), ...flattenOptionGroups(optionGroups)].map((option) => option.value));
+  return new Set(
+    [...flattenOptions(step.options), ...flattenOptionGroups(optionGroups)].map(
+      (option) => option.value,
+    ),
+  );
 }
 
 function validateStepFields(
   parentStepId: string,
   fields: ConditionStepField[],
   values: Partial<Record<SemanticKey, SemanticValue>>,
+  requireRequiredFields: boolean,
 ) {
   return fields.flatMap((field) => {
     const value = values[field.semanticKey];
 
-    if (field.required && isEmptyValue(value)) {
+    if (requireRequiredFields && field.required && isEmptyValue(value)) {
       return [
         {
           stepId: `${parentStepId}.${field.id}`,
@@ -131,7 +138,9 @@ function validateStepValue(
     return [buildIssue(step, 'Expected a selected value.', parentStepId)];
   }
 
-  return allowedValues.has(value) ? [] : [buildIssue(step, `Unknown option: ${value}.`, parentStepId)];
+  return allowedValues.has(value)
+    ? []
+    : [buildIssue(step, `Unknown option: ${value}.`, parentStepId)];
 }
 
 function buildIssue(
@@ -147,7 +156,12 @@ function buildIssue(
 }
 
 function isEmptyValue(value: SemanticValue | undefined) {
-  return value === undefined || value === null || value === '' || (Array.isArray(value) && value.length === 0);
+  return (
+    value === undefined ||
+    value === null ||
+    value === '' ||
+    (Array.isArray(value) && value.length === 0)
+  );
 }
 
 function flattenOptions(options: ConditionOption[] | undefined) {

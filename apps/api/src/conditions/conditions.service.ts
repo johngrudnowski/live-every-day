@@ -43,10 +43,12 @@ export class ConditionsService {
       this.getOnboardingState(userId),
     ]);
     const activeConditionProfile = profiles.find((profile) => profile.completedAt !== null) ?? null;
+    const draftConditionProfile = profiles.find((profile) => profile.completedAt === null) ?? null;
 
     return {
       hasConditionProfile: activeConditionProfile !== null,
       activeConditionProfile: activeConditionProfile ? mapProfileRow(activeConditionProfile) : null,
+      draftConditionProfile: draftConditionProfile ? mapProfileRow(draftConditionProfile) : null,
       onboarding: mapOnboardingState(onboarding),
     };
   }
@@ -97,7 +99,10 @@ export class ConditionsService {
     }
 
     const semanticValues = coerceSemanticValues(definition, dto.values);
-    const validation = validateConditionValues(definition, semanticValues);
+    const isComplete = dto.complete ?? true;
+    const validation = validateConditionValues(definition, semanticValues, {
+      requireRequiredFields: isComplete,
+    });
 
     if (!validation.valid) {
       throw new BadRequestException({
@@ -112,6 +117,12 @@ export class ConditionsService {
       semanticValues,
       capturedAt: now,
     });
+    const profileJson: UserConditionProfile = {
+      ...profile,
+      onboarding: {
+        currentStepId: dto.currentStepId,
+      },
+    };
 
     await this.db
       .insert(userConditionProfiles)
@@ -120,34 +131,36 @@ export class ConditionsService {
         userId,
         conditionId: definition.id,
         conditionVersion: definition.version,
-        profileJson: profile,
-        completedAt: now,
+        profileJson,
+        completedAt: isComplete ? now : null,
         updatedAt: now,
       })
       .onConflictDoUpdate({
         target: [userConditionProfiles.userId, userConditionProfiles.conditionId],
         set: {
           conditionVersion: definition.version,
-          profileJson: profile,
-          completedAt: now,
+          profileJson,
+          completedAt: isComplete ? now : null,
           updatedAt: now,
         },
       });
 
-    await this.db
-      .insert(userConditionOnboardingState)
-      .values({
-        userId,
-        completedAt: now,
-        updatedAt: now,
-      })
-      .onConflictDoUpdate({
-        target: userConditionOnboardingState.userId,
-        set: {
+    if (isComplete) {
+      await this.db
+        .insert(userConditionOnboardingState)
+        .values({
+          userId,
           completedAt: now,
           updatedAt: now,
-        },
-      });
+        })
+        .onConflictDoUpdate({
+          target: userConditionOnboardingState.userId,
+          set: {
+            completedAt: now,
+            updatedAt: now,
+          },
+        });
+    }
 
     return await this.getSummary(userId);
   }

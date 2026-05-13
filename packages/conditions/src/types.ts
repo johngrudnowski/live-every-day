@@ -90,6 +90,22 @@ export type ConditionFlowStep = {
   maxYear?: number;
   defaultValue?: SemanticValue;
   visibleWhen?: VisibilityRule;
+  includeInOnboarding?: boolean;
+  linkedSteps?: ConditionStepLink[];
+  accountLink?: ConditionAccountLink;
+};
+
+export type ConditionStepLink = {
+  stepId: string;
+  label: string;
+  description?: string;
+};
+
+export type ConditionAccountLink = {
+  label: string;
+  subtitle?: string;
+  icon?: string;
+  summarySemanticKeys?: SemanticKey[];
 };
 
 export type ConditionTagRule = {
@@ -134,6 +150,9 @@ export type UserConditionProfile = {
   updatedAt: string;
   values: Record<string, SemanticValue>;
   provenance: Record<string, ConditionValueProvenance>;
+  onboarding?: {
+    currentStepId?: string;
+  };
 };
 
 export type ConditionFlowState = {

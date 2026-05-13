@@ -12,5 +12,7 @@ export interface ConditionSummaryDto {
   hasConditionProfile: boolean;
   /** @nullable */
   activeConditionProfile?: UserConditionProfileSummaryDto | null;
+  /** @nullable */
+  draftConditionProfile?: UserConditionProfileSummaryDto | null;
   onboarding: ConditionOnboardingStateDto;
 }

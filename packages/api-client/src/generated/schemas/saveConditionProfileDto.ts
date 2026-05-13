@@ -10,4 +10,6 @@ import type { SaveConditionProfileDtoValues } from './saveConditionProfileDtoVal
 export interface SaveConditionProfileDto {
   conditionDefinitionVersion: number;
   values: SaveConditionProfileDtoValues;
+  complete?: boolean;
+  currentStepId?: string;
 }

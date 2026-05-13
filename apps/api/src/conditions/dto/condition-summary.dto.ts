@@ -38,6 +38,9 @@ export class ConditionSummaryDto {
   @ApiPropertyOptional({ type: UserConditionProfileSummaryDto, nullable: true })
   activeConditionProfile!: UserConditionProfileSummaryDto | null;
 
+  @ApiPropertyOptional({ type: UserConditionProfileSummaryDto, nullable: true })
+  draftConditionProfile!: UserConditionProfileSummaryDto | null;
+
   @ApiProperty({ type: ConditionOnboardingStateDto })
   onboarding!: ConditionOnboardingStateDto;
 }
