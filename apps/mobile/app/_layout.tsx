@@ -71,7 +71,6 @@ function RootLayoutNav() {
           <Stack.Screen name="auth/login" options={{ title: 'Sign in' }} />
           <Stack.Screen name="(app)" options={{ headerShown: false }} />
           <Stack.Screen name="design-system" options={{ title: 'Design System' }} />
-          <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
         </Stack>
       </ApiProvider>
     </ThemeProvider>

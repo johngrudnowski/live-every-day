@@ -61,7 +61,21 @@ function buildTrustedOrigins() {
   const devOrigins =
     process.env.NODE_ENV === 'production'
       ? []
-      : ['exp://', 'exp://**', 'exp://192.168.*.*:*/**', 'exp://10.*.*.*:*/**'];
+      : [
+          'exp://',
+          'exp://**',
+          'exp://192.168.*.*:*/**',
+          'exp://10.*.*.*:*/**',
+          'http://localhost:*',
+          'http://127.0.0.1:*',
+          'http://0.0.0.0:*',
+          'http://[::1]:*',
+          'http://192.168.*.*:*',
+          'http://10.*.*.*:*',
+          'http://172.1?.*.*:*',
+          'http://172.2?.*.*:*',
+          'http://172.3?.*.*:*',
+        ];
 
   return [...new Set([...configuredOrigins, ...nativeOrigins, ...devOrigins])];
 }

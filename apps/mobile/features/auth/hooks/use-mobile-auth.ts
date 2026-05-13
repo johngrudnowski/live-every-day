@@ -1,4 +1,5 @@
 import { router } from 'expo-router';
+import { Platform } from 'react-native';
 
 import { authClient } from '../lib/auth-client';
 
@@ -14,7 +15,7 @@ export function useMobileAuth() {
   const signInWithGoogle = async () => {
     const result = (await authClient.signIn.social({
       provider: 'google',
-      callbackURL: '/home',
+      callbackURL: resolveCallbackUrl('/home'),
     })) as AuthErrorResult | undefined;
 
     if (result?.error) {
@@ -31,7 +32,7 @@ export function useMobileAuth() {
       throw new Error(result.error.message ?? 'Unable to sign out.');
     }
 
-    router.replace('/');
+    router.replace('/auth/login');
   };
 
   return {
@@ -39,4 +40,12 @@ export function useMobileAuth() {
     signInWithGoogle,
     signOut,
   };
+}
+
+function resolveCallbackUrl(path: string) {
+  if (Platform.OS === 'web' && typeof window !== 'undefined') {
+    return new URL(path, window.location.origin).toString();
+  }
+
+  return path;
 }
