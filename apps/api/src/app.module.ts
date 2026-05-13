@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
+import { ConditionsModule } from './conditions/conditions.module';
 import { DatabaseModule } from './database/database.module';
 import { HealthController } from './health/health.controller';
 
@@ -13,6 +14,7 @@ import { HealthController } from './health/health.controller';
     }),
     DatabaseModule,
     AuthModule,
+    ConditionsModule,
   ],
 })
 export class AppModule {}

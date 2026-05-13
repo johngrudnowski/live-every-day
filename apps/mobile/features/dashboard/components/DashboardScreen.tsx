@@ -5,14 +5,17 @@ import { AppScreen, LedText, colors, spacing } from '@led/design-system';
 
 import { LoadingScreen } from '@/features/launch/components/LoadingScreen';
 import { useMobileAuth } from '@/features/auth/hooks/use-mobile-auth';
+import { useConditionGate } from '@/features/conditions/hooks/useConditionGate';
 import { DashboardBottomBar } from './DashboardBottomBar';
 import { DashboardHeader } from './DashboardHeader';
 import { DashboardWidgets } from './DashboardWidgets';
 import { QuickLinks } from './QuickLinks';
+import { SelectConditionCard } from './SelectConditionCard';
 import { WeeklyCheckInCard } from './WeeklyCheckInCard';
 
 export function DashboardScreen() {
   const { data, isPending, signOut } = useMobileAuth();
+  const conditionGate = useConditionGate(Boolean(data?.session));
   const user = data?.user;
   const displayName = getDisplayName(user?.name, user?.email);
 
@@ -22,9 +25,17 @@ export function DashboardScreen() {
     }
   }, [data?.session, isPending]);
 
-  if (isPending || !data?.session) {
+  useEffect(() => {
+    if (conditionGate.shouldSelectCondition) {
+      router.replace('/conditions');
+    }
+  }, [conditionGate.shouldSelectCondition]);
+
+  if (isPending || !data?.session || conditionGate.isPending || conditionGate.shouldSelectCondition) {
     return <LoadingScreen message="Checking your session" />;
   }
+
+  const shouldShowConditionCard = conditionGate.isSuccess && !conditionGate.data.hasConditionProfile;
 
   return (
     <AppScreen padded={false} style={styles.screen}>
@@ -40,6 +51,7 @@ export function DashboardScreen() {
 
       <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
         <GreetingBlock dateLabel={getDashboardDateLabel()} name={displayName} />
+        {shouldShowConditionCard ? <SelectConditionCard /> : null}
         <WeeklyCheckInCard />
         <DashboardWidgets />
         <QuickLinks />

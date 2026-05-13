@@ -1,0 +1,25 @@
+{
+  "name": "@led/conditions",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Shared condition onboarding configs and profile helpers for Live Every Day",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "react-native": "./src/index.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "check-types": "tsc -p tsconfig.json --noEmit",
+    "lint": "oxlint --deny-warnings src --no-error-on-unmatched-pattern",
+    "lint:fix": "oxlint --deny-warnings --fix src --no-error-on-unmatched-pattern",
+    "format": "oxfmt --write ."
+  },
+  "devDependencies": {
+    "typescript": "^5.9.2"
+  }
+}
