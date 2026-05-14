@@ -1,6 +1,37 @@
+<p align="center">
+  <img src="assets/logos/led-full-logo.svg" alt="Live Every Day" width="420" />
+</p>
+
+<p align="center">
+  <a href="https://nestjs.com/"><img alt="NestJS" src="https://img.shields.io/badge/NestJS-E0234E?logo=nestjs&logoColor=white"></a>
+  <a href="https://expo.dev/"><img alt="Expo" src="https://img.shields.io/badge/Expo-000020?logo=expo&logoColor=white"></a>
+  <a href="https://react.dev/"><img alt="React" src="https://img.shields.io/badge/React-20232A?logo=react&logoColor=61DAFB"></a>
+  <a href="https://turbo.build/repo"><img alt="Turbo" src="https://img.shields.io/badge/Turbo-000000?logo=turborepo&logoColor=white"></a>
+  <a href="https://pnpm.io/"><img alt="pnpm" src="https://img.shields.io/badge/pnpm-F69220?logo=pnpm&logoColor=white"></a>
+  <a href="https://nodejs.org/"><img alt="Node.js" src="https://img.shields.io/badge/Node.js-5FA04E?logo=nodedotjs&logoColor=white"></a>
+</p>
+
 # Live Every Day
 
 Live Every Day is a TypeScript monorepo for the Live Every Day product. It includes a NestJS API, a React web app, an Expo mobile app, shared database schema, a generated API client, and a React Native design system.
+
+## Quick Links
+
+- [Repository Structure](#repository-structure)
+- [Tech Stack](#tech-stack)
+- [Local Setup](#local-setup)
+- [Development Commands](#development-commands)
+- [API Client Generation](#api-client-generation)
+- [Mobile App](#mobile-app)
+- [Auth](#auth)
+- [Quality Checks](#quality-checks)
+
+## Highlights
+
+- Monorepo with shared contracts and typed clients.
+- OpenAPI-driven API client generation with Orval.
+- Better Auth-based auth flow for web and mobile.
+- Shared React Native design system package.
 
 ## Repository Structure
 
@@ -29,11 +60,18 @@ packages/
 
 ## Prerequisites
 
+- `mise` (recommended)
 - Node.js `>=18`
 - pnpm
 - Docker, for local Postgres
 
-This repo is configured with `mise.toml`, so you can also use `mise` to install the expected local toolchain.
+Ideal setup:
+
+```sh
+mise install
+```
+
+This repo is configured with `mise.toml`, so `mise install` will set up the expected local toolchain (except Docker).
 
 ## Local Setup
 
