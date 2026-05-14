@@ -1,0 +1,41 @@
+{
+  "name": "live-every-day",
+  "private": true,
+  "scripts": {
+    "build": "turbo run build",
+    "build:api": "turbo run build --filter=api",
+    "build:web": "turbo run build --filter=web",
+    "build:db": "turbo run build --filter=database",
+    "generate": "turbo run generate",
+    "dev": "turbo run dev",
+    "test": "turbo run test",
+    "typecheck": "turbo run check-types",
+    "dev:api": "pnpm --filter api start:dev",
+    "dev:web": "turbo run dev --filter=web",
+    "dev:mobile": "turbo run dev --filter=mobile",
+    "dev:mobile:go": "pnpm --filter mobile start:go",
+    "lint": "turbo run lint",
+    "lint:fix": "turbo run lint:fix",
+    "format": "oxfmt --write .",
+    "format:check": "oxfmt --check .",
+    "check-types": "turbo run check-types",
+    "check-types:db": "turbo run check-types --filter=database",
+    "db:up": "docker compose up -d postgres",
+    "db:down": "docker compose down",
+    "db:reset": "docker compose down -v && docker compose up -d postgres",
+    "db:logs": "docker compose logs -f postgres",
+    "db:generate": "turbo run db:generate --filter=database",
+    "db:migrate": "turbo run db:migrate --filter=database",
+    "db:studio": "turbo run db:studio --filter=database"
+  },
+  "devDependencies": {
+    "oxfmt": "^0.49.0",
+    "oxlint": "^1.64.0",
+    "turbo": "^2.9.12",
+    "typescript": "5.9.2"
+  },
+  "packageManager": "pnpm@9.0.0",
+  "engines": {
+    "node": ">=18"
+  }
+}

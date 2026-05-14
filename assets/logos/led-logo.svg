@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160" role="img" aria-labelledby="title desc">
+  <title id="title">Live Every Day logo mark</title>
+  <desc id="desc">A circular twelve-dot dawn-to-dusk mark.</desc>
+  <g transform="translate(80 80)">
+    <circle cx="0" cy="-42" r="7.7" fill="#3EA8CC"/>
+    <circle cx="21" cy="-36.38" r="6.2" fill="#78A0B8"/>
+    <circle cx="36.38" cy="-21" r="6.2" fill="#A89478"/>
+    <circle cx="42" cy="0" r="7.7" fill="#C89858"/>
+    <circle cx="36.38" cy="21" r="6.2" fill="#303840"/>
+    <circle cx="21" cy="36.38" r="6.2" fill="#303840"/>
+    <circle cx="0" cy="42" r="7.7" fill="#1A2830"/>
+    <circle cx="-21" cy="36.38" r="6.2" fill="#303840"/>
+    <circle cx="-36.38" cy="21" r="6.2" fill="#506878"/>
+    <circle cx="-42" cy="0" r="7.7" fill="#E8CC70"/>
+    <circle cx="-36.38" cy="-21" r="6.2" fill="#F0E090"/>
+    <circle cx="-21" cy="-36.38" r="6.2" fill="#88B0C0"/>
+  </g>
+</svg>

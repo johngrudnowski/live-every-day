@@ -1,0 +1,26 @@
+export const colors = {
+  midnight: '#1A2830',
+  predawn: '#506878',
+  sunrise: '#E8CC70',
+  morning: '#F0E090',
+  midday: '#6AB0C8',
+  afternoon: '#9098A0',
+  sunset: '#C89858',
+  dusk: '#485058',
+  canvas: '#FFFCF5',
+  surface: '#EBE8E0',
+  card: '#FFFFFF',
+  border: '#D8D0C0',
+  text: '#1A2830',
+  textMid: '#506878',
+  textLite: '#9098A0',
+  flagHigh: '#C87060',
+  flagHighBg: '#F4DDD8',
+  flagOk: '#7A9E88',
+  flagOkBg: '#D4EAD8',
+  selectedBg: '#EEF7FB',
+  white: '#FFFFFF',
+  transparent: 'transparent',
+} as const;
+
+export type ColorToken = keyof typeof colors;
