@@ -155,6 +155,11 @@ For local API access from mobile, set:
 EXPO_PUBLIC_API_URL=http://YOUR_LAN_IP:3000
 ```
 
+Android notes:
+
+- Android emulator: use `EXPO_PUBLIC_API_URL=http://10.0.2.2:3000`
+- Physical Android device: use your machine LAN IP (for example `http://192.168.1.20:3000`)
+
 For local browser-based Expo testing, include `http://localhost:8081` in both `CORS_ORIGIN` and `BETTER_AUTH_TRUSTED_ORIGINS`.
 
 ## Auth
@@ -177,6 +182,22 @@ CORS_ORIGIN=http://localhost:3001,http://localhost:8081,http://localhost:19006
 GOOGLE_CLIENT_ID=
 GOOGLE_CLIENT_SECRET=
 ```
+
+Local Android OAuth callback checklist:
+
+1. Set `BETTER_AUTH_URL` to an address reachable by the phone/emulator (not `localhost` on physical devices), for example:
+
+```txt
+BETTER_AUTH_URL=http://192.168.1.20:3000
+```
+
+2. In Google Cloud Console, add the Better Auth callback URI:
+
+```txt
+http://192.168.1.20:3000/auth/callback/google
+```
+
+3. Ensure `BETTER_AUTH_TRUSTED_ORIGINS` includes your Expo origin(s) and the app scheme (`liveeveryday-development://` for dev variant).
 
 ## Quality Checks
 

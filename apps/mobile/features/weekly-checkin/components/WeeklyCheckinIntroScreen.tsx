@@ -1,4 +1,5 @@
 import { router } from 'expo-router';
+import { useEffect } from 'react';
 import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { AppScreen, LedText, PrimaryButton, colors, spacing } from '@led/design-system';
 import { LoadingScreen } from '@/features/launch/components/LoadingScreen';
@@ -9,6 +10,13 @@ import { WhatToExpect } from './WhatToExpect';
 
 export function WeeklyCheckinIntroScreen() {
   const summaryQuery = useWeeklyCheckinSummaryQuery();
+  const hasCompletedCurrentWeek = summaryQuery.data?.hasCompletedCurrentWeek === true;
+
+  useEffect(() => {
+    if (hasCompletedCurrentWeek) {
+      router.replace('/check-in/saved');
+    }
+  }, [hasCompletedCurrentWeek]);
 
   if (summaryQuery.isPending) {
     return <LoadingScreen message="Loading check-in" />;
@@ -25,8 +33,7 @@ export function WeeklyCheckinIntroScreen() {
     );
   }
 
-  if (summaryQuery.data.hasCompletedCurrentWeek) {
-    router.replace('/check-in/saved');
+  if (hasCompletedCurrentWeek) {
     return <LoadingScreen message="Opening saved check-in" />;
   }
 

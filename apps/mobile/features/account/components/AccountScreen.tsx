@@ -1,9 +1,17 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { router } from 'expo-router';
 import type { ComponentProps } from 'react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
-import { AppScreen, LedText, PrimaryButton, colors, radii, spacing } from '@led/design-system';
+import {
+  AppScreen,
+  ConfirmationModal,
+  LedText,
+  PrimaryButton,
+  colors,
+  radii,
+  spacing,
+} from '@led/design-system';
 import {
   getConditionDefinition,
   type ConditionDefinition,
@@ -14,12 +22,15 @@ import { useConditionSummaryQuery } from '@/features/conditions/api/condition-qu
 import { DashboardBottomBar } from '@/features/dashboard/components/DashboardBottomBar';
 import { useMobileAuth } from '@/features/auth/hooks/use-mobile-auth';
 import { LoadingScreen } from '@/features/launch/components/LoadingScreen';
+import { useDeleteAccountMutation } from '../api/account-queries';
 
 type IconName = ComponentProps<typeof FontAwesome>['name'];
 
 export function AccountScreen() {
   const auth = useMobileAuth();
+  const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
   const summaryQuery = useConditionSummaryQuery(Boolean(auth.data?.session));
+  const deleteAccountMutation = useDeleteAccountMutation();
   const activeProfile = summaryQuery.data?.activeConditionProfile ?? null;
   const draftProfile = summaryQuery.data?.draftConditionProfile ?? null;
   const profile = activeProfile ?? draftProfile;
@@ -64,9 +75,31 @@ export function AccountScreen() {
         ) : (
           <EmptyHealthProfile />
         )}
+
+        <DangerZone onDeletePress={() => setIsDeleteModalVisible(true)} />
       </ScrollView>
 
       <DashboardBottomBar activeLabel="Account" />
+
+      <ConfirmationModal
+        visible={isDeleteModalVisible}
+        title="Delete account and data?"
+        description="This permanently deletes your account, health profile, weekly check-ins, and saved app data. This cannot be undone."
+        confirmLabel="Delete account"
+        cancelLabel="Keep account"
+        confirmVariant="danger"
+        isPending={deleteAccountMutation.isPending}
+        error={getErrorMessage(deleteAccountMutation.error)}
+        onCancel={() => {
+          if (deleteAccountMutation.isPending) {
+            return;
+          }
+
+          deleteAccountMutation.reset();
+          setIsDeleteModalVisible(false);
+        }}
+        onConfirm={() => deleteAccountMutation.mutate()}
+      />
     </AppScreen>
   );
 }
@@ -236,6 +269,30 @@ function EmptyHealthProfile() {
   );
 }
 
+function DangerZone({ onDeletePress }: { onDeletePress: () => void }) {
+  return (
+    <View style={styles.section}>
+      <LedText variant="label" color="flagHigh">
+        Danger zone
+      </LedText>
+      <View style={styles.dangerCard}>
+        <View style={styles.dangerCopy}>
+          <LedText variant="subtitle">Delete account and data</LedText>
+          <LedText variant="bodySmall" color="predawn">
+            Permanently remove your account, health profile, and check-in history.
+          </LedText>
+        </View>
+        <PrimaryButton
+          label="Delete my account and data"
+          variant="danger"
+          fullWidth
+          onPress={onDeletePress}
+        />
+      </View>
+    </View>
+  );
+}
+
 function parseProfileValues(profile: unknown): Record<string, SemanticValue> {
   if (!profile || typeof profile !== 'object' || !('values' in profile)) {
     return {};
@@ -320,6 +377,18 @@ function getInitials(name: string) {
     .join('');
 }
 
+function getErrorMessage(error: unknown) {
+  if (!error) {
+    return null;
+  }
+
+  if (error instanceof Error && error.message) {
+    return error.message;
+  }
+
+  return 'Unable to delete your account. Please try again.';
+}
+
 const styles = StyleSheet.create({
   screen: {
     backgroundColor: colors.canvas,
@@ -398,6 +467,17 @@ const styles = StyleSheet.create({
     borderRadius: radii.xxl,
     backgroundColor: colors.card,
     padding: spacing.lg,
+  },
+  dangerCard: {
+    gap: spacing.lg,
+    borderWidth: 1,
+    borderColor: colors.flagHigh,
+    borderRadius: radii.xxl,
+    backgroundColor: colors.flagHighBg,
+    padding: spacing.lg,
+  },
+  dangerCopy: {
+    gap: spacing.xxs,
   },
   pressed: {
     opacity: 0.72,

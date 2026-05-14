@@ -111,7 +111,11 @@ export class WeeklyCheckinDto {
   @ApiProperty({ type: WeeklyCheckinScoreDto })
   score!: WeeklyCheckinScoreDto;
 
-  @ApiPropertyOptional({ example: 'Fatigue was worse after treatment.', nullable: true })
+  @ApiPropertyOptional({
+    type: String,
+    example: 'Fatigue was worse after treatment.',
+    nullable: true,
+  })
   customNote!: string | null;
 
   @ApiPropertyOptional({ type: String, format: 'date-time', nullable: true })

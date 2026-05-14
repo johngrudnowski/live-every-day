@@ -6,9 +6,4 @@
  * OpenAPI spec version: 1.0
  */
 
-export interface WeeklyCheckinOptionDto {
-  value: string;
-  label: string;
-  description?: string;
-  score?: number;
-}
+export type SaveWeeklyCheckinDraftDtoAnswers = { [key: string]: unknown };
