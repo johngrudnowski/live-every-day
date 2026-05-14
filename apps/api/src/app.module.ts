@@ -5,6 +5,7 @@ import { AuthModule } from './auth/auth.module';
 import { ConditionsModule } from './conditions/conditions.module';
 import { DatabaseModule } from './database/database.module';
 import { HealthController } from './health/health.controller';
+import { VitalsModule } from './vitals/vitals.module';
 import { WeeklyCheckinsModule } from './weekly-checkins/weekly-checkins.module';
 
 @Module({
@@ -19,6 +20,7 @@ import { WeeklyCheckinsModule } from './weekly-checkins/weekly-checkins.module';
     AccountModule,
     ConditionsModule,
     WeeklyCheckinsModule,
+    VitalsModule,
   ],
 })
 export class AppModule {}

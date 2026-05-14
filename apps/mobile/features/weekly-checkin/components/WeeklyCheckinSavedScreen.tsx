@@ -1,17 +1,19 @@
 import { router, useLocalSearchParams } from 'expo-router';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Alert, ScrollView, StyleSheet, TextInput, View } from 'react-native';
 import { AppScreen, LedText, PrimaryButton, colors, radii, spacing } from '@led/design-system';
 import { LoadingScreen } from '@/features/launch/components/LoadingScreen';
 import {
   useSubmitWeeklyCheckinMutation,
   useWeeklyCheckinSummaryQuery,
+  type WeeklyCheckin,
+  type WeeklyCheckinSummary,
 } from '../api/weekly-checkin-queries';
+import { ThisWeeksScore } from './ThisWeeksScore';
 
 export function WeeklyCheckinSavedScreen() {
   const params = useLocalSearchParams<{ justCompleted?: string }>();
   const summaryQuery = useWeeklyCheckinSummaryQuery();
-  const submitMutation = useSubmitWeeklyCheckinMutation();
   const summary = summaryQuery.data;
   const checkin =
     summary?.currentCheckin?.status === 'submitted'
@@ -27,13 +29,24 @@ export function WeeklyCheckinSavedScreen() {
   }
 
   const isJustCompleted = params.justCompleted === '1';
+
+  return (
+    <SavedCheckinContent checkin={checkin} isJustCompleted={isJustCompleted} summary={summary} />
+  );
+}
+
+function SavedCheckinContent({
+  checkin,
+  isJustCompleted,
+  summary,
+}: {
+  checkin: WeeklyCheckin;
+  isJustCompleted: boolean;
+  summary: WeeklyCheckinSummary;
+}) {
+  const submitMutation = useSubmitWeeklyCheckinMutation();
   const [customNote, setCustomNote] = useState(checkin.customNote ?? '');
   const persistedNoteRef = useRef(checkin.customNote ?? '');
-  const previousScore = summary.previousWeekCheckin?.score.total;
-  const scoreDelta = useMemo(
-    () => (typeof previousScore === 'number' ? checkin.score.total - previousScore : null),
-    [checkin.score.total, previousScore],
-  );
 
   useEffect(() => {
     const incoming = checkin.customNote ?? '';
@@ -93,30 +106,11 @@ export function WeeklyCheckinSavedScreen() {
           </LedText>
         </View>
 
-        <View style={styles.scoreCard}>
-          <LedText variant="label" color="predawn" style={styles.scoreLabel}>
-            This week&apos;s score
-          </LedText>
-          <View style={styles.scoreTopRow}>
-            <View>
-              <LedText variant="displayMedium" style={styles.scoreValue}>
-                {checkin.score.total}
-              </LedText>
-              {scoreDelta !== null ? (
-                <LedText
-                  variant="bodySmall"
-                  style={scoreDelta >= 0 ? styles.scoreDeltaUp : styles.scoreDeltaDown}
-                >
-                  {scoreDelta >= 0 ? '↑' : '↓'} {Math.abs(scoreDelta)} from last week
-                </LedText>
-              ) : (
-                <LedText variant="bodySmall" color="predawn">
-                  out of {checkin.score.max}
-                </LedText>
-              )}
-            </View>
-          </View>
-        </View>
+        <ThisWeeksScore
+          checkin={checkin}
+          previousCheckin={summary.previousWeekCheckin}
+          history={summary.recentSubmittedCheckins ?? []}
+        />
 
         <View style={styles.noteCard}>
           <View style={styles.noteHeader}>
@@ -207,35 +201,6 @@ const styles = StyleSheet.create({
     color: '#1A6040',
     fontSize: 28,
     lineHeight: 30,
-  },
-  scoreCard: {
-    gap: spacing.sm,
-    borderWidth: 1,
-    borderColor: colors.border,
-    borderRadius: radii.xxl,
-    backgroundColor: colors.card,
-    padding: spacing.lg,
-  },
-  scoreLabel: {
-    alignSelf: 'stretch',
-  },
-  scoreTopRow: {
-    flexDirection: 'row',
-    alignItems: 'flex-end',
-    justifyContent: 'space-between',
-    gap: spacing.md,
-  },
-  scoreValue: {
-    color: colors.flagHigh,
-    fontFamily: 'Raleway_300Light',
-    fontSize: 48,
-    lineHeight: 52,
-  },
-  scoreDeltaUp: {
-    color: colors.flagHigh,
-  },
-  scoreDeltaDown: {
-    color: colors.flagOk,
   },
   noteCard: {
     borderWidth: 1,

@@ -24,11 +24,13 @@ export class WeeklyCheckinsService {
   async getSummary(userId: string) {
     const definition = activeWeeklyCheckinDefinition;
     const weekStartDate = getCurrentWeekStartDate();
-    const [currentCheckin, lastSubmittedCheckin, previousWeekCheckin] = await Promise.all([
-      this.getCurrentCheckinRow(userId, definition.id, weekStartDate),
-      this.getLastSubmittedCheckinRow(userId),
-      this.getPreviousWeekCheckinRow(userId, weekStartDate),
-    ]);
+    const [currentCheckin, lastSubmittedCheckin, previousWeekCheckin, recentSubmittedCheckins] =
+      await Promise.all([
+        this.getCurrentCheckinRow(userId, definition.id, weekStartDate),
+        this.getLastSubmittedCheckinRow(userId),
+        this.getPreviousWeekCheckinRow(userId, weekStartDate),
+        this.getRecentSubmittedCheckinRows(userId, 8),
+      ]);
     const hasCompletedCurrentWeek = currentCheckin?.status === 'submitted';
 
     return {
@@ -37,6 +39,7 @@ export class WeeklyCheckinsService {
       currentCheckin: currentCheckin ? mapCheckinRow(currentCheckin) : null,
       lastSubmittedCheckin: lastSubmittedCheckin ? mapCheckinRow(lastSubmittedCheckin) : null,
       previousWeekCheckin: previousWeekCheckin ? mapCheckinRow(previousWeekCheckin) : null,
+      recentSubmittedCheckins: recentSubmittedCheckins.map(mapCheckinRow),
       hasCompletedCurrentWeek,
       shouldStartCheckin: !hasCompletedCurrentWeek,
     };
@@ -45,7 +48,10 @@ export class WeeklyCheckinsService {
   async getCurrent(userId: string) {
     const definition = activeWeeklyCheckinDefinition;
     const weekStartDate = getCurrentWeekStartDate();
-    const currentCheckin = await this.getCurrentCheckinRow(userId, definition.id, weekStartDate);
+    const [currentCheckin, recentSubmittedCheckins] = await Promise.all([
+      this.getCurrentCheckinRow(userId, definition.id, weekStartDate),
+      this.getRecentSubmittedCheckinRows(userId, 8),
+    ]);
 
     return {
       weekStartDate,
@@ -53,6 +59,7 @@ export class WeeklyCheckinsService {
       currentCheckin: currentCheckin ? mapCheckinRow(currentCheckin) : null,
       lastSubmittedCheckin: null,
       previousWeekCheckin: null,
+      recentSubmittedCheckins: recentSubmittedCheckins.map(mapCheckinRow),
       hasCompletedCurrentWeek: currentCheckin?.status === 'submitted',
       shouldStartCheckin: currentCheckin?.status !== 'submitted',
     };
@@ -207,6 +214,17 @@ export class WeeklyCheckinsService {
       .limit(1);
 
     return row ?? null;
+  }
+
+  private async getRecentSubmittedCheckinRows(userId: string, limit: number) {
+    const rows = await this.db
+      .select()
+      .from(weeklyCheckins)
+      .where(and(eq(weeklyCheckins.userId, userId), eq(weeklyCheckins.status, 'submitted')))
+      .orderBy(desc(weeklyCheckins.weekStartDate))
+      .limit(limit);
+
+    return rows.reverse();
   }
 
   private async upsertCheckin({

@@ -144,6 +144,9 @@ export class WeeklyCheckinSummaryDto {
   @ApiPropertyOptional({ type: WeeklyCheckinDto, nullable: true })
   previousWeekCheckin!: WeeklyCheckinDto | null;
 
+  @ApiProperty({ type: WeeklyCheckinDto, isArray: true })
+  recentSubmittedCheckins!: WeeklyCheckinDto[];
+
   @ApiProperty({ example: false })
   hasCompletedCurrentWeek!: boolean;
 

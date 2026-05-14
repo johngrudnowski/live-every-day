@@ -12,6 +12,7 @@ export default function AppLayout() {
       <Stack.Screen name="check-in/saved" options={{ headerShown: false }} />
       <Stack.Screen name="conditions/index" options={{ headerShown: false }} />
       <Stack.Screen name="conditions/[conditionId]" options={{ headerShown: false }} />
+      <Stack.Screen name="vitals/log" options={{ headerShown: false }} />
     </Stack>
   );
 }
