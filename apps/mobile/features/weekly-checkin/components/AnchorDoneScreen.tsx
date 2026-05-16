@@ -8,7 +8,10 @@ import {
 } from '../api/weekly-checkin-queries';
 import { getCurrentAnswers } from '../lib/weeklyCheckinProgress';
 import { routeToSaved } from '../lib/weeklyCheckinRoutes';
-import { calculateWeeklyCheckinScore } from '../lib/weeklyCheckinScoring';
+import {
+  formatWeeklyCheckinBurdenPercent,
+  formatWeeklyCheckinRawSumLabel,
+} from '../lib/weeklyCheckinScorePresentation';
 
 export function AnchorDoneScreen() {
   const summaryQuery = useWeeklyCheckinSummaryQuery();
@@ -23,19 +26,15 @@ export function AnchorDoneScreen() {
     return <LoadingScreen message="Opening check-in" />;
   }
 
-  const score = calculateWeeklyCheckinScore(
-    summary.activeDefinition,
-    summary.currentCheckin?.answers ?? {},
-  );
-  const activeDefinition = summary.activeDefinition;
+  const score = summary.currentCheckin?.score;
   const answers = getCurrentAnswers(summary);
+  const customNote = summary.currentCheckin?.customNote ?? undefined;
 
   async function handleSkipForNow() {
     await submitMutation.mutateAsync({
       data: {
-        definitionId: activeDefinition.id,
-        definitionVersion: activeDefinition.version,
         answers,
+        customNote,
       },
     });
     routeToSaved(true);
@@ -68,19 +67,24 @@ export function AnchorDoneScreen() {
             Going deeper
           </LedText>
           <LedText variant="body" color="textMid">
-            22 additional symptoms patients with MPN report — across sleep, cognition, joints, GI, and
-            quality of life. Quick three-tap rating: none, some, a lot. Helps the brief and Talk to
-            LED get richer over time.
+            22 additional symptoms patients with MPN report — across sleep, cognition, joints, GI,
+            and quality of life. Quick three-tap rating: none, some, a lot. Helps the brief and Talk
+            to LED get richer over time.
           </LedText>
         </View>
 
         <View style={styles.scoreRow}>
-          <LedText variant="bodySmall" color="predawn">
-            Current score
-          </LedText>
-          <LedText variant="subtitle">
-            {score.total} / {score.max}
-          </LedText>
+          <View style={styles.scoreCopy}>
+            <LedText variant="bodySmall" color="predawn">
+              Current score
+            </LedText>
+            <LedText variant="subtitle">
+              {formatWeeklyCheckinBurdenPercent(score?.percent ?? 0)}
+            </LedText>
+            <LedText variant="bodySmall" color="predawn">
+              {formatWeeklyCheckinRawSumLabel(score?.total ?? 0, score?.max ?? 0)}
+            </LedText>
+          </View>
         </View>
 
         <View style={styles.actions}>
@@ -152,13 +156,16 @@ const styles = StyleSheet.create({
     padding: spacing.lg,
   },
   scoreRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    flexDirection: 'column',
+    alignItems: 'stretch',
+    gap: spacing.xs,
     borderRadius: radii.xl,
     backgroundColor: colors.surface,
     paddingHorizontal: spacing.lg,
     paddingVertical: spacing.md,
+  },
+  scoreCopy: {
+    gap: spacing.xxs,
   },
   actions: {
     gap: spacing.md,

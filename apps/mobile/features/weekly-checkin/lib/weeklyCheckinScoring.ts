@@ -5,6 +5,7 @@ export type WeeklyCheckinScore = {
   max: number;
   numericTotal: number;
   enumTotal: number;
+  percent: number;
 };
 
 export function calculateWeeklyCheckinScore(
@@ -20,10 +21,7 @@ export function calculateWeeklyCheckinScore(
       max += question.max ?? 10;
       const value = answers[question.id];
       if (typeof value === 'number') {
-        numericTotal +=
-          question.scoreDirection === 'lower_is_better'
-            ? (question.max ?? 10) + (question.min ?? 1) - value
-            : value;
+        numericTotal += value;
       }
       continue;
     }
@@ -44,6 +42,7 @@ export function calculateWeeklyCheckinScore(
     max,
     numericTotal,
     enumTotal,
+    percent: getPercent(numericTotal + enumTotal, max),
   };
 }
 
@@ -53,4 +52,12 @@ export function isQuestionAnswered(
 ) {
   const value = answers[question.id];
   return value !== undefined && value !== null && value !== '';
+}
+
+function getPercent(total: number, max: number) {
+  if (max <= 0) {
+    return 0;
+  }
+
+  return Math.max(0, Math.min(100, Math.round((total / max) * 100)));
 }

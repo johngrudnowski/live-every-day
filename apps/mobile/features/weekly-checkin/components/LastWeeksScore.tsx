@@ -1,9 +1,13 @@
 import { StyleSheet, View } from 'react-native';
 import { LedText, colors, radii, spacing } from '@led/design-system';
 import type { WeeklyCheckin } from '../api/weekly-checkin-queries';
+import {
+  formatWeeklyCheckinBurdenPercent,
+  formatWeeklyCheckinRawSumLabel,
+} from '../lib/weeklyCheckinScorePresentation';
 
 export function LastWeeksScore({ checkin }: { checkin: WeeklyCheckin }) {
-  const scorePercent = Math.max(0, Math.min(100, Math.round((checkin.score.total / checkin.score.max) * 100)));
+  const scorePercent = checkin.score.percent;
 
   return (
     <View style={styles.card}>
@@ -11,9 +15,14 @@ export function LastWeeksScore({ checkin }: { checkin: WeeklyCheckin }) {
         Last week&apos;s score
       </LedText>
       <View style={styles.row}>
-        <LedText variant="label" color="predawn">
-          {formatScore(checkin.score.total)} out of {checkin.score.max}
-        </LedText>
+        <View style={styles.scoreBlock}>
+          <LedText variant="title" color="midnight">
+            {formatWeeklyCheckinBurdenPercent(checkin.score.percent)}
+          </LedText>
+          <LedText variant="bodySmall" color="predawn">
+            {formatWeeklyCheckinRawSumLabel(checkin.score.total, checkin.score.max)}
+          </LedText>
+        </View>
         <View style={styles.sparkline}>
           <View style={[styles.sparkBar, { height: '40%' }]} />
           <View style={[styles.sparkBar, { height: '48%' }]} />
@@ -27,10 +36,6 @@ export function LastWeeksScore({ checkin }: { checkin: WeeklyCheckin }) {
       </LedText>
     </View>
   );
-}
-
-function formatScore(value: number) {
-  return new Intl.NumberFormat('en-US').format(value);
 }
 
 function formatDate(value: string) {
@@ -52,6 +57,10 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
     justifyContent: 'space-between',
     gap: spacing.md,
+  },
+  scoreBlock: {
+    gap: spacing.xxs,
+    flexShrink: 1,
   },
   sparkline: {
     height: 34,

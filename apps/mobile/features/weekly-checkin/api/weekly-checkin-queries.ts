@@ -1,5 +1,7 @@
-import { useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
+  customFetch,
+  getWeeklyCheckinsControllerGetCheckinQueryKey,
   getWeeklyCheckinsControllerGetSummaryQueryKey,
   useWeeklyCheckinsControllerGetCheckin,
   useWeeklyCheckinsControllerGetCurrent,
@@ -21,6 +23,8 @@ export type WeeklyCheckinSummary = WeeklyCheckinSummaryDto;
 
 export const weeklyCheckinQueryKeys = {
   summary: getWeeklyCheckinsControllerGetSummaryQueryKey(),
+  history: ['/api/me/weekly-checkin/history'] as const,
+  detail: (checkinId: string) => getWeeklyCheckinsControllerGetCheckinQueryKey(checkinId),
 };
 
 export function useWeeklyCheckinSummaryQuery(enabled = true) {
@@ -66,6 +70,20 @@ export function useWeeklyCheckinDetailQuery(checkinId: string, enabled = true) {
   );
 }
 
+export function useWeeklyCheckinHistoryQuery(enabled = true) {
+  return useQuery({
+    queryKey: weeklyCheckinQueryKeys.history,
+    enabled,
+    queryFn: async () => {
+      const response = await customFetch<{ data: WeeklyCheckin[]; status: 200 }>(
+        '/api/me/weekly-checkin/history',
+        { method: 'GET' },
+      );
+      return response.data;
+    },
+  });
+}
+
 export function useSaveWeeklyCheckinDraftMutation() {
   const queryClient = useQueryClient();
 
@@ -94,6 +112,34 @@ export function useSubmitWeeklyCheckinMutation() {
     },
     queryClient,
   );
+}
+
+export function useUpdateWeeklyCheckinMutation() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({
+      checkinId,
+      data,
+    }: {
+      checkinId: string;
+      data: SubmitWeeklyCheckinDto;
+    }) => {
+      return await customFetch<{ data: WeeklyCheckin; status: 200 }>(
+        `/api/me/weekly-checkin/${checkinId}`,
+        {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+        },
+      );
+    },
+    onSuccess: (response, variables) => {
+      queryClient.setQueryData(weeklyCheckinQueryKeys.detail(variables.checkinId), response);
+      void queryClient.invalidateQueries({ queryKey: weeklyCheckinQueryKeys.summary });
+      void queryClient.invalidateQueries({ queryKey: weeklyCheckinQueryKeys.history });
+    },
+  });
 }
 
 export type SaveWeeklyCheckinDraftInput = SaveWeeklyCheckinDraftDto;

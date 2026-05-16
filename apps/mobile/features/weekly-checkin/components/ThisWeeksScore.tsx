@@ -1,7 +1,12 @@
+import { LedText, colors, radii, spacing } from '@led/design-system';
 import { useMemo } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { LedText, colors, radii, spacing } from '@led/design-system';
 import type { WeeklyCheckin } from '../api/weekly-checkin-queries';
+import {
+  formatWeeklyCheckinBurdenPercent,
+  formatWeeklyCheckinRawSumLabel,
+  getWeeklyCheckinScoreColor,
+} from '../lib/weeklyCheckinScorePresentation';
 import { SymptomBarChart, type SymptomBarChartPoint } from './SymptomBarChart';
 
 export function ThisWeeksScore({
@@ -13,11 +18,18 @@ export function ThisWeeksScore({
   previousCheckin?: WeeklyCheckin | null;
   history: WeeklyCheckin[];
 }) {
-  const scoreDelta = useMemo(
-    () => (previousCheckin ? checkin.score.total - previousCheckin.score.total : null),
-    [checkin.score.total, previousCheckin],
-  );
+  const scoreDeltaPercentPoints = useMemo(() => {
+    if (!previousCheckin) {
+      return null;
+    }
+
+    const current = checkin.score.percent;
+    const previous = previousCheckin.score.percent;
+    return current - previous;
+  }, [checkin.score.percent, previousCheckin]);
   const chartPoints = useMemo(() => getChartPoints(checkin, history), [checkin, history]);
+  const scorePercent = checkin.score.percent;
+  const scoreColor = getWeeklyCheckinScoreColor(scorePercent);
 
   return (
     <View style={styles.card}>
@@ -26,21 +38,30 @@ export function ThisWeeksScore({
       </LedText>
       <View style={styles.scoreRow}>
         <View style={styles.scoreValueWrap}>
-          <LedText variant="displayMedium" style={styles.scoreValue}>
-            {checkin.score.total}
+          <LedText variant="displayMedium" style={[styles.scoreValue, { color: scoreColor }]}>
+            {formatWeeklyCheckinBurdenPercent(checkin.score.percent)}
           </LedText>
-          {scoreDelta !== null ? (
+          <LedText variant="bodySmall" color="predawn">
+            {formatWeeklyCheckinRawSumLabel(checkin.score.total, checkin.score.max)}
+          </LedText>
+          {scoreDeltaPercentPoints !== null ? (
             <LedText
               variant="bodySmall"
-              style={scoreDelta >= 0 ? styles.scoreDeltaUp : styles.scoreDeltaDown}
+              style={
+                scoreDeltaPercentPoints > 0
+                  ? styles.scoreDeltaWorse
+                  : scoreDeltaPercentPoints < 0
+                    ? styles.scoreDeltaBetter
+                    : styles.scoreDeltaSame
+              }
             >
-              {scoreDelta >= 0 ? '↑' : '↓'} {Math.abs(scoreDelta)} from last week
+              {scoreDeltaPercentPoints > 0
+                ? `+${scoreDeltaPercentPoints} pts vs last week`
+                : scoreDeltaPercentPoints < 0
+                  ? `−${Math.abs(scoreDeltaPercentPoints)} pts vs last week`
+                  : 'Same vs last week'}
             </LedText>
-          ) : (
-            <LedText variant="bodySmall" color="predawn">
-              out of {checkin.score.max}
-            </LedText>
-          )}
+          ) : null}
         </View>
         <SymptomBarChart points={chartPoints} />
       </View>
@@ -48,7 +69,10 @@ export function ThisWeeksScore({
   );
 }
 
-function getChartPoints(checkin: WeeklyCheckin, history: WeeklyCheckin[]): SymptomBarChartPoint[] {
+function getChartPoints(
+  checkin: WeeklyCheckin,
+  history: WeeklyCheckin[],
+): SymptomBarChartPoint[] {
   const checkinsByWeek = new Map<string, WeeklyCheckin>();
 
   for (const item of history) {
@@ -63,7 +87,8 @@ function getChartPoints(checkin: WeeklyCheckin, history: WeeklyCheckin[]): Sympt
     .map((item) => ({
       id: item.id,
       weekStartDate: item.weekStartDate,
-      value: item.score.total,
+      percent: item.score.percent,
+      total: item.score.total,
       max: item.score.max,
     }));
 }
@@ -89,7 +114,8 @@ const styles = StyleSheet.create({
   },
   scoreValueWrap: {
     flexShrink: 0,
-    minWidth: 104,
+    minWidth: 120,
+    gap: spacing.xxs,
   },
   scoreValue: {
     color: colors.flagHigh,
@@ -97,10 +123,13 @@ const styles = StyleSheet.create({
     fontSize: 48,
     lineHeight: 52,
   },
-  scoreDeltaUp: {
+  scoreDeltaWorse: {
     color: colors.flagHigh,
   },
-  scoreDeltaDown: {
+  scoreDeltaBetter: {
     color: colors.flagOk,
+  },
+  scoreDeltaSame: {
+    color: colors.predawn,
   },
 });

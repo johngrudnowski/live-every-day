@@ -13,7 +13,7 @@ type WeeklyCheckinNumberScaleProps = {
 
 export function WeeklyCheckinNumberScale({
   value,
-  min = 1,
+  min = 0,
   max = 10,
   lowLabel,
   highLabel,

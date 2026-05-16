@@ -1,10 +1,11 @@
-import { router, useLocalSearchParams } from 'expo-router';
-import { useEffect, useRef, useState } from 'react';
-import { Alert, ScrollView, StyleSheet, TextInput, View } from 'react-native';
-import { AppScreen, LedText, PrimaryButton, colors, radii, spacing } from '@led/design-system';
+import { ScreenHeaderChevronLink, ScreenHeaderNavRow } from '@/components/screen-header';
+import { ScreenFooter, screenFooterNavActiveLabel } from '@/components/screen-footer';
+import { showAppointmentBriefPlaceholderAlert } from '@/features/dashboard/lib/appointmentBriefPlaceholder';
 import { LoadingScreen } from '@/features/launch/components/LoadingScreen';
+import { AppScreen, LedText, PrimaryButton, colors, radii, spacing } from '@led/design-system';
+import { router, useLocalSearchParams } from 'expo-router';
+import { ScrollView, StyleSheet, View } from 'react-native';
 import {
-  useSubmitWeeklyCheckinMutation,
   useWeeklyCheckinSummaryQuery,
   type WeeklyCheckin,
   type WeeklyCheckinSummary,
@@ -44,54 +45,17 @@ function SavedCheckinContent({
   isJustCompleted: boolean;
   summary: WeeklyCheckinSummary;
 }) {
-  const submitMutation = useSubmitWeeklyCheckinMutation();
-  const [customNote, setCustomNote] = useState(checkin.customNote ?? '');
-  const persistedNoteRef = useRef(checkin.customNote ?? '');
-
-  useEffect(() => {
-    const incoming = checkin.customNote ?? '';
-    setCustomNote(incoming);
-    persistedNoteRef.current = incoming;
-  }, [checkin.id, checkin.customNote]);
-
-  useEffect(() => {
-    if (customNote === persistedNoteRef.current) {
-      return;
-    }
-
-    const timeoutId = setTimeout(() => {
-      submitMutation.mutate(
-        {
-          data: {
-            definitionId: summary.activeDefinition.id,
-            definitionVersion: summary.activeDefinition.version,
-            answers: checkin.answers,
-            customNote,
-          },
-        },
-        {
-          onSuccess: () => {
-            persistedNoteRef.current = customNote;
-          },
-        },
-      );
-    }, 700);
-
-    return () => clearTimeout(timeoutId);
-  }, [
-    checkin.answers,
-    customNote,
-    submitMutation,
-    summary.activeDefinition.id,
-    summary.activeDefinition.version,
-  ]);
-
   return (
     <AppScreen padded={false} style={styles.screen}>
       <View style={styles.header}>
-        <View style={styles.headerRow}>
-          <LedText variant="subtitle">Check-in complete</LedText>
-        </View>
+        <ScreenHeaderNavRow
+          left={<ScreenHeaderChevronLink label="Back" onPress={() => router.back()} />}
+          title={
+            <LedText variant="subtitle" numberOfLines={1} ellipsizeMode="tail">
+              Check-in complete
+            </LedText>
+          }
+        />
       </View>
       <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
         <View style={styles.hero}>
@@ -100,9 +64,8 @@ function SavedCheckinContent({
               <LedText style={styles.checkMark}>✓</LedText>
             </View>
           ) : null}
-          <LedText variant="title">Check-in saved.</LedText>
-          <LedText variant="bodySmall" color="predawn">
-            Week of {formatDate(checkin.weekStartDate)}
+          <LedText variant="bodySmall" color="predawn" align="center">
+            {formatCheckinWeekDateRange(checkin.weekStartDate)}
           </LedText>
         </View>
 
@@ -111,30 +74,12 @@ function SavedCheckinContent({
           previousCheckin={summary.previousWeekCheckin}
           history={summary.recentSubmittedCheckins ?? []}
         />
-
-        <View style={styles.noteCard}>
-          <View style={styles.noteHeader}>
-            <LedText variant="subtitle" style={styles.noteTitle}>
-              Anything else to add?
-            </LedText>
-            <LedText variant="bodySmall" color="predawn">
-              How does this week really feel? Your words - no structure needed.
-            </LedText>
-          </View>
-          <View style={styles.noteBody}>
-            <TextInput
-              multiline
-              value={customNote}
-              onChangeText={setCustomNote}
-              placeholder="Type anything you want your brief to capture"
-              placeholderTextColor={colors.textLite}
-              style={styles.noteInput}
-            />
-            <LedText variant="bodySmall" color="midday">
-              {submitMutation.isPending ? 'Saving...' : 'Saved to your brief ✓'}
-            </LedText>
-          </View>
-        </View>
+        <PrimaryButton
+          label="View score history"
+          variant="secondary"
+          fullWidth
+          onPress={() => router.push('/check-in/history')}
+        />
 
         <View style={styles.briefCard}>
           <LedText variant="subtitle" color="midday">
@@ -143,27 +88,37 @@ function SavedCheckinContent({
           <LedText variant="bodySmall" color="textMid">
             This check-in is now included in your next appointment summary.
           </LedText>
-        </View>
-
-        <View style={styles.actions}>
-          <PrimaryButton label="Back to home" fullWidth onPress={() => router.replace('/home')} />
           <PrimaryButton
-            label="Brief ->"
+            label="Brief"
             variant="secondary"
             fullWidth
-            onPress={() => Alert.alert('Not yet implemented', 'Brief is not yet implemented.')}
+            onPress={showAppointmentBriefPlaceholderAlert}
           />
         </View>
       </ScrollView>
+
+      <ScreenFooter activeLabel={screenFooterNavActiveLabel.checkIn} />
     </AppScreen>
   );
 }
 
-function formatDate(value: string) {
-  return new Intl.DateTimeFormat('en-US', {
-    month: 'long',
+function formatCheckinWeekDateRange(weekStartDate: string) {
+  const start = new Date(`${weekStartDate}T00:00:00Z`);
+  const end = new Date(start);
+  end.setUTCDate(start.getUTCDate() + 6);
+
+  const options: Intl.DateTimeFormatOptions = {
+    weekday: 'short',
+    month: 'short',
     day: 'numeric',
-  }).format(new Date(`${value}T00:00:00Z`));
+    year: 'numeric',
+    timeZone: 'UTC',
+  };
+
+  const startLabel = start.toLocaleDateString('en-US', options);
+  const endLabel = end.toLocaleDateString('en-US', options);
+
+  return `${startLabel} – ${endLabel}`;
 }
 
 const styles = StyleSheet.create({
@@ -171,13 +126,10 @@ const styles = StyleSheet.create({
     backgroundColor: colors.canvas,
   },
   header: {
+    borderBottomWidth: 1,
+    borderBottomColor: colors.border,
     paddingTop: spacing.lg,
     paddingHorizontal: spacing.xl,
-  },
-  headerRow: {
-    height: 44,
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   content: {
     gap: spacing.xl,
@@ -202,51 +154,12 @@ const styles = StyleSheet.create({
     fontSize: 28,
     lineHeight: 30,
   },
-  noteCard: {
-    borderWidth: 1,
-    borderColor: colors.border,
-    borderRadius: radii.xxl,
-    backgroundColor: colors.card,
-    overflow: 'hidden',
-  },
-  noteHeader: {
-    gap: spacing.xxs,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.surface,
-    paddingHorizontal: spacing.lg,
-    paddingVertical: spacing.md,
-  },
-  noteTitle: {
-    fontSize: 14,
-    lineHeight: 19,
-  },
-  noteBody: {
-    gap: spacing.sm,
-    padding: spacing.lg,
-  },
-  noteInput: {
-    minHeight: 108,
-    borderWidth: 1,
-    borderColor: colors.border,
-    borderRadius: radii.xl,
-    backgroundColor: colors.canvas,
-    padding: spacing.md,
-    color: colors.text,
-    fontFamily: 'DMSans_400Regular',
-    fontSize: 14,
-    lineHeight: 20,
-    textAlignVertical: 'top',
-  },
   briefCard: {
-    gap: spacing.xs,
+    gap: spacing.md,
     borderWidth: 1,
     borderColor: '#C8E4F0',
     borderRadius: radii.xl,
     backgroundColor: colors.selectedBg,
     padding: spacing.md,
-  },
-  actions: {
-    gap: spacing.md,
-    marginTop: spacing.md,
   },
 });

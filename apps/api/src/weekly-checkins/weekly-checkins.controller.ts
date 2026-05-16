@@ -28,6 +28,13 @@ export class WeeklyCheckinsController {
     return await this.weeklyCheckinsService.getCurrent(user.id);
   }
 
+  @Get('history')
+  @ApiOkResponse({ type: WeeklyCheckinDto, isArray: true })
+  async getHistory(@Req() req: Request) {
+    const user = await this.authSessionService.requireUser(req);
+    return await this.weeklyCheckinsService.getHistory(user.id);
+  }
+
   @Put('current')
   @ApiOkResponse({ type: WeeklyCheckinSummaryDto })
   async saveDraft(@Req() req: Request, @Body() dto: SaveWeeklyCheckinDraftDto) {
@@ -47,5 +54,16 @@ export class WeeklyCheckinsController {
   async getCheckin(@Req() req: Request, @Param('checkinId') checkinId: string) {
     const user = await this.authSessionService.requireUser(req);
     return await this.weeklyCheckinsService.getCheckin(user.id, checkinId);
+  }
+
+  @Put(':checkinId')
+  @ApiOkResponse({ type: WeeklyCheckinDto })
+  async updateCheckin(
+    @Req() req: Request,
+    @Param('checkinId') checkinId: string,
+    @Body() dto: SubmitWeeklyCheckinDto,
+  ) {
+    const user = await this.authSessionService.requireUser(req);
+    return await this.weeklyCheckinsService.updateCheckin(user.id, checkinId, dto);
   }
 }
