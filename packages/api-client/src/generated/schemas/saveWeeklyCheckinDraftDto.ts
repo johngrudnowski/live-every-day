@@ -8,8 +8,7 @@
 import type { SaveWeeklyCheckinDraftDtoAnswers } from './saveWeeklyCheckinDraftDtoAnswers';
 
 export interface SaveWeeklyCheckinDraftDto {
-  definitionId: string;
-  definitionVersion: number;
   answers: SaveWeeklyCheckinDraftDtoAnswers;
   currentQuestionId?: string;
+  customNote?: string;
 }

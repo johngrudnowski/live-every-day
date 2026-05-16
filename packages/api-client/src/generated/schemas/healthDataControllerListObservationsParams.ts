@@ -6,10 +6,9 @@
  * OpenAPI spec version: 1.0
  */
 
-export interface WeeklyCheckinScoreDto {
-  total: number;
-  max: number;
-  numericTotal: number;
-  enumTotal: number;
-  percent: number;
-}
+export type HealthDataControllerListObservationsParams = {
+metricKey: string;
+from: string;
+to: string;
+limit: string;
+};

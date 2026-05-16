@@ -13,7 +13,6 @@ import type { WeeklyCheckinScoreDto } from './weeklyCheckinScoreDto';
 export interface WeeklyCheckinDto {
   id: string;
   definitionId: string;
-  definitionVersion: number;
   /** @nullable */
   conditionId?: WeeklyCheckinDtoConditionId;
   weekStartDate: string;

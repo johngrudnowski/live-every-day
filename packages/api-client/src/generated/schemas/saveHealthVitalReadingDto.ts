@@ -6,7 +6,7 @@
  * OpenAPI spec version: 1.0
  */
 
-export interface SaveVitalReadingDto {
+export interface SaveHealthVitalReadingDto {
   systolicMmHg?: number;
   diastolicMmHg?: number;
   pulseBpm?: number;

@@ -6,8 +6,8 @@
  * OpenAPI spec version: 1.0
  */
 
-export type ConditionDefinitionDtoStatus =
-  (typeof ConditionDefinitionDtoStatus)[keyof typeof ConditionDefinitionDtoStatus];
+export type ConditionDefinitionDtoStatus = typeof ConditionDefinitionDtoStatus[keyof typeof ConditionDefinitionDtoStatus];
+
 
 export const ConditionDefinitionDtoStatus = {
   active: 'active',

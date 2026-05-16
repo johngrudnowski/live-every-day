@@ -8,8 +8,6 @@
 import type { SubmitWeeklyCheckinDtoAnswers } from './submitWeeklyCheckinDtoAnswers';
 
 export interface SubmitWeeklyCheckinDto {
-  definitionId: string;
-  definitionVersion: number;
   answers: SubmitWeeklyCheckinDtoAnswers;
   customNote?: string;
 }

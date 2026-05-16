@@ -6,10 +6,7 @@
  * OpenAPI spec version: 1.0
  */
 
-export interface WeeklyCheckinScoreDto {
-  total: number;
-  max: number;
-  numericTotal: number;
-  enumTotal: number;
-  percent: number;
-}
+/**
+ * @nullable
+ */
+export type CircleSupportPersonDtoRelationship = { [key: string]: unknown } | null;

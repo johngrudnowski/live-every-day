@@ -6,10 +6,6 @@
  * OpenAPI spec version: 1.0
  */
 
-export interface WeeklyCheckinScoreDto {
-  total: number;
-  max: number;
-  numericTotal: number;
-  enumTotal: number;
-  percent: number;
+export interface SaveHealthObservationGroupDto {
+  type?: string;
 }
