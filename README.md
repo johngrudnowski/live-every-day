@@ -138,6 +138,7 @@ pnpm db:up       # start Postgres
 pnpm db:down     # stop services
 pnpm db:reset    # reset local database volume
 pnpm db:migrate  # apply migrations
+pnpm db:seed -- --email dev@example.com --all
 pnpm db:studio   # open Drizzle Studio
 ```
 
@@ -146,6 +147,16 @@ Local database URL:
 ```txt
 postgresql://postgres:postgres@localhost:5432/live_every_day
 ```
+
+Seed modules are composable and user-scoped:
+
+```sh
+pnpm db:seed -- --email dev@example.com --weekly-checkins --weeks 12
+pnpm db:seed -- --email dev@example.com --vitals --vital-readings 30
+pnpm db:seed -- --email dev@example.com --conditions --condition mpn
+```
+
+Non-local database URLs require `--allow-remote`.
 
 ## API Client Generation
 
