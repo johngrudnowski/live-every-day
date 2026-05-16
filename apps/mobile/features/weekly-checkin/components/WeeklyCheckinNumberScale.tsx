@@ -1,5 +1,5 @@
 import { Pressable, StyleSheet, View } from 'react-native';
-import { LedText, colors, radii, spacing } from '@led/design-system';
+import { LedText, colors, spacing } from '@led/design-system';
 
 type WeeklyCheckinNumberScaleProps = {
   value?: number;
@@ -13,7 +13,7 @@ type WeeklyCheckinNumberScaleProps = {
 
 export function WeeklyCheckinNumberScale({
   value,
-  min = 1,
+  min = 0,
   max = 10,
   lowLabel,
   highLabel,
@@ -43,7 +43,10 @@ export function WeeklyCheckinNumberScale({
                 pressed && !selected && styles.pressed,
               ]}
             >
-              <LedText variant="bodySmall" style={[styles.optionText, selected && styles.selectedText]}>
+              <LedText
+                variant="bodySmall"
+                style={[styles.optionText, selected && styles.selectedText]}
+              >
                 {number}
               </LedText>
             </Pressable>

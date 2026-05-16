@@ -17,6 +17,7 @@ export interface WeeklyCheckinSummaryDto {
   lastSubmittedCheckin?: WeeklyCheckinDto | null;
   /** @nullable */
   previousWeekCheckin?: WeeklyCheckinDto | null;
+  recentSubmittedCheckins: WeeklyCheckinDto[];
   hasCompletedCurrentWeek: boolean;
   shouldStartCheckin: boolean;
 }

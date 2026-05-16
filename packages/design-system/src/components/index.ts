@@ -2,6 +2,7 @@ export * from './AppScreen';
 export * from './CardOption';
 export * from './Chip';
 export * from './ChipGroup';
+export * from './CircleAvatar';
 export * from './ConfirmationModal';
 export * from './LedText';
 export * from './PrimaryButton';

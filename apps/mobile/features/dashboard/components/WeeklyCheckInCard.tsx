@@ -2,6 +2,7 @@ import { router } from 'expo-router';
 import { StyleSheet, View } from 'react-native';
 import { LedText, PrimaryButton, colors, radii, shadows, spacing } from '@led/design-system';
 import { useWeeklyCheckinSummaryQuery } from '@/features/weekly-checkin/api/weekly-checkin-queries';
+import { formatWeeklyCheckinBurdenWithRawParen } from '@/features/weekly-checkin/lib/weeklyCheckinScorePresentation';
 import { routeToWeeklyCheckin } from '@/features/weekly-checkin/lib/weeklyCheckinRoutes';
 
 export function WeeklyCheckInCard() {
@@ -32,7 +33,11 @@ export function WeeklyCheckInCard() {
           <View style={styles.symptomList}>
             <View style={styles.symptomPill}>
               <LedText variant="bodySmall" style={styles.symptomText}>
-                Score {previous.score.total}/{previous.score.max}
+                {formatWeeklyCheckinBurdenWithRawParen(
+                  previous.score.percent,
+                  previous.score.total,
+                  previous.score.max,
+                )}
               </LedText>
             </View>
           </View>

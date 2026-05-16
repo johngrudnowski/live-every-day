@@ -1,7 +1,10 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome';
+import { router } from 'expo-router';
 import type { ComponentProps } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 import { LedText, colors, radii, spacing } from '@led/design-system';
+import { useLatestVitalReadingQuery } from '@/features/vitals/api/vitals-queries';
+import { formatVitalsSummary } from '@/features/vitals/lib/formatVitalsReading';
 
 type IconName = ComponentProps<typeof FontAwesome>['name'];
 
@@ -9,18 +12,15 @@ type QuickLink = {
   title: string;
   subtitle: string;
   icon: IconName;
+  onPress?: () => void;
 };
 
-const quickLinks: QuickLink[] = [
-  {
-    title: 'Latest vitals',
-    subtitle: 'BP 132/84 - Pulse 72 - 98.4 F - O2 97% - 2h ago',
-    icon: 'heartbeat',
-  },
+const secondaryLinks: QuickLink[] = [
   {
     title: 'Our health data',
     subtitle: 'Labs - symptoms - wearables - vitals',
     icon: 'line-chart',
+    onPress: () => router.push('/data'),
   },
   {
     title: 'Appointment prep',
@@ -30,6 +30,21 @@ const quickLinks: QuickLink[] = [
 ];
 
 export function QuickLinks() {
+  const latestVitalsQuery = useLatestVitalReadingQuery();
+  const latestReading = latestVitalsQuery.data?.latestReading;
+  const latestVitalsSubtitle = latestReading
+    ? formatVitalsSummary(latestReading)
+    : latestVitalsQuery.isPending
+      ? 'Checking your latest home reading'
+      : 'No vitals logged yet - add a home reading';
+  const latestVitalsLink: QuickLink = {
+    title: 'Latest vitals',
+    subtitle: latestVitalsSubtitle,
+    icon: 'heartbeat',
+    onPress: () => router.push('/vitals/log'),
+  };
+  const quickLinks = [latestVitalsLink, ...secondaryLinks];
+
   return (
     <View style={styles.links}>
       {quickLinks.map((link) => (
@@ -41,7 +56,11 @@ export function QuickLinks() {
 
 function QuickLinkRow({ link }: { link: QuickLink }) {
   return (
-    <Pressable accessibilityRole="button" style={({ pressed }) => [styles.link, pressed && styles.pressed]}>
+    <Pressable
+      accessibilityRole="button"
+      onPress={link.onPress}
+      style={({ pressed }) => [styles.link, pressed && styles.pressed]}
+    >
       <View style={styles.icon}>
         <FontAwesome name={link.icon} size={18} color={colors.midday} />
       </View>

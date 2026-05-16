@@ -8,32 +8,48 @@ import { routeToWeeklyCheckin } from '@/features/weekly-checkin/lib/weeklyChecki
 
 type IconName = ComponentProps<typeof FontAwesome>['name'];
 
-type BottomNavItem = {
+type FooterNavItem = {
   label: string;
   icon: IconName;
-  route?: '/home' | '/account';
+  route?: '/home' | '/data' | '/account';
   kind?: 'check-in';
 };
 
-const bottomNavItems: BottomNavItem[] = [
-  { label: 'Hope', icon: 'home', route: '/home' },
-  { label: 'Check-in', icon: 'check-circle-o', kind: 'check-in' },
-  { label: 'Data', icon: 'bar-chart' },
-  { label: 'Prep', icon: 'star-o' },
-  { label: 'Account', icon: 'user-o', route: '/account' },
+/** Pass to `ScreenFooter` `activeLabel` to avoid typos and keep labels in sync. */
+export const screenFooterNavActiveLabel = {
+  hope: 'Hope',
+  checkIn: 'Check-in',
+  data: 'Data',
+  prep: 'Prep',
+  account: 'Account',
+} as const;
+
+export type ScreenFooterNavActiveLabel =
+  (typeof screenFooterNavActiveLabel)[keyof typeof screenFooterNavActiveLabel];
+
+const footerNavItems: FooterNavItem[] = [
+  { label: screenFooterNavActiveLabel.hope, icon: 'home', route: '/home' },
+  { label: screenFooterNavActiveLabel.checkIn, icon: 'check-circle-o', kind: 'check-in' },
+  { label: screenFooterNavActiveLabel.data, icon: 'bar-chart', route: '/data' },
+  { label: screenFooterNavActiveLabel.prep, icon: 'star-o' },
+  { label: screenFooterNavActiveLabel.account, icon: 'user-o', route: '/account' },
 ];
 
-export function DashboardBottomBar({ activeLabel = 'Hope' }: { activeLabel?: string }) {
+export function ScreenFooter({
+  activeLabel = screenFooterNavActiveLabel.hope,
+}: {
+  activeLabel?: ScreenFooterNavActiveLabel;
+}) {
   return (
     <View style={styles.bar}>
-      {bottomNavItems.map((item) => (
-        <BottomNavButton key={item.label} item={item} active={item.label === activeLabel} />
+      {footerNavItems.map((item) => (
+        <FooterNavButton key={item.label} item={item} active={item.label === activeLabel} />
       ))}
     </View>
   );
 }
 
-function BottomNavButton({ item, active }: { item: BottomNavItem; active: boolean }) {
+function FooterNavButton({ item, active }: { item: FooterNavItem; active: boolean }) {
   const checkinSummaryQuery = useWeeklyCheckinSummaryQuery(item.kind === 'check-in');
   const tint = active ? colors.midday : colors.predawn;
   const disabled = active || (!item.route && item.kind !== 'check-in');

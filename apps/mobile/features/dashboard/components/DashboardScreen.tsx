@@ -6,7 +6,7 @@ import { AppScreen, LedText, colors, spacing } from '@led/design-system';
 import { LoadingScreen } from '@/features/launch/components/LoadingScreen';
 import { useMobileAuth } from '@/features/auth/hooks/use-mobile-auth';
 import { useConditionGate } from '@/features/conditions/hooks/useConditionGate';
-import { DashboardBottomBar } from './DashboardBottomBar';
+import { ScreenFooter } from '@/components/screen-footer';
 import { DashboardHeader } from './DashboardHeader';
 import { DashboardWidgets } from './DashboardWidgets';
 import { QuickLinks } from './QuickLinks';
@@ -85,7 +85,7 @@ export function DashboardScreen() {
         <QuickLinks />
       </ScrollView>
 
-      <DashboardBottomBar />
+      <ScreenFooter />
     </AppScreen>
   );
 }

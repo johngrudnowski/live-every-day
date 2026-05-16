@@ -37,7 +37,6 @@ export type WeeklyCheckinQuestion = NumberScaleQuestion | EnumQuestion | FreeTex
 
 export type WeeklyCheckinDefinition = {
   id: string;
-  version: number;
   conditionId: string | null;
   title: string;
   questions: WeeklyCheckinQuestion[];
@@ -46,7 +45,6 @@ export type WeeklyCheckinDefinition = {
 
 export const activeWeeklyCheckinDefinition: WeeklyCheckinDefinition = {
   id: 'weekly-checkin-core',
-  version: 3,
   conditionId: null,
   title: 'Weekly Check-in',
   questions: [
@@ -56,7 +54,7 @@ export const activeWeeklyCheckinDefinition: WeeklyCheckinDefinition = {
       title: 'How heavy has fatigue felt this week?',
       subtitle: 'Think about your worst day this week.',
       required: true,
-      min: 1,
+      min: 0,
       max: 10,
       lowLabel: 'Not at all',
       highLabel: 'As bad as it gets',
@@ -68,7 +66,7 @@ export const activeWeeklyCheckinDefinition: WeeklyCheckinDefinition = {
       title: 'How much has feeling unwell slowed you down?',
       subtitle: 'That overall sense of not quite being yourself.',
       required: true,
-      min: 1,
+      min: 0,
       max: 10,
       lowLabel: 'Not at all',
       highLabel: 'As bad as it gets',
@@ -80,7 +78,7 @@ export const activeWeeklyCheckinDefinition: WeeklyCheckinDefinition = {
       title: 'How much has itching bothered you?',
       subtitle: 'The unexplained MPN itch - not from a rash.',
       required: true,
-      min: 1,
+      min: 0,
       max: 10,
       lowLabel: 'Not at all',
       highLabel: 'As bad as it gets',
@@ -92,7 +90,7 @@ export const activeWeeklyCheckinDefinition: WeeklyCheckinDefinition = {
       title: 'How bothered have you been by bone pain?',
       subtitle: 'Deep aches in the bones themselves.',
       required: true,
-      min: 1,
+      min: 0,
       max: 10,
       lowLabel: 'Not at all',
       highLabel: 'As bad as it gets',
@@ -104,7 +102,7 @@ export const activeWeeklyCheckinDefinition: WeeklyCheckinDefinition = {
       title: 'How bothered have you been by muscle pain?',
       subtitle: 'Soreness, tension, or aching in muscles.',
       required: true,
-      min: 1,
+      min: 0,
       max: 10,
       lowLabel: 'Not at all',
       highLabel: 'As bad as it gets',
@@ -116,7 +114,7 @@ export const activeWeeklyCheckinDefinition: WeeklyCheckinDefinition = {
       title: 'Any pain or discomfort under your left ribs?',
       subtitle: 'Fullness, pressure, or pain in the upper left belly.',
       required: true,
-      min: 1,
+      min: 0,
       max: 10,
       lowLabel: 'Not at all',
       highLabel: 'As bad as it gets',
@@ -128,7 +126,7 @@ export const activeWeeklyCheckinDefinition: WeeklyCheckinDefinition = {
       title: 'Are you feeling full faster than usual?',
       subtitle: 'Early satiety - full after a few bites.',
       required: true,
-      min: 1,
+      min: 0,
       max: 10,
       lowLabel: 'Not at all',
       highLabel: 'As bad as it gets',
@@ -140,7 +138,7 @@ export const activeWeeklyCheckinDefinition: WeeklyCheckinDefinition = {
       title: 'How disruptive have night sweats been?',
       subtitle: 'Waking up drenched, or too warm to settle.',
       required: true,
-      min: 1,
+      min: 0,
       max: 10,
       lowLabel: 'Not at all',
       highLabel: 'As bad as it gets',
@@ -152,7 +150,7 @@ export const activeWeeklyCheckinDefinition: WeeklyCheckinDefinition = {
       title: 'Have you had any fevers?',
       subtitle: 'Above 100°F, or persistent feverish feeling.',
       required: true,
-      min: 1,
+      min: 0,
       max: 10,
       lowLabel: 'Not at all',
       highLabel: 'As bad as it gets',
@@ -164,7 +162,7 @@ export const activeWeeklyCheckinDefinition: WeeklyCheckinDefinition = {
       title: 'Any unintentional weight loss?',
       subtitle: 'Weight dropping without trying to lose it.',
       required: true,
-      min: 1,
+      min: 0,
       max: 10,
       lowLabel: 'Not at all',
       highLabel: 'As bad as it gets',

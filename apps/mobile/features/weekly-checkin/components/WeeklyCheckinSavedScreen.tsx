@@ -1,17 +1,20 @@
-import { router, useLocalSearchParams } from 'expo-router';
-import { useEffect, useMemo, useRef, useState } from 'react';
-import { Alert, ScrollView, StyleSheet, TextInput, View } from 'react-native';
-import { AppScreen, LedText, PrimaryButton, colors, radii, spacing } from '@led/design-system';
+import { ScreenHeaderChevronLink, ScreenHeaderNavRow } from '@/components/screen-header';
+import { ScreenFooter, screenFooterNavActiveLabel } from '@/components/screen-footer';
+import { showAppointmentBriefPlaceholderAlert } from '@/features/dashboard/lib/appointmentBriefPlaceholder';
 import { LoadingScreen } from '@/features/launch/components/LoadingScreen';
+import { AppScreen, LedText, PrimaryButton, colors, radii, spacing } from '@led/design-system';
+import { router, useLocalSearchParams } from 'expo-router';
+import { ScrollView, StyleSheet, View } from 'react-native';
 import {
-  useSubmitWeeklyCheckinMutation,
   useWeeklyCheckinSummaryQuery,
+  type WeeklyCheckin,
+  type WeeklyCheckinSummary,
 } from '../api/weekly-checkin-queries';
+import { ThisWeeksScore } from './ThisWeeksScore';
 
 export function WeeklyCheckinSavedScreen() {
   const params = useLocalSearchParams<{ justCompleted?: string }>();
   const summaryQuery = useWeeklyCheckinSummaryQuery();
-  const submitMutation = useSubmitWeeklyCheckinMutation();
   const summary = summaryQuery.data;
   const checkin =
     summary?.currentCheckin?.status === 'submitted'
@@ -27,58 +30,32 @@ export function WeeklyCheckinSavedScreen() {
   }
 
   const isJustCompleted = params.justCompleted === '1';
-  const [customNote, setCustomNote] = useState(checkin.customNote ?? '');
-  const persistedNoteRef = useRef(checkin.customNote ?? '');
-  const previousScore = summary.previousWeekCheckin?.score.total;
-  const scoreDelta = useMemo(
-    () => (typeof previousScore === 'number' ? checkin.score.total - previousScore : null),
-    [checkin.score.total, previousScore],
+
+  return (
+    <SavedCheckinContent checkin={checkin} isJustCompleted={isJustCompleted} summary={summary} />
   );
+}
 
-  useEffect(() => {
-    const incoming = checkin.customNote ?? '';
-    setCustomNote(incoming);
-    persistedNoteRef.current = incoming;
-  }, [checkin.id, checkin.customNote]);
-
-  useEffect(() => {
-    if (customNote === persistedNoteRef.current) {
-      return;
-    }
-
-    const timeoutId = setTimeout(() => {
-      submitMutation.mutate(
-        {
-          data: {
-            definitionId: summary.activeDefinition.id,
-            definitionVersion: summary.activeDefinition.version,
-            answers: checkin.answers,
-            customNote,
-          },
-        },
-        {
-          onSuccess: () => {
-            persistedNoteRef.current = customNote;
-          },
-        },
-      );
-    }, 700);
-
-    return () => clearTimeout(timeoutId);
-  }, [
-    checkin.answers,
-    customNote,
-    submitMutation,
-    summary.activeDefinition.id,
-    summary.activeDefinition.version,
-  ]);
-
+function SavedCheckinContent({
+  checkin,
+  isJustCompleted,
+  summary,
+}: {
+  checkin: WeeklyCheckin;
+  isJustCompleted: boolean;
+  summary: WeeklyCheckinSummary;
+}) {
   return (
     <AppScreen padded={false} style={styles.screen}>
       <View style={styles.header}>
-        <View style={styles.headerRow}>
-          <LedText variant="subtitle">Check-in complete</LedText>
-        </View>
+        <ScreenHeaderNavRow
+          left={<ScreenHeaderChevronLink label="Back" onPress={() => router.back()} />}
+          title={
+            <LedText variant="subtitle" numberOfLines={1} ellipsizeMode="tail">
+              Check-in complete
+            </LedText>
+          }
+        />
       </View>
       <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
         <View style={styles.hero}>
@@ -87,60 +64,22 @@ export function WeeklyCheckinSavedScreen() {
               <LedText style={styles.checkMark}>✓</LedText>
             </View>
           ) : null}
-          <LedText variant="title">Check-in saved.</LedText>
-          <LedText variant="bodySmall" color="predawn">
-            Week of {formatDate(checkin.weekStartDate)}
+          <LedText variant="bodySmall" color="predawn" align="center">
+            {formatCheckinWeekDateRange(checkin.weekStartDate)}
           </LedText>
         </View>
 
-        <View style={styles.scoreCard}>
-          <LedText variant="label" color="predawn" style={styles.scoreLabel}>
-            This week&apos;s score
-          </LedText>
-          <View style={styles.scoreTopRow}>
-            <View>
-              <LedText variant="displayMedium" style={styles.scoreValue}>
-                {checkin.score.total}
-              </LedText>
-              {scoreDelta !== null ? (
-                <LedText
-                  variant="bodySmall"
-                  style={scoreDelta >= 0 ? styles.scoreDeltaUp : styles.scoreDeltaDown}
-                >
-                  {scoreDelta >= 0 ? '↑' : '↓'} {Math.abs(scoreDelta)} from last week
-                </LedText>
-              ) : (
-                <LedText variant="bodySmall" color="predawn">
-                  out of {checkin.score.max}
-                </LedText>
-              )}
-            </View>
-          </View>
-        </View>
-
-        <View style={styles.noteCard}>
-          <View style={styles.noteHeader}>
-            <LedText variant="subtitle" style={styles.noteTitle}>
-              Anything else to add?
-            </LedText>
-            <LedText variant="bodySmall" color="predawn">
-              How does this week really feel? Your words - no structure needed.
-            </LedText>
-          </View>
-          <View style={styles.noteBody}>
-            <TextInput
-              multiline
-              value={customNote}
-              onChangeText={setCustomNote}
-              placeholder="Type anything you want your brief to capture"
-              placeholderTextColor={colors.textLite}
-              style={styles.noteInput}
-            />
-            <LedText variant="bodySmall" color="midday">
-              {submitMutation.isPending ? 'Saving...' : 'Saved to your brief ✓'}
-            </LedText>
-          </View>
-        </View>
+        <ThisWeeksScore
+          checkin={checkin}
+          previousCheckin={summary.previousWeekCheckin}
+          history={summary.recentSubmittedCheckins ?? []}
+        />
+        <PrimaryButton
+          label="View score history"
+          variant="secondary"
+          fullWidth
+          onPress={() => router.push('/check-in/history')}
+        />
 
         <View style={styles.briefCard}>
           <LedText variant="subtitle" color="midday">
@@ -149,27 +88,37 @@ export function WeeklyCheckinSavedScreen() {
           <LedText variant="bodySmall" color="textMid">
             This check-in is now included in your next appointment summary.
           </LedText>
-        </View>
-
-        <View style={styles.actions}>
-          <PrimaryButton label="Back to home" fullWidth onPress={() => router.replace('/home')} />
           <PrimaryButton
-            label="Brief ->"
+            label="Brief"
             variant="secondary"
             fullWidth
-            onPress={() => Alert.alert('Not yet implemented', 'Brief is not yet implemented.')}
+            onPress={showAppointmentBriefPlaceholderAlert}
           />
         </View>
       </ScrollView>
+
+      <ScreenFooter activeLabel={screenFooterNavActiveLabel.checkIn} />
     </AppScreen>
   );
 }
 
-function formatDate(value: string) {
-  return new Intl.DateTimeFormat('en-US', {
-    month: 'long',
+function formatCheckinWeekDateRange(weekStartDate: string) {
+  const start = new Date(`${weekStartDate}T00:00:00Z`);
+  const end = new Date(start);
+  end.setUTCDate(start.getUTCDate() + 6);
+
+  const options: Intl.DateTimeFormatOptions = {
+    weekday: 'short',
+    month: 'short',
     day: 'numeric',
-  }).format(new Date(`${value}T00:00:00Z`));
+    year: 'numeric',
+    timeZone: 'UTC',
+  };
+
+  const startLabel = start.toLocaleDateString('en-US', options);
+  const endLabel = end.toLocaleDateString('en-US', options);
+
+  return `${startLabel} – ${endLabel}`;
 }
 
 const styles = StyleSheet.create({
@@ -177,13 +126,10 @@ const styles = StyleSheet.create({
     backgroundColor: colors.canvas,
   },
   header: {
+    borderBottomWidth: 1,
+    borderBottomColor: colors.border,
     paddingTop: spacing.lg,
     paddingHorizontal: spacing.xl,
-  },
-  headerRow: {
-    height: 44,
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   content: {
     gap: spacing.xl,
@@ -208,80 +154,12 @@ const styles = StyleSheet.create({
     fontSize: 28,
     lineHeight: 30,
   },
-  scoreCard: {
-    gap: spacing.sm,
-    borderWidth: 1,
-    borderColor: colors.border,
-    borderRadius: radii.xxl,
-    backgroundColor: colors.card,
-    padding: spacing.lg,
-  },
-  scoreLabel: {
-    alignSelf: 'stretch',
-  },
-  scoreTopRow: {
-    flexDirection: 'row',
-    alignItems: 'flex-end',
-    justifyContent: 'space-between',
-    gap: spacing.md,
-  },
-  scoreValue: {
-    color: colors.flagHigh,
-    fontFamily: 'Raleway_300Light',
-    fontSize: 48,
-    lineHeight: 52,
-  },
-  scoreDeltaUp: {
-    color: colors.flagHigh,
-  },
-  scoreDeltaDown: {
-    color: colors.flagOk,
-  },
-  noteCard: {
-    borderWidth: 1,
-    borderColor: colors.border,
-    borderRadius: radii.xxl,
-    backgroundColor: colors.card,
-    overflow: 'hidden',
-  },
-  noteHeader: {
-    gap: spacing.xxs,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.surface,
-    paddingHorizontal: spacing.lg,
-    paddingVertical: spacing.md,
-  },
-  noteTitle: {
-    fontSize: 14,
-    lineHeight: 19,
-  },
-  noteBody: {
-    gap: spacing.sm,
-    padding: spacing.lg,
-  },
-  noteInput: {
-    minHeight: 108,
-    borderWidth: 1,
-    borderColor: colors.border,
-    borderRadius: radii.xl,
-    backgroundColor: colors.canvas,
-    padding: spacing.md,
-    color: colors.text,
-    fontFamily: 'DMSans_400Regular',
-    fontSize: 14,
-    lineHeight: 20,
-    textAlignVertical: 'top',
-  },
   briefCard: {
-    gap: spacing.xs,
+    gap: spacing.md,
     borderWidth: 1,
     borderColor: '#C8E4F0',
     borderRadius: radii.xl,
     backgroundColor: colors.selectedBg,
     padding: spacing.md,
-  },
-  actions: {
-    gap: spacing.md,
-    marginTop: spacing.md,
   },
 });

@@ -11,4 +11,5 @@ export interface WeeklyCheckinScoreDto {
   max: number;
   numericTotal: number;
   enumTotal: number;
+  percent: number;
 }

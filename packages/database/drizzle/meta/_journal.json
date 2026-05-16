@@ -22,6 +22,55 @@
       "when": 1778679000000,
       "tag": "0002_weekly_checkins",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1778774400000,
+      "tag": "0003_vital_readings",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1778845200000,
+      "tag": "0004_health_observations",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1778871408691,
+      "tag": "0005_military_molly_hayes",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1778875200000,
+      "tag": "0006_my_circle",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1778878800000,
+      "tag": "0007_circle_lifecycle_facts",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1778965200000,
+      "tag": "0008_circle_permission_grants",
+      "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1779051600000,
+      "tag": "0009_circle_invites_and_messages",
+      "breakpoints": true
     }
   ]
 }

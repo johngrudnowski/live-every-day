@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import {
   AppScreen,
+  CircleAvatar,
   ConfirmationModal,
   LedText,
   PrimaryButton,
@@ -18,11 +19,18 @@ import {
   type SemanticValue,
 } from '@led/conditions';
 
+import { ScreenHeaderChevronLink, ScreenHeaderNavRow } from '@/components/screen-header';
 import { useConditionSummaryQuery } from '@/features/conditions/api/condition-queries';
-import { DashboardBottomBar } from '@/features/dashboard/components/DashboardBottomBar';
+import { ScreenFooter, screenFooterNavActiveLabel } from '@/components/screen-footer';
 import { useMobileAuth } from '@/features/auth/hooks/use-mobile-auth';
 import { LoadingScreen } from '@/features/launch/components/LoadingScreen';
-import { useDeleteAccountMutation } from '../api/account-queries';
+import {
+  useDeleteAccountMutation,
+  useMyCircleQuery,
+  type CircleCareTeamPerson,
+  type CircleStateTone,
+  type CircleSupportPerson,
+} from '../api/account-queries';
 
 type IconName = ComponentProps<typeof FontAwesome>['name'];
 
@@ -30,6 +38,7 @@ export function AccountScreen() {
   const auth = useMobileAuth();
   const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
   const summaryQuery = useConditionSummaryQuery(Boolean(auth.data?.session));
+  const circleQuery = useMyCircleQuery(Boolean(auth.data?.session));
   const deleteAccountMutation = useDeleteAccountMutation();
   const activeProfile = summaryQuery.data?.activeConditionProfile ?? null;
   const draftProfile = summaryQuery.data?.draftConditionProfile ?? null;
@@ -57,13 +66,26 @@ export function AccountScreen() {
   return (
     <AppScreen padded={false} style={styles.screen}>
       <View style={styles.header}>
-        <LedText variant="title">Account</LedText>
+        <ScreenHeaderNavRow
+          left={<ScreenHeaderChevronLink label="Home" onPress={() => router.replace('/home')} />}
+          title={
+            <LedText variant="subtitle" numberOfLines={1} ellipsizeMode="tail">
+              Account
+            </LedText>
+          }
+        />
       </View>
 
       <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
         <ProfileHeader
           name={displayName}
           summary={buildProfileSummary(conditionDefinition ?? undefined, profileValues)}
+        />
+
+        <MyCircleSection
+          supportPeople={circleQuery.data?.supportPeople ?? []}
+          careTeamPeople={circleQuery.data?.careTeamPeople ?? []}
+          isLoading={circleQuery.isPending}
         />
 
         {conditionDefinition ? (
@@ -79,7 +101,7 @@ export function AccountScreen() {
         <DangerZone onDeletePress={() => setIsDeleteModalVisible(true)} />
       </ScrollView>
 
-      <DashboardBottomBar activeLabel="Account" />
+      <ScreenFooter activeLabel={screenFooterNavActiveLabel.account} />
 
       <ConfirmationModal
         visible={isDeleteModalVisible}
@@ -107,17 +129,147 @@ export function AccountScreen() {
 function ProfileHeader({ name, summary }: { name: string; summary: string }) {
   return (
     <View style={styles.profileCard}>
-      <View style={styles.avatar}>
-        <LedText variant="subtitle" style={styles.avatarText}>
-          {getInitials(name)}
-        </LedText>
-      </View>
+      <CircleAvatar label={name} size={52} />
       <View style={styles.profileCopy}>
         <LedText variant="title">{name}</LedText>
         <LedText variant="bodySmall" color="predawn">
           {summary}
         </LedText>
       </View>
+    </View>
+  );
+}
+
+function MyCircleSection({
+  supportPeople,
+  careTeamPeople,
+  isLoading,
+}: {
+  supportPeople: CircleSupportPerson[];
+  careTeamPeople: CircleCareTeamPerson[];
+  isLoading: boolean;
+}) {
+  return (
+    <View style={styles.section}>
+      <LedText variant="label" color="predawn">
+        My Circle
+      </LedText>
+      <View style={styles.linkGroup}>
+        {isLoading ? (
+          <View style={styles.circleEmptyRow}>
+            <LedText variant="bodySmall" color="predawn">
+              Loading your circle...
+            </LedText>
+          </View>
+        ) : null}
+
+        {!isLoading && supportPeople.length === 0 && careTeamPeople.length === 0 ? (
+          <View style={styles.circleEmptyRow}>
+            <LedText variant="subtitle">Start building your circle</LedText>
+            <LedText variant="bodySmall" color="predawn">
+              Add your #1, support people, and care team here.
+            </LedText>
+          </View>
+        ) : null}
+
+        {!isLoading
+          ? supportPeople.map((person, index) => (
+              <CircleSupportRow
+                key={person.id}
+                person={person}
+                isLast={careTeamPeople.length === 0 && index === supportPeople.length - 1}
+              />
+            ))
+          : null}
+
+        {!isLoading && careTeamPeople.length > 0 ? (
+          <View style={styles.circleCareDivider}>
+            <View style={styles.circleDividerLine} />
+            <LedText variant="label" color="predawn">
+              Care team
+            </LedText>
+            <View style={styles.circleDividerLine} />
+          </View>
+        ) : null}
+
+        {!isLoading
+          ? careTeamPeople.map((person, index) => (
+              <CircleCareTeamRow
+                key={person.id}
+                person={person}
+                isLast={index === careTeamPeople.length - 1}
+              />
+            ))
+          : null}
+
+        <Pressable
+          accessibilityRole="button"
+          onPress={() => router.push('/circle')}
+          style={({ pressed }) => [styles.circleManageRow, pressed && styles.pressed]}
+        >
+          <CircleAvatar label="Add" initials="+" size={36} tone="muted" />
+          <LedText variant="subtitle" color="midday" style={styles.linkCopy}>
+            Manage My Circle
+          </LedText>
+          <LedText variant="title" color="predawn">
+            ›
+          </LedText>
+        </Pressable>
+      </View>
+    </View>
+  );
+}
+
+function CircleSupportRow({ person, isLast }: { person: CircleSupportPerson; isLast: boolean }) {
+  const isMyNumberOne = person.role === 'my_number_one';
+
+  return (
+    <View style={[styles.linkRow, !isLast && styles.linkDivider]}>
+      <CircleAvatar
+        label={person.displayName}
+        initials={person.initials}
+        size={40}
+        tone={getSupportAvatarTone(person, isMyNumberOne)}
+      />
+      <View style={styles.linkCopy}>
+        <LedText variant="subtitle">
+          {person.displayName}
+          {isMyNumberOne ? (
+            <LedText variant="bodySmall" color="predawn">
+              {' '}
+              (My #1)
+            </LedText>
+          ) : null}
+        </LedText>
+        <LedText variant="bodySmall" color="predawn">
+          {person.detailLine}
+        </LedText>
+      </View>
+      <LedText variant="bodySmall" color={getStateToneColor(person.stateTone)}>
+        {person.stateLabel}
+      </LedText>
+    </View>
+  );
+}
+
+function CircleCareTeamRow({ person, isLast }: { person: CircleCareTeamPerson; isLast: boolean }) {
+  return (
+    <View style={[styles.linkRow, !isLast && styles.linkDivider]}>
+      <CircleAvatar
+        label={person.displayName}
+        initials={person.initials}
+        size={40}
+        tone={person.stateTone === 'muted' ? 'muted' : 'care'}
+      />
+      <View style={styles.linkCopy}>
+        <LedText variant="subtitle">{person.displayName}</LedText>
+        <LedText variant="bodySmall" color="predawn">
+          {person.detailLine}
+        </LedText>
+      </View>
+      <LedText variant="bodySmall" color={getStateToneColor(person.stateTone)}>
+        {person.stateLabel}
+      </LedText>
     </View>
   );
 }
@@ -358,6 +510,26 @@ function formatValue(value: string) {
     .join(' ');
 }
 
+function getSupportAvatarTone(person: CircleSupportPerson, isMyNumberOne: boolean) {
+  if (isMyNumberOne) {
+    return 'primary';
+  }
+
+  return person.stateTone === 'muted' || person.inviteStatus === 'pending' ? 'muted' : 'support';
+}
+
+function getStateToneColor(tone: CircleStateTone) {
+  if (tone === 'attention') {
+    return 'sunset';
+  }
+
+  if (tone === 'muted') {
+    return 'afternoon';
+  }
+
+  return 'midday';
+}
+
 function getDisplayName(name?: string | null, email?: string | null) {
   const trimmedName = name?.trim();
 
@@ -366,15 +538,6 @@ function getDisplayName(name?: string | null, email?: string | null) {
   }
 
   return email?.split('@')[0]?.trim() || 'there';
-}
-
-function getInitials(name: string) {
-  return name
-    .split(/\s+/)
-    .filter(Boolean)
-    .slice(0, 2)
-    .map((part) => part[0]?.toUpperCase() ?? '')
-    .join('');
 }
 
 function getErrorMessage(error: unknown) {
@@ -394,10 +557,10 @@ const styles = StyleSheet.create({
     backgroundColor: colors.canvas,
   },
   header: {
-    minHeight: 58,
-    justifyContent: 'flex-end',
+    paddingTop: spacing.lg,
     paddingHorizontal: spacing.xl,
-    paddingBottom: spacing.md,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.border,
   },
   content: {
     gap: spacing.xl,
@@ -414,18 +577,6 @@ const styles = StyleSheet.create({
     borderRadius: radii.xxl,
     backgroundColor: colors.card,
     padding: spacing.lg,
-  },
-  avatar: {
-    width: 52,
-    height: 52,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: radii.pill,
-    backgroundColor: colors.midday,
-  },
-  avatarText: {
-    color: colors.midnight,
-    fontFamily: 'DMSans_700Bold',
   },
   profileCopy: {
     flex: 1,
@@ -459,6 +610,36 @@ const styles = StyleSheet.create({
   linkCopy: {
     flex: 1,
     gap: spacing.xxs,
+  },
+  circleEmptyRow: {
+    gap: spacing.xxs,
+    paddingHorizontal: spacing.lg,
+    paddingVertical: spacing.md,
+  },
+  circleCareDivider: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.sm,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.surface,
+    backgroundColor: colors.card,
+    paddingHorizontal: spacing.lg,
+    paddingVertical: spacing.sm,
+  },
+  circleDividerLine: {
+    flex: 1,
+    height: 1,
+    backgroundColor: colors.border,
+  },
+  circleManageRow: {
+    minHeight: 64,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.md,
+    borderTopWidth: 1,
+    borderTopColor: colors.surface,
+    paddingHorizontal: spacing.lg,
+    paddingVertical: spacing.md,
   },
   emptyCard: {
     gap: spacing.md,

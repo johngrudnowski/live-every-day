@@ -10,7 +10,6 @@ import type { WeeklyCheckinQuestionDto } from './weeklyCheckinQuestionDto';
 
 export interface WeeklyCheckinDefinitionDto {
   id: string;
-  version: number;
   /** @nullable */
   conditionId?: WeeklyCheckinDefinitionDtoConditionId;
   title: string;

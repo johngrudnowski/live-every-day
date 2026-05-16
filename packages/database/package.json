@@ -24,6 +24,8 @@
     }
   },
   "scripts": {
+    "preseed": "pnpm --filter @led/conditions build",
+    "seed": "tsx src/seeds/cli.ts",
     "build": "tsc -p tsconfig.json",
     "check-types": "tsc -p tsconfig.json --noEmit",
     "lint": "oxlint --deny-warnings --node-plugin src drizzle.config.ts",
@@ -37,6 +39,7 @@
   "author": "",
   "license": "UNLICENSED",
   "dependencies": {
+    "@led/conditions": "workspace:*",
     "drizzle-orm": "^0.45.2",
     "postgres": "^3.4.9"
   },

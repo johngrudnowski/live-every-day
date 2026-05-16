@@ -1,12 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class SaveWeeklyCheckinDraftDto {
-  @ApiProperty({ example: 'weekly-checkin-core' })
-  definitionId!: string;
-
-  @ApiProperty({ example: 1 })
-  definitionVersion!: number;
-
   @ApiProperty({
     type: 'object',
     additionalProperties: true,
@@ -19,15 +13,12 @@ export class SaveWeeklyCheckinDraftDto {
 
   @ApiPropertyOptional({ example: 'fatigue' })
   currentQuestionId?: string;
+
+  @ApiPropertyOptional({ example: 'Fatigue was worse after treatment.' })
+  customNote?: string;
 }
 
 export class SubmitWeeklyCheckinDto {
-  @ApiProperty({ example: 'weekly-checkin-core' })
-  definitionId!: string;
-
-  @ApiProperty({ example: 1 })
-  definitionVersion!: number;
-
   @ApiProperty({
     type: 'object',
     additionalProperties: true,

@@ -24,11 +24,13 @@ export class WeeklyCheckinsService {
   async getSummary(userId: string) {
     const definition = activeWeeklyCheckinDefinition;
     const weekStartDate = getCurrentWeekStartDate();
-    const [currentCheckin, lastSubmittedCheckin, previousWeekCheckin] = await Promise.all([
-      this.getCurrentCheckinRow(userId, definition.id, weekStartDate),
-      this.getLastSubmittedCheckinRow(userId),
-      this.getPreviousWeekCheckinRow(userId, weekStartDate),
-    ]);
+    const [currentCheckin, lastSubmittedCheckin, previousWeekCheckin, recentSubmittedCheckins] =
+      await Promise.all([
+        this.getCurrentCheckinRow(userId, definition.id, weekStartDate),
+        this.getLastSubmittedCheckinRow(userId),
+        this.getPreviousWeekCheckinRow(userId, weekStartDate),
+        this.getRecentSubmittedCheckinRows(userId, 8),
+      ]);
     const hasCompletedCurrentWeek = currentCheckin?.status === 'submitted';
 
     return {
@@ -37,6 +39,7 @@ export class WeeklyCheckinsService {
       currentCheckin: currentCheckin ? mapCheckinRow(currentCheckin) : null,
       lastSubmittedCheckin: lastSubmittedCheckin ? mapCheckinRow(lastSubmittedCheckin) : null,
       previousWeekCheckin: previousWeekCheckin ? mapCheckinRow(previousWeekCheckin) : null,
+      recentSubmittedCheckins: recentSubmittedCheckins.map(mapCheckinRow),
       hasCompletedCurrentWeek,
       shouldStartCheckin: !hasCompletedCurrentWeek,
     };
@@ -45,7 +48,10 @@ export class WeeklyCheckinsService {
   async getCurrent(userId: string) {
     const definition = activeWeeklyCheckinDefinition;
     const weekStartDate = getCurrentWeekStartDate();
-    const currentCheckin = await this.getCurrentCheckinRow(userId, definition.id, weekStartDate);
+    const [currentCheckin, recentSubmittedCheckins] = await Promise.all([
+      this.getCurrentCheckinRow(userId, definition.id, weekStartDate),
+      this.getRecentSubmittedCheckinRows(userId, 8),
+    ]);
 
     return {
       weekStartDate,
@@ -53,6 +59,7 @@ export class WeeklyCheckinsService {
       currentCheckin: currentCheckin ? mapCheckinRow(currentCheckin) : null,
       lastSubmittedCheckin: null,
       previousWeekCheckin: null,
+      recentSubmittedCheckins: recentSubmittedCheckins.map(mapCheckinRow),
       hasCompletedCurrentWeek: currentCheckin?.status === 'submitted',
       shouldStartCheckin: currentCheckin?.status !== 'submitted',
     };
@@ -72,14 +79,26 @@ export class WeeklyCheckinsService {
     return mapCheckinRow(row);
   }
 
+  async getHistory(userId: string) {
+    const rows = await this.db
+      .select()
+      .from(weeklyCheckins)
+      .where(and(eq(weeklyCheckins.userId, userId), eq(weeklyCheckins.status, 'submitted')))
+      .orderBy(desc(weeklyCheckins.weekStartDate));
+
+    return rows.map(mapCheckinRow);
+  }
+
   async saveDraft(userId: string, dto: SaveWeeklyCheckinDraftDto) {
-    const definition = this.assertDefinitionVersion(dto.definitionId, dto.definitionVersion);
+    const definition = activeWeeklyCheckinDefinition;
     const answers = this.validateAnswers(definition, dto.answers, {
       requireRequiredAnswers: false,
     });
     const score = calculateScore(definition, answers);
     const weekStartDate = getCurrentWeekStartDate();
     const existing = await this.getCurrentCheckinRow(userId, definition.id, weekStartDate);
+    const customNote =
+      dto.customNote === undefined ? (existing?.customNote ?? null) : dto.customNote.trim() || null;
 
     if (existing?.status === 'submitted') {
       return await this.getSummary(userId);
@@ -92,7 +111,7 @@ export class WeeklyCheckinsService {
       status: 'draft',
       answers,
       score,
-      customNote: null,
+      customNote,
       completedAt: null,
     });
 
@@ -100,7 +119,7 @@ export class WeeklyCheckinsService {
   }
 
   async submit(userId: string, dto: SubmitWeeklyCheckinDto) {
-    const definition = this.assertDefinitionVersion(dto.definitionId, dto.definitionVersion);
+    const definition = activeWeeklyCheckinDefinition;
     const answers = this.validateAnswers(definition, dto.answers, { requireRequiredAnswers: true });
     const score = calculateScore(definition, answers);
     const weekStartDate = getCurrentWeekStartDate();
@@ -120,14 +139,38 @@ export class WeeklyCheckinsService {
     return await this.getSummary(userId);
   }
 
-  private assertDefinitionVersion(definitionId: string, definitionVersion: number) {
-    const definition = activeWeeklyCheckinDefinition;
+  async updateCheckin(userId: string, checkinId: string, dto: SubmitWeeklyCheckinDto) {
+    const existing = await this.getCheckinRow(userId, checkinId);
 
-    if (definition.id !== definitionId || definition.version !== definitionVersion) {
-      throw new BadRequestException('Weekly check-in definition is out of date.');
+    if (!existing) {
+      throw new NotFoundException('Weekly check-in not found.');
     }
 
-    return definition;
+    const definition = activeWeeklyCheckinDefinition;
+
+    if (existing.definitionId !== definition.id) {
+      throw new BadRequestException('Weekly check-in definition does not match.');
+    }
+
+    const answers = this.validateAnswers(definition, dto.answers, { requireRequiredAnswers: true });
+    const score = calculateScore(definition, answers);
+    const customNote =
+      dto.customNote === undefined ? existing.customNote : dto.customNote.trim() || null;
+    const now = new Date();
+
+    const [updated] = await this.db
+      .update(weeklyCheckins)
+      .set({
+        conditionId: definition.conditionId,
+        answersJson: answers,
+        scoreJson: score,
+        customNote,
+        updatedAt: now,
+      })
+      .where(and(eq(weeklyCheckins.userId, userId), eq(weeklyCheckins.id, checkinId)))
+      .returning();
+
+    return mapCheckinRow(updated);
   }
 
   private validateAnswers(
@@ -181,6 +224,16 @@ export class WeeklyCheckinsService {
     return row ?? null;
   }
 
+  private async getCheckinRow(userId: string, checkinId: string) {
+    const [row] = await this.db
+      .select()
+      .from(weeklyCheckins)
+      .where(and(eq(weeklyCheckins.userId, userId), eq(weeklyCheckins.id, checkinId)))
+      .limit(1);
+
+    return row ?? null;
+  }
+
   private async getLastSubmittedCheckinRow(userId: string) {
     const [row] = await this.db
       .select()
@@ -207,6 +260,17 @@ export class WeeklyCheckinsService {
       .limit(1);
 
     return row ?? null;
+  }
+
+  private async getRecentSubmittedCheckinRows(userId: string, limit: number) {
+    const rows = await this.db
+      .select()
+      .from(weeklyCheckins)
+      .where(and(eq(weeklyCheckins.userId, userId), eq(weeklyCheckins.status, 'submitted')))
+      .orderBy(desc(weeklyCheckins.weekStartDate))
+      .limit(limit);
+
+    return rows.reverse();
   }
 
   private async upsertCheckin({
@@ -236,7 +300,6 @@ export class WeeklyCheckinsService {
         id: randomUUID(),
         userId,
         definitionId: definition.id,
-        definitionVersion: definition.version,
         conditionId: definition.conditionId,
         weekStartDate,
         status,
@@ -249,7 +312,6 @@ export class WeeklyCheckinsService {
       .onConflictDoUpdate({
         target: [weeklyCheckins.userId, weeklyCheckins.weekStartDate, weeklyCheckins.definitionId],
         set: {
-          definitionVersion: definition.version,
           conditionId: definition.conditionId,
           status,
           answersJson: answers,
@@ -267,6 +329,7 @@ type WeeklyCheckinScore = {
   max: number;
   numericTotal: number;
   enumTotal: number;
+  percent: number;
 };
 
 function validateAnswerValue(question: WeeklyCheckinQuestion, value: unknown) {
@@ -312,10 +375,7 @@ function calculateScore(
       max += question.max;
       const value = answers[question.id];
       if (typeof value === 'number') {
-        numericTotal +=
-          question.scoreDirection === 'higher_is_better'
-            ? value
-            : question.max + question.min - value;
+        numericTotal += value;
       }
       continue;
     }
@@ -334,24 +394,44 @@ function calculateScore(
     max,
     numericTotal,
     enumTotal,
+    percent: calculateScorePercent(numericTotal + enumTotal, max),
   };
 }
 
 function mapCheckinRow(row: WeeklyCheckinRow) {
+  const rawScore = row.scoreJson as Partial<WeeklyCheckinScore>;
+  const score: WeeklyCheckinScore = {
+    total: rawScore.total ?? 0,
+    max: rawScore.max ?? 0,
+    numericTotal: rawScore.numericTotal ?? 0,
+    enumTotal: rawScore.enumTotal ?? 0,
+    percent: calculateScorePercent(rawScore.total ?? 0, rawScore.max ?? 0),
+  };
+
   return {
     id: row.id,
     definitionId: row.definitionId,
-    definitionVersion: row.definitionVersion,
     conditionId: row.conditionId,
     weekStartDate: row.weekStartDate,
     status: row.status,
     answers: row.answersJson as Record<string, unknown>,
-    score: row.scoreJson as WeeklyCheckinScore,
+    score: {
+      ...score,
+      percent: rawScore.percent ?? score.percent,
+    },
     customNote: row.customNote,
     completedAt: row.completedAt?.toISOString() ?? null,
     createdAt: row.createdAt.toISOString(),
     updatedAt: row.updatedAt.toISOString(),
   };
+}
+
+function calculateScorePercent(total: number, max: number) {
+  if (max <= 0) {
+    return 0;
+  }
+
+  return Math.max(0, Math.min(100, Math.round((total / max) * 100)));
 }
 
 function getCurrentWeekStartDate(date = new Date()) {

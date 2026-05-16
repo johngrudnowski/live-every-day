@@ -6,8 +6,8 @@
  * OpenAPI spec version: 1.0
  */
 
-export type WeeklyCheckinQuestionDtoScoreDirection =
-  (typeof WeeklyCheckinQuestionDtoScoreDirection)[keyof typeof WeeklyCheckinQuestionDtoScoreDirection];
+export type WeeklyCheckinQuestionDtoScoreDirection = typeof WeeklyCheckinQuestionDtoScoreDirection[keyof typeof WeeklyCheckinQuestionDtoScoreDirection];
+
 
 export const WeeklyCheckinQuestionDtoScoreDirection = {
   higher_is_better: 'higher_is_better',

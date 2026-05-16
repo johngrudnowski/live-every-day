@@ -37,23 +37,11 @@ export function GoDeeperScreen() {
   const answers = useMemo(() => getCurrentAnswers(summary), [summary]);
   const prompts = useMemo(() => summary?.activeDefinition.deeperPrompts ?? [], [summary]);
   const [draftAnswers, setDraftAnswers] = useState<Record<string, unknown>>(() =>
-    Object.fromEntries(
-      prompts.map((prompt) => [
-        prompt.id,
-        answers[prompt.id],
-      ]),
-    ),
+    Object.fromEntries(prompts.map((prompt) => [prompt.id, answers[prompt.id]])),
   );
 
   useEffect(() => {
-    setDraftAnswers(
-      Object.fromEntries(
-        prompts.map((prompt) => [
-          prompt.id,
-          answers[prompt.id],
-        ]),
-      ),
-    );
+    setDraftAnswers(Object.fromEntries(prompts.map((prompt) => [prompt.id, answers[prompt.id]])));
   }, [answers, prompts]);
 
   if (summaryQuery.isPending) {
@@ -64,8 +52,8 @@ export function GoDeeperScreen() {
     return <LoadingScreen message="Opening check-in" />;
   }
 
-  const activeDefinition = summary.activeDefinition;
   const groupedPrompts = groupDeeperPrompts(prompts);
+  const customNote = summary.currentCheckin?.customNote ?? undefined;
 
   function handlePromptChange(promptId: string, value: string) {
     const nextAnswers = {
@@ -76,13 +64,12 @@ export function GoDeeperScreen() {
 
     saveDraftMutation.mutate({
       data: {
-        definitionId: activeDefinition.id,
-        definitionVersion: activeDefinition.version,
         answers: {
           ...answers,
           ...nextAnswers,
         },
         currentQuestionId: promptId,
+        customNote,
       },
     });
   }
@@ -94,12 +81,11 @@ export function GoDeeperScreen() {
 
     await submitMutation.mutateAsync({
       data: {
-        definitionId: activeDefinition.id,
-        definitionVersion: activeDefinition.version,
         answers: {
           ...answers,
           ...draftAnswers,
         },
+        customNote,
       },
     });
     routeToSaved(true);
@@ -112,12 +98,11 @@ export function GoDeeperScreen() {
 
     await submitMutation.mutateAsync({
       data: {
-        definitionId: activeDefinition.id,
-        definitionVersion: activeDefinition.version,
         answers: {
           ...answers,
           ...draftAnswers,
         },
+        customNote,
       },
     });
     routeToSaved(true);
@@ -201,7 +186,9 @@ function groupDeeperPrompts(prompts: WeeklyCheckinQuestion[]) {
       .filter((prompt): prompt is WeeklyCheckinQuestion => Boolean(prompt)),
   })).filter((group) => group.questions.length > 0);
 
-  const groupedIds = new Set(grouped.flatMap((group) => group.questions.map((question) => question.id)));
+  const groupedIds = new Set(
+    grouped.flatMap((group) => group.questions.map((question) => question.id)),
+  );
   const ungrouped = enumPrompts.filter((prompt) => !groupedIds.has(prompt.id));
 
   if (ungrouped.length > 0) {

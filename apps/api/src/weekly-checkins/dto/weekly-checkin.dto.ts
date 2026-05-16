@@ -56,9 +56,6 @@ export class WeeklyCheckinDefinitionDto {
   @ApiProperty({ example: 'weekly-checkin-core' })
   id!: string;
 
-  @ApiProperty({ example: 1 })
-  version!: number;
-
   @ApiPropertyOptional({ example: 'mpn', nullable: true })
   conditionId!: string | null;
 
@@ -84,6 +81,9 @@ export class WeeklyCheckinScoreDto {
 
   @ApiProperty({ example: 4 })
   enumTotal!: number;
+
+  @ApiProperty({ example: 48 })
+  percent!: number;
 }
 
 export class WeeklyCheckinDto {
@@ -92,9 +92,6 @@ export class WeeklyCheckinDto {
 
   @ApiProperty({ example: 'weekly-checkin-core' })
   definitionId!: string;
-
-  @ApiProperty({ example: 1 })
-  definitionVersion!: number;
 
   @ApiPropertyOptional({ example: 'mpn', nullable: true })
   conditionId!: string | null;
@@ -143,6 +140,9 @@ export class WeeklyCheckinSummaryDto {
 
   @ApiPropertyOptional({ type: WeeklyCheckinDto, nullable: true })
   previousWeekCheckin!: WeeklyCheckinDto | null;
+
+  @ApiProperty({ type: WeeklyCheckinDto, isArray: true })
+  recentSubmittedCheckins!: WeeklyCheckinDto[];
 
   @ApiProperty({ example: false })
   hasCompletedCurrentWeek!: boolean;
