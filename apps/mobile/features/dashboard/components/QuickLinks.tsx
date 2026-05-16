@@ -20,6 +20,7 @@ const secondaryLinks: QuickLink[] = [
     title: 'Our health data',
     subtitle: 'Labs - symptoms - wearables - vitals',
     icon: 'line-chart',
+    onPress: () => router.push('/data'),
   },
   {
     title: 'Appointment prep',

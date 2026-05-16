@@ -3,6 +3,7 @@ import { router } from 'expo-router';
 import { useEffect, useRef, useState } from 'react';
 import { Alert, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { AppScreen, LedText, PrimaryButton, colors, radii, spacing } from '@led/design-system';
+import { ScreenHeaderChevronLink, ScreenHeaderNavRow } from '@/components/screen-header';
 import { LoadingScreen } from '@/features/launch/components/LoadingScreen';
 import { useLatestVitalReadingQuery, useSaveVitalReadingMutation } from '../api/vitals-queries';
 
@@ -75,17 +76,16 @@ export function VitalsEntryScreen() {
   return (
     <AppScreen padded={false} style={styles.screen}>
       <View style={styles.header}>
-        <View style={styles.headerRow}>
-          <Pressable
-            accessibilityRole="button"
-            onPress={() => router.replace('/home')}
-            style={styles.backButton}
-          >
-            <FontAwesome name="chevron-left" size={14} color={colors.midday} />
-          </Pressable>
-          <LedText variant="subtitle">Log vitals</LedText>
-          <View style={styles.headerSpacer} />
-        </View>
+        <ScreenHeaderNavRow
+          left={
+            <ScreenHeaderChevronLink label="Home" onPress={() => router.replace('/home')} />
+          }
+          title={
+            <LedText variant="subtitle" numberOfLines={1} ellipsizeMode="tail">
+              Log vitals
+            </LedText>
+          }
+        />
       </View>
 
       <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
@@ -285,22 +285,10 @@ const styles = StyleSheet.create({
     backgroundColor: colors.canvas,
   },
   header: {
+    borderBottomWidth: 1,
+    borderBottomColor: colors.border,
     paddingTop: spacing.lg,
     paddingHorizontal: spacing.xl,
-  },
-  headerRow: {
-    height: 44,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  backButton: {
-    width: 48,
-    height: 36,
-    justifyContent: 'center',
-  },
-  headerSpacer: {
-    width: 48,
   },
   content: {
     flexGrow: 1,
@@ -348,7 +336,7 @@ const styles = StyleSheet.create({
     borderWidth: 1.5,
     borderColor: colors.border,
     borderRadius: radii.xxl,
-    backgroundColor: colors.canvas,
+    backgroundColor: colors.white,
     padding: spacing.sm,
   },
   iconButton: {
