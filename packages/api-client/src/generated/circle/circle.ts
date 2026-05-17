@@ -28,12 +28,16 @@ import type {
   AcceptCircleInvitationResponseDto,
   CircleInvitationLinkDto,
   CircleInvitationPreviewDto,
+  CirclePermissionDefinitionDto,
   CircleSupportMessageDto,
   CreateSupportPersonInviteDto,
   CreateSupportPersonInviteResponseDto,
   MyCircleDto,
   RegenerateSupportInvitationDto,
-  SendCircleSupportMessageDto
+  SaveCircleCareTeamPersonDto,
+  SendCircleSupportMessageDto,
+  UpdateCircleSupportPermissionsDto,
+  UpdateCircleSupportPersonDto
 } from '../schemas';
 
 import { customFetch } from '../../fetcher';
@@ -149,6 +153,112 @@ export function useCircleControllerGetMyCircle<TData = Awaited<ReturnType<typeof
 
 
 
+export type circleControllerGetPermissionDefinitionsResponse200 = {
+  data: CirclePermissionDefinitionDto[]
+  status: 200
+}
+
+export type circleControllerGetPermissionDefinitionsResponseSuccess = (circleControllerGetPermissionDefinitionsResponse200) & {
+  headers: Headers;
+};
+;
+
+export type circleControllerGetPermissionDefinitionsResponse = (circleControllerGetPermissionDefinitionsResponseSuccess)
+
+export const getCircleControllerGetPermissionDefinitionsUrl = () => {
+
+
+
+
+  return `/api/me/circle/permissions`
+}
+
+export const circleControllerGetPermissionDefinitions = async ( options?: RequestInit): Promise<circleControllerGetPermissionDefinitionsResponse> => {
+
+  return customFetch<circleControllerGetPermissionDefinitionsResponse>(getCircleControllerGetPermissionDefinitionsUrl(),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getCircleControllerGetPermissionDefinitionsQueryKey = () => {
+    return [
+    `/api/me/circle/permissions`
+    ] as const;
+    }
+
+
+export const getCircleControllerGetPermissionDefinitionsQueryOptions = <TData = Awaited<ReturnType<typeof circleControllerGetPermissionDefinitions>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof circleControllerGetPermissionDefinitions>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getCircleControllerGetPermissionDefinitionsQueryKey();
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof circleControllerGetPermissionDefinitions>>> = ({ signal }) => circleControllerGetPermissionDefinitions({ signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof circleControllerGetPermissionDefinitions>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type CircleControllerGetPermissionDefinitionsQueryResult = NonNullable<Awaited<ReturnType<typeof circleControllerGetPermissionDefinitions>>>
+export type CircleControllerGetPermissionDefinitionsQueryError = unknown
+
+
+export function useCircleControllerGetPermissionDefinitions<TData = Awaited<ReturnType<typeof circleControllerGetPermissionDefinitions>>, TError = unknown>(
+  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof circleControllerGetPermissionDefinitions>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof circleControllerGetPermissionDefinitions>>,
+          TError,
+          Awaited<ReturnType<typeof circleControllerGetPermissionDefinitions>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useCircleControllerGetPermissionDefinitions<TData = Awaited<ReturnType<typeof circleControllerGetPermissionDefinitions>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof circleControllerGetPermissionDefinitions>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof circleControllerGetPermissionDefinitions>>,
+          TError,
+          Awaited<ReturnType<typeof circleControllerGetPermissionDefinitions>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useCircleControllerGetPermissionDefinitions<TData = Awaited<ReturnType<typeof circleControllerGetPermissionDefinitions>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof circleControllerGetPermissionDefinitions>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useCircleControllerGetPermissionDefinitions<TData = Awaited<ReturnType<typeof circleControllerGetPermissionDefinitions>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof circleControllerGetPermissionDefinitions>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getCircleControllerGetPermissionDefinitionsQueryOptions(options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}
+
+
+
+
+
+
 export type circleControllerCreateSupportPersonInviteResponse200 = {
   data: CreateSupportPersonInviteResponseDto
   status: 200
@@ -224,6 +334,460 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
         TContext
       > => {
       return useMutation(getCircleControllerCreateSupportPersonInviteMutationOptions(options), queryClient);
+    }
+    export type circleControllerUpdateSupportPersonResponse200 = {
+  data: MyCircleDto
+  status: 200
+}
+
+export type circleControllerUpdateSupportPersonResponseSuccess = (circleControllerUpdateSupportPersonResponse200) & {
+  headers: Headers;
+};
+;
+
+export type circleControllerUpdateSupportPersonResponse = (circleControllerUpdateSupportPersonResponseSuccess)
+
+export const getCircleControllerUpdateSupportPersonUrl = (supportPersonId: string,) => {
+
+
+
+
+  return `/api/me/circle/support-people/${supportPersonId}`
+}
+
+export const circleControllerUpdateSupportPerson = async (supportPersonId: string,
+    updateCircleSupportPersonDto: UpdateCircleSupportPersonDto, options?: RequestInit): Promise<circleControllerUpdateSupportPersonResponse> => {
+
+  return customFetch<circleControllerUpdateSupportPersonResponse>(getCircleControllerUpdateSupportPersonUrl(supportPersonId),
+  {
+    ...options,
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(
+      updateCircleSupportPersonDto,)
+  }
+);}
+
+
+
+
+export const getCircleControllerUpdateSupportPersonMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof circleControllerUpdateSupportPerson>>, TError,{supportPersonId: string;data: UpdateCircleSupportPersonDto}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof circleControllerUpdateSupportPerson>>, TError,{supportPersonId: string;data: UpdateCircleSupportPersonDto}, TContext> => {
+
+const mutationKey = ['circleControllerUpdateSupportPerson'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof circleControllerUpdateSupportPerson>>, {supportPersonId: string;data: UpdateCircleSupportPersonDto}> = (props) => {
+          const {supportPersonId,data} = props ?? {};
+
+          return  circleControllerUpdateSupportPerson(supportPersonId,data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type CircleControllerUpdateSupportPersonMutationResult = NonNullable<Awaited<ReturnType<typeof circleControllerUpdateSupportPerson>>>
+    export type CircleControllerUpdateSupportPersonMutationBody = UpdateCircleSupportPersonDto
+    export type CircleControllerUpdateSupportPersonMutationError = unknown
+
+    export const useCircleControllerUpdateSupportPerson = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof circleControllerUpdateSupportPerson>>, TError,{supportPersonId: string;data: UpdateCircleSupportPersonDto}, TContext>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof circleControllerUpdateSupportPerson>>,
+        TError,
+        {supportPersonId: string;data: UpdateCircleSupportPersonDto},
+        TContext
+      > => {
+      return useMutation(getCircleControllerUpdateSupportPersonMutationOptions(options), queryClient);
+    }
+    export type circleControllerRemoveSupportPersonResponse204 = {
+  data: void
+  status: 204
+}
+
+export type circleControllerRemoveSupportPersonResponseSuccess = (circleControllerRemoveSupportPersonResponse204) & {
+  headers: Headers;
+};
+;
+
+export type circleControllerRemoveSupportPersonResponse = (circleControllerRemoveSupportPersonResponseSuccess)
+
+export const getCircleControllerRemoveSupportPersonUrl = (supportPersonId: string,) => {
+
+
+
+
+  return `/api/me/circle/support-people/${supportPersonId}`
+}
+
+export const circleControllerRemoveSupportPerson = async (supportPersonId: string, options?: RequestInit): Promise<circleControllerRemoveSupportPersonResponse> => {
+
+  return customFetch<circleControllerRemoveSupportPersonResponse>(getCircleControllerRemoveSupportPersonUrl(supportPersonId),
+  {
+    ...options,
+    method: 'DELETE'
+
+
+  }
+);}
+
+
+
+
+export const getCircleControllerRemoveSupportPersonMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof circleControllerRemoveSupportPerson>>, TError,{supportPersonId: string}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof circleControllerRemoveSupportPerson>>, TError,{supportPersonId: string}, TContext> => {
+
+const mutationKey = ['circleControllerRemoveSupportPerson'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof circleControllerRemoveSupportPerson>>, {supportPersonId: string}> = (props) => {
+          const {supportPersonId} = props ?? {};
+
+          return  circleControllerRemoveSupportPerson(supportPersonId,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type CircleControllerRemoveSupportPersonMutationResult = NonNullable<Awaited<ReturnType<typeof circleControllerRemoveSupportPerson>>>
+
+    export type CircleControllerRemoveSupportPersonMutationError = unknown
+
+    export const useCircleControllerRemoveSupportPerson = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof circleControllerRemoveSupportPerson>>, TError,{supportPersonId: string}, TContext>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof circleControllerRemoveSupportPerson>>,
+        TError,
+        {supportPersonId: string},
+        TContext
+      > => {
+      return useMutation(getCircleControllerRemoveSupportPersonMutationOptions(options), queryClient);
+    }
+    export type circleControllerUpdateSupportPermissionsResponse200 = {
+  data: MyCircleDto
+  status: 200
+}
+
+export type circleControllerUpdateSupportPermissionsResponseSuccess = (circleControllerUpdateSupportPermissionsResponse200) & {
+  headers: Headers;
+};
+;
+
+export type circleControllerUpdateSupportPermissionsResponse = (circleControllerUpdateSupportPermissionsResponseSuccess)
+
+export const getCircleControllerUpdateSupportPermissionsUrl = (supportPersonId: string,) => {
+
+
+
+
+  return `/api/me/circle/support-people/${supportPersonId}/permissions`
+}
+
+export const circleControllerUpdateSupportPermissions = async (supportPersonId: string,
+    updateCircleSupportPermissionsDto: UpdateCircleSupportPermissionsDto, options?: RequestInit): Promise<circleControllerUpdateSupportPermissionsResponse> => {
+
+  return customFetch<circleControllerUpdateSupportPermissionsResponse>(getCircleControllerUpdateSupportPermissionsUrl(supportPersonId),
+  {
+    ...options,
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(
+      updateCircleSupportPermissionsDto,)
+  }
+);}
+
+
+
+
+export const getCircleControllerUpdateSupportPermissionsMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof circleControllerUpdateSupportPermissions>>, TError,{supportPersonId: string;data: UpdateCircleSupportPermissionsDto}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof circleControllerUpdateSupportPermissions>>, TError,{supportPersonId: string;data: UpdateCircleSupportPermissionsDto}, TContext> => {
+
+const mutationKey = ['circleControllerUpdateSupportPermissions'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof circleControllerUpdateSupportPermissions>>, {supportPersonId: string;data: UpdateCircleSupportPermissionsDto}> = (props) => {
+          const {supportPersonId,data} = props ?? {};
+
+          return  circleControllerUpdateSupportPermissions(supportPersonId,data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type CircleControllerUpdateSupportPermissionsMutationResult = NonNullable<Awaited<ReturnType<typeof circleControllerUpdateSupportPermissions>>>
+    export type CircleControllerUpdateSupportPermissionsMutationBody = UpdateCircleSupportPermissionsDto
+    export type CircleControllerUpdateSupportPermissionsMutationError = unknown
+
+    export const useCircleControllerUpdateSupportPermissions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof circleControllerUpdateSupportPermissions>>, TError,{supportPersonId: string;data: UpdateCircleSupportPermissionsDto}, TContext>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof circleControllerUpdateSupportPermissions>>,
+        TError,
+        {supportPersonId: string;data: UpdateCircleSupportPermissionsDto},
+        TContext
+      > => {
+      return useMutation(getCircleControllerUpdateSupportPermissionsMutationOptions(options), queryClient);
+    }
+    export type circleControllerCancelSupportInvitationResponse200 = {
+  data: MyCircleDto
+  status: 200
+}
+
+export type circleControllerCancelSupportInvitationResponseSuccess = (circleControllerCancelSupportInvitationResponse200) & {
+  headers: Headers;
+};
+;
+
+export type circleControllerCancelSupportInvitationResponse = (circleControllerCancelSupportInvitationResponseSuccess)
+
+export const getCircleControllerCancelSupportInvitationUrl = (supportPersonId: string,) => {
+
+
+
+
+  return `/api/me/circle/support-people/${supportPersonId}/cancel-invitation`
+}
+
+export const circleControllerCancelSupportInvitation = async (supportPersonId: string, options?: RequestInit): Promise<circleControllerCancelSupportInvitationResponse> => {
+
+  return customFetch<circleControllerCancelSupportInvitationResponse>(getCircleControllerCancelSupportInvitationUrl(supportPersonId),
+  {
+    ...options,
+    method: 'POST'
+
+
+  }
+);}
+
+
+
+
+export const getCircleControllerCancelSupportInvitationMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof circleControllerCancelSupportInvitation>>, TError,{supportPersonId: string}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof circleControllerCancelSupportInvitation>>, TError,{supportPersonId: string}, TContext> => {
+
+const mutationKey = ['circleControllerCancelSupportInvitation'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof circleControllerCancelSupportInvitation>>, {supportPersonId: string}> = (props) => {
+          const {supportPersonId} = props ?? {};
+
+          return  circleControllerCancelSupportInvitation(supportPersonId,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type CircleControllerCancelSupportInvitationMutationResult = NonNullable<Awaited<ReturnType<typeof circleControllerCancelSupportInvitation>>>
+
+    export type CircleControllerCancelSupportInvitationMutationError = unknown
+
+    export const useCircleControllerCancelSupportInvitation = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof circleControllerCancelSupportInvitation>>, TError,{supportPersonId: string}, TContext>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof circleControllerCancelSupportInvitation>>,
+        TError,
+        {supportPersonId: string},
+        TContext
+      > => {
+      return useMutation(getCircleControllerCancelSupportInvitationMutationOptions(options), queryClient);
+    }
+    export type circleControllerPromoteSupportPersonResponse200 = {
+  data: MyCircleDto
+  status: 200
+}
+
+export type circleControllerPromoteSupportPersonResponseSuccess = (circleControllerPromoteSupportPersonResponse200) & {
+  headers: Headers;
+};
+;
+
+export type circleControllerPromoteSupportPersonResponse = (circleControllerPromoteSupportPersonResponseSuccess)
+
+export const getCircleControllerPromoteSupportPersonUrl = (supportPersonId: string,) => {
+
+
+
+
+  return `/api/me/circle/support-people/${supportPersonId}/promote`
+}
+
+export const circleControllerPromoteSupportPerson = async (supportPersonId: string, options?: RequestInit): Promise<circleControllerPromoteSupportPersonResponse> => {
+
+  return customFetch<circleControllerPromoteSupportPersonResponse>(getCircleControllerPromoteSupportPersonUrl(supportPersonId),
+  {
+    ...options,
+    method: 'POST'
+
+
+  }
+);}
+
+
+
+
+export const getCircleControllerPromoteSupportPersonMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof circleControllerPromoteSupportPerson>>, TError,{supportPersonId: string}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof circleControllerPromoteSupportPerson>>, TError,{supportPersonId: string}, TContext> => {
+
+const mutationKey = ['circleControllerPromoteSupportPerson'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof circleControllerPromoteSupportPerson>>, {supportPersonId: string}> = (props) => {
+          const {supportPersonId} = props ?? {};
+
+          return  circleControllerPromoteSupportPerson(supportPersonId,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type CircleControllerPromoteSupportPersonMutationResult = NonNullable<Awaited<ReturnType<typeof circleControllerPromoteSupportPerson>>>
+
+    export type CircleControllerPromoteSupportPersonMutationError = unknown
+
+    export const useCircleControllerPromoteSupportPerson = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof circleControllerPromoteSupportPerson>>, TError,{supportPersonId: string}, TContext>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof circleControllerPromoteSupportPerson>>,
+        TError,
+        {supportPersonId: string},
+        TContext
+      > => {
+      return useMutation(getCircleControllerPromoteSupportPersonMutationOptions(options), queryClient);
+    }
+    export type circleControllerDemoteSupportPersonResponse200 = {
+  data: MyCircleDto
+  status: 200
+}
+
+export type circleControllerDemoteSupportPersonResponseSuccess = (circleControllerDemoteSupportPersonResponse200) & {
+  headers: Headers;
+};
+;
+
+export type circleControllerDemoteSupportPersonResponse = (circleControllerDemoteSupportPersonResponseSuccess)
+
+export const getCircleControllerDemoteSupportPersonUrl = (supportPersonId: string,) => {
+
+
+
+
+  return `/api/me/circle/support-people/${supportPersonId}/demote`
+}
+
+export const circleControllerDemoteSupportPerson = async (supportPersonId: string, options?: RequestInit): Promise<circleControllerDemoteSupportPersonResponse> => {
+
+  return customFetch<circleControllerDemoteSupportPersonResponse>(getCircleControllerDemoteSupportPersonUrl(supportPersonId),
+  {
+    ...options,
+    method: 'POST'
+
+
+  }
+);}
+
+
+
+
+export const getCircleControllerDemoteSupportPersonMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof circleControllerDemoteSupportPerson>>, TError,{supportPersonId: string}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof circleControllerDemoteSupportPerson>>, TError,{supportPersonId: string}, TContext> => {
+
+const mutationKey = ['circleControllerDemoteSupportPerson'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof circleControllerDemoteSupportPerson>>, {supportPersonId: string}> = (props) => {
+          const {supportPersonId} = props ?? {};
+
+          return  circleControllerDemoteSupportPerson(supportPersonId,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type CircleControllerDemoteSupportPersonMutationResult = NonNullable<Awaited<ReturnType<typeof circleControllerDemoteSupportPerson>>>
+
+    export type CircleControllerDemoteSupportPersonMutationError = unknown
+
+    export const useCircleControllerDemoteSupportPerson = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof circleControllerDemoteSupportPerson>>, TError,{supportPersonId: string}, TContext>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof circleControllerDemoteSupportPerson>>,
+        TError,
+        {supportPersonId: string},
+        TContext
+      > => {
+      return useMutation(getCircleControllerDemoteSupportPersonMutationOptions(options), queryClient);
     }
     export type circleControllerRegenerateSupportInvitationResponse200 = {
   data: CircleInvitationLinkDto
@@ -408,7 +972,235 @@ export function useCircleControllerGetSupportMessages<TData = Awaited<ReturnType
 
 
 
-export type circleInvitationsControllerPreviewInvitationResponse200 = {
+export type circleControllerCreateCareTeamPersonResponse200 = {
+  data: MyCircleDto
+  status: 200
+}
+
+export type circleControllerCreateCareTeamPersonResponseSuccess = (circleControllerCreateCareTeamPersonResponse200) & {
+  headers: Headers;
+};
+;
+
+export type circleControllerCreateCareTeamPersonResponse = (circleControllerCreateCareTeamPersonResponseSuccess)
+
+export const getCircleControllerCreateCareTeamPersonUrl = () => {
+
+
+
+
+  return `/api/me/circle/care-team-people`
+}
+
+export const circleControllerCreateCareTeamPerson = async (saveCircleCareTeamPersonDto: SaveCircleCareTeamPersonDto, options?: RequestInit): Promise<circleControllerCreateCareTeamPersonResponse> => {
+
+  return customFetch<circleControllerCreateCareTeamPersonResponse>(getCircleControllerCreateCareTeamPersonUrl(),
+  {
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(
+      saveCircleCareTeamPersonDto,)
+  }
+);}
+
+
+
+
+export const getCircleControllerCreateCareTeamPersonMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof circleControllerCreateCareTeamPerson>>, TError,{data: SaveCircleCareTeamPersonDto}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof circleControllerCreateCareTeamPerson>>, TError,{data: SaveCircleCareTeamPersonDto}, TContext> => {
+
+const mutationKey = ['circleControllerCreateCareTeamPerson'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof circleControllerCreateCareTeamPerson>>, {data: SaveCircleCareTeamPersonDto}> = (props) => {
+          const {data} = props ?? {};
+
+          return  circleControllerCreateCareTeamPerson(data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type CircleControllerCreateCareTeamPersonMutationResult = NonNullable<Awaited<ReturnType<typeof circleControllerCreateCareTeamPerson>>>
+    export type CircleControllerCreateCareTeamPersonMutationBody = SaveCircleCareTeamPersonDto
+    export type CircleControllerCreateCareTeamPersonMutationError = unknown
+
+    export const useCircleControllerCreateCareTeamPerson = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof circleControllerCreateCareTeamPerson>>, TError,{data: SaveCircleCareTeamPersonDto}, TContext>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof circleControllerCreateCareTeamPerson>>,
+        TError,
+        {data: SaveCircleCareTeamPersonDto},
+        TContext
+      > => {
+      return useMutation(getCircleControllerCreateCareTeamPersonMutationOptions(options), queryClient);
+    }
+    export type circleControllerUpdateCareTeamPersonResponse200 = {
+  data: MyCircleDto
+  status: 200
+}
+
+export type circleControllerUpdateCareTeamPersonResponseSuccess = (circleControllerUpdateCareTeamPersonResponse200) & {
+  headers: Headers;
+};
+;
+
+export type circleControllerUpdateCareTeamPersonResponse = (circleControllerUpdateCareTeamPersonResponseSuccess)
+
+export const getCircleControllerUpdateCareTeamPersonUrl = (careTeamPersonId: string,) => {
+
+
+
+
+  return `/api/me/circle/care-team-people/${careTeamPersonId}`
+}
+
+export const circleControllerUpdateCareTeamPerson = async (careTeamPersonId: string,
+    saveCircleCareTeamPersonDto: SaveCircleCareTeamPersonDto, options?: RequestInit): Promise<circleControllerUpdateCareTeamPersonResponse> => {
+
+  return customFetch<circleControllerUpdateCareTeamPersonResponse>(getCircleControllerUpdateCareTeamPersonUrl(careTeamPersonId),
+  {
+    ...options,
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(
+      saveCircleCareTeamPersonDto,)
+  }
+);}
+
+
+
+
+export const getCircleControllerUpdateCareTeamPersonMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof circleControllerUpdateCareTeamPerson>>, TError,{careTeamPersonId: string;data: SaveCircleCareTeamPersonDto}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof circleControllerUpdateCareTeamPerson>>, TError,{careTeamPersonId: string;data: SaveCircleCareTeamPersonDto}, TContext> => {
+
+const mutationKey = ['circleControllerUpdateCareTeamPerson'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof circleControllerUpdateCareTeamPerson>>, {careTeamPersonId: string;data: SaveCircleCareTeamPersonDto}> = (props) => {
+          const {careTeamPersonId,data} = props ?? {};
+
+          return  circleControllerUpdateCareTeamPerson(careTeamPersonId,data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type CircleControllerUpdateCareTeamPersonMutationResult = NonNullable<Awaited<ReturnType<typeof circleControllerUpdateCareTeamPerson>>>
+    export type CircleControllerUpdateCareTeamPersonMutationBody = SaveCircleCareTeamPersonDto
+    export type CircleControllerUpdateCareTeamPersonMutationError = unknown
+
+    export const useCircleControllerUpdateCareTeamPerson = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof circleControllerUpdateCareTeamPerson>>, TError,{careTeamPersonId: string;data: SaveCircleCareTeamPersonDto}, TContext>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof circleControllerUpdateCareTeamPerson>>,
+        TError,
+        {careTeamPersonId: string;data: SaveCircleCareTeamPersonDto},
+        TContext
+      > => {
+      return useMutation(getCircleControllerUpdateCareTeamPersonMutationOptions(options), queryClient);
+    }
+    export type circleControllerRemoveCareTeamPersonResponse204 = {
+  data: void
+  status: 204
+}
+
+export type circleControllerRemoveCareTeamPersonResponseSuccess = (circleControllerRemoveCareTeamPersonResponse204) & {
+  headers: Headers;
+};
+;
+
+export type circleControllerRemoveCareTeamPersonResponse = (circleControllerRemoveCareTeamPersonResponseSuccess)
+
+export const getCircleControllerRemoveCareTeamPersonUrl = (careTeamPersonId: string,) => {
+
+
+
+
+  return `/api/me/circle/care-team-people/${careTeamPersonId}`
+}
+
+export const circleControllerRemoveCareTeamPerson = async (careTeamPersonId: string, options?: RequestInit): Promise<circleControllerRemoveCareTeamPersonResponse> => {
+
+  return customFetch<circleControllerRemoveCareTeamPersonResponse>(getCircleControllerRemoveCareTeamPersonUrl(careTeamPersonId),
+  {
+    ...options,
+    method: 'DELETE'
+
+
+  }
+);}
+
+
+
+
+export const getCircleControllerRemoveCareTeamPersonMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof circleControllerRemoveCareTeamPerson>>, TError,{careTeamPersonId: string}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof circleControllerRemoveCareTeamPerson>>, TError,{careTeamPersonId: string}, TContext> => {
+
+const mutationKey = ['circleControllerRemoveCareTeamPerson'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof circleControllerRemoveCareTeamPerson>>, {careTeamPersonId: string}> = (props) => {
+          const {careTeamPersonId} = props ?? {};
+
+          return  circleControllerRemoveCareTeamPerson(careTeamPersonId,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type CircleControllerRemoveCareTeamPersonMutationResult = NonNullable<Awaited<ReturnType<typeof circleControllerRemoveCareTeamPerson>>>
+
+    export type CircleControllerRemoveCareTeamPersonMutationError = unknown
+
+    export const useCircleControllerRemoveCareTeamPerson = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof circleControllerRemoveCareTeamPerson>>, TError,{careTeamPersonId: string}, TContext>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof circleControllerRemoveCareTeamPerson>>,
+        TError,
+        {careTeamPersonId: string},
+        TContext
+      > => {
+      return useMutation(getCircleControllerRemoveCareTeamPersonMutationOptions(options), queryClient);
+    }
+    export type circleInvitationsControllerPreviewInvitationResponse200 = {
   data: CircleInvitationPreviewDto
   status: 200
 }
