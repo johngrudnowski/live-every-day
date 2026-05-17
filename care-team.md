@@ -1,0 +1,15 @@
+
+* Care Team
+	* With "Care Team", we will be able to connect doctors. I think there are two main flows. This allows us to have local doctors (private to our user) as well as connected real doctors (those that have their own login and account) that can view our data - 
+		* Doctor has a Live Every Day account and can share a "code" for us to connect
+		* Doctor does _not_ have a code and we just want to create a Doctor (fully local to us) so that we can add metadata, create appointmetns, etc.
+	* UX
+		* Doctor side
+			* Doctor must have a way to invite users (code?)
+			* Once a user enters code, the doctor must "approve" them on their dashboard
+			* Doctors probably have their own login on  web app (not mobile) where they can see their clients and approve those who request
+		* Patient side
+			* We can add doctors on "My Circle" via "Add a care team member". This means we can enter the doctor information (name, speciality, location, phone)
+			* I'm thinking for simplicity, if I accept an invite and add a doctor, it does not do any sort of de-dup with local doctors. There's not enough info for that to matter - so the user would delete their local doctor. 
+			* I think this is where we also manage our upcoming appointments. These are defiend by the user, we would click on a doctor and see our list of appointments and be able to click on one and edit or create a new one. 
+			* I think an appt is connected to our local doctor and our local doctor would have some sort of ocnnection with the official doctor (if tehy exist and we were invited, connected, accepted)
