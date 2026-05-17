@@ -11,6 +11,18 @@ export class CirclePermissionDto {
   category!: string;
 }
 
+export class CirclePermissionDefinitionDto extends CirclePermissionDto {
+  @ApiPropertyOptional({
+    type: String,
+    example: 'Can receive weekly check-in score summaries.',
+    nullable: true,
+  })
+  description!: string | null;
+
+  @ApiProperty({ example: 0 })
+  sortOrder!: number;
+}
+
 export class CircleSupportPersonDto {
   @ApiProperty({ example: 'support-id' })
   id!: string;
@@ -18,10 +30,10 @@ export class CircleSupportPersonDto {
   @ApiProperty({ example: 'Ashton Grudnowski' })
   displayName!: string;
 
-  @ApiPropertyOptional({ example: 'AG', nullable: true })
+  @ApiPropertyOptional({ type: String, example: 'AG', nullable: true })
   initials!: string | null;
 
-  @ApiPropertyOptional({ example: 'Spouse', nullable: true })
+  @ApiPropertyOptional({ type: String, example: 'Spouse', nullable: true })
   relationship!: string | null;
 
   @ApiProperty({ example: 'my_number_one' })
@@ -42,7 +54,7 @@ export class CircleSupportPersonDto {
   @ApiProperty({ type: CirclePermissionDto, isArray: true })
   permissions!: CirclePermissionDto[];
 
-  @ApiPropertyOptional({ example: 'linked-user-id', nullable: true })
+  @ApiPropertyOptional({ type: String, example: 'linked-user-id', nullable: true })
   linkedUserId!: string | null;
 
   @ApiProperty({ example: 0 })
@@ -56,17 +68,27 @@ export class CircleCareTeamPersonDto {
   @ApiProperty({ example: 'Dr. Wolanskyj-Spinner' })
   displayName!: string;
 
-  @ApiPropertyOptional({ example: 'WS', nullable: true })
+  @ApiPropertyOptional({ type: String, example: 'WS', nullable: true })
   initials!: string | null;
 
   @ApiProperty({ example: 'hematologist' })
   role!: string;
 
-  @ApiPropertyOptional({ example: 'Hematology', nullable: true })
+  @ApiPropertyOptional({ type: String, example: 'Hematology', nullable: true })
   specialty!: string | null;
 
-  @ApiPropertyOptional({ example: 'Mayo Clinic', nullable: true })
+  @ApiPropertyOptional({ type: String, example: 'Mayo Clinic', nullable: true })
   organization!: string | null;
+
+  @ApiPropertyOptional({
+    type: String,
+    example: '200 1st St SW, Rochester, MN 55905',
+    nullable: true,
+  })
+  address!: string | null;
+
+  @ApiPropertyOptional({ type: String, example: '(507) 284-2511', nullable: true })
+  phoneNumber!: string | null;
 
   @ApiProperty({ example: 'connected' })
   connectionStatus!: string;
@@ -80,10 +102,14 @@ export class CircleCareTeamPersonDto {
   @ApiProperty({ example: 'Hematology · Mayo Clinic · Apr 14' })
   detailLine!: string;
 
-  @ApiPropertyOptional({ example: '2026-06-14T14:00:00.000Z', nullable: true })
+  @ApiPropertyOptional({
+    type: String,
+    example: '2026-06-14T14:00:00.000Z',
+    nullable: true,
+  })
   nextAppointmentAt!: string | null;
 
-  @ApiPropertyOptional({ example: 'provider-user-id', nullable: true })
+  @ApiPropertyOptional({ type: String, example: 'provider-user-id', nullable: true })
   providerUserId!: string | null;
 
   @ApiProperty({ example: 0 })

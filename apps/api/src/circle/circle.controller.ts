@@ -1,5 +1,16 @@
-import { Body, Controller, Get, Param, Post, Req } from '@nestjs/common';
-import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Param,
+  Patch,
+  Post,
+  Req,
+} from '@nestjs/common';
+import { ApiNoContentResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import type { Request } from 'express';
 import { AuthSessionService } from '../auth/auth-session.service';
 import { CircleService } from './circle.service';
@@ -12,7 +23,12 @@ import {
   RegenerateSupportInvitationDto,
 } from './dto/circle-invite.dto';
 import { CircleSupportMessageDto, SendCircleSupportMessageDto } from './dto/circle-message.dto';
-import { MyCircleDto } from './dto/my-circle.dto';
+import { SaveCircleCareTeamPersonDto } from './dto/manage-circle-care-team-person.dto';
+import {
+  UpdateCircleSupportPermissionsDto,
+  UpdateCircleSupportPersonDto,
+} from './dto/manage-circle-support-person.dto';
+import { CirclePermissionDefinitionDto, MyCircleDto } from './dto/my-circle.dto';
 
 @ApiTags('Circle')
 @Controller('api/me/circle')
@@ -29,11 +45,81 @@ export class CircleController {
     return await this.circleService.getMyCircle(user.id);
   }
 
+  @Get('permissions')
+  @ApiOkResponse({ type: CirclePermissionDefinitionDto, isArray: true })
+  async getPermissionDefinitions(@Req() req: Request) {
+    await this.authSessionService.requireUser(req);
+    return await this.circleService.getPermissionDefinitions();
+  }
+
   @Post('support-people')
   @ApiOkResponse({ type: CreateSupportPersonInviteResponseDto })
   async createSupportPersonInvite(@Req() req: Request, @Body() dto: CreateSupportPersonInviteDto) {
     const user = await this.authSessionService.requireUser(req);
     return await this.circleService.createSupportPersonInvite(user, dto);
+  }
+
+  @Patch('support-people/:supportPersonId')
+  @ApiOkResponse({ type: MyCircleDto })
+  async updateSupportPerson(
+    @Req() req: Request,
+    @Param('supportPersonId') supportPersonId: string,
+    @Body() dto: UpdateCircleSupportPersonDto,
+  ) {
+    const user = await this.authSessionService.requireUser(req);
+    return await this.circleService.updateSupportPerson(user.id, supportPersonId, dto);
+  }
+
+  @Patch('support-people/:supportPersonId/permissions')
+  @ApiOkResponse({ type: MyCircleDto })
+  async updateSupportPermissions(
+    @Req() req: Request,
+    @Param('supportPersonId') supportPersonId: string,
+    @Body() dto: UpdateCircleSupportPermissionsDto,
+  ) {
+    const user = await this.authSessionService.requireUser(req);
+    return await this.circleService.updateSupportPermissions(user.id, supportPersonId, dto);
+  }
+
+  @Post('support-people/:supportPersonId/cancel-invitation')
+  @ApiOkResponse({ type: MyCircleDto })
+  async cancelSupportInvitation(
+    @Req() req: Request,
+    @Param('supportPersonId') supportPersonId: string,
+  ) {
+    const user = await this.authSessionService.requireUser(req);
+    return await this.circleService.cancelSupportInvitation(user.id, supportPersonId);
+  }
+
+  @Post('support-people/:supportPersonId/promote')
+  @ApiOkResponse({ type: MyCircleDto })
+  async promoteSupportPerson(
+    @Req() req: Request,
+    @Param('supportPersonId') supportPersonId: string,
+  ) {
+    const user = await this.authSessionService.requireUser(req);
+    return await this.circleService.promoteSupportPerson(user.id, supportPersonId);
+  }
+
+  @Post('support-people/:supportPersonId/demote')
+  @ApiOkResponse({ type: MyCircleDto })
+  async demoteSupportPerson(
+    @Req() req: Request,
+    @Param('supportPersonId') supportPersonId: string,
+  ) {
+    const user = await this.authSessionService.requireUser(req);
+    return await this.circleService.demoteSupportPerson(user.id, supportPersonId);
+  }
+
+  @Delete('support-people/:supportPersonId')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @ApiNoContentResponse({ description: 'Removes a support person from the circle.' })
+  async removeSupportPerson(
+    @Req() req: Request,
+    @Param('supportPersonId') supportPersonId: string,
+  ) {
+    const user = await this.authSessionService.requireUser(req);
+    await this.circleService.removeSupportPerson(user.id, supportPersonId);
   }
 
   @Post('support-people/:supportPersonId/invitations')
@@ -56,6 +142,35 @@ export class CircleController {
   async getSupportMessages(@Req() req: Request) {
     const user = await this.authSessionService.requireUser(req);
     return await this.circleService.getSupportMessages(user.id);
+  }
+
+  @Post('care-team-people')
+  @ApiOkResponse({ type: MyCircleDto })
+  async createCareTeamPerson(@Req() req: Request, @Body() dto: SaveCircleCareTeamPersonDto) {
+    const user = await this.authSessionService.requireUser(req);
+    return await this.circleService.createCareTeamPerson(user.id, dto);
+  }
+
+  @Patch('care-team-people/:careTeamPersonId')
+  @ApiOkResponse({ type: MyCircleDto })
+  async updateCareTeamPerson(
+    @Req() req: Request,
+    @Param('careTeamPersonId') careTeamPersonId: string,
+    @Body() dto: SaveCircleCareTeamPersonDto,
+  ) {
+    const user = await this.authSessionService.requireUser(req);
+    return await this.circleService.updateCareTeamPerson(user.id, careTeamPersonId, dto);
+  }
+
+  @Delete('care-team-people/:careTeamPersonId')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @ApiNoContentResponse({ description: 'Removes a local care team member from the circle.' })
+  async removeCareTeamPerson(
+    @Req() req: Request,
+    @Param('careTeamPersonId') careTeamPersonId: string,
+  ) {
+    const user = await this.authSessionService.requireUser(req);
+    await this.circleService.removeCareTeamPerson(user.id, careTeamPersonId);
   }
 }
 

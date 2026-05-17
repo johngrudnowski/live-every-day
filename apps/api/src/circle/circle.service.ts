@@ -7,7 +7,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { createHash, randomBytes, randomUUID } from 'node:crypto';
-import { and, asc, desc, eq, inArray, isNull } from 'drizzle-orm';
+import { and, asc, desc, eq, inArray, isNull, notInArray } from 'drizzle-orm';
 import type { DbClient } from 'database/client';
 import {
   circleCareTeamPeople,
@@ -22,6 +22,11 @@ import type { AuthenticatedUser } from '../auth/auth-session.service';
 import { DB_CLIENT } from '../database/database.constants';
 import type { CreateSupportPersonInviteDto } from './dto/circle-invite.dto';
 import type { SendCircleSupportMessageDto } from './dto/circle-message.dto';
+import type { SaveCircleCareTeamPersonDto } from './dto/manage-circle-care-team-person.dto';
+import type {
+  UpdateCircleSupportPermissionsDto,
+  UpdateCircleSupportPersonDto,
+} from './dto/manage-circle-support-person.dto';
 
 type CircleSupportPersonRow = typeof circleSupportPeople.$inferSelect;
 type CircleCareTeamPersonRow = typeof circleCareTeamPeople.$inferSelect;
@@ -93,6 +98,88 @@ export class CircleService {
       ),
       careTeamPeople: careTeamPeople.map(mapCareTeamPerson),
     };
+  }
+
+  async getPermissionDefinitions() {
+    const definitions = await this.db
+      .select()
+      .from(circlePermissionDefinitions)
+      .orderBy(asc(circlePermissionDefinitions.sortOrder), asc(circlePermissionDefinitions.label));
+
+    return definitions.map((definition) => ({
+      key: definition.key,
+      label: definition.label,
+      description: definition.description,
+      category: definition.category,
+      sortOrder: definition.sortOrder,
+    }));
+  }
+
+  async createCareTeamPerson(userId: string, dto: SaveCircleCareTeamPersonDto) {
+    const now = new Date();
+    const displayName = normalizeRequiredText(dto.displayName, 'Display name');
+
+    await this.assertCareTeamDisplayNameAvailable(userId, displayName);
+
+    const careTeamPeople = await this.db
+      .select({ sortOrder: circleCareTeamPeople.sortOrder })
+      .from(circleCareTeamPeople)
+      .where(eq(circleCareTeamPeople.userId, userId))
+      .orderBy(desc(circleCareTeamPeople.sortOrder))
+      .limit(1);
+
+    await this.db.insert(circleCareTeamPeople).values({
+      id: createId('circle_care'),
+      userId,
+      displayName,
+      initials: getInitials(displayName),
+      role: getCareTeamRole(dto),
+      specialty: normalizeOptionalText(dto.specialty),
+      organization: normalizeOptionalText(dto.organization),
+      address: normalizeOptionalText(dto.address),
+      phoneNumber: normalizeOptionalText(dto.phoneNumber),
+      connectionStatus: 'local',
+      metadataJson: {},
+      sortOrder: (careTeamPeople[0]?.sortOrder ?? -1) + 1,
+      updatedAt: now,
+    });
+
+    return await this.getMyCircle(userId);
+  }
+
+  async updateCareTeamPerson(
+    userId: string,
+    careTeamPersonId: string,
+    dto: SaveCircleCareTeamPersonDto,
+  ) {
+    const now = new Date();
+    const displayName = normalizeRequiredText(dto.displayName, 'Display name');
+    const careTeamPerson = await this.getOwnedCareTeamPerson(userId, careTeamPersonId);
+
+    if (careTeamPerson.displayName !== displayName) {
+      await this.assertCareTeamDisplayNameAvailable(userId, displayName, careTeamPersonId);
+    }
+
+    await this.db
+      .update(circleCareTeamPeople)
+      .set({
+        displayName,
+        initials: getInitials(displayName),
+        role: getCareTeamRole(dto),
+        specialty: normalizeOptionalText(dto.specialty),
+        organization: normalizeOptionalText(dto.organization),
+        address: normalizeOptionalText(dto.address),
+        phoneNumber: normalizeOptionalText(dto.phoneNumber),
+        updatedAt: now,
+      })
+      .where(eq(circleCareTeamPeople.id, careTeamPerson.id));
+
+    return await this.getMyCircle(userId);
+  }
+
+  async removeCareTeamPerson(userId: string, careTeamPersonId: string) {
+    await this.getOwnedCareTeamPerson(userId, careTeamPersonId);
+    await this.db.delete(circleCareTeamPeople).where(eq(circleCareTeamPeople.id, careTeamPersonId));
   }
 
   async createSupportPersonInvite(user: AuthenticatedUser, dto: CreateSupportPersonInviteDto) {
@@ -171,6 +258,204 @@ export class CircleService {
       supportPersonId,
       invitation: mapInvitationLink(invitationId, token, expiresAt),
     };
+  }
+
+  async updateSupportPerson(
+    userId: string,
+    supportPersonId: string,
+    dto: UpdateCircleSupportPersonDto,
+  ) {
+    const now = new Date();
+    const displayName = normalizeRequiredText(dto.displayName, 'Display name');
+    const supportPerson = await this.getOwnedSupportPerson(userId, supportPersonId);
+
+    if (supportPerson.displayName !== displayName) {
+      const existing = await this.db
+        .select({ id: circleSupportPeople.id })
+        .from(circleSupportPeople)
+        .where(
+          and(
+            eq(circleSupportPeople.userId, userId),
+            eq(circleSupportPeople.displayName, displayName),
+          ),
+        )
+        .limit(1);
+
+      if (existing[0] && existing[0].id !== supportPersonId) {
+        throw new ConflictException('This display name is already used in your circle.');
+      }
+    }
+
+    await this.db
+      .update(circleSupportPeople)
+      .set({
+        displayName,
+        initials: getInitials(displayName),
+        updatedAt: now,
+      })
+      .where(eq(circleSupportPeople.id, supportPerson.id));
+
+    return await this.getMyCircle(userId);
+  }
+
+  async updateSupportPermissions(
+    userId: string,
+    supportPersonId: string,
+    dto: UpdateCircleSupportPermissionsDto,
+  ) {
+    const now = new Date();
+    await this.getOwnedSupportPerson(userId, supportPersonId);
+    const permissionKeys = normalizePermissionKeys(dto.permissionKeys);
+
+    if (permissionKeys.length > 0) {
+      await this.assertPermissionKeysExist(permissionKeys);
+    }
+
+    await this.db.transaction(async (tx) => {
+      const revokeCondition =
+        permissionKeys.length > 0
+          ? and(
+              eq(circleSupportPersonPermissionGrants.supportPersonId, supportPersonId),
+              isNull(circleSupportPersonPermissionGrants.revokedAt),
+              notInArray(circleSupportPersonPermissionGrants.permissionKey, permissionKeys),
+            )
+          : and(
+              eq(circleSupportPersonPermissionGrants.supportPersonId, supportPersonId),
+              isNull(circleSupportPersonPermissionGrants.revokedAt),
+            );
+
+      await tx
+        .update(circleSupportPersonPermissionGrants)
+        .set({
+          revokedAt: now,
+          updatedAt: now,
+        })
+        .where(revokeCondition);
+
+      if (permissionKeys.length > 0) {
+        await tx
+          .insert(circleSupportPersonPermissionGrants)
+          .values(
+            permissionKeys.map((permissionKey) => ({
+              id: createId('circle_permission_grant'),
+              supportPersonId,
+              userId,
+              permissionKey,
+              grantedByUserId: userId,
+              grantedAt: now,
+              revokedAt: null,
+              updatedAt: now,
+            })),
+          )
+          .onConflictDoUpdate({
+            target: [
+              circleSupportPersonPermissionGrants.supportPersonId,
+              circleSupportPersonPermissionGrants.permissionKey,
+            ],
+            set: {
+              userId,
+              grantedByUserId: userId,
+              grantedAt: now,
+              revokedAt: null,
+              updatedAt: now,
+            },
+          });
+      }
+    });
+
+    return await this.getMyCircle(userId);
+  }
+
+  async cancelSupportInvitation(userId: string, supportPersonId: string) {
+    const now = new Date();
+    const supportPerson = await this.getOwnedSupportPerson(userId, supportPersonId);
+
+    if (supportPerson.linkedUserId) {
+      throw new ConflictException('This support person has already accepted their invite.');
+    }
+
+    await this.db.transaction(async (tx) => {
+      await tx
+        .update(circleSupportInvitations)
+        .set({
+          revokedAt: now,
+          updatedAt: now,
+        })
+        .where(
+          and(
+            eq(circleSupportInvitations.supportPersonId, supportPersonId),
+            isNull(circleSupportInvitations.acceptedAt),
+            isNull(circleSupportInvitations.revokedAt),
+          ),
+        );
+
+      await tx
+        .update(circleSupportPeople)
+        .set({
+          inviteStatus: 'canceled',
+          updatedAt: now,
+        })
+        .where(eq(circleSupportPeople.id, supportPersonId));
+    });
+
+    return await this.getMyCircle(userId);
+  }
+
+  async promoteSupportPerson(userId: string, supportPersonId: string) {
+    const now = new Date();
+    const supportPerson = await this.getOwnedSupportPerson(userId, supportPersonId);
+
+    if (supportPerson.role === 'my_number_one') {
+      return await this.getMyCircle(userId);
+    }
+
+    const currentNumberOne = await this.db
+      .select({ id: circleSupportPeople.id })
+      .from(circleSupportPeople)
+      .where(
+        and(eq(circleSupportPeople.userId, userId), eq(circleSupportPeople.role, 'my_number_one')),
+      )
+      .limit(1);
+
+    if (currentNumberOne[0]) {
+      throw new ConflictException('You already have a My #1.');
+    }
+
+    await this.db
+      .update(circleSupportPeople)
+      .set({
+        role: 'my_number_one',
+        sortOrder: 0,
+        updatedAt: now,
+      })
+      .where(eq(circleSupportPeople.id, supportPersonId));
+
+    return await this.getMyCircle(userId);
+  }
+
+  async demoteSupportPerson(userId: string, supportPersonId: string) {
+    const now = new Date();
+    const supportPerson = await this.getOwnedSupportPerson(userId, supportPersonId);
+
+    if (supportPerson.role !== 'my_number_one') {
+      return await this.getMyCircle(userId);
+    }
+
+    await this.db
+      .update(circleSupportPeople)
+      .set({
+        role: 'support',
+        sortOrder: Math.max(supportPerson.sortOrder, 1),
+        updatedAt: now,
+      })
+      .where(eq(circleSupportPeople.id, supportPersonId));
+
+    return await this.getMyCircle(userId);
+  }
+
+  async removeSupportPerson(userId: string, supportPersonId: string) {
+    await this.getOwnedSupportPerson(userId, supportPersonId);
+    await this.db.delete(circleSupportPeople).where(eq(circleSupportPeople.id, supportPersonId));
   }
 
   async regenerateSupportInvitation(
@@ -390,6 +675,43 @@ export class CircleService {
     return supportPerson[0];
   }
 
+  private async getOwnedCareTeamPerson(userId: string, careTeamPersonId: string) {
+    const careTeamPerson = await this.db
+      .select()
+      .from(circleCareTeamPeople)
+      .where(
+        and(eq(circleCareTeamPeople.id, careTeamPersonId), eq(circleCareTeamPeople.userId, userId)),
+      )
+      .limit(1);
+
+    if (!careTeamPerson[0]) {
+      throw new NotFoundException('Care team member not found.');
+    }
+
+    return careTeamPerson[0];
+  }
+
+  private async assertCareTeamDisplayNameAvailable(
+    userId: string,
+    displayName: string,
+    ignoreCareTeamPersonId?: string,
+  ) {
+    const existing = await this.db
+      .select({ id: circleCareTeamPeople.id })
+      .from(circleCareTeamPeople)
+      .where(
+        and(
+          eq(circleCareTeamPeople.userId, userId),
+          eq(circleCareTeamPeople.displayName, displayName),
+        ),
+      )
+      .limit(1);
+
+    if (existing[0] && existing[0].id !== ignoreCareTeamPersonId) {
+      throw new ConflictException('This care team member is already in your circle.');
+    }
+  }
+
   private async assertPermissionKeysExist(permissionKeys: string[]) {
     const definitions = await this.db
       .select({ key: circlePermissionDefinitions.key })
@@ -464,6 +786,8 @@ function mapCareTeamPerson(row: CircleCareTeamPersonRow) {
     role: row.role,
     specialty: row.specialty,
     organization: row.organization,
+    address: row.address,
+    phoneNumber: row.phoneNumber,
     connectionStatus: row.connectionStatus,
     stateLabel: getConnectionStateLabel(row.connectionStatus),
     stateTone: getConnectionStateTone(row.connectionStatus),
@@ -650,9 +974,35 @@ function normalizeRequiredText(value: string | undefined, label: string) {
   return normalized;
 }
 
-function normalizeOptionalText(value: string | undefined) {
+function normalizeOptionalText(value: string | null | undefined) {
   const normalized = value?.trim();
   return normalized || null;
+}
+
+function getCareTeamRole(dto: SaveCircleCareTeamPersonDto) {
+  const specialty = normalizeOptionalText(dto.specialty);
+
+  if (!specialty) {
+    return 'clinician';
+  }
+
+  return (
+    specialty
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '_')
+      .replace(/^_+|_+$/g, '') || 'clinician'
+  );
+}
+
+function getInitials(displayName: string) {
+  return (
+    displayName
+      .split(/\s+/)
+      .filter(Boolean)
+      .slice(0, 2)
+      .map((part) => part[0]?.toUpperCase() ?? '')
+      .join('') || null
+  );
 }
 
 function addDays(date: Date, days: number) {
