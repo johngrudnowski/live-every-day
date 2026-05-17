@@ -153,6 +153,8 @@ export const circleCareTeamPeople = pgTable(
     role: text('role').notNull(),
     specialty: text('specialty'),
     organization: text('organization'),
+    address: text('address'),
+    phoneNumber: text('phone_number'),
     connectionStatus: text('connection_status').notNull(),
     externalProviderId: text('external_provider_id'),
     metadataJson: jsonb('metadata_json').default({}).notNull(),
