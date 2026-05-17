@@ -1,69 +1,373 @@
 import { router } from 'expo-router';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { customFetch, useAccountControllerDeleteCurrentUser } from '@led/api-client';
+import { useQueryClient } from '@tanstack/react-query';
+import {
+  getCircleControllerGetMyCircleQueryKey,
+  getCircleControllerGetPermissionDefinitionsQueryKey,
+  useAccountControllerDeleteCurrentUser,
+  useCircleControllerCancelSupportInvitation,
+  useCircleControllerCreateCareTeamPerson,
+  useCircleControllerDemoteSupportPerson,
+  useCircleControllerGetMyCircle,
+  useCircleControllerGetPermissionDefinitions,
+  useCircleControllerPromoteSupportPerson,
+  useCircleControllerRemoveCareTeamPerson,
+  useCircleControllerRemoveSupportPerson,
+  useCircleControllerUpdateCareTeamPerson,
+  useCircleControllerUpdateSupportPermissions,
+  useCircleControllerUpdateSupportPerson,
+  type CircleCareTeamPersonDto,
+  type CirclePermissionDefinitionDto,
+  type CirclePermissionDto,
+  type CircleSupportPersonDto,
+  type MyCircleDto,
+  type SaveCircleCareTeamPersonDto,
+} from '@led/api-client';
 
 import { authClient } from '@/features/auth/lib/auth-client';
 
 export type CircleStateTone = 'active' | 'attention' | 'muted';
-
-export type CirclePermission = {
-  key: string;
-  label: string;
-  category: string;
+export type CirclePermission = CirclePermissionDto;
+export type CirclePermissionDefinition = Omit<CirclePermissionDefinitionDto, 'description'> & {
+  description: string | null;
 };
-
-export type CircleSupportPerson = {
-  id: string;
-  displayName: string;
+export type CircleSupportPerson = Omit<
+  CircleSupportPersonDto,
+  'initials' | 'relationship' | 'linkedUserId' | 'permissions' | 'stateTone'
+> & {
   initials: string | null;
   relationship: string | null;
-  role: string;
-  inviteStatus: string;
-  stateLabel: string;
-  stateTone: CircleStateTone;
-  detailLine: string;
-  permissions: CirclePermission[];
   linkedUserId: string | null;
-  sortOrder: number;
+  permissions: CirclePermission[];
+  stateTone: CircleStateTone;
 };
-
-export type CircleCareTeamPerson = {
-  id: string;
-  displayName: string;
+export type CircleCareTeamPerson = Omit<
+  CircleCareTeamPersonDto,
+  | 'initials'
+  | 'specialty'
+  | 'organization'
+  | 'address'
+  | 'phoneNumber'
+  | 'nextAppointmentAt'
+  | 'providerUserId'
+  | 'stateTone'
+> & {
   initials: string | null;
-  role: string;
   specialty: string | null;
   organization: string | null;
-  connectionStatus: string;
-  stateLabel: string;
-  stateTone: CircleStateTone;
-  detailLine: string;
+  address: string | null;
+  phoneNumber: string | null;
   nextAppointmentAt: string | null;
   providerUserId: string | null;
-  sortOrder: number;
+  stateTone: CircleStateTone;
 };
-
-export type MyCircle = {
+export type MyCircle = Omit<MyCircleDto, 'supportPeople' | 'careTeamPeople'> & {
   supportPeople: CircleSupportPerson[];
   careTeamPeople: CircleCareTeamPerson[];
 };
 
+export type UpdateCircleSupportPersonInput = {
+  supportPersonId: string;
+  displayName: string;
+};
+
+export type UpdateCircleSupportPermissionsInput = {
+  supportPersonId: string;
+  permissionKeys: string[];
+};
+
+export type SaveCircleCareTeamPersonInput = SaveCircleCareTeamPersonDto;
+
+export type UpdateCircleCareTeamPersonInput = SaveCircleCareTeamPersonInput & {
+  careTeamPersonId: string;
+};
+
 export const accountQueryKeys = {
-  myCircle: ['/api/me/circle'] as const,
+  myCircle: getCircleControllerGetMyCircleQueryKey(),
+  circlePermissions: getCircleControllerGetPermissionDefinitionsQueryKey(),
 };
 
 export function useMyCircleQuery(enabled = true) {
-  return useQuery({
-    queryKey: accountQueryKeys.myCircle,
-    enabled,
-    queryFn: async () => {
-      const response = await customFetch<{ data: MyCircle; status: 200 }>('/api/me/circle', {
-        method: 'GET',
-      });
+  const queryClient = useQueryClient();
 
-      return response.data;
+  return useCircleControllerGetMyCircle<MyCircle>(
+    {
+      query: {
+        enabled,
+        select: (response) => response.data as MyCircle,
+      },
     },
-  });
+    queryClient,
+  );
+}
+
+export function useCirclePermissionDefinitionsQuery(enabled = true) {
+  const queryClient = useQueryClient();
+
+  return useCircleControllerGetPermissionDefinitions<CirclePermissionDefinition[]>(
+    {
+      query: {
+        enabled,
+        select: (response) => response.data as CirclePermissionDefinition[],
+      },
+    },
+    queryClient,
+  );
+}
+
+export function useUpdateCircleSupportPersonMutation() {
+  const queryClient = useQueryClient();
+  const mutation = useCircleControllerUpdateSupportPerson(
+    {
+      mutation: {
+        onSuccess: (response) => {
+          queryClient.setQueryData(accountQueryKeys.myCircle, response);
+        },
+      },
+    },
+    queryClient,
+  );
+
+  return {
+    ...mutation,
+    mutate: (
+      input: UpdateCircleSupportPersonInput,
+      options?: Parameters<typeof mutation.mutate>[1],
+    ) =>
+      mutation.mutate(
+        {
+          supportPersonId: input.supportPersonId,
+          data: { displayName: input.displayName },
+        },
+        options,
+      ),
+    mutateAsync: (
+      input: UpdateCircleSupportPersonInput,
+      options?: Parameters<typeof mutation.mutateAsync>[1],
+    ) =>
+      mutation.mutateAsync(
+        {
+          supportPersonId: input.supportPersonId,
+          data: { displayName: input.displayName },
+        },
+        options,
+      ),
+  };
+}
+
+export function useUpdateCircleSupportPermissionsMutation() {
+  const queryClient = useQueryClient();
+  const mutation = useCircleControllerUpdateSupportPermissions(
+    {
+      mutation: {
+        onSuccess: (response) => {
+          queryClient.setQueryData(accountQueryKeys.myCircle, response);
+        },
+      },
+    },
+    queryClient,
+  );
+
+  return {
+    ...mutation,
+    mutate: (
+      input: UpdateCircleSupportPermissionsInput,
+      options?: Parameters<typeof mutation.mutate>[1],
+    ) =>
+      mutation.mutate(
+        {
+          supportPersonId: input.supportPersonId,
+          data: { permissionKeys: input.permissionKeys },
+        },
+        options,
+      ),
+    mutateAsync: (
+      input: UpdateCircleSupportPermissionsInput,
+      options?: Parameters<typeof mutation.mutateAsync>[1],
+    ) =>
+      mutation.mutateAsync(
+        {
+          supportPersonId: input.supportPersonId,
+          data: { permissionKeys: input.permissionKeys },
+        },
+        options,
+      ),
+  };
+}
+
+export function useCancelCircleSupportInvitationMutation() {
+  const queryClient = useQueryClient();
+  const mutation = useCircleControllerCancelSupportInvitation(
+    {
+      mutation: {
+        onSuccess: (response) => {
+          queryClient.setQueryData(accountQueryKeys.myCircle, response);
+        },
+      },
+    },
+    queryClient,
+  );
+
+  return {
+    ...mutation,
+    mutate: (supportPersonId: string, options?: Parameters<typeof mutation.mutate>[1]) =>
+      mutation.mutate({ supportPersonId }, options),
+    mutateAsync: (supportPersonId: string, options?: Parameters<typeof mutation.mutateAsync>[1]) =>
+      mutation.mutateAsync({ supportPersonId }, options),
+  };
+}
+
+export function usePromoteCircleSupportPersonMutation() {
+  const queryClient = useQueryClient();
+  const mutation = useCircleControllerPromoteSupportPerson(
+    {
+      mutation: {
+        onSuccess: (response) => {
+          queryClient.setQueryData(accountQueryKeys.myCircle, response);
+        },
+      },
+    },
+    queryClient,
+  );
+
+  return {
+    ...mutation,
+    mutate: (supportPersonId: string, options?: Parameters<typeof mutation.mutate>[1]) =>
+      mutation.mutate({ supportPersonId }, options),
+    mutateAsync: (supportPersonId: string, options?: Parameters<typeof mutation.mutateAsync>[1]) =>
+      mutation.mutateAsync({ supportPersonId }, options),
+  };
+}
+
+export function useDemoteCircleSupportPersonMutation() {
+  const queryClient = useQueryClient();
+  const mutation = useCircleControllerDemoteSupportPerson(
+    {
+      mutation: {
+        onSuccess: (response) => {
+          queryClient.setQueryData(accountQueryKeys.myCircle, response);
+        },
+      },
+    },
+    queryClient,
+  );
+
+  return {
+    ...mutation,
+    mutate: (supportPersonId: string, options?: Parameters<typeof mutation.mutate>[1]) =>
+      mutation.mutate({ supportPersonId }, options),
+    mutateAsync: (supportPersonId: string, options?: Parameters<typeof mutation.mutateAsync>[1]) =>
+      mutation.mutateAsync({ supportPersonId }, options),
+  };
+}
+
+export function useRemoveCircleSupportPersonMutation() {
+  const queryClient = useQueryClient();
+  const mutation = useCircleControllerRemoveSupportPerson(
+    {
+      mutation: {
+        onSuccess: async () => {
+          await queryClient.invalidateQueries({ queryKey: accountQueryKeys.myCircle });
+        },
+      },
+    },
+    queryClient,
+  );
+
+  return {
+    ...mutation,
+    mutate: (supportPersonId: string, options?: Parameters<typeof mutation.mutate>[1]) =>
+      mutation.mutate({ supportPersonId }, options),
+    mutateAsync: (supportPersonId: string, options?: Parameters<typeof mutation.mutateAsync>[1]) =>
+      mutation.mutateAsync({ supportPersonId }, options),
+  };
+}
+
+export function useCreateCircleCareTeamPersonMutation() {
+  const queryClient = useQueryClient();
+  const mutation = useCircleControllerCreateCareTeamPerson(
+    {
+      mutation: {
+        onSuccess: (response) => {
+          queryClient.setQueryData(accountQueryKeys.myCircle, response);
+        },
+      },
+    },
+    queryClient,
+  );
+
+  return {
+    ...mutation,
+    mutate: (
+      input: SaveCircleCareTeamPersonInput,
+      options?: Parameters<typeof mutation.mutate>[1],
+    ) => mutation.mutate({ data: input }, options),
+    mutateAsync: (
+      input: SaveCircleCareTeamPersonInput,
+      options?: Parameters<typeof mutation.mutateAsync>[1],
+    ) => mutation.mutateAsync({ data: input }, options),
+  };
+}
+
+export function useUpdateCircleCareTeamPersonMutation() {
+  const queryClient = useQueryClient();
+  const mutation = useCircleControllerUpdateCareTeamPerson(
+    {
+      mutation: {
+        onSuccess: (response) => {
+          queryClient.setQueryData(accountQueryKeys.myCircle, response);
+        },
+      },
+    },
+    queryClient,
+  );
+
+  return {
+    ...mutation,
+    mutate: (
+      input: UpdateCircleCareTeamPersonInput,
+      options?: Parameters<typeof mutation.mutate>[1],
+    ) =>
+      mutation.mutate(
+        {
+          careTeamPersonId: input.careTeamPersonId,
+          data: mapSaveCircleCareTeamPersonInput(input),
+        },
+        options,
+      ),
+    mutateAsync: (
+      input: UpdateCircleCareTeamPersonInput,
+      options?: Parameters<typeof mutation.mutateAsync>[1],
+    ) =>
+      mutation.mutateAsync(
+        {
+          careTeamPersonId: input.careTeamPersonId,
+          data: mapSaveCircleCareTeamPersonInput(input),
+        },
+        options,
+      ),
+  };
+}
+
+export function useRemoveCircleCareTeamPersonMutation() {
+  const queryClient = useQueryClient();
+  const mutation = useCircleControllerRemoveCareTeamPerson(
+    {
+      mutation: {
+        onSuccess: async () => {
+          await queryClient.invalidateQueries({ queryKey: accountQueryKeys.myCircle });
+        },
+      },
+    },
+    queryClient,
+  );
+
+  return {
+    ...mutation,
+    mutate: (careTeamPersonId: string, options?: Parameters<typeof mutation.mutate>[1]) =>
+      mutation.mutate({ careTeamPersonId }, options),
+    mutateAsync: (careTeamPersonId: string, options?: Parameters<typeof mutation.mutateAsync>[1]) =>
+      mutation.mutateAsync({ careTeamPersonId }, options),
+  };
 }
 
 export function useDeleteAccountMutation() {
@@ -81,4 +385,11 @@ export function useDeleteAccountMutation() {
     },
     queryClient,
   );
+}
+
+function mapSaveCircleCareTeamPersonInput({
+  careTeamPersonId: _careTeamPersonId,
+  ...input
+}: UpdateCircleCareTeamPersonInput): SaveCircleCareTeamPersonInput {
+  return input;
 }

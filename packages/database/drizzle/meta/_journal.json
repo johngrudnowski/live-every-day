@@ -71,6 +71,13 @@
       "when": 1779051600000,
       "tag": "0009_circle_invites_and_messages",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1779055200000,
+      "tag": "0010_local_care_team_contact",
+      "breakpoints": true
     }
   ]
 }

@@ -6,18 +6,15 @@
  * OpenAPI spec version: 1.0
  */
 import type { CirclePermissionDto } from './circlePermissionDto';
-import type { CircleSupportPersonDtoInitials } from './circleSupportPersonDtoInitials';
-import type { CircleSupportPersonDtoLinkedUserId } from './circleSupportPersonDtoLinkedUserId';
-import type { CircleSupportPersonDtoRelationship } from './circleSupportPersonDtoRelationship';
 import type { CircleSupportPersonDtoStateTone } from './circleSupportPersonDtoStateTone';
 
 export interface CircleSupportPersonDto {
   id: string;
   displayName: string;
   /** @nullable */
-  initials?: CircleSupportPersonDtoInitials;
+  initials?: string | null;
   /** @nullable */
-  relationship?: CircleSupportPersonDtoRelationship;
+  relationship?: string | null;
   role: string;
   inviteStatus: string;
   stateLabel: string;
@@ -25,6 +22,6 @@ export interface CircleSupportPersonDto {
   detailLine: string;
   permissions: CirclePermissionDto[];
   /** @nullable */
-  linkedUserId?: CircleSupportPersonDtoLinkedUserId;
+  linkedUserId?: string | null;
   sortOrder: number;
 }

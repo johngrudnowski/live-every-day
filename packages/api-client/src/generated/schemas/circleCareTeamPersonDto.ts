@@ -5,30 +5,29 @@
  * API documentation
  * OpenAPI spec version: 1.0
  */
-import type { CircleCareTeamPersonDtoInitials } from './circleCareTeamPersonDtoInitials';
-import type { CircleCareTeamPersonDtoNextAppointmentAt } from './circleCareTeamPersonDtoNextAppointmentAt';
-import type { CircleCareTeamPersonDtoOrganization } from './circleCareTeamPersonDtoOrganization';
-import type { CircleCareTeamPersonDtoProviderUserId } from './circleCareTeamPersonDtoProviderUserId';
-import type { CircleCareTeamPersonDtoSpecialty } from './circleCareTeamPersonDtoSpecialty';
 import type { CircleCareTeamPersonDtoStateTone } from './circleCareTeamPersonDtoStateTone';
 
 export interface CircleCareTeamPersonDto {
   id: string;
   displayName: string;
   /** @nullable */
-  initials?: CircleCareTeamPersonDtoInitials;
+  initials?: string | null;
   role: string;
   /** @nullable */
-  specialty?: CircleCareTeamPersonDtoSpecialty;
+  specialty?: string | null;
   /** @nullable */
-  organization?: CircleCareTeamPersonDtoOrganization;
+  organization?: string | null;
+  /** @nullable */
+  address?: string | null;
+  /** @nullable */
+  phoneNumber?: string | null;
   connectionStatus: string;
   stateLabel: string;
   stateTone: CircleCareTeamPersonDtoStateTone;
   detailLine: string;
   /** @nullable */
-  nextAppointmentAt?: CircleCareTeamPersonDtoNextAppointmentAt;
+  nextAppointmentAt?: string | null;
   /** @nullable */
-  providerUserId?: CircleCareTeamPersonDtoProviderUserId;
+  providerUserId?: string | null;
   sortOrder: number;
 }
