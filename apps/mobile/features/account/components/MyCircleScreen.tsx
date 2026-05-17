@@ -3,7 +3,7 @@ import { router } from 'expo-router';
 import type { ReactNode } from 'react';
 import { useEffect } from 'react';
 import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
-import { AppScreen, CircleAvatar, LedText, colors, radii, spacing } from '@led/design-system';
+import { AppScreen, LedText, colors, radii, spacing } from '@led/design-system';
 
 import { ScreenFooter, screenFooterNavActiveLabel } from '@/components/screen-footer';
 import { ScreenHeaderChevronLink, ScreenHeaderNavRow } from '@/components/screen-header';
@@ -12,17 +12,11 @@ import { LoadingScreen } from '@/features/launch/components/LoadingScreen';
 import {
   useMyCircleQuery,
   type CircleCareTeamPerson,
-  type CirclePermission,
-  type CircleStateTone,
   type CircleSupportPerson,
 } from '../api/account-queries';
 
-const permissionOptions = [
-  { key: 'weekly_score', label: 'Weekly score' },
-  { key: 'symptom_trends', label: 'Symptom trends' },
-  { key: 'labs', label: 'Labs' },
-  { key: 'appointment_brief', label: 'Appointment brief' },
-] as const;
+import { CareTeamPersonRow } from './CareTeamPersonRow';
+import { SupportPersonRow } from './SupportPersonRow';
 
 export function MyCircleScreen() {
   const auth = useMobileAuth();
@@ -125,9 +119,8 @@ function MyNumberOneSection({ person }: { person: CircleSupportPerson | null }) 
       title="My #1"
       description="Your closest person - a spouse, parent, or caregiver who's with you day to day. They can see your weekly summary with your permission."
     >
-      {person ? <SupportPersonRow person={person} isLast={false} avatarTone="primary" /> : null}
       {person ? (
-        <PermissionPanel displayName={person.displayName} permissions={person.permissions} />
+        <SupportPersonRow person={person} isLast />
       ) : (
         <EmptySectionRow message="Choose one person as your #1." />
       )}
@@ -140,7 +133,7 @@ function CareTeamSection({ careTeamPeople }: { careTeamPeople: CircleCareTeamPer
   return (
     <CircleSection
       title="My Care Team"
-      description="Your hematologist, PA, or care coordinator. They get a provider dashboard - your symptom trends and patterns, nothing more, unless you choose to share more."
+      description="Doctors, clinicians, and care coordinators you want to keep handy. These entries are local until you choose to connect a real provider account later."
     >
       {careTeamPeople.length > 0 ? (
         careTeamPeople.map((person, index) => (
@@ -153,7 +146,15 @@ function CareTeamSection({ careTeamPeople }: { careTeamPeople: CircleCareTeamPer
       ) : (
         <EmptySectionRow message="No care team members added yet." />
       )}
-      <AddRow label="Add a care team member" />
+      <AddRow
+        label="Add a care team member"
+        onPress={() =>
+          router.push({
+            pathname: '/circle/care-team/[careTeamPersonId]',
+            params: { careTeamPersonId: 'new' },
+          })
+        }
+      />
     </CircleSection>
   );
 }
@@ -184,132 +185,6 @@ function CircleSection({
   );
 }
 
-function SupportPersonRow({
-  person,
-  isLast,
-  avatarTone,
-}: {
-  person: CircleSupportPerson;
-  isLast: boolean;
-  avatarTone?: 'primary' | 'support' | 'muted';
-}) {
-  return (
-    <PersonRow
-      avatar={
-        <CircleAvatar
-          label={person.displayName}
-          initials={person.initials}
-          size={36}
-          tone={avatarTone ?? getSupportAvatarTone(person)}
-        />
-      }
-      name={person.displayName}
-      detail={person.detailLine}
-      stateLabel={person.stateLabel}
-      stateTone={person.stateTone}
-      isLast={isLast}
-    />
-  );
-}
-
-function CareTeamPersonRow({ person, isLast }: { person: CircleCareTeamPerson; isLast: boolean }) {
-  return (
-    <PersonRow
-      avatar={
-        <CircleAvatar
-          label={person.displayName}
-          initials={person.initials}
-          size={36}
-          tone={person.stateTone === 'muted' ? 'muted' : 'care'}
-        />
-      }
-      name={person.displayName}
-      detail={formatCareTeamDetail(person)}
-      stateLabel={person.stateLabel}
-      stateTone={person.stateTone}
-      isLast={isLast}
-    />
-  );
-}
-
-function PersonRow({
-  avatar,
-  name,
-  detail,
-  stateLabel,
-  stateTone,
-  isLast,
-}: {
-  avatar: ReactNode;
-  name: string;
-  detail: string;
-  stateLabel: string;
-  stateTone: CircleStateTone;
-  isLast: boolean;
-}) {
-  return (
-    <View style={[styles.personRow, !isLast && styles.rowDivider]}>
-      <View style={styles.personIdentity}>
-        {avatar}
-        <View style={styles.personCopy}>
-          <LedText variant="subtitle" numberOfLines={1} ellipsizeMode="tail">
-            {name}
-          </LedText>
-          <LedText variant="bodySmall" color="predawn" numberOfLines={1} ellipsizeMode="tail">
-            {detail}
-          </LedText>
-        </View>
-      </View>
-      <LedText variant="bodySmall" color={getStateToneColor(stateTone)} style={styles.stateLabel}>
-        {stateLabel}
-      </LedText>
-    </View>
-  );
-}
-
-function PermissionPanel({
-  displayName,
-  permissions,
-}: {
-  displayName: string;
-  permissions: CirclePermission[];
-}) {
-  const grantedKeys = new Set(permissions.map((permission) => permission.key));
-
-  return (
-    <View style={[styles.permissionPanel, styles.rowDivider]}>
-      <LedText variant="bodySmall" color="predawn" style={styles.permissionTitle}>
-        What {getFirstName(displayName)} can see
-      </LedText>
-      <View style={styles.permissionChips}>
-        {permissionOptions.map((permission) => {
-          const granted = grantedKeys.has(permission.key);
-
-          return (
-            <View
-              key={permission.key}
-              style={[
-                styles.permissionChip,
-                granted ? styles.permissionChipOn : styles.permissionChipOff,
-              ]}
-            >
-              <LedText
-                variant="bodySmall"
-                style={[
-                  styles.permissionChipText,
-                  granted ? styles.permissionChipTextOn : styles.permissionChipTextOff,
-                ]}
-              >
-                {granted ? permission.label : `${permission.label} - off`}
-              </LedText>
-            </View>
-          );
-        })}
-      </View>
-    </View>
-  );
-}
-
 function EmptySectionRow({ message }: { message: string }) {
   return (
     <View style={[styles.emptyRow, styles.rowDivider]}>
@@ -320,12 +195,21 @@ function EmptySectionRow({ message }: { message: string }) {
   );
 }
 
-function AddRow({ label, disabled = false }: { label: string; disabled?: boolean }) {
+function AddRow({
+  label,
+  disabled = false,
+  onPress,
+}: {
+  label: string;
+  disabled?: boolean;
+  onPress?: () => void;
+}) {
   return (
     <Pressable
       accessibilityRole="button"
       accessibilityState={{ disabled }}
       disabled={disabled}
+      onPress={onPress}
       style={({ pressed }) => [
         styles.addRow,
         disabled && styles.disabled,
@@ -340,30 +224,6 @@ function AddRow({ label, disabled = false }: { label: string; disabled?: boolean
       </LedText>
     </Pressable>
   );
-}
-
-function getSupportAvatarTone(person: CircleSupportPerson) {
-  return person.stateTone === 'muted' || person.inviteStatus === 'pending' ? 'muted' : 'support';
-}
-
-function getStateToneColor(tone: CircleStateTone) {
-  if (tone === 'attention') {
-    return 'sunset';
-  }
-
-  if (tone === 'muted') {
-    return 'afternoon';
-  }
-
-  return 'midday';
-}
-
-function formatCareTeamDetail(person: CircleCareTeamPerson) {
-  return [person.specialty, person.organization].filter(Boolean).join(' · ') || person.detailLine;
-}
-
-function getFirstName(displayName: string) {
-  return displayName.split(/\s+/).filter(Boolean)[0] ?? displayName;
 }
 
 const styles = StyleSheet.create({
@@ -426,68 +286,9 @@ const styles = StyleSheet.create({
   sectionIntroText: {
     lineHeight: 20,
   },
-  personRow: {
-    minHeight: 64,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    gap: spacing.md,
-    paddingHorizontal: spacing.lg,
-    paddingVertical: spacing.md,
-  },
   rowDivider: {
     borderBottomWidth: 1,
     borderBottomColor: colors.surface,
-  },
-  personIdentity: {
-    flex: 1,
-    minWidth: 0,
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: spacing.md,
-  },
-  personCopy: {
-    flex: 1,
-    minWidth: 0,
-    gap: spacing.xxs,
-  },
-  stateLabel: {
-    flexShrink: 0,
-    fontFamily: 'DMSans_600SemiBold',
-  },
-  permissionPanel: {
-    paddingHorizontal: spacing.lg,
-    paddingVertical: spacing.md,
-  },
-  permissionTitle: {
-    marginBottom: spacing.sm,
-  },
-  permissionChips: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: spacing.xs,
-  },
-  permissionChip: {
-    borderRadius: radii.pill,
-    paddingHorizontal: spacing.md,
-    paddingVertical: spacing.xxs,
-  },
-  permissionChipOn: {
-    backgroundColor: colors.flagOkBg,
-  },
-  permissionChipOff: {
-    backgroundColor: colors.surface,
-  },
-  permissionChipText: {
-    fontSize: 11,
-    lineHeight: 16,
-    fontFamily: 'DMSans_500Medium',
-  },
-  permissionChipTextOn: {
-    color: '#1A6040',
-  },
-  permissionChipTextOff: {
-    color: colors.predawn,
   },
   emptyRow: {
     paddingHorizontal: spacing.lg,

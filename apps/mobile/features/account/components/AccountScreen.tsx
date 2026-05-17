@@ -28,9 +28,11 @@ import {
   useDeleteAccountMutation,
   useMyCircleQuery,
   type CircleCareTeamPerson,
-  type CircleStateTone,
   type CircleSupportPerson,
 } from '../api/account-queries';
+
+import { CareTeamPersonRow } from './CareTeamPersonRow';
+import { SupportPersonRow } from './SupportPersonRow';
 
 type IconName = ComponentProps<typeof FontAwesome>['name'];
 
@@ -174,10 +176,18 @@ function MyCircleSection({
 
         {!isLoading
           ? supportPeople.map((person, index) => (
-              <CircleSupportRow
+              <SupportPersonRow
                 key={person.id}
                 person={person}
                 isLast={careTeamPeople.length === 0 && index === supportPeople.length - 1}
+                nameAddon={
+                  person.role === 'my_number_one' ? (
+                    <LedText variant="bodySmall" color="predawn">
+                      {' '}
+                      (My #1)
+                    </LedText>
+                  ) : undefined
+                }
               />
             ))
           : null}
@@ -194,7 +204,7 @@ function MyCircleSection({
 
         {!isLoading
           ? careTeamPeople.map((person, index) => (
-              <CircleCareTeamRow
+              <CareTeamPersonRow
                 key={person.id}
                 person={person}
                 isLast={index === careTeamPeople.length - 1}
@@ -216,60 +226,6 @@ function MyCircleSection({
           </LedText>
         </Pressable>
       </View>
-    </View>
-  );
-}
-
-function CircleSupportRow({ person, isLast }: { person: CircleSupportPerson; isLast: boolean }) {
-  const isMyNumberOne = person.role === 'my_number_one';
-
-  return (
-    <View style={[styles.linkRow, !isLast && styles.linkDivider]}>
-      <CircleAvatar
-        label={person.displayName}
-        initials={person.initials}
-        size={40}
-        tone={getSupportAvatarTone(person, isMyNumberOne)}
-      />
-      <View style={styles.linkCopy}>
-        <LedText variant="subtitle">
-          {person.displayName}
-          {isMyNumberOne ? (
-            <LedText variant="bodySmall" color="predawn">
-              {' '}
-              (My #1)
-            </LedText>
-          ) : null}
-        </LedText>
-        <LedText variant="bodySmall" color="predawn">
-          {person.detailLine}
-        </LedText>
-      </View>
-      <LedText variant="bodySmall" color={getStateToneColor(person.stateTone)}>
-        {person.stateLabel}
-      </LedText>
-    </View>
-  );
-}
-
-function CircleCareTeamRow({ person, isLast }: { person: CircleCareTeamPerson; isLast: boolean }) {
-  return (
-    <View style={[styles.linkRow, !isLast && styles.linkDivider]}>
-      <CircleAvatar
-        label={person.displayName}
-        initials={person.initials}
-        size={40}
-        tone={person.stateTone === 'muted' ? 'muted' : 'care'}
-      />
-      <View style={styles.linkCopy}>
-        <LedText variant="subtitle">{person.displayName}</LedText>
-        <LedText variant="bodySmall" color="predawn">
-          {person.detailLine}
-        </LedText>
-      </View>
-      <LedText variant="bodySmall" color={getStateToneColor(person.stateTone)}>
-        {person.stateLabel}
-      </LedText>
     </View>
   );
 }
@@ -508,26 +464,6 @@ function formatValue(value: string) {
     .filter(Boolean)
     .map((part) => part[0]?.toUpperCase() + part.slice(1))
     .join(' ');
-}
-
-function getSupportAvatarTone(person: CircleSupportPerson, isMyNumberOne: boolean) {
-  if (isMyNumberOne) {
-    return 'primary';
-  }
-
-  return person.stateTone === 'muted' || person.inviteStatus === 'pending' ? 'muted' : 'support';
-}
-
-function getStateToneColor(tone: CircleStateTone) {
-  if (tone === 'attention') {
-    return 'sunset';
-  }
-
-  if (tone === 'muted') {
-    return 'afternoon';
-  }
-
-  return 'midday';
 }
 
 function getDisplayName(name?: string | null, email?: string | null) {
