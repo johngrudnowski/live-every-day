@@ -7,9 +7,10 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { createHash, randomBytes, randomUUID } from 'node:crypto';
-import { and, asc, desc, eq, inArray, isNull, notInArray } from 'drizzle-orm';
+import { and, asc, desc, eq, gte, inArray, isNull, notInArray } from 'drizzle-orm';
 import type { DbClient } from 'database/client';
 import {
+  circleCareTeamAppointments,
   circleCareTeamPeople,
   circlePermissionDefinitions,
   circleSupportInvitations,
@@ -20,6 +21,7 @@ import {
 } from 'database/schema';
 import type { AuthenticatedUser } from '../auth/auth-session.service';
 import { DB_CLIENT } from '../database/database.constants';
+import type { SaveCircleAppointmentDto } from './dto/circle-appointment.dto';
 import type { CreateSupportPersonInviteDto } from './dto/circle-invite.dto';
 import type { SendCircleSupportMessageDto } from './dto/circle-message.dto';
 import type { SaveCircleCareTeamPersonDto } from './dto/manage-circle-care-team-person.dto';
@@ -30,6 +32,7 @@ import type {
 
 type CircleSupportPersonRow = typeof circleSupportPeople.$inferSelect;
 type CircleCareTeamPersonRow = typeof circleCareTeamPeople.$inferSelect;
+type CircleCareTeamAppointmentRow = typeof circleCareTeamAppointments.$inferSelect;
 type CircleInvitationRow = typeof circleSupportInvitations.$inferSelect;
 type CircleStateTone = 'active' | 'attention' | 'muted';
 type CirclePermission = {
@@ -113,6 +116,58 @@ export class CircleService {
       category: definition.category,
       sortOrder: definition.sortOrder,
     }));
+  }
+
+  async getAppointments(userId: string) {
+    const appointments = await this.getAppointmentRows(userId);
+    return appointments.map(mapAppointment);
+  }
+
+  async createAppointment(userId: string, dto: SaveCircleAppointmentDto) {
+    const now = new Date();
+    const scheduledAt = parseAppointmentDate(dto.scheduledAt);
+    await this.getOwnedCareTeamPerson(userId, dto.careTeamPersonId);
+
+    const appointmentId = createId('circle_appointment');
+
+    await this.db.insert(circleCareTeamAppointments).values({
+      id: appointmentId,
+      userId,
+      careTeamPersonId: dto.careTeamPersonId,
+      scheduledAt,
+      location: normalizeOptionalText(dto.location),
+      notes: normalizeOptionalText(dto.notes),
+      updatedAt: now,
+    });
+
+    return await this.getAppointment(userId, appointmentId);
+  }
+
+  async updateAppointment(userId: string, appointmentId: string, dto: SaveCircleAppointmentDto) {
+    const now = new Date();
+    const scheduledAt = parseAppointmentDate(dto.scheduledAt);
+    await this.getOwnedAppointment(userId, appointmentId);
+    await this.getOwnedCareTeamPerson(userId, dto.careTeamPersonId);
+
+    await this.db
+      .update(circleCareTeamAppointments)
+      .set({
+        careTeamPersonId: dto.careTeamPersonId,
+        scheduledAt,
+        location: normalizeOptionalText(dto.location),
+        notes: normalizeOptionalText(dto.notes),
+        updatedAt: now,
+      })
+      .where(eq(circleCareTeamAppointments.id, appointmentId));
+
+    return await this.getAppointment(userId, appointmentId);
+  }
+
+  async removeAppointment(userId: string, appointmentId: string) {
+    await this.getOwnedAppointment(userId, appointmentId);
+    await this.db
+      .delete(circleCareTeamAppointments)
+      .where(eq(circleCareTeamAppointments.id, appointmentId));
   }
 
   async createCareTeamPerson(userId: string, dto: SaveCircleCareTeamPersonDto) {
@@ -675,6 +730,77 @@ export class CircleService {
     return supportPerson[0];
   }
 
+  private async getAppointment(userId: string, appointmentId: string) {
+    const appointment = await this.getAppointmentRows(userId, { appointmentId, limit: 1 });
+
+    if (!appointment[0]) {
+      throw new NotFoundException('Appointment not found.');
+    }
+
+    return mapAppointment(appointment[0]);
+  }
+
+  private async getAppointmentRows(
+    userId: string,
+    options: { appointmentId?: string; upcomingOnly?: boolean; limit?: number } = {},
+  ) {
+    const conditions = [eq(circleCareTeamAppointments.userId, userId)];
+
+    if (options.appointmentId) {
+      conditions.push(eq(circleCareTeamAppointments.id, options.appointmentId));
+    }
+
+    if (options.upcomingOnly) {
+      conditions.push(gte(circleCareTeamAppointments.scheduledAt, new Date()));
+    }
+
+    const query = this.db
+      .select({
+        id: circleCareTeamAppointments.id,
+        userId: circleCareTeamAppointments.userId,
+        careTeamPersonId: circleCareTeamAppointments.careTeamPersonId,
+        scheduledAt: circleCareTeamAppointments.scheduledAt,
+        location: circleCareTeamAppointments.location,
+        notes: circleCareTeamAppointments.notes,
+        createdAt: circleCareTeamAppointments.createdAt,
+        updatedAt: circleCareTeamAppointments.updatedAt,
+        careTeamDisplayName: circleCareTeamPeople.displayName,
+        careTeamSpecialty: circleCareTeamPeople.specialty,
+      })
+      .from(circleCareTeamAppointments)
+      .innerJoin(
+        circleCareTeamPeople,
+        eq(circleCareTeamAppointments.careTeamPersonId, circleCareTeamPeople.id),
+      )
+      .where(and(...conditions))
+      .orderBy(asc(circleCareTeamAppointments.scheduledAt));
+
+    if (options.limit) {
+      return await query.limit(options.limit);
+    }
+
+    return await query;
+  }
+
+  private async getOwnedAppointment(userId: string, appointmentId: string) {
+    const appointment = await this.db
+      .select()
+      .from(circleCareTeamAppointments)
+      .where(
+        and(
+          eq(circleCareTeamAppointments.id, appointmentId),
+          eq(circleCareTeamAppointments.userId, userId),
+        ),
+      )
+      .limit(1);
+
+    if (!appointment[0]) {
+      throw new NotFoundException('Appointment not found.');
+    }
+
+    return appointment[0];
+  }
+
   private async getOwnedCareTeamPerson(userId: string, careTeamPersonId: string) {
     const careTeamPerson = await this.db
       .select()
@@ -795,6 +921,25 @@ function mapCareTeamPerson(row: CircleCareTeamPersonRow) {
     nextAppointmentAt: row.nextAppointmentAt?.toISOString() ?? null,
     providerUserId: row.providerUserId,
     sortOrder: row.sortOrder,
+  };
+}
+
+function mapAppointment(
+  row: CircleCareTeamAppointmentRow & {
+    careTeamDisplayName: string;
+    careTeamSpecialty: string | null;
+  },
+) {
+  return {
+    id: row.id,
+    careTeamPersonId: row.careTeamPersonId,
+    careTeamDisplayName: row.careTeamDisplayName,
+    careTeamSpecialty: row.careTeamSpecialty,
+    scheduledAt: row.scheduledAt.toISOString(),
+    location: row.location,
+    notes: row.notes,
+    createdAt: row.createdAt.toISOString(),
+    updatedAt: row.updatedAt.toISOString(),
   };
 }
 
@@ -977,6 +1122,17 @@ function normalizeRequiredText(value: string | undefined, label: string) {
 function normalizeOptionalText(value: string | null | undefined) {
   const normalized = value?.trim();
   return normalized || null;
+}
+
+function parseAppointmentDate(value: string | undefined) {
+  const normalized = normalizeRequiredText(value, 'Appointment date');
+  const date = new Date(normalized);
+
+  if (Number.isNaN(date.getTime())) {
+    throw new BadRequestException('Appointment date must be a valid date and time.');
+  }
+
+  return date;
 }
 
 function getCareTeamRole(dto: SaveCircleCareTeamPersonDto) {

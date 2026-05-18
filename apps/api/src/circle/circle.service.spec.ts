@@ -1,12 +1,23 @@
 import { BadRequestException, ConflictException } from '@nestjs/common';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import {
+  circleCareTeamAppointments,
   circleCareTeamPeople,
   circleSupportInvitations,
   circleSupportPeople,
   circleSupportPersonPermissionGrants,
 } from 'database/schema';
 import { CircleService } from './circle.service';
+
+type MockImplementation = (...args: any[]) => any;
+
+function mockFn<T extends MockImplementation>(implementation?: T) {
+  return vi.fn<T>(implementation);
+}
+
+function mockResolved<T>(value: T) {
+  return vi.fn<() => Promise<T>>(async () => value);
+}
 
 describe('CircleService', () => {
   beforeEach(() => {
@@ -150,7 +161,7 @@ describe('CircleService', () => {
 
   it('removes an owned support person', async () => {
     const supportPerson = createSupportPerson();
-    const deleteWhere = vi.fn().mockResolvedValue(undefined);
+    const deleteWhere = mockResolved(undefined);
     const db = createDbClient({
       selectResults: [selectLimitResult([supportPerson])],
       deleteWhere,
@@ -216,6 +227,85 @@ describe('CircleService', () => {
       }),
     );
   });
+
+  it('creates an appointment for an owned care team member', async () => {
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date('2026-05-16T12:00:00.000Z'));
+    const careTeamPerson = createCareTeamPerson();
+    const appointment = createAppointment({
+      careTeamDisplayName: careTeamPerson.displayName,
+      careTeamSpecialty: careTeamPerson.specialty,
+      scheduledAt: new Date('2026-06-09T14:30:00.000Z'),
+      location: 'Mayo Clinic',
+      notes: 'Ask about symptom trends.',
+    });
+    const db = createDbClient({
+      selectResults: [
+        selectLimitResult([careTeamPerson]),
+        selectJoinOrderLimitResult([appointment]),
+      ],
+    });
+    const service = new CircleService(db as never);
+
+    const result = await service.createAppointment('user-1', {
+      careTeamPersonId: careTeamPerson.id,
+      scheduledAt: '2026-06-09T14:30:00.000Z',
+      location: ' Mayo Clinic ',
+      notes: ' Ask about symptom trends. ',
+    });
+
+    expect(db.insert).toHaveBeenCalledWith(circleCareTeamAppointments);
+    expect(db.insertValues).toHaveBeenCalledWith(
+      expect.objectContaining({
+        userId: 'user-1',
+        careTeamPersonId: careTeamPerson.id,
+        scheduledAt: new Date('2026-06-09T14:30:00.000Z'),
+        location: 'Mayo Clinic',
+        notes: 'Ask about symptom trends.',
+        updatedAt: new Date('2026-05-16T12:00:00.000Z'),
+      }),
+    );
+    expect(result).toEqual(
+      expect.objectContaining({
+        careTeamPersonId: careTeamPerson.id,
+        careTeamDisplayName: careTeamPerson.displayName,
+        scheduledAt: '2026-06-09T14:30:00.000Z',
+        location: 'Mayo Clinic',
+        notes: 'Ask about symptom trends.',
+      }),
+    );
+  });
+
+  it('rejects invalid appointment dates before writing', async () => {
+    const db = createDbClient({ selectResults: [] });
+    const service = new CircleService(db as never);
+
+    await expect(
+      service.createAppointment('user-1', {
+        careTeamPersonId: 'care-1',
+        scheduledAt: 'not-a-date',
+        location: null,
+        notes: null,
+      }),
+    ).rejects.toBeInstanceOf(BadRequestException);
+
+    expect(db.insert).not.toHaveBeenCalled();
+  });
+
+  it('removes an owned appointment', async () => {
+    const appointment = createAppointment();
+    const deleteWhere = mockResolved(undefined);
+    const db = createDbClient({
+      selectResults: [selectLimitResult([appointment])],
+      deleteWhere,
+    });
+    const service = new CircleService(db as never);
+
+    await service.removeAppointment('user-1', appointment.id);
+
+    expect(db.delete).toHaveBeenCalledWith(circleCareTeamAppointments);
+    expect(deleteWhere).toHaveBeenCalledOnce();
+  });
 });
 
 function createSupportPerson(
@@ -247,8 +337,8 @@ function createSupportPerson(
 function createDbClient({
   selectResults,
   tx = createTransactionClient(),
-  deleteWhere = vi.fn().mockResolvedValue(undefined),
-  insertValues = vi.fn().mockResolvedValue(undefined),
+  deleteWhere = mockResolved(undefined),
+  insertValues = mockResolved(undefined),
 }: {
   selectResults: unknown[];
   tx?: ReturnType<typeof createTransactionClient>;
@@ -256,7 +346,7 @@ function createDbClient({
   insertValues?: ReturnType<typeof vi.fn>;
 }) {
   return {
-    select: vi.fn(() => {
+    select: mockFn(() => {
       const next = selectResults.shift();
 
       if (!next) {
@@ -265,11 +355,11 @@ function createDbClient({
 
       return next;
     }),
-    update: vi.fn(),
-    insert: vi.fn(() => ({ values: insertValues })),
+    update: mockFn(),
+    insert: mockFn(() => ({ values: insertValues })),
     insertValues,
-    delete: vi.fn(() => ({ where: deleteWhere })),
-    transaction: vi.fn(async (callback: (transaction: typeof tx) => Promise<void>) => {
+    delete: mockFn(() => ({ where: deleteWhere })),
+    transaction: mockFn(async (callback: (transaction: typeof tx) => Promise<void>) => {
       await callback(tx);
     }),
   };
@@ -303,17 +393,45 @@ function createCareTeamPerson(
   };
 }
 
-function createTransactionClient() {
-  const updateWhere = vi.fn().mockResolvedValue(undefined);
-  const updateSet = vi.fn(() => ({ where: updateWhere }));
-  const insertValues = vi.fn(() => ({ onConflictDoUpdate }));
-  const onConflictDoUpdate = vi.fn().mockResolvedValue(undefined);
+function createAppointment(
+  overrides: Partial<
+    CircleCareTeamAppointmentRow & {
+      careTeamDisplayName: string;
+      careTeamSpecialty: string | null;
+    }
+  > = {},
+): CircleCareTeamAppointmentRow & {
+  careTeamDisplayName: string;
+  careTeamSpecialty: string | null;
+} {
+  const now = new Date('2026-05-16T12:00:00.000Z');
 
   return {
-    update: vi.fn(() => ({ set: updateSet })),
+    id: 'appointment-1',
+    userId: 'user-1',
+    careTeamPersonId: 'care-1',
+    scheduledAt: new Date('2026-06-09T14:30:00.000Z'),
+    location: null,
+    notes: null,
+    createdAt: now,
+    updatedAt: now,
+    careTeamDisplayName: 'Dr. Taylor Morgan',
+    careTeamSpecialty: 'Hematology',
+    ...overrides,
+  };
+}
+
+function createTransactionClient() {
+  const updateWhere = mockResolved(undefined);
+  const updateSet = mockFn(() => ({ where: updateWhere }));
+  const insertValues = mockFn(() => ({ onConflictDoUpdate }));
+  const onConflictDoUpdate = mockResolved(undefined);
+
+  return {
+    update: mockFn(() => ({ set: updateSet })),
     updateSet,
     updateWhere,
-    insert: vi.fn(() => ({ values: insertValues })),
+    insert: mockFn(() => ({ values: insertValues })),
     insertValues,
     onConflictDoUpdate,
   };
@@ -321,9 +439,9 @@ function createTransactionClient() {
 
 function selectLimitResult(rows: unknown[]) {
   return {
-    from: vi.fn(() => ({
-      where: vi.fn(() => ({
-        limit: vi.fn().mockResolvedValue(rows),
+    from: mockFn(() => ({
+      where: mockFn(() => ({
+        limit: mockResolved(rows),
       })),
     })),
   };
@@ -331,17 +449,17 @@ function selectLimitResult(rows: unknown[]) {
 
 function selectWhereResult(rows: unknown[]) {
   return {
-    from: vi.fn(() => ({
-      where: vi.fn().mockResolvedValue(rows),
+    from: mockFn(() => ({
+      where: mockResolved(rows),
     })),
   };
 }
 
 function selectOrderResult(rows: unknown[]) {
   return {
-    from: vi.fn(() => ({
-      where: vi.fn(() => ({
-        orderBy: vi.fn().mockResolvedValue(rows),
+    from: mockFn(() => ({
+      where: mockFn(() => ({
+        orderBy: mockResolved(rows),
       })),
     })),
   };
@@ -349,10 +467,10 @@ function selectOrderResult(rows: unknown[]) {
 
 function selectWhereOrderLimitResult(rows: unknown[]) {
   return {
-    from: vi.fn(() => ({
-      where: vi.fn(() => ({
-        orderBy: vi.fn(() => ({
-          limit: vi.fn().mockResolvedValue(rows),
+    from: mockFn(() => ({
+      where: mockFn(() => ({
+        orderBy: mockFn(() => ({
+          limit: mockResolved(rows),
         })),
       })),
     })),
@@ -361,10 +479,24 @@ function selectWhereOrderLimitResult(rows: unknown[]) {
 
 function selectJoinOrderResult(rows: unknown[]) {
   return {
-    from: vi.fn(() => ({
-      innerJoin: vi.fn(() => ({
-        where: vi.fn(() => ({
-          orderBy: vi.fn().mockResolvedValue(rows),
+    from: mockFn(() => ({
+      innerJoin: mockFn(() => ({
+        where: mockFn(() => ({
+          orderBy: mockResolved(rows),
+        })),
+      })),
+    })),
+  };
+}
+
+function selectJoinOrderLimitResult(rows: unknown[]) {
+  return {
+    from: mockFn(() => ({
+      innerJoin: mockFn(() => ({
+        where: mockFn(() => ({
+          orderBy: mockFn(() => ({
+            limit: mockResolved(rows),
+          })),
         })),
       })),
     })),
@@ -373,3 +505,4 @@ function selectJoinOrderResult(rows: unknown[]) {
 
 type CircleSupportPersonRow = typeof circleSupportPeople.$inferSelect;
 type CircleCareTeamPersonRow = typeof circleCareTeamPeople.$inferSelect;
+type CircleCareTeamAppointmentRow = typeof circleCareTeamAppointments.$inferSelect;

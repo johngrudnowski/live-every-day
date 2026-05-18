@@ -22,6 +22,7 @@ import {
   CreateSupportPersonInviteResponseDto,
   RegenerateSupportInvitationDto,
 } from './dto/circle-invite.dto';
+import { CircleAppointmentDto, SaveCircleAppointmentDto } from './dto/circle-appointment.dto';
 import { CircleSupportMessageDto, SendCircleSupportMessageDto } from './dto/circle-message.dto';
 import { SaveCircleCareTeamPersonDto } from './dto/manage-circle-care-team-person.dto';
 import {
@@ -142,6 +143,39 @@ export class CircleController {
   async getSupportMessages(@Req() req: Request) {
     const user = await this.authSessionService.requireUser(req);
     return await this.circleService.getSupportMessages(user.id);
+  }
+
+  @Get('appointments')
+  @ApiOkResponse({ type: CircleAppointmentDto, isArray: true })
+  async getAppointments(@Req() req: Request) {
+    const user = await this.authSessionService.requireUser(req);
+    return await this.circleService.getAppointments(user.id);
+  }
+
+  @Post('appointments')
+  @ApiOkResponse({ type: CircleAppointmentDto })
+  async createAppointment(@Req() req: Request, @Body() dto: SaveCircleAppointmentDto) {
+    const user = await this.authSessionService.requireUser(req);
+    return await this.circleService.createAppointment(user.id, dto);
+  }
+
+  @Patch('appointments/:appointmentId')
+  @ApiOkResponse({ type: CircleAppointmentDto })
+  async updateAppointment(
+    @Req() req: Request,
+    @Param('appointmentId') appointmentId: string,
+    @Body() dto: SaveCircleAppointmentDto,
+  ) {
+    const user = await this.authSessionService.requireUser(req);
+    return await this.circleService.updateAppointment(user.id, appointmentId, dto);
+  }
+
+  @Delete('appointments/:appointmentId')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @ApiNoContentResponse({ description: 'Removes a care team appointment.' })
+  async removeAppointment(@Req() req: Request, @Param('appointmentId') appointmentId: string) {
+    const user = await this.authSessionService.requireUser(req);
+    await this.circleService.removeAppointment(user.id, appointmentId);
   }
 
   @Post('care-team-people')
