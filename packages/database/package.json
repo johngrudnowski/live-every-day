@@ -33,6 +33,7 @@
     "format": "oxfmt --write \"src/**/*.ts\" drizzle.config.ts",
     "db:generate": "drizzle-kit generate --config=drizzle.config.ts",
     "db:migrate": "drizzle-kit migrate --config=drizzle.config.ts",
+    "db:migrate:prod": "node dist/migrate.js",
     "db:studio": "drizzle-kit studio --config=drizzle.config.ts"
   },
   "keywords": [],
