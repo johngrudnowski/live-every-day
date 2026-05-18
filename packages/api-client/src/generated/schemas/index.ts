@@ -7,6 +7,7 @@
  */
 
 export * from './acceptCircleInvitationResponseDto';
+export * from './circleAppointmentDto';
 export * from './circleCareTeamPersonDto';
 export * from './circleCareTeamPersonDtoStateTone';
 export * from './circleInvitationLinkDto';
@@ -43,6 +44,7 @@ export * from './latestVitalReadingDto';
 export * from './myCircleDto';
 export * from './regenerateSupportInvitationDto';
 export * from './regenerateSupportInvitationDtoDeliveryMethod';
+export * from './saveCircleAppointmentDto';
 export * from './saveCircleCareTeamPersonDto';
 export * from './saveConditionProfileDto';
 export * from './saveConditionProfileDtoValues';

@@ -26,6 +26,7 @@ import type {
 
 import type {
   AcceptCircleInvitationResponseDto,
+  CircleAppointmentDto,
   CircleInvitationLinkDto,
   CircleInvitationPreviewDto,
   CirclePermissionDefinitionDto,
@@ -34,6 +35,7 @@ import type {
   CreateSupportPersonInviteResponseDto,
   MyCircleDto,
   RegenerateSupportInvitationDto,
+  SaveCircleAppointmentDto,
   SaveCircleCareTeamPersonDto,
   SendCircleSupportMessageDto,
   UpdateCircleSupportPermissionsDto,
@@ -972,7 +974,341 @@ export function useCircleControllerGetSupportMessages<TData = Awaited<ReturnType
 
 
 
-export type circleControllerCreateCareTeamPersonResponse200 = {
+export type circleControllerGetAppointmentsResponse200 = {
+  data: CircleAppointmentDto[]
+  status: 200
+}
+
+export type circleControllerGetAppointmentsResponseSuccess = (circleControllerGetAppointmentsResponse200) & {
+  headers: Headers;
+};
+;
+
+export type circleControllerGetAppointmentsResponse = (circleControllerGetAppointmentsResponseSuccess)
+
+export const getCircleControllerGetAppointmentsUrl = () => {
+
+
+
+
+  return `/api/me/circle/appointments`
+}
+
+export const circleControllerGetAppointments = async ( options?: RequestInit): Promise<circleControllerGetAppointmentsResponse> => {
+
+  return customFetch<circleControllerGetAppointmentsResponse>(getCircleControllerGetAppointmentsUrl(),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getCircleControllerGetAppointmentsQueryKey = () => {
+    return [
+    `/api/me/circle/appointments`
+    ] as const;
+    }
+
+
+export const getCircleControllerGetAppointmentsQueryOptions = <TData = Awaited<ReturnType<typeof circleControllerGetAppointments>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof circleControllerGetAppointments>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getCircleControllerGetAppointmentsQueryKey();
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof circleControllerGetAppointments>>> = ({ signal }) => circleControllerGetAppointments({ signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof circleControllerGetAppointments>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type CircleControllerGetAppointmentsQueryResult = NonNullable<Awaited<ReturnType<typeof circleControllerGetAppointments>>>
+export type CircleControllerGetAppointmentsQueryError = unknown
+
+
+export function useCircleControllerGetAppointments<TData = Awaited<ReturnType<typeof circleControllerGetAppointments>>, TError = unknown>(
+  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof circleControllerGetAppointments>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof circleControllerGetAppointments>>,
+          TError,
+          Awaited<ReturnType<typeof circleControllerGetAppointments>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useCircleControllerGetAppointments<TData = Awaited<ReturnType<typeof circleControllerGetAppointments>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof circleControllerGetAppointments>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof circleControllerGetAppointments>>,
+          TError,
+          Awaited<ReturnType<typeof circleControllerGetAppointments>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useCircleControllerGetAppointments<TData = Awaited<ReturnType<typeof circleControllerGetAppointments>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof circleControllerGetAppointments>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useCircleControllerGetAppointments<TData = Awaited<ReturnType<typeof circleControllerGetAppointments>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof circleControllerGetAppointments>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getCircleControllerGetAppointmentsQueryOptions(options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}
+
+
+
+
+
+
+export type circleControllerCreateAppointmentResponse200 = {
+  data: CircleAppointmentDto
+  status: 200
+}
+
+export type circleControllerCreateAppointmentResponseSuccess = (circleControllerCreateAppointmentResponse200) & {
+  headers: Headers;
+};
+;
+
+export type circleControllerCreateAppointmentResponse = (circleControllerCreateAppointmentResponseSuccess)
+
+export const getCircleControllerCreateAppointmentUrl = () => {
+
+
+
+
+  return `/api/me/circle/appointments`
+}
+
+export const circleControllerCreateAppointment = async (saveCircleAppointmentDto: SaveCircleAppointmentDto, options?: RequestInit): Promise<circleControllerCreateAppointmentResponse> => {
+
+  return customFetch<circleControllerCreateAppointmentResponse>(getCircleControllerCreateAppointmentUrl(),
+  {
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(
+      saveCircleAppointmentDto,)
+  }
+);}
+
+
+
+
+export const getCircleControllerCreateAppointmentMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof circleControllerCreateAppointment>>, TError,{data: SaveCircleAppointmentDto}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof circleControllerCreateAppointment>>, TError,{data: SaveCircleAppointmentDto}, TContext> => {
+
+const mutationKey = ['circleControllerCreateAppointment'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof circleControllerCreateAppointment>>, {data: SaveCircleAppointmentDto}> = (props) => {
+          const {data} = props ?? {};
+
+          return  circleControllerCreateAppointment(data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type CircleControllerCreateAppointmentMutationResult = NonNullable<Awaited<ReturnType<typeof circleControllerCreateAppointment>>>
+    export type CircleControllerCreateAppointmentMutationBody = SaveCircleAppointmentDto
+    export type CircleControllerCreateAppointmentMutationError = unknown
+
+    export const useCircleControllerCreateAppointment = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof circleControllerCreateAppointment>>, TError,{data: SaveCircleAppointmentDto}, TContext>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof circleControllerCreateAppointment>>,
+        TError,
+        {data: SaveCircleAppointmentDto},
+        TContext
+      > => {
+      return useMutation(getCircleControllerCreateAppointmentMutationOptions(options), queryClient);
+    }
+    export type circleControllerUpdateAppointmentResponse200 = {
+  data: CircleAppointmentDto
+  status: 200
+}
+
+export type circleControllerUpdateAppointmentResponseSuccess = (circleControllerUpdateAppointmentResponse200) & {
+  headers: Headers;
+};
+;
+
+export type circleControllerUpdateAppointmentResponse = (circleControllerUpdateAppointmentResponseSuccess)
+
+export const getCircleControllerUpdateAppointmentUrl = (appointmentId: string,) => {
+
+
+
+
+  return `/api/me/circle/appointments/${appointmentId}`
+}
+
+export const circleControllerUpdateAppointment = async (appointmentId: string,
+    saveCircleAppointmentDto: SaveCircleAppointmentDto, options?: RequestInit): Promise<circleControllerUpdateAppointmentResponse> => {
+
+  return customFetch<circleControllerUpdateAppointmentResponse>(getCircleControllerUpdateAppointmentUrl(appointmentId),
+  {
+    ...options,
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(
+      saveCircleAppointmentDto,)
+  }
+);}
+
+
+
+
+export const getCircleControllerUpdateAppointmentMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof circleControllerUpdateAppointment>>, TError,{appointmentId: string;data: SaveCircleAppointmentDto}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof circleControllerUpdateAppointment>>, TError,{appointmentId: string;data: SaveCircleAppointmentDto}, TContext> => {
+
+const mutationKey = ['circleControllerUpdateAppointment'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof circleControllerUpdateAppointment>>, {appointmentId: string;data: SaveCircleAppointmentDto}> = (props) => {
+          const {appointmentId,data} = props ?? {};
+
+          return  circleControllerUpdateAppointment(appointmentId,data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type CircleControllerUpdateAppointmentMutationResult = NonNullable<Awaited<ReturnType<typeof circleControllerUpdateAppointment>>>
+    export type CircleControllerUpdateAppointmentMutationBody = SaveCircleAppointmentDto
+    export type CircleControllerUpdateAppointmentMutationError = unknown
+
+    export const useCircleControllerUpdateAppointment = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof circleControllerUpdateAppointment>>, TError,{appointmentId: string;data: SaveCircleAppointmentDto}, TContext>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof circleControllerUpdateAppointment>>,
+        TError,
+        {appointmentId: string;data: SaveCircleAppointmentDto},
+        TContext
+      > => {
+      return useMutation(getCircleControllerUpdateAppointmentMutationOptions(options), queryClient);
+    }
+    export type circleControllerRemoveAppointmentResponse204 = {
+  data: void
+  status: 204
+}
+
+export type circleControllerRemoveAppointmentResponseSuccess = (circleControllerRemoveAppointmentResponse204) & {
+  headers: Headers;
+};
+;
+
+export type circleControllerRemoveAppointmentResponse = (circleControllerRemoveAppointmentResponseSuccess)
+
+export const getCircleControllerRemoveAppointmentUrl = (appointmentId: string,) => {
+
+
+
+
+  return `/api/me/circle/appointments/${appointmentId}`
+}
+
+export const circleControllerRemoveAppointment = async (appointmentId: string, options?: RequestInit): Promise<circleControllerRemoveAppointmentResponse> => {
+
+  return customFetch<circleControllerRemoveAppointmentResponse>(getCircleControllerRemoveAppointmentUrl(appointmentId),
+  {
+    ...options,
+    method: 'DELETE'
+
+
+  }
+);}
+
+
+
+
+export const getCircleControllerRemoveAppointmentMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof circleControllerRemoveAppointment>>, TError,{appointmentId: string}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof circleControllerRemoveAppointment>>, TError,{appointmentId: string}, TContext> => {
+
+const mutationKey = ['circleControllerRemoveAppointment'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof circleControllerRemoveAppointment>>, {appointmentId: string}> = (props) => {
+          const {appointmentId} = props ?? {};
+
+          return  circleControllerRemoveAppointment(appointmentId,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type CircleControllerRemoveAppointmentMutationResult = NonNullable<Awaited<ReturnType<typeof circleControllerRemoveAppointment>>>
+
+    export type CircleControllerRemoveAppointmentMutationError = unknown
+
+    export const useCircleControllerRemoveAppointment = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof circleControllerRemoveAppointment>>, TError,{appointmentId: string}, TContext>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof circleControllerRemoveAppointment>>,
+        TError,
+        {appointmentId: string},
+        TContext
+      > => {
+      return useMutation(getCircleControllerRemoveAppointmentMutationOptions(options), queryClient);
+    }
+    export type circleControllerCreateCareTeamPersonResponse200 = {
   data: MyCircleDto
   status: 200
 }
