@@ -1,6 +1,7 @@
 import { createHash } from 'node:crypto';
 import { sql } from 'drizzle-orm';
 import {
+  circleCareTeamAppointments,
   circleCareTeamPeople,
   circlePermissionDefinitions,
   circleSupportInvitations,
@@ -102,6 +103,17 @@ export async function seedCircle(ctx: SeedContext, target: SeedUserTarget): Prom
       updatedAt: ctx.now,
     },
   ] satisfies Array<typeof circleCareTeamPeople.$inferInsert>;
+  const appointmentRows = [
+    {
+      id: createCircleId(target.userId, 'appointment', 'wolanskyj-spinner-next-visit'),
+      userId: target.userId,
+      careTeamPersonId: careTeamRows[0].id,
+      scheduledAt: getNextAppointmentDate(ctx.now),
+      location: 'Mayo Clinic',
+      notes: 'Ask about symptom trends and recent labs.',
+      updatedAt: ctx.now,
+    },
+  ] satisfies Array<typeof circleCareTeamAppointments.$inferInsert>;
 
   const permissionGrantRows = [
     ...createPermissionGrantRows(ctx, target, supportRows[0].id, [
@@ -245,6 +257,20 @@ export async function seedCircle(ctx: SeedContext, target: SeedUserTarget): Prom
       },
     });
 
+  await ctx.db
+    .insert(circleCareTeamAppointments)
+    .values(appointmentRows)
+    .onConflictDoUpdate({
+      target: circleCareTeamAppointments.id,
+      set: {
+        careTeamPersonId: sql`excluded.care_team_person_id`,
+        scheduledAt: sql`excluded.scheduled_at`,
+        location: sql`excluded.location`,
+        notes: sql`excluded.notes`,
+        updatedAt: ctx.now,
+      },
+    });
+
   return {
     module: 'circle',
     count:
@@ -253,8 +279,9 @@ export async function seedCircle(ctx: SeedContext, target: SeedUserTarget): Prom
       invitationRows.length +
       messageRows.length +
       supportRows.length +
-      careTeamRows.length,
-    detail: `upserted ${supportRows.length} support people, ${permissionGrantRows.length} permission grants, ${invitationRows.length} invitation, ${messageRows.length} support message, and ${careTeamRows.length} care team member`,
+      careTeamRows.length +
+      appointmentRows.length,
+    detail: `upserted ${supportRows.length} support people, ${permissionGrantRows.length} permission grants, ${invitationRows.length} invitation, ${messageRows.length} support message, ${careTeamRows.length} care team member, and ${appointmentRows.length} appointment`,
   };
 }
 

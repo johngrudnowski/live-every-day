@@ -1,0 +1,6 @@
+name: live-every-day-infra
+description: GCP infrastructure for Live Every Day
+runtime:
+  name: nodejs
+  options:
+    packagemanager: pnpm

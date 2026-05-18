@@ -1,0 +1,23 @@
+{
+  "name": "@led/infra",
+  "version": "0.0.1",
+  "private": true,
+  "type": "commonjs",
+  "main": "src/index.ts",
+  "scripts": {
+    "preview": "pulumi preview",
+    "up": "pulumi up",
+    "destroy": "pulumi destroy",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@pulumi/gcp": "^9.23.0",
+    "@pulumi/pulumi": "^3.241.0",
+    "@pulumi/random": "^4.20.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.12.4",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  }
+}

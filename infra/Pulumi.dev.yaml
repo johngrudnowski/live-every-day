@@ -1,0 +1,26 @@
+config:
+  gcp:project: live-every-day-dev
+  gcp:region: us-central1
+  gcp:billingProject: live-every-day-dev
+  gcp:userProjectOverride: "true"
+  live-every-day-infra:environment: dev
+  live-every-day-infra:region: us-central1
+  live-every-day-infra:artifactRepositoryId: live-every-day
+  live-every-day-infra:apiServiceName: live-every-day-api
+  live-every-day-infra:migrationJobName: live-every-day-migrations
+  live-every-day-infra:apiImage: us-central1-docker.pkg.dev/live-every-day-dev/live-every-day/api:manual-20260518175811
+  live-every-day-infra:ignoreImageChanges: "true"
+  live-every-day-infra:firebaseSiteId: live-every-day-dev
+  live-every-day-infra:webUrl: https://live-every-day-dev.web.app
+  live-every-day-infra:dbName: live_every_day
+  live-every-day-infra:dbUser: led_app
+  live-every-day-infra:dbTier: db-f1-micro
+  live-every-day-infra:dbDeletionProtection: "false"
+  live-every-day-infra:dbPoolMax: "5"
+  live-every-day-infra:cloudRunMinInstances: "0"
+  live-every-day-infra:cloudRunMaxInstances: "5"
+  live-every-day-infra:cloudRunCpu: "1"
+  live-every-day-infra:cloudRunMemory: 512Mi
+  live-every-day-infra:cloudRunConcurrency: "80"
+  live-every-day-infra:githubRepository: tuckwat/live-every-day
+  live-every-day-infra:betterAuthUrl: https://live-every-day-api-tyoyewsxkq-uc.a.run.app

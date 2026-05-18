@@ -21,7 +21,6 @@ export function WeeklyCheckinHistoryScreen() {
   }
 
   const checkins = historyQuery.data ?? [];
-  const summary = summaryQuery.data;
 
   return (
     <AppScreen padded={false} style={styles.screen}>

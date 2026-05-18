@@ -6,6 +6,8 @@ export default function AppLayout() {
       <Stack.Screen name="home" options={{ headerShown: false }} />
       <Stack.Screen name="data" options={{ headerShown: false }} />
       <Stack.Screen name="account" options={{ headerShown: false }} />
+      <Stack.Screen name="appointments/index" options={{ headerShown: false }} />
+      <Stack.Screen name="appointments/[appointmentId]" options={{ headerShown: false }} />
       <Stack.Screen name="circle/index" options={{ headerShown: false }} />
       <Stack.Screen name="circle/[supportPersonId]" options={{ headerShown: false }} />
       <Stack.Screen name="circle/care-team/[careTeamPersonId]" options={{ headerShown: false }} />
