@@ -1,0 +1,12 @@
+{
+  "projects": {
+    "default": "live-every-day-dev"
+  },
+  "targets": {
+    "live-every-day-dev": {
+      "hosting": {
+        "live-every-day-dev": ["live-every-day-dev"]
+      }
+    }
+  }
+}
