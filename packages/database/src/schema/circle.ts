@@ -177,3 +177,30 @@ export const circleCareTeamPeople = pgTable(
     ),
   }),
 );
+
+export const circleCareTeamAppointments = pgTable(
+  'circle_care_team_appointments',
+  {
+    id: text('id').primaryKey(),
+    userId: text('user_id')
+      .notNull()
+      .references(() => user.id, { onDelete: 'cascade' }),
+    careTeamPersonId: text('care_team_person_id')
+      .notNull()
+      .references(() => circleCareTeamPeople.id, { onDelete: 'cascade' }),
+    scheduledAt: timestamp('scheduled_at', { withTimezone: true }).notNull(),
+    location: text('location'),
+    notes: text('notes'),
+    createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
+    updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull(),
+  },
+  (table) => ({
+    userScheduledAtIdx: index('circle_care_team_appointments_user_scheduled_at_idx').on(
+      table.userId,
+      table.scheduledAt,
+    ),
+    careTeamPersonScheduledAtIdx: index(
+      'circle_care_team_appointments_care_team_person_scheduled_at_idx',
+    ).on(table.careTeamPersonId, table.scheduledAt),
+  }),
+);
