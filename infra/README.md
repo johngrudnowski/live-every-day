@@ -35,3 +35,26 @@ CI will eventually automate this ordering:
 4. Update the Cloud Run API service to that image.
 
 The current stack has `ignoreImageChanges` enabled so GitHub Actions can update image tags without Pulumi reverting them during unrelated infrastructure updates.
+
+## Mobile / Expo CORS
+
+The dev API allows browser requests from the hosted web app plus local Expo dev
+servers. Configure comma-separated origins with `corsOrigins` (used for both
+`CORS_ORIGIN` and `BETTER_AUTH_TRUSTED_ORIGINS`):
+
+```sh
+pulumi --cwd infra config set live-every-day-infra:corsOrigins \
+  "https://live-every-day-dev.web.app,http://localhost:8081,http://localhost:19006" \
+  --stack dev
+pulumi --cwd infra up --stack dev
+```
+
+## OAuth Provider Config
+
+Provider client IDs are non-secret Pulumi config. Provider client secrets live in Secret Manager.
+
+```sh
+pulumi --cwd infra config set live-every-day-infra:googleClientId "<google-client-id>" --stack dev
+printf '%s' "$GOOGLE_CLIENT_SECRET" | gcloud secrets versions add led-dev-google-client-secret --project live-every-day-dev --data-file=-
+pulumi --cwd infra up --stack dev
+```
