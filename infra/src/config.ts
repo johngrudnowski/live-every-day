@@ -24,8 +24,18 @@ export const web = {
   url: config.get('webUrl') ?? `https://${names.firebaseSiteId}.web.app`,
 };
 
+/** Comma-separated browser origins allowed for CORS and Better Auth. */
+export const corsOrigins =
+  config.get('corsOrigins') ??
+  config.get('webUrl') ??
+  `https://${names.firebaseSiteId}.web.app`;
+
 export const auth = {
   url: config.get('betterAuthUrl'),
+  googleClientId: config.get('googleClientId'),
+  googleClientSecretVersion: config.get('googleClientSecretVersion') ?? 'latest',
+  githubClientId: config.get('githubClientId'),
+  githubClientSecretVersion: config.get('githubClientSecretVersion') ?? 'latest',
 };
 
 export const database = {

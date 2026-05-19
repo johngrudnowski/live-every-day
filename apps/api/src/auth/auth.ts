@@ -89,6 +89,10 @@ export function createAuth(db: DbClient): Auth<any> {
     basePath: '/auth',
     secret: resolveAuthSecret(),
     trustedOrigins: buildTrustedOrigins(),
+    account: {
+      storeStateStrategy: 'database',
+      skipStateCookieCheck: true,
+    },
     socialProviders: buildSocialProviders(),
     emailAndPassword: {
       enabled: false,
