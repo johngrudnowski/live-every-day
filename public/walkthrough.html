@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Live Every Day — App Walkthrough</title>
+<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@200;300&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --midnight:#1A2830;--predawn:#506878;--sunrise:#E8CC70;--morning:#F0E090;
+  --midday:#6AB0C8;--afternoon:#9098A0;--sunset:#C89858;--dusk:#485058;
+  --canvas:#FFFCF5;--surface:#EBE8E0;--card:#FFFFFF;--border:#D8D0C0;
+  --text:#1A2830;--text-mid:#506878;--text-light:#9098A0;
+  --flag-high:#C87060;--flag-bg:#F4DDD8;--normal:#7A9E88;--normal-bg:#D4EAD8;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'DM Sans',sans-serif;background:var(--canvas);display:flex;flex-direction:column;align-items:center;min-height:100vh;padding:40px 20px;}
+.site-header{display:flex;align-items:center;justify-content:space-between;width:100%;max-width:960px;margin-bottom:32px;}
+.wordmark{font-family:'Raleway',serif;font-weight:200;font-size:22px;letter-spacing:0.5px;color:var(--midnight);}
+.wordmark span{color:var(--sunrise);}
+.header-sub{font-size:12px;color:var(--text-mid);}
+.nav-dots{display:flex;gap:8px;justify-content:center;margin-bottom:24px;}
+.nav-dot{width:8px;height:8px;border-radius:50%;background:var(--dusk);cursor:pointer;transition:all .2s;border:none;}
+.nav-dot.active{background:var(--midday);transform:scale(1.3);}
+.slide-wrap{width:100%;max-width:960px;}
+.slide{display:none;animation:fadeIn .3s ease;}
+.slide.active{display:block;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+.slide-label{font-size:11px;letter-spacing:1.2px;text-transform:uppercase;color:var(--midday);margin-bottom:6px;}
+.slide-title{font-size:26px;font-weight:500;color:var(--midnight);line-height:1.2;margin-bottom:6px;}
+.slide-desc{font-size:14px;color:var(--predawn);margin-bottom:24px;line-height:1.5;}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start;}
+.one-col{display:flex;gap:24px;align-items:start;}
+.three-col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;align-items:start;}
+.phone{background:var(--midnight);border-radius:40px;border:2px solid #2E4050;overflow:hidden;width:100%;max-width:280px;margin:0 auto;box-shadow:0 20px 60px rgba(0,0,0,.5);}
+.phone-small{max-width:220px;}
+.phone-notch{background:var(--midnight);height:28px;border-radius:0 0 16px 16px;width:100px;margin:0 auto;}
+.phone-screen{background:var(--canvas);min-height:520px;overflow:hidden;}
+.phone-home{height:4px;background:#2E4050;border-radius:2px;width:100px;margin:8px auto;}
+.screen-welcome{background:var(--canvas);height:520px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 24px;text-align:center;}
+.welcome-wm{font-family:'Raleway',serif;font-weight:200;font-size:22px;letter-spacing:0.5px;color:var(--midnight);margin:16px 0 8px;}
+.welcome-wm span{color:var(--sunrise);}
+.welcome-sub{font-size:12px;color:var(--predawn);margin-bottom:36px;line-height:1.5;}
+.btn-p{background:var(--midday);color:var(--midnight);border:none;border-radius:12px;padding:14px 32px;font-size:14px;font-weight:500;font-family:'DM Sans',sans-serif;width:100%;}
+.screen-app{background:var(--canvas);min-height:520px;padding:18px 16px;}
+.app-title{font-size:18px;font-weight:500;color:var(--midnight);margin-bottom:4px;}
+.app-sub{font-size:12px;color:var(--text-mid);margin-bottom:18px;line-height:1.4;}
+.progress{background:var(--surface);border-radius:4px;height:4px;margin-bottom:16px;}
+.progress-fill{background:var(--midday);border-radius:4px;height:4px;}
+.c-pill{background:var(--surface);border:1.5px solid var(--border);border-radius:12px;padding:11px 16px;margin-bottom:8px;font-size:13px;font-weight:500;color:var(--midnight);display:flex;justify-content:space-between;align-items:center;}
+.c-pill.sel{background:var(--midday);border-color:var(--midday);}
+.year-picker{background:var(--surface);border-radius:12px;overflow:hidden;margin-bottom:14px;}
+.yr{padding:11px 16px;font-size:13px;color:var(--text-mid);border-bottom:.5px solid var(--border);text-align:center;opacity:.5;}
+.yr.sel{background:var(--midnight);color:var(--canvas);opacity:1;font-weight:500;}
+.ev-item{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:.5px solid var(--border);}
+.ev-check{width:18px;height:18px;border-radius:4px;flex-shrink:0;}
+.ev-check.on{background:var(--midday);}
+.ev-check.off{border:1.5px solid var(--border);}
+.greeting{font-size:15px;color:var(--text-mid);margin-bottom:2px;}
+.greeting-name{font-family:'Raleway',serif;font-weight:200;font-size:22px;color:var(--midnight);margin-bottom:14px;}
+.ci-card{background:var(--midnight);border-radius:14px;padding:14px 16px;margin-bottom:10px;}
+.ci-lbl{font-size:11px;color:var(--predawn);margin-bottom:4px;letter-spacing:.3px;}
+.ci-title{font-size:14px;font-weight:500;color:var(--canvas);margin-bottom:8px;}
+.ci-btn{background:var(--midday);color:var(--midnight);border:none;border-radius:8px;padding:8px 16px;font-size:12px;font-weight:500;font-family:'DM Sans',sans-serif;}
+.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;}
+.stat-card{background:var(--surface);border-radius:10px;padding:10px 12px;}
+.stat-lbl{font-size:10px;color:var(--text-light);text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px;}
+.stat-val{font-family:'Raleway',serif;font-weight:300;font-size:22px;color:var(--midnight);}
+.stat-unit{font-size:10px;color:var(--text-mid);}
+.stat-d{font-size:10px;color:var(--flag-high);}
+.sparkline{display:flex;align-items:flex-end;gap:2px;height:20px;margin-top:4px;}
+.sb{flex:1;background:var(--midday);opacity:.35;border-radius:2px;}
+.sb.latest{opacity:1;}
+.section-h{font-size:10px;letter-spacing:.8px;text-transform:uppercase;color:var(--text-light);margin:14px 0 8px;font-weight:500;}
+.lab-row{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:.5px solid var(--border);}
+.lab-name{font-size:12px;color:var(--midnight);font-weight:500;}
+.lab-val{font-size:12px;font-weight:500;}
+.lflag{font-size:10px;padding:2px 8px;border-radius:10px;font-weight:500;}
+.fh{background:var(--flag-bg);color:var(--flag-high);}
+.fn{background:var(--normal-bg);color:var(--normal);}
+.sym-row{display:flex;align-items:center;gap:6px;margin-bottom:5px;}
+.sym-name{font-size:11px;color:var(--midnight);width:72px;flex-shrink:0;}
+.sym-bw{flex:1;background:var(--surface);border-radius:3px;height:7px;}
+.sym-b{height:7px;border-radius:3px;background:var(--midday);}
+.sym-val{font-size:11px;color:var(--midnight);font-weight:500;width:24px;text-align:right;}
+.sym-arr{font-size:10px;width:12px;}
+.wear-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:6px;}
+.wear-c{background:var(--surface);border-radius:8px;padding:8px 10px;}
+.wear-l{font-size:10px;color:var(--text-light);margin-bottom:2px;}
+.wear-v{font-size:14px;font-weight:500;color:var(--midnight);}
+.wear-d{font-size:10px;color:var(--flag-high);}
+.slider-wrap{margin-bottom:14px;}
+.slider-track{background:var(--surface);border-radius:4px;height:6px;position:relative;margin-bottom:4px;}
+.slider-fill{background:var(--midday);border-radius:4px;height:6px;position:absolute;left:0;}
+.slider-thumb{width:18px;height:18px;background:var(--card);border:2px solid var(--midday);border-radius:50%;position:absolute;top:-6px;transform:translateX(-50%);}
+.slider-lbls{display:flex;justify-content:space-between;font-size:10px;color:var(--text-light);}
+.score-word{font-size:12px;color:var(--midday);font-weight:500;margin-top:2px;}
+.appt-card{background:var(--sunrise);border-radius:12px;padding:14px 16px;margin-bottom:12px;}
+.appt-lbl{font-size:10px;color:var(--sunset);font-weight:500;text-transform:uppercase;letter-spacing:.4px;margin-bottom:2px;}
+.appt-title{font-size:14px;font-weight:500;color:var(--midnight);margin-bottom:2px;}
+.appt-sub{font-size:11px;color:var(--midnight);opacity:.7;}
+.appt-days{font-size:28px;font-weight:500;color:var(--midnight);font-family:'Raleway',serif;}
+.action-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.action-c{background:var(--card);border:.5px solid var(--border);border-radius:10px;padding:12px;text-align:center;}
+.action-ic{font-size:20px;margin-bottom:4px;}
+.action-l{font-size:11px;font-weight:500;color:var(--midnight);}
+.action-s{font-size:10px;color:var(--text-light);margin-top:2px;}
+.brief-h{font-size:10px;letter-spacing:.8px;text-transform:uppercase;color:var(--midday);margin-bottom:6px;font-weight:500;}
+.brief-p{background:var(--surface);border-radius:8px;padding:8px 10px;margin-bottom:6px;font-size:11px;color:var(--midnight);line-height:1.4;}
+.bp-num{display:inline-block;background:var(--midday);color:var(--midnight);width:16px;height:16px;border-radius:50%;font-size:9px;font-weight:500;text-align:center;line-height:16px;margin-right:6px;}
+.q-card{background:var(--card);border:.5px solid var(--border);border-radius:10px;padding:10px 12px;margin-bottom:7px;}
+.q-pri{font-size:9px;letter-spacing:.5px;text-transform:uppercase;color:var(--flag-high);font-weight:500;margin-bottom:3px;}
+.q-pri.sl{color:var(--midday);}
+.q-text{font-size:11px;color:var(--midnight);line-height:1.4;margin-bottom:3px;}
+.q-src{font-size:10px;color:var(--text-light);}
+.q-chk{width:16px;height:16px;border:1.5px solid var(--border);border-radius:4px;float:right;margin-top:-28px;}
+.tab-bar{background:var(--card);border-top:.5px solid var(--border);display:flex;padding:8px 0 4px;}
+.tab{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;}
+.tab-ic{font-size:15px;}
+.tab-l{font-size:9px;font-weight:500;color:var(--text-light);}
+.tab.active .tab-l{color:var(--midday);}
+.callout{background:#1E3040;border-radius:14px;padding:20px;margin-top:16px;}
+.callout-title{font-size:13px;font-weight:500;color:var(--canvas);margin-bottom:12px;padding-bottom:10px;border-bottom:.5px solid #2E4050;}
+.callout-item{display:flex;gap:10px;margin-bottom:10px;align-items:flex-start;}
+.callout-dot{width:6px;height:6px;border-radius:50%;background:var(--midday);margin-top:5px;flex-shrink:0;}
+.callout-text{font-size:12px;color:var(--afternoon);line-height:1.5;}
+.callout-text strong{color:var(--canvas);font-weight:500;}
+.cover-wrap{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:420px;text-align:center;}
+.cover-title{font-family:'Raleway',serif;font-weight:200;font-size:52px;letter-spacing:1px;color:var(--midnight);line-height:1;margin-top:20px;}
+.cover-title span{color:var(--sunrise);}
+.cover-desc{font-size:13px;color:var(--predawn);margin-top:16px;line-height:1.6;max-width:500px;}
+.closing{background:var(--canvas);border-radius:20px;padding:48px;text-align:center;border:.5px solid var(--border);}
+.closing-title{font-size:28px;font-weight:500;color:var(--midnight);margin-bottom:8px;line-height:1.2;}
+.closing-sub{font-size:14px;color:var(--predawn);margin-bottom:32px;}
+.pillars{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:32px;}
+.pillar{background:var(--surface);border-radius:12px;padding:16px;text-align:left;border:.5px solid var(--border);}
+.pillar-title{font-size:13px;font-weight:500;color:var(--midday);margin-bottom:4px;}
+.pillar-desc{font-size:12px;color:var(--predawn);line-height:1.4;}
+.nav-row{display:flex;align-items:center;justify-content:center;gap:16px;margin-top:32px;}
+.nav-btn{background:var(--surface);border:.5px solid var(--border);color:var(--midnight);border-radius:10px;padding:10px 24px;font-size:13px;font-family:'DM Sans',sans-serif;cursor:pointer;transition:all .15s;}
+.nav-btn:hover{background:var(--border);}
+.nav-btn:disabled{opacity:.3;cursor:default;}
+.nav-btn.prim{background:var(--midday);color:var(--midnight);border-color:var(--midday);font-weight:500;}
+.nav-btn.prim:hover{background:#7EC0D4;}
+.slide-count{font-size:12px;color:var(--predawn);min-width:60px;text-align:center;}
+.screen-label{text-align:center;margin-top:10px;font-size:11px;color:var(--text-mid);}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wordmark">Live <span>Every</span> Day</div>
+  <div class="header-sub">App Walkthrough · April 2026 · Confidential</div>
+</header>
+
+<div class="nav-dots" id="navDots"></div>
+<div class="slide-wrap">
+
+<!-- SLIDE 0: Cover -->
+<div class="slide active" id="slide-0">
+  <div class="cover-wrap">
+    <svg width="72" height="72" viewBox="-26 -26 52 52">
+      <circle cx="0.00"   cy="-21.00" r="3.85" fill="#3EA8CC"/>
+      <circle cx="10.50"  cy="-18.19" r="3.1"  fill="#78A0B8"/>
+      <circle cx="18.19"  cy="-10.50" r="3.1"  fill="#A89478"/>
+      <circle cx="21.00"  cy="0.00"   r="3.85" fill="#C89858"/>
+      <circle cx="18.19"  cy="10.50"  r="3.1"  fill="#303840"/>
+      <circle cx="10.50"  cy="18.19"  r="3.1"  fill="#303840"/>
+      <circle cx="0.00"   cy="21.00"  r="3.85" fill="#1A2830"/>
+      <circle cx="-10.50" cy="18.19"  r="3.1"  fill="#303840"/>
+      <circle cx="-18.19" cy="10.50"  r="3.1"  fill="#506878"/>
+      <circle cx="-21.00" cy="0.00"   r="3.85" fill="#E8CC70"/>
+      <circle cx="-18.19" cy="-10.50" r="3.1"  fill="#F0E090"/>
+      <circle cx="-10.50" cy="-18.19" r="3.1"  fill="#88B0C0"/>
+    </svg>
+    <div class="cover-title">Live <span>Every</span> Day</div>
+    <div style="font-size:14px;color:var(--predawn);margin-top:8px;letter-spacing:.3px">App Walkthrough</div>
+    <div class="cover-desc">A screen-by-screen guide to the Live Every Day experience — for patients living with chronic blood cancers and anyone managing a serious condition between appointments.</div>
+    <div style="margin-top:24px;font-size:12px;color:var(--dusk)">Use arrow keys or buttons to navigate</div>
+  </div>
+</div>
+
+<!-- SLIDE 1: Onboarding 1-2 -->
+<div class="slide" id="slide-1">
+  <div class="slide-label">Onboarding · Screens 1–2</div>
+  <div class="slide-title">Welcome &amp; Getting Started</div>
+  <div class="slide-desc">Brand-first entry captures the patient's primary condition and sets the data model for everything that follows.</div>
+  <div class="two-col">
+    <div>
+      <div class="phone">
+        <div class="phone-notch"></div>
+        <div class="phone-screen">
+          <div class="screen-welcome">
+            <svg width="44" height="44" viewBox="-26 -26 52 52"><circle cx="0.00" cy="-21.00" r="3.85" fill="#3EA8CC"/><circle cx="10.50" cy="-18.19" r="3.1" fill="#78A0B8"/><circle cx="18.19" cy="-10.50" r="3.1" fill="#A89478"/><circle cx="21.00" cy="0.00" r="3.85" fill="#C89858"/><circle cx="18.19" cy="10.50" r="3.1" fill="#303840"/><circle cx="10.50" cy="18.19" r="3.1" fill="#303840"/><circle cx="0.00" cy="21.00" r="3.85" fill="#1A2830"/><circle cx="-10.50" cy="18.19" r="3.1" fill="#303840"/><circle cx="-18.19" cy="10.50" r="3.1" fill="#506878"/><circle cx="-21.00" cy="0.00" r="3.85" fill="#E8CC70"/><circle cx="-18.19" cy="-10.50" r="3.1" fill="#F0E090"/><circle cx="-10.50" cy="-18.19" r="3.1" fill="#88B0C0"/></svg>
+            <div class="welcome-wm">Live <span>Every</span> Day</div>
+            <div class="welcome-sub">Our health, understood.<br>Every day — not just appointment day.</div>
+            <button class="btn-p">Get started</button>
+          </div>
+        </div>
+        <div class="phone-home"></div>
+      </div>
+      <div class="screen-label">Screen 1 — Welcome</div>
+    </div>
+    <div>
+      <div class="phone">
+        <div class="phone-notch"></div>
+        <div class="phone-screen">
+          <div class="screen-app">
+            <div class="progress"><div class="progress-fill" style="width:20%"></div></div>
+            <div class="app-title">What are we managing?</div>
+            <div class="app-sub">We'll personalize the experience around our specific condition.</div>
+            <div class="c-pill sel">Essential Thrombocythemia (ET) <span>✓</span></div>
+            <div class="c-pill">Polycythemia Vera (PV)</div>
+            <div class="c-pill">Myelofibrosis (MF)</div>
+            <div class="c-pill">CLL</div>
+            <div class="c-pill">Prostate (active surveillance)</div>
+            <div class="c-pill">Other / Not sure yet</div>
+          </div>
+        </div>
+        <div class="phone-home"></div>
+      </div>
+      <div class="screen-label">Screen 2 — Condition</div>
+    </div>
+  </div>
+  <div class="callout">
+    <div class="callout-title">Why this matters</div>
+    <div class="callout-item"><div class="callout-dot"></div><div class="callout-text"><strong>Condition sets the data model.</strong> The selected condition determines which symptoms, labs, and check-in questions appear throughout the app. ET gets the MPN-10. Prostate gets PSA-focused tracking.</div></div>
+    <div class="callout-item"><div class="callout-dot"></div><div class="callout-text"><strong>No sign-up wall.</strong> One button. Brand-first entry — warm and human, not clinical.</div></div>
+  </div>
+</div>
+
+<!-- SLIDE 2: Onboarding 3-4 -->
+<div class="slide" id="slide-2">
+  <div class="slide-label">Onboarding · Screens 3–4</div>
+  <div class="slide-title">Building the Health Profile</div>
+  <div class="slide-desc">Diagnosis year and health events capture the cross-system connections that other tools miss entirely.</div>
+  <div class="two-col">
+    <div>
+      <div class="phone">
+        <div class="phone-notch"></div>
+        <div class="phone-screen">
+          <div class="screen-app">
+            <div class="progress"><div class="progress-fill" style="width:40%"></div></div>
+            <div class="app-title">When were we diagnosed?</div>
+            <div class="app-sub">This anchors our data timeline and helps understand the full journey.</div>
+            <div class="year-picker">
+              <div class="yr">2019</div><div class="yr">2020</div><div class="yr">2021</div>
+              <div class="yr sel">2023</div><div class="yr">2024</div><div class="yr">2025</div>
+            </div>
+            <div style="font-size:11px;color:var(--text-mid);line-height:1.5">Used to anchor the 6-month trend data within the full journey.</div>
+          </div>
+        </div>
+        <div class="phone-home"></div>
+      </div>
+      <div class="screen-label">Screen 3 — Diagnosis Year</div>
+    </div>
+    <div>
+      <div class="phone">
+        <div class="phone-notch"></div>
+        <div class="phone-screen">
+          <div class="screen-app">
+            <div class="progress"><div class="progress-fill" style="width:60%"></div></div>
+            <div class="app-title">Any significant health events?</div>
+            <div class="app-sub">These often connect to our condition in ways that standard care misses.</div>
+            <div class="ev-item"><div class="ev-check on"></div><div style="font-size:12px;color:var(--midnight)">Heart attack or stroke</div></div>
+            <div class="ev-item"><div class="ev-check on"></div><div style="font-size:12px;color:var(--midnight)">Blood clot (DVT or PE)</div></div>
+            <div class="ev-item"><div class="ev-check off"></div><div style="font-size:12px;color:var(--midnight)">Major surgery</div></div>
+            <div class="ev-item"><div class="ev-check off"></div><div style="font-size:12px;color:var(--midnight)">Spleen removal</div></div>
+            <div class="ev-item"><div class="ev-check off"></div><div style="font-size:12px;color:var(--midnight)">Bone marrow transplant</div></div>
+            <div class="ev-item"><div class="ev-check off"></div><div style="font-size:12px;color:var(--midnight)">Other significant event</div></div>
+          </div>
+        </div>
+        <div class="phone-home"></div>
+      </div>
+      <div class="screen-label">Screen 4 — Health Events</div>
+    </div>
+  </div>
+  <div class="callout">
+    <div class="callout-title">The advocacy gap — captured in one screen</div>
+    <div class="callout-item"><div class="callout-dot"></div><div class="callout-text"><strong>"My cardiologist never connected my ET to my heart attack."</strong> Health events appear directly in the appointment prep question set. The Cardiology Crossover category exists because of the founder's lived experience.</div></div>
+  </div>
+</div>
+
+<!-- SLIDE 3: Dashboard -->
+<div class="slide" id="slide-3">
+  <div class="slide-label">Screen 5</div>
+  <div class="slide-title">Our Daily Dashboard</div>
+  <div class="slide-desc">Home base — personalized greeting, current state, and a clear path to the day's most important action.</div>
+  <div class="one-col">
+    <div style="flex:0 0 auto">
+      <div class="phone" style="max-width:260px">
+        <div class="phone-notch"></div>
+        <div class="phone-screen" style="padding:16px 14px 0">
+          <div class="greeting">Good morning,</div>
+          <div class="greeting-name">John · ET</div>
+          <div class="ci-card">
+            <div class="ci-lbl">THIS WEEK</div>
+            <div class="ci-title">Time for our weekly check-in</div>
+            <div style="font-size:11px;color:var(--predawn);margin-bottom:10px">Last week: 6.2 / 10 symptom load</div>
+            <button class="ci-btn">Start check-in →</button>
+          </div>
+          <div class="stat-grid">
+            <div class="stat-card">
+              <div class="stat-lbl">Platelets</div>
+              <div><span class="stat-val">842</span> <span class="stat-unit">×10³</span></div>
+              <div class="stat-d">↑ +10% over 6mo</div>
+              <div class="sparkline">
+                <div class="sb" style="height:40%"></div><div class="sb" style="height:55%"></div>
+                <div class="sb" style="height:50%"></div><div class="sb" style="height:70%"></div>
+                <div class="sb" style="height:75%"></div><div class="sb latest" style="height:85%"></div>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-lbl">Next Appt</div>
+              <div><span class="stat-val">27</span> <span class="stat-unit">days</span></div>
+              <div style="margin-top:4px;font-size:10px;padding:2px 8px;background:var(--normal-bg);color:var(--normal);border-radius:8px;display:inline-block;font-weight:500">Brief ready</div>
+            </div>
+          </div>
+          <div style="background:var(--surface);border-radius:10px;padding:10px 12px;margin-bottom:8px">
+            <div style="font-size:10px;color:var(--text-light);text-transform:uppercase;letter-spacing:.4px;margin-bottom:3px">Symptom Trend</div>
+            <div style="font-size:11px;color:var(--flag-high);font-weight:500">↑ Load +28% since October</div>
+          </div>
+          <div class="tab-bar">
+            <div class="tab active"><div class="tab-ic">⌂</div><div class="tab-l">Home</div></div>
+            <div class="tab"><div class="tab-ic">○</div><div class="tab-l">Check-in</div></div>
+            <div class="tab"><div class="tab-ic">◈</div><div class="tab-l">Data</div></div>
+            <div class="tab"><div class="tab-ic">◎</div><div class="tab-l">Prep</div></div>
+          </div>
+        </div>
+        <div class="phone-home"></div>
+      </div>
+    </div>
+    <div style="flex:1">
+      <div class="callout">
+        <div class="callout-title">Dashboard decisions</div>
+        <div class="callout-item"><div class="callout-dot"></div><div class="callout-text"><strong>Personalized greeting by name.</strong> "Good morning, John." Sets a human tone from the first word — not clinical, not generic.</div></div>
+        <div class="callout-item"><div class="callout-dot"></div><div class="callout-text"><strong>Check-in always front and center.</strong> The weekly card is the primary action — persistent, warm, never nagging. Shows last week's score for context.</div></div>
+        <div class="callout-item"><div class="callout-dot"></div><div class="callout-text"><strong>Live data tiles.</strong> Platelet count with 6-month sparkline. Appointment countdown with brief readiness status. The two most important numbers at a glance.</div></div>
+        <div class="callout-item"><div class="callout-dot"></div><div class="callout-text"><strong>Trend in plain language.</strong> "↑ Load +28% since October" — not clinical jargon. The trend, stated plainly, so it registers.</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 4: Check-in -->
+<div class="slide" id="slide-4">
+  <div class="slide-label">Screen 6</div>
+  <div class="slide-title">Symptom Check-in</div>
+  <div class="slide-desc">10 questions. 2 minutes. Every week. The foundation of everything else in the app.</div>
+  <div class="one-col">
+    <div style="flex:0 0 auto">
+      <div class="phone" style="max-width:260px">
+        <div class="phone-notch"></div>
+        <div class="phone-screen" style="padding:16px 14px 0">
+          <div class="progress" style="margin-bottom:4px"><div class="progress-fill" style="width:30%"></div></div>
+          <div style="font-size:10px;color:var(--text-light);margin-bottom:14px">Question 3 of 10</div>
+          <div style="font-size:14px;font-weight:500;color:var(--midnight);margin-bottom:4px">How has fatigue been this week?</div>
+          <div style="font-size:11px;color:var(--text-mid);margin-bottom:14px">Consider energy levels throughout the day.</div>
+          <div class="slider-wrap">
+            <div class="slider-track"><div class="slider-fill" style="width:75%"></div><div class="slider-thumb" style="left:75%"></div></div>
+            <div class="slider-lbls"><span>Not at all</span><span>10 — Worst</span></div>
+            <div class="score-word">Quite significant — affecting daily life</div>
+          </div>
+          <div style="background:var(--surface);border-radius:10px;padding:10px 12px;margin-bottom:10px">
+            <div style="font-size:10px;color:var(--text-light);margin-bottom:4px">Last 4 weeks</div>
+            <div style="display:flex;align-items:flex-end;gap:3px;height:28px">
+              <div style="flex:1;background:var(--midday);opacity:.3;border-radius:2px;height:30%"></div>
+              <div style="flex:1;background:var(--midday);opacity:.4;border-radius:2px;height:50%"></div>
+              <div style="flex:1;background:var(--midday);opacity:.55;border-radius:2px;height:65%"></div>
+              <div style="flex:1;background:var(--midday);border-radius:2px;height:75%"></div>
+            </div>
+            <div style="display:flex;justify-content:space-between;font-size:9px;color:var(--text-light);margin-top:3px"><span>4wk ago</span><span>3wk</span><span>2wk</span><span>Now</span></div>
+          </div>
+          <div style="font-size:11px;color:var(--normal);font-weight:500;margin-bottom:12px">"Tracking this takes courage. You're doing something most patients never do."</div>
+          <button class="btn-p" style="margin-bottom:10px">Next question →</button>
+          <div class="tab-bar">
+            <div class="tab"><div class="tab-ic">⌂</div><div class="tab-l">Home</div></div>
+            <div class="tab active"><div class="tab-ic">○</div><div class="tab-l">Check-in</div></div>
+            <div class="tab"><div class="tab-ic">◈</div><div class="tab-l">Data</div></div>
+            <div class="tab"><div class="tab-ic">◎</div><div class="tab-l">Prep</div></div>
+          </div>
+        </div>
+        <div class="phone-home"></div>
+      </div>
+    </div>
+    <div style="flex:1">
+      <div class="callout">
+        <div class="callout-title">Check-in decisions</div>
+        <div class="callout-item"><div class="callout-dot"></div><div class="callout-text"><strong>Condition-specific questions.</strong> Fatigue, night sweats, itching, bone pain, brain fog — tuned to ET/PV/MF symptoms. Not a generic wellness survey.</div></div>
+        <div class="callout-item"><div class="callout-dot"></div><div class="callout-text"><strong>Language anchors the scale.</strong> "Quite significant — affecting daily life" replaces abstract numbers. The slider speaks in human terms.</div></div>
+        <div class="callout-item"><div class="callout-dot"></div><div class="callout-text"><strong>4-week history inline.</strong> The mini trend chart below each question shows trajectory — not just today's score.</div></div>
+        <div class="callout-item"><div class="callout-dot"></div><div class="callout-text"><strong>Warm micro-copy.</strong> "Tracking this takes courage." An acknowledgment of what it means to pay attention to our own health every week.</div></div>
+        <div class="callout-item"><div class="callout-dot"></div><div class="callout-text"><strong>Pattern flagging.</strong> A 28%+ increase in overall symptom load triggers a flag in the next appointment brief automatically.</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 5: Data -->
+<div class="slide" id="slide-5">
+  <div class="slide-label">Screen 7</div>
+  <div class="slide-title">Our Data &amp; Results</div>
+  <div class="slide-desc">A unified view of every data source — labs, symptoms, and wearables — in one longitudinal record.</div>
+  <div class="one-col">
+    <div style="flex:0 0 auto">
+      <div class="phone" style="max-width:260px">
+        <div class="phone-notch"></div>
+        <div class="phone-screen" style="padding:16px 14px 0">
+          <div style="font-size:16px;font-weight:500;color:var(--midnight);margin-bottom:14px">Data &amp; Results</div>
+          <div class="section-h">Labs · MyChart · Quest</div>
+          <div class="lab-row"><div><div class="lab-name">Platelets</div><div style="font-size:10px;color:var(--text-light)">×10³/µL</div></div><div style="text-align:right"><div class="lab-val" style="color:var(--flag-high)">842</div><div class="lflag fh">↑ High</div></div></div>
+          <div class="lab-row"><div><div class="lab-name">WBC</div><div style="font-size:10px;color:var(--text-light)">×10³/µL</div></div><div style="text-align:right"><div class="lab-val">10.4</div><div class="lflag fn">Stable</div></div></div>
+          <div class="lab-row"><div><div class="lab-name">Hemoglobin</div><div style="font-size:10px;color:var(--text-light)">g/dL</div></div><div style="text-align:right"><div class="lab-val">14.6</div><div class="lflag fn">Normal</div></div></div>
+          <div class="section-h">Symptoms · 8 weeks</div>
+          <div class="sym-row"><div class="sym-name">Fatigue</div><div class="sym-bw"><div class="sym-b" style="width:80%"></div></div><div class="sym-val">8</div><div class="sym-arr" style="color:var(--flag-high)">↑</div></div>
+          <div class="sym-row"><div class="sym-name">Brain fog</div><div class="sym-bw"><div class="sym-b" style="width:60%;background:var(--sunset)"></div></div><div class="sym-val">6</div><div class="sym-arr" style="color:var(--flag-high)">↑</div></div>
+          <div class="sym-row"><div class="sym-name">Night sweats</div><div class="sym-bw"><div class="sym-b" style="width:50%;background:var(--afternoon)"></div></div><div class="sym-val">5</div><div class="sym-arr" style="color:var(--afternoon)">→</div></div>
+          <div class="sym-row"><div class="sym-name">Itching</div><div class="sym-bw"><div class="sym-b" style="width:30%;background:var(--normal)"></div></div><div class="sym-val">3</div><div class="sym-arr" style="color:var(--normal)">↓</div></div>
+          <div class="section-h">Wearables · Oura · Apple Health</div>
+          <div class="wear-grid">
+            <div class="wear-c"><div class="wear-l">Resting HR</div><div class="wear-v">72 bpm</div><div class="wear-d">↑ +6 Oct</div></div>
+            <div class="wear-c"><div class="wear-l">Deep Sleep</div><div class="wear-v">52 min</div><div class="wear-d">↓ from 78</div></div>
+            <div class="wear-c"><div class="wear-l">HRV</div><div class="wear-v">28 ms</div><div class="wear-d">↓ significant</div></div>
+            <div class="wear-c"><div class="wear-l">Steps/day</div><div class="wear-v">4,820</div><div class="wear-d">↓ from 6,400</div></div>
+          </div>
+          <div style="height:10px"></div>
+          <div class="tab-bar">
+            <div class="tab"><div class="tab-ic">⌂</div><div class="tab-l">Home</div></div>
+            <div class="tab"><div class="tab-ic">○</div><div class="tab-l">Check-in</div></div>
+            <div class="tab active"><div class="tab-ic">◈</div><div class="tab-l">Data</div></div>
+            <div class="tab"><div class="tab-ic">◎</div><div class="tab-l">Prep</div></div>
+          </div>
+        </div>
+        <div class="phone-home"></div>
+      </div>
+    </div>
+    <div style="flex:1">
+      <div class="callout">
+        <div class="callout-title">Data screen decisions</div>
+        <div class="callout-item"><div class="callout-dot"></div><div class="callout-text"><strong>Three sources, one view.</strong> Labs from MyChart/Quest, symptom scores from check-ins, wearable data from Oura and Apple Health — unified in one longitudinal record.</div></div>
+        <div class="callout-item"><div class="callout-dot"></div><div class="callout-text"><strong>Flags in warm language.</strong> "↑ High" in warm red, "Normal" in forest green. Color-coded, never alarming.</div></div>
+        <div class="callout-item"><div class="callout-dot"></div><div class="callout-text"><strong>Wearable data alongside labs.</strong> HRV, deep sleep, and resting HR sit next to CBC values — physiological context that clinical appointments have never had access to before.</div></div>
+        <div class="callout-item"><div class="callout-dot"></div><div class="callout-text"><strong>We own this data.</strong> Connections only pull in — never share out without explicit permission.</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 6: Appointment Prep -->
+<div class="slide" id="slide-6">
+  <div class="slide-label">Screens 8–10</div>
+  <div class="slide-title">Appointment Preparation</div>
+  <div class="slide-desc">Three connected screens that turn 6 months of data into a one-page brief and a personalized question set.</div>
+  <div class="three-col">
+    <div>
+      <div class="phone phone-small">
+        <div class="phone-notch"></div>
+        <div class="phone-screen" style="padding:14px 12px 0;min-height:460px">
+          <div style="font-size:13px;font-weight:500;color:var(--midnight);margin-bottom:12px">Appointment Prep</div>
+          <div class="appt-card">
+            <div class="appt-lbl">Next appointment</div>
+            <div class="appt-title">Dr. Wolanskyj-Spinner</div>
+            <div class="appt-sub">Hematology · Mayo Clinic</div>
+            <div style="margin-top:6px"><span class="appt-days">27</span> <span style="font-size:11px;color:var(--sunset)">days away</span></div>
+          </div>
+          <div class="action-row">
+            <div class="action-c"><div class="action-ic">📄</div><div class="action-l">Doctor Brief</div><div class="action-s">6-month summary</div></div>
+            <div class="action-c"><div class="action-ic">❓</div><div class="action-l">Our Questions</div><div class="action-s">7 ready</div></div>
+          </div>
+          <div style="margin-top:10px;background:var(--surface);border-radius:8px;padding:8px 10px">
+            <div style="font-size:10px;color:var(--text-light);margin-bottom:3px">Data freshness</div>
+            <div style="font-size:11px;color:var(--normal);font-weight:500">✓ Check-in · Labs · Wearables</div>
+          </div>
+          <div class="tab-bar" style="margin-top:10px">
+            <div class="tab"><div class="tab-ic">⌂</div><div class="tab-l">Home</div></div>
+            <div class="tab"><div class="tab-ic">○</div><div class="tab-l">Check-in</div></div>
+            <div class="tab"><div class="tab-ic">◈</div><div class="tab-l">Data</div></div>
+            <div class="tab active"><div class="tab-ic">◎</div><div class="tab-l">Prep</div></div>
+          </div>
+        </div>
+        <div class="phone-home"></div>
+      </div>
+      <div class="screen-label">Screen 8 — Prep Hub</div>
+    </div>
+    <div>
+      <div class="phone phone-small">
+        <div class="phone-notch"></div>
+        <div class="phone-screen" style="padding:14px 12px 0;min-height:460px">
+          <div style="font-size:13px;font-weight:500;color:var(--midnight);margin-bottom:10px">Doctor Brief</div>
+          <div style="margin-bottom:12px">
+            <div class="brief-h">Symptom Trend — 6 months</div>
+            <div style="background:var(--surface);border-radius:8px;padding:7px 10px;font-size:11px;color:var(--flag-high);font-weight:500;margin-bottom:6px">↑ Symptom load +28% since Oct</div>
+            <div class="sym-row" style="margin-bottom:3px"><div class="sym-name" style="font-size:10px">Fatigue</div><div class="sym-bw"><div class="sym-b" style="width:80%"></div></div><div class="sym-val" style="font-size:10px">8/10</div><div style="font-size:9px;color:var(--flag-high)">↑</div></div>
+            <div class="sym-row" style="margin-bottom:3px"><div class="sym-name" style="font-size:10px">Brain fog</div><div class="sym-bw"><div class="sym-b" style="width:60%;background:var(--sunset)"></div></div><div class="sym-val" style="font-size:10px">6/10</div><div style="font-size:9px;color:var(--flag-high)">↑</div></div>
+          </div>
+          <div style="margin-bottom:12px">
+            <div class="brief-h">Key Labs</div>
+            <div style="font-size:11px;color:var(--midnight)">Platelets: <strong>842</strong> ↑ +10%</div>
+            <div style="font-size:10px;color:var(--text-mid);margin-top:2px">764 → 802 → 842 (3 draws)</div>
+          </div>
+          <div>
+            <div class="brief-h">Patterns to Discuss</div>
+            <div class="brief-p"><span class="bp-num">1</span>Platelets up 10% across 3 consecutive draws. Consistent trajectory.</div>
+            <div class="brief-p"><span class="bp-num">2</span>Deep sleep -33%, HR +6 bpm, activity -25%. Sustained physiological stress.</div>
+            <div class="brief-p"><span class="bp-num">3</span>Fatigue 4→8/10 over 8 weeks. Highest since onboarding.</div>
+          </div>
+        </div>
+        <div class="phone-home"></div>
+      </div>
+      <div class="screen-label">Screen 9 — Doctor Brief</div>
+    </div>
+    <div>
+      <div class="phone phone-small">
+        <div class="phone-notch"></div>
+        <div class="phone-screen" style="padding:14px 12px 0;min-height:460px">
+          <div style="font-size:13px;font-weight:500;color:var(--midnight);margin-bottom:4px">Our Questions</div>
+          <div style="font-size:10px;color:var(--text-mid);margin-bottom:10px">Built from our data — check off as we ask each one</div>
+          <div class="q-card"><div class="q-pri">High Priority</div><div class="q-chk"></div><div class="q-text">Fatigue 4→8/10 over two months. What is driving this?</div><div class="q-src">From: Check-ins · Oura sleep</div></div>
+          <div class="q-card"><div class="q-pri">High Priority</div><div class="q-chk"></div><div class="q-text">Platelets risen 10% across three draws. Is this a trajectory we need to act on?</div><div class="q-src">From: CBC via MyChart</div></div>
+          <div class="q-card"><div class="q-pri sl">Sleep &amp; Wearables</div><div class="q-chk"></div><div class="q-text">Deep sleep dropped by a third and HRV fallen. How does this affect ET?</div><div class="q-src">From: Oura Ring · 6mo trend</div></div>
+          <div class="q-card"><div class="q-pri sl">Medications</div><div class="q-chk"></div><div class="q-text">Could hydroxyurea be contributing to fatigue and brain fog?</div><div class="q-src">From: Symptom trend · med log</div></div>
+        </div>
+        <div class="phone-home"></div>
+      </div>
+      <div class="screen-label">Screen 10 — Our Questions</div>
+    </div>
+  </div>
+  <div class="callout">
+    <div class="callout-title">Why this changes appointments</div>
+    <div class="callout-item"><div class="callout-dot"></div><div class="callout-text"><strong>Observations vs. questions — separated.</strong> Pre-synthesized patterns for the doctor. Specific, answerable questions for us. Not "I've been tired" — "My fatigue doubled over 8 weeks. Is this my medication or disease activity?"</div></div>
+    <div class="callout-item"><div class="callout-dot"></div><div class="callout-text"><strong>Shareable before we arrive.</strong> The brief exports to MyChart. The nurse can pre-answer some questions. Appointment time is spent on what actually matters.</div></div>
+  </div>
+</div>
+
+<!-- SLIDE 7: Closing -->
+<div class="slide" id="slide-7">
+  <div class="closing">
+    <svg width="56" height="56" viewBox="-26 -26 52 52" style="margin-bottom:20px">
+      <circle cx="0.00"   cy="-21.00" r="3.85" fill="#3EA8CC"/>
+      <circle cx="10.50"  cy="-18.19" r="3.1"  fill="#78A0B8"/>
+      <circle cx="18.19"  cy="-10.50" r="3.1"  fill="#A89478"/>
+      <circle cx="21.00"  cy="0.00"   r="3.85" fill="#C89858"/>
+      <circle cx="18.19"  cy="10.50"  r="3.1"  fill="#303840"/>
+      <circle cx="10.50"  cy="18.19"  r="3.1"  fill="#303840"/>
+      <circle cx="0.00"   cy="21.00"  r="3.85" fill="#1A2830"/>
+      <circle cx="-10.50" cy="18.19"  r="3.1"  fill="#303840"/>
+      <circle cx="-18.19" cy="10.50"  r="3.1"  fill="#506878"/>
+      <circle cx="-21.00" cy="0.00"   r="3.85" fill="#E8CC70"/>
+      <circle cx="-18.19" cy="-10.50" r="3.1"  fill="#F0E090"/>
+      <circle cx="-10.50" cy="-18.19" r="3.1"  fill="#88B0C0"/>
+    </svg>
+    <div class="closing-title">Built by a patient.<br>For all of us.</div>
+    <div class="closing-sub">liveeveryday.health · April 2026 · Confidential</div>
+    <div class="pillars">
+      <div class="pillar"><div class="pillar-title">Independent</div><div class="pillar-desc">No pharma funding. No advertiser agenda. Our data belongs to us.</div></div>
+      <div class="pillar"><div class="pillar-title">Longitudinal</div><div class="pillar-desc">Months and years of data — not just today's snapshot.</div></div>
+      <div class="pillar"><div class="pillar-title">Disease-specific</div><div class="pillar-desc">Built condition by condition — not generic chronic illness.</div></div>
+      <div class="pillar"><div class="pillar-title">Patient-owned</div><div class="pillar-desc">Our data never leaves without explicit permission.</div></div>
+    </div>
+    <div style="font-size:13px;color:var(--predawn)">liveeveryday.health</div>
+  </div>
+</div>
+
+</div><!-- end slide-wrap -->
+
+<div class="nav-row">
+  <button class="nav-btn" id="prevBtn" onclick="navigate(-1)" disabled>← Previous</button>
+  <span class="slide-count" id="slideCount">1 / 8</span>
+  <button class="nav-btn prim" id="nextBtn" onclick="navigate(1)">Next →</button>
+</div>
+
+<script>
+var total=8,current=0;
+function buildDots(){var w=document.getElementById('navDots');for(var i=0;i<total;i++){var b=document.createElement('button');b.className='nav-dot'+(i===0?' active':'');b.setAttribute('data-i',i);b.onclick=(function(x){return function(){goTo(x);};})(i);w.appendChild(b);}}
+function goTo(idx){document.getElementById('slide-'+current).classList.remove('active');document.querySelectorAll('.nav-dot')[current].classList.remove('active');current=idx;document.getElementById('slide-'+current).classList.add('active');document.querySelectorAll('.nav-dot')[current].classList.add('active');document.getElementById('prevBtn').disabled=current===0;var nb=document.getElementById('nextBtn');nb.disabled=current===total-1;nb.textContent=current===total-1?'Fin':'Next →';document.getElementById('slideCount').textContent=(current+1)+' / '+total;window.scrollTo({top:0,behavior:'smooth'});}
+function navigate(d){var n=current+d;if(n>=0&&n<total)goTo(n);}
+document.addEventListener('keydown',function(e){if(e.key==='ArrowRight'||e.key==='ArrowDown')navigate(1);if(e.key==='ArrowLeft'||e.key==='ArrowUp')navigate(-1);});
+buildDots();
+</script>
+</body>
+</html>
