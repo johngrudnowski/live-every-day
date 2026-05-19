@@ -13,4 +13,4 @@ Static HTML prototypes for design review and demos. This folder is published via
 
 ## GitHub Pages setup
 
-In the repository **Settings → Pages**, set **Source** to **Deploy from a branch**, choose the `main` branch, and set the folder to **`/public`**.
+In the repository **Settings → Pages**, set **Source** to **Deploy from a branch**, choose the `main` branch, and set the folder to **`/docs`**.
