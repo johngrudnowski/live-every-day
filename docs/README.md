@@ -10,7 +10,3 @@ Static HTML prototypes for design review and demos. This folder is published via
 | [walkthrough.html](./walkthrough.html) | App walkthrough |
 | [led_simulation.html](./led_simulation.html) | Interactive app prototype |
 | [led_care_team_dashboard.html](./led_care_team_dashboard.html) | Care team dashboard |
-
-## GitHub Pages setup
-
-In the repository **Settings → Pages**, set **Source** to **Deploy from a branch**, choose the `main` branch, and set the folder to **`/docs`**.

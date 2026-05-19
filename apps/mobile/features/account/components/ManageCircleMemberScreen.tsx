@@ -21,25 +21,38 @@ import { LoadingScreen } from '@/features/launch/components/LoadingScreen';
 import {
   useCirclePermissionDefinitionsQuery,
   useCancelCircleSupportInvitationMutation,
+  useCreateCircleSupportPersonInviteMutation,
   useDemoteCircleSupportPersonMutation,
   useMyCircleQuery,
   usePromoteCircleSupportPersonMutation,
   useRemoveCircleSupportPersonMutation,
   useUpdateCircleSupportPermissionsMutation,
   useUpdateCircleSupportPersonMutation,
+  type CreateCircleSupportPersonInviteInput,
   type CirclePermissionDefinition,
   type CircleSupportPerson,
 } from '../api/account-queries';
 
+const newSupportPersonId = 'new';
+
 type ConfirmAction = 'cancel-invitation' | 'remove' | null;
+
+type SupportInviteForm = {
+  displayName: string;
+  relationship: string;
+  invitationEmail: string;
+  invitationPhone: string;
+};
 
 export function ManageCircleMemberScreen() {
   const auth = useMobileAuth();
   const { supportPersonId } = useLocalSearchParams<{ supportPersonId?: string }>();
+  const isNew = supportPersonId === newSupportPersonId;
   const circleQuery = useMyCircleQuery(Boolean(auth.data?.session));
   const permissionDefinitionsQuery = useCirclePermissionDefinitionsQuery(
     Boolean(auth.data?.session),
   );
+  const createMutation = useCreateCircleSupportPersonInviteMutation();
   const updateMutation = useUpdateCircleSupportPersonMutation();
   const updatePermissionsMutation = useUpdateCircleSupportPermissionsMutation();
   const cancelInvitationMutation = useCancelCircleSupportInvitationMutation();
@@ -47,15 +60,19 @@ export function ManageCircleMemberScreen() {
   const demoteMutation = useDemoteCircleSupportPersonMutation();
   const removeMutation = useRemoveCircleSupportPersonMutation();
   const [displayName, setDisplayName] = useState('');
+  const [inviteForm, setInviteForm] = useState<SupportInviteForm>(emptyInviteForm);
   const [selectedPermissionKeys, setSelectedPermissionKeys] = useState<string[]>([]);
   const [confirmAction, setConfirmAction] = useState<ConfirmAction>(null);
   const supportPeople = circleQuery.data?.supportPeople ?? [];
-  const person = supportPeople.find((item) => item.id === supportPersonId) ?? null;
+  const person = isNew ? null : (supportPeople.find((item) => item.id === supportPersonId) ?? null);
+  const permissionDefinitions = permissionDefinitionsQuery.data ?? [];
+  const normalizedInviteForm = useMemo(() => normalizeInviteForm(inviteForm), [inviteForm]);
   const hasMyNumberOne = supportPeople.some((item) => item.role === 'my_number_one');
   const isMyNumberOne = person?.role === 'my_number_one';
   const canPromote = person ? !isMyNumberOne && !hasMyNumberOne : false;
   const hasPendingInvitation = person?.inviteStatus === 'pending' && !person.linkedUserId;
   const isPending =
+    createMutation.isPending ||
     updateMutation.isPending ||
     updatePermissionsMutation.isPending ||
     cancelInvitationMutation.isPending ||
@@ -93,6 +110,105 @@ export function ManageCircleMemberScreen() {
     return <LoadingScreen message="Checking your session" />;
   }
 
+  if (isNew) {
+    const canCreate = normalizedInviteForm.displayName.length > 0 && !isPending;
+
+    return (
+      <CircleMemberShell title="Add support person">
+        <SectionCard
+          title="Support person"
+          description="Add someone who can receive a link to leave encouraging messages before your weekly check-in."
+        >
+          <Field
+            label="Name"
+            value={inviteForm.displayName}
+            placeholder="Dylan Grudnowski"
+            autoCapitalize="words"
+            onChangeText={(value) =>
+              setInviteForm((current) => ({ ...current, displayName: value }))
+            }
+          />
+          <Field
+            label="Relationship"
+            value={inviteForm.relationship}
+            placeholder="Friend, family, caregiver"
+            autoCapitalize="words"
+            onChangeText={(value) =>
+              setInviteForm((current) => ({ ...current, relationship: value }))
+            }
+          />
+        </SectionCard>
+
+        <SectionCard
+          title="Invite"
+          description="Email or phone is optional. If both are blank, the app creates a link you can share yourself."
+        >
+          <Field
+            label="Email"
+            value={inviteForm.invitationEmail}
+            placeholder="dylan@example.com"
+            keyboardType="email-address"
+            autoCapitalize="none"
+            onChangeText={(value) =>
+              setInviteForm((current) => ({ ...current, invitationEmail: value }))
+            }
+          />
+          <Field
+            label="Phone"
+            value={inviteForm.invitationPhone}
+            placeholder="+1 555 555 0123"
+            keyboardType="phone-pad"
+            onChangeText={(value) =>
+              setInviteForm((current) => ({ ...current, invitationPhone: value }))
+            }
+          />
+        </SectionCard>
+
+        <SectionCard
+          title="Permissions"
+          description={`Choose what ${normalizedInviteForm.displayName || 'this person'} can receive or view when you share updates.`}
+        >
+          {permissionDefinitionsQuery.isPending ? (
+            <LedText variant="bodySmall" color="predawn">
+              Loading permissions...
+            </LedText>
+          ) : permissionDefinitionsQuery.error ? (
+            <InlineError message={getErrorMessage(permissionDefinitionsQuery.error)} />
+          ) : (
+            <View style={styles.permissionList}>
+              {permissionDefinitions.map((permission) => (
+                <PermissionToggle
+                  key={permission.key}
+                  permission={permission}
+                  selected={selectedPermissionKeys.includes(permission.key)}
+                  disabled={isPending}
+                  onPress={() =>
+                    setSelectedPermissionKeys((current) => toggleKey(current, permission.key))
+                  }
+                />
+              ))}
+            </View>
+          )}
+        </SectionCard>
+
+        <PrimaryButton
+          label={createMutation.isPending ? 'Adding...' : 'Add support person'}
+          fullWidth
+          disabled={!canCreate}
+          onPress={() =>
+            createMutation.mutate(
+              toCreateInviteInput(normalizedInviteForm, selectedPermissionKeys),
+              {
+                onSuccess: () => router.replace('/circle'),
+              },
+            )
+          }
+        />
+        <InlineError message={getErrorMessage(createMutation.error)} />
+      </CircleMemberShell>
+    );
+  }
+
   if (!person) {
     return (
       <CircleMemberShell title="Circle member">
@@ -113,7 +229,6 @@ export function ManageCircleMemberScreen() {
 
   const trimmedName = displayName.trim();
   const canSaveName = trimmedName.length > 0 && trimmedName !== person.displayName && !isPending;
-  const permissionDefinitions = permissionDefinitionsQuery.data ?? [];
   const permissionsChanged = !haveSameKeys(
     selectedPermissionKeys,
     person.permissions.map((permission) => permission.key),
@@ -348,6 +463,39 @@ function SectionCard({
   );
 }
 
+function Field({
+  label,
+  value,
+  placeholder,
+  keyboardType,
+  autoCapitalize = 'sentences',
+  onChangeText,
+}: {
+  label: string;
+  value: string;
+  placeholder: string;
+  keyboardType?: 'default' | 'email-address' | 'phone-pad';
+  autoCapitalize?: 'none' | 'sentences' | 'words' | 'characters';
+  onChangeText: (value: string) => void;
+}) {
+  return (
+    <View style={styles.field}>
+      <LedText variant="label" color="predawn">
+        {label}
+      </LedText>
+      <TextInput
+        value={value}
+        onChangeText={onChangeText}
+        placeholder={placeholder}
+        placeholderTextColor={colors.textLite}
+        keyboardType={keyboardType}
+        autoCapitalize={autoCapitalize}
+        style={styles.input}
+      />
+    </View>
+  );
+}
+
 function StatusRow({ label, value }: { label: string; value: string }) {
   return (
     <View style={styles.statusRow}>
@@ -476,6 +624,35 @@ function haveSameKeys(left: string[], right: string[]) {
   return left.every((key) => rightKeys.has(key));
 }
 
+function normalizeInviteForm(form: SupportInviteForm): SupportInviteForm {
+  return {
+    displayName: form.displayName.trim(),
+    relationship: form.relationship.trim(),
+    invitationEmail: form.invitationEmail.trim(),
+    invitationPhone: form.invitationPhone.trim(),
+  };
+}
+
+function toCreateInviteInput(
+  form: SupportInviteForm,
+  permissionKeys: string[],
+): CreateCircleSupportPersonInviteInput {
+  return {
+    displayName: form.displayName,
+    relationship: form.relationship || null,
+    invitationEmail: form.invitationEmail || null,
+    invitationPhone: form.invitationPhone || null,
+    permissionKeys,
+  };
+}
+
+const emptyInviteForm: SupportInviteForm = {
+  displayName: '',
+  relationship: '',
+  invitationEmail: '',
+  invitationPhone: '',
+};
+
 const styles = StyleSheet.create({
   screen: {
     backgroundColor: colors.canvas,
@@ -520,6 +697,9 @@ const styles = StyleSheet.create({
   },
   cardHeader: {
     gap: spacing.xxs,
+  },
+  field: {
+    gap: spacing.xs,
   },
   input: {
     minHeight: 48,

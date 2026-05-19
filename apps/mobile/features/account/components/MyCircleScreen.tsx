@@ -108,7 +108,15 @@ function SupportSection({ supportPeople }: { supportPeople: CircleSupportPerson[
       ) : (
         <EmptySectionRow message="No support people added yet." />
       )}
-      <AddRow label="Add someone to My Support" />
+      <AddRow
+        label="Add someone to My Support"
+        onPress={() =>
+          router.push({
+            pathname: '/circle/[supportPersonId]',
+            params: { supportPersonId: 'new' },
+          })
+        }
+      />
     </CircleSection>
   );
 }

@@ -5,6 +5,7 @@ import {
   getCircleControllerGetPermissionDefinitionsQueryKey,
   useAccountControllerDeleteCurrentUser,
   useCircleControllerCancelSupportInvitation,
+  useCircleControllerCreateSupportPersonInvite,
   useCircleControllerCreateCareTeamPerson,
   useCircleControllerDemoteSupportPerson,
   useCircleControllerGetMyCircle,
@@ -19,6 +20,7 @@ import {
   type CirclePermissionDefinitionDto,
   type CirclePermissionDto,
   type CircleSupportPersonDto,
+  type CreateSupportPersonInviteDto,
   type MyCircleDto,
   type SaveCircleCareTeamPersonDto,
 } from '@led/api-client';
@@ -73,6 +75,17 @@ export type UpdateCircleSupportPersonInput = {
 export type UpdateCircleSupportPermissionsInput = {
   supportPersonId: string;
   permissionKeys: string[];
+};
+
+export type CreateCircleSupportPersonInviteInput = Omit<
+  CreateSupportPersonInviteDto,
+  'initials' | 'relationship' | 'invitationEmail' | 'invitationPhone' | 'permissionKeys'
+> & {
+  initials?: string | null;
+  relationship?: string | null;
+  invitationEmail?: string | null;
+  invitationPhone?: string | null;
+  permissionKeys?: string[];
 };
 
 export type SaveCircleCareTeamPersonInput = SaveCircleCareTeamPersonDto;
@@ -191,6 +204,32 @@ export function useUpdateCircleSupportPermissionsMutation() {
         },
         options,
       ),
+  };
+}
+
+export function useCreateCircleSupportPersonInviteMutation() {
+  const queryClient = useQueryClient();
+  const mutation = useCircleControllerCreateSupportPersonInvite(
+    {
+      mutation: {
+        onSuccess: async () => {
+          await queryClient.invalidateQueries({ queryKey: accountQueryKeys.myCircle });
+        },
+      },
+    },
+    queryClient,
+  );
+
+  return {
+    ...mutation,
+    mutate: (
+      input: CreateCircleSupportPersonInviteInput,
+      options?: Parameters<typeof mutation.mutate>[1],
+    ) => mutation.mutate({ data: mapCreateSupportPersonInviteInput(input) }, options),
+    mutateAsync: (
+      input: CreateCircleSupportPersonInviteInput,
+      options?: Parameters<typeof mutation.mutateAsync>[1],
+    ) => mutation.mutateAsync({ data: mapCreateSupportPersonInviteInput(input) }, options),
   };
 }
 
@@ -392,4 +431,19 @@ function mapSaveCircleCareTeamPersonInput({
   ...input
 }: UpdateCircleCareTeamPersonInput): SaveCircleCareTeamPersonInput {
   return input;
+}
+
+function mapCreateSupportPersonInviteInput(
+  input: CreateCircleSupportPersonInviteInput,
+): CreateSupportPersonInviteDto {
+  return {
+    displayName: input.displayName,
+    initials: input.initials ?? undefined,
+    relationship: input.relationship ?? undefined,
+    invitationEmail: input.invitationEmail ?? undefined,
+    invitationPhone: input.invitationPhone ?? undefined,
+    deliveryMethod: input.deliveryMethod,
+    permissionKeys:
+      input.permissionKeys as unknown as CreateSupportPersonInviteDto['permissionKeys'],
+  };
 }
