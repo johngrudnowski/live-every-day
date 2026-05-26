@@ -6,8 +6,8 @@
  * OpenAPI spec version: 1.0
  */
 
-export type VitalMetricSummaryDtoKey = typeof VitalMetricSummaryDtoKey[keyof typeof VitalMetricSummaryDtoKey];
-
+export type VitalMetricSummaryDtoKey =
+  (typeof VitalMetricSummaryDtoKey)[keyof typeof VitalMetricSummaryDtoKey];
 
 export const VitalMetricSummaryDtoKey = {
   blood_pressure: 'blood_pressure',

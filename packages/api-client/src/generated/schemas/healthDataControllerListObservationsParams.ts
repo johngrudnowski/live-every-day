@@ -7,8 +7,8 @@
  */
 
 export type HealthDataControllerListObservationsParams = {
-metricKey: string;
-from: string;
-to: string;
-limit: string;
+  metricKey: string;
+  from: string;
+  to: string;
+  limit: string;
 };

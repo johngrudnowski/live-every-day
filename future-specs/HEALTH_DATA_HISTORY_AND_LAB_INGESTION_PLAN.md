@@ -158,81 +158,81 @@ The existing schema supports observations. We should add ingestion-oriented tabl
 
 Tracks each import attempt.
 
-| Column | Notes |
-| --- | --- |
-| `id` | Primary key. |
-| `user_id` | Owner. |
-| `source_id` | `manual_upload`, `apple_health_records`, `health_connect_medical`, `fhir_import`, etc. |
-| `status` | `uploaded`, `parsing`, `needs_review`, `partially_imported`, `imported`, `failed`, `canceled`. |
-| `input_kind` | `pdf`, `image`, `fhir_bundle`, `csv`, `vendor_payload`, `manual`. |
-| `source_filename` | Original filename when available. |
-| `mime_type` | Original MIME type. |
-| `started_at` | Processing start. |
-| `completed_at` | Processing end. |
-| `error_message` | Safe error detail. |
-| `metadata_json` | Source-specific metadata. |
-| `created_at` / `updated_at` | Standard timestamps. |
+| Column                      | Notes                                                                                          |
+| --------------------------- | ---------------------------------------------------------------------------------------------- |
+| `id`                        | Primary key.                                                                                   |
+| `user_id`                   | Owner.                                                                                         |
+| `source_id`                 | `manual_upload`, `apple_health_records`, `health_connect_medical`, `fhir_import`, etc.         |
+| `status`                    | `uploaded`, `parsing`, `needs_review`, `partially_imported`, `imported`, `failed`, `canceled`. |
+| `input_kind`                | `pdf`, `image`, `fhir_bundle`, `csv`, `vendor_payload`, `manual`.                              |
+| `source_filename`           | Original filename when available.                                                              |
+| `mime_type`                 | Original MIME type.                                                                            |
+| `started_at`                | Processing start.                                                                              |
+| `completed_at`              | Processing end.                                                                                |
+| `error_message`             | Safe error detail.                                                                             |
+| `metadata_json`             | Source-specific metadata.                                                                      |
+| `created_at` / `updated_at` | Standard timestamps.                                                                           |
 
 ### `health_source_documents`
 
 Stores source document metadata and links to object storage.
 
-| Column | Notes |
-| --- | --- |
-| `id` | Primary key. |
-| `user_id` | Owner. |
-| `ingestion_job_id` | Parent job. |
-| `storage_key` | Object storage key, not public URL. |
-| `document_kind` | `lab_report`, `visit_summary`, `fhir_bundle`, `unknown`. |
-| `mime_type` | PDF/image/JSON/etc. |
-| `page_count` | Optional. |
-| `sha256_hash` | Deduplication and audit. |
-| `captured_at` | When source document says it was created, if known. |
-| `metadata_json` | Source metadata. |
-| `created_at` / `updated_at` | Standard timestamps. |
+| Column                      | Notes                                                    |
+| --------------------------- | -------------------------------------------------------- |
+| `id`                        | Primary key.                                             |
+| `user_id`                   | Owner.                                                   |
+| `ingestion_job_id`          | Parent job.                                              |
+| `storage_key`               | Object storage key, not public URL.                      |
+| `document_kind`             | `lab_report`, `visit_summary`, `fhir_bundle`, `unknown`. |
+| `mime_type`                 | PDF/image/JSON/etc.                                      |
+| `page_count`                | Optional.                                                |
+| `sha256_hash`               | Deduplication and audit.                                 |
+| `captured_at`               | When source document says it was created, if known.      |
+| `metadata_json`             | Source metadata.                                         |
+| `created_at` / `updated_at` | Standard timestamps.                                     |
 
 ### `health_extracted_records`
 
 Parser output before final normalization.
 
-| Column | Notes |
-| --- | --- |
-| `id` | Primary key. |
-| `user_id` | Owner. |
-| `ingestion_job_id` | Parent job. |
-| `source_document_id` | Source document. |
-| `record_kind` | `lab_result`, `vital`, `medication`, `condition`, `unknown`. |
-| `raw_label` | Text as found, e.g. `PLT`. |
-| `raw_value` | Text as found, e.g. `842`. |
-| `raw_unit` | Text as found, e.g. `K/uL`. |
-| `raw_reference_range` | Text as found. |
-| `raw_observed_at` | Text/date as found. |
-| `page_number` | PDF page or image index. |
-| `bounding_box_json` | Optional OCR/table region. |
-| `parser_name` | Parser or model identifier. |
-| `parser_version` | Version for reprocessing. |
-| `confidence` | Numeric confidence if available. |
-| `candidate_json` | Full parser output for audit/debug. |
-| `status` | `candidate`, `accepted`, `rejected`, `superseded`. |
-| `created_at` / `updated_at` | Standard timestamps. |
+| Column                      | Notes                                                        |
+| --------------------------- | ------------------------------------------------------------ |
+| `id`                        | Primary key.                                                 |
+| `user_id`                   | Owner.                                                       |
+| `ingestion_job_id`          | Parent job.                                                  |
+| `source_document_id`        | Source document.                                             |
+| `record_kind`               | `lab_result`, `vital`, `medication`, `condition`, `unknown`. |
+| `raw_label`                 | Text as found, e.g. `PLT`.                                   |
+| `raw_value`                 | Text as found, e.g. `842`.                                   |
+| `raw_unit`                  | Text as found, e.g. `K/uL`.                                  |
+| `raw_reference_range`       | Text as found.                                               |
+| `raw_observed_at`           | Text/date as found.                                          |
+| `page_number`               | PDF page or image index.                                     |
+| `bounding_box_json`         | Optional OCR/table region.                                   |
+| `parser_name`               | Parser or model identifier.                                  |
+| `parser_version`            | Version for reprocessing.                                    |
+| `confidence`                | Numeric confidence if available.                             |
+| `candidate_json`            | Full parser output for audit/debug.                          |
+| `status`                    | `candidate`, `accepted`, `rejected`, `superseded`.           |
+| `created_at` / `updated_at` | Standard timestamps.                                         |
 
 ### `health_observation_provenance`
 
 Links canonical observations back to source records.
 
-| Column | Notes |
-| --- | --- |
-| `id` | Primary key. |
-| `observation_id` | Canonical `health_observations.id`. |
-| `source_document_id` | Optional source document. |
-| `extracted_record_id` | Optional parser candidate. |
-| `fhir_resource_id` | Optional raw FHIR resource row. |
-| `confidence` | Confidence at commit time. |
-| `review_status` | `auto_accepted`, `user_confirmed`, `clinician_confirmed`, `rejected`. |
-| `reviewed_by_user_id` | Optional. |
-| `reviewed_at` | Optional. |
-| `notes` | Optional internal/user-safe note. |
-| `created_at` / `updated_at` | Standard timestamps. |
+| Column                      | Notes                                                                 |
+| --------------------------- | --------------------------------------------------------------------- |
+| `id`                        | Primary key.                                                          |
+| `observation_id`            | Canonical `health_observations.id`.                                   |
+| `source_document_id`        | Optional source document.                                             |
+| `extracted_record_id`       | Optional parser candidate.                                            |
+| `fhir_resource_id`          | Optional raw FHIR resource row.                                       |
+| `confidence`                | Confidence at commit time.                                            |
+| `review_status`             | `auto_accepted`, `user_confirmed`, `clinician_confirmed`, `rejected`. |
+| `reviewed_by_user_id`       | Optional.                                                             |
+| `reviewed_at`               | Optional.                                                             |
+| `notes`                     | Optional internal/user-safe note.                                     |
+| `created_at` / `updated_at` | Standard timestamps.                                                  |
 
 ### `clinical_reference_ranges`
 
@@ -240,17 +240,17 @@ Optional but important for labs.
 
 Reference ranges vary by lab, units, age, sex, pregnancy status, and method. Do not assume one global normal range is always correct.
 
-| Column | Notes |
-| --- | --- |
-| `id` | Primary key. |
-| `metric_key` | Canonical metric. |
-| `source_document_id` | Source-specific range when extracted from report. |
-| `unit` | Unit for this range. |
-| `low_value` | Numeric low if parseable. |
-| `high_value` | Numeric high if parseable. |
-| `text_range` | Original text range. |
-| `abnormal_flag` | `low`, `high`, `critical_low`, `critical_high`, `normal`, `abnormal`, etc. |
-| `metadata_json` | Lab-specific details. |
+| Column               | Notes                                                                      |
+| -------------------- | -------------------------------------------------------------------------- |
+| `id`                 | Primary key.                                                               |
+| `metric_key`         | Canonical metric.                                                          |
+| `source_document_id` | Source-specific range when extracted from report.                          |
+| `unit`               | Unit for this range.                                                       |
+| `low_value`          | Numeric low if parseable.                                                  |
+| `high_value`         | Numeric high if parseable.                                                 |
+| `text_range`         | Original text range.                                                       |
+| `abnormal_flag`      | `low`, `high`, `critical_low`, `critical_high`, `normal`, `abnormal`, etc. |
+| `metadata_json`      | Lab-specific details.                                                      |
 
 For first pass, reference range can live in observation metadata or provenance JSON. Move to a table when lab history becomes central.
 

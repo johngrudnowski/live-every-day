@@ -53,7 +53,11 @@ function HeaderButton({
       accessibilityLabel={accessibilityLabel}
       disabled={!onPress}
       onPress={onPress}
-      style={({ pressed }) => [styles.backButton, pressed && styles.pressed, !onPress && styles.disabled]}
+      style={({ pressed }) => [
+        styles.backButton,
+        pressed && styles.pressed,
+        !onPress && styles.disabled,
+      ]}
     >
       <LedText variant="title" color="midday">
         {label}

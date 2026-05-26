@@ -1,9 +1,4 @@
-import {
-  BadRequestException,
-  Inject,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { BadRequestException, Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { and, eq, inArray } from 'drizzle-orm';
 import { randomUUID } from 'node:crypto';
 import { healthDataSourceCatalog, healthMetricCatalog } from 'database';
@@ -37,12 +32,7 @@ export class HealthImportCommitService {
       const [job] = await tx
         .select()
         .from(healthIngestionJobs)
-        .where(
-          and(
-            eq(healthIngestionJobs.id, jobId),
-            eq(healthIngestionJobs.userId, userId),
-          ),
-        )
+        .where(and(eq(healthIngestionJobs.id, jobId), eq(healthIngestionJobs.userId, userId)))
         .limit(1);
 
       if (!job) {
@@ -61,23 +51,15 @@ export class HealthImportCommitService {
         );
 
       if (candidates.length !== ids.length) {
-        throw new BadRequestException(
-          'One or more candidates were not found for this import.',
-        );
+        throw new BadRequestException('One or more candidates were not found for this import.');
       }
 
       for (const candidate of candidates) {
         validateCommitReady(candidate);
       }
 
-      const sourceConnection = await getOrCreateManualLabSourceConnection(
-        tx,
-        userId,
-        now,
-      );
-      const newCandidates = candidates.filter(
-        (candidate) => candidate.status !== 'committed',
-      );
+      const sourceConnection = await getOrCreateManualLabSourceConnection(tx, userId, now);
+      const newCandidates = candidates.filter((candidate) => candidate.status !== 'committed');
       const groupId =
         newCandidates.length > 0
           ? await getOrCreateObservationGroup({
@@ -85,8 +67,7 @@ export class HealthImportCommitService {
               userId,
               sourceConnectionId: sourceConnection.id,
               sourceRecordId: job.id,
-              observedAt:
-                job.observedAt ?? newCandidates[0]?.normalizedObservedAt ?? now,
+              observedAt: job.observedAt ?? newCandidates[0]?.normalizedObservedAt ?? now,
               now,
             })
           : null;
@@ -157,17 +138,13 @@ export class HealthImportCommitService {
 
     await this.db
       .insert(healthMetricTypes)
-      .values(
-        healthMetricCatalog.map((metric) => ({ ...metric, updatedAt: now })),
-      )
+      .values(healthMetricCatalog.map((metric) => ({ ...metric, updatedAt: now })))
       .onConflictDoNothing();
   }
 }
 
 function readCandidateIds(candidateIds: string[] | undefined) {
-  const ids = [
-    ...new Set((candidateIds ?? []).map((id) => id.trim()).filter(Boolean)),
-  ];
+  const ids = [...new Set((candidateIds ?? []).map((id) => id.trim()).filter(Boolean))];
   if (ids.length === 0) {
     throw new BadRequestException('At least one candidate is required.');
   }
@@ -188,17 +165,13 @@ function validateCommitReady(candidate: CandidateRow) {
     candidate.normalizedValueNumeric === null ||
     !candidate.normalizedObservedAt
   ) {
-    throw new BadRequestException(
-      `${candidate.rawLabel} needs review before it can be imported.`,
-    );
+    throw new BadRequestException(`${candidate.rawLabel} needs review before it can be imported.`);
   }
 
   const issues = readIssues(candidate.issuesJson);
   const errorIssue = issues.find((issue) => issue.severity === 'error');
   if (errorIssue) {
-    throw new BadRequestException(
-      `${candidate.rawLabel}: ${errorIssue.message}`,
-    );
+    throw new BadRequestException(`${candidate.rawLabel}: ${errorIssue.message}`);
   }
 }
 
@@ -206,11 +179,7 @@ function readIssues(value: unknown): HealthImportIssue[] {
   return Array.isArray(value) ? (value as HealthImportIssue[]) : [];
 }
 
-async function getOrCreateManualLabSourceConnection(
-  tx: any,
-  userId: string,
-  now: Date,
-) {
+async function getOrCreateManualLabSourceConnection(tx: any, userId: string, now: Date) {
   const [existing] = await tx
     .select()
     .from(healthSourceConnections)
@@ -288,12 +257,7 @@ async function getOrCreateObservationGroup({
   return created.id;
 }
 
-export async function updateJobStatus(
-  tx: any,
-  userId: string,
-  jobId: string,
-  now: Date,
-) {
+export async function updateJobStatus(tx: any, userId: string, jobId: string, now: Date) {
   const candidates = await tx
     .select({ status: healthExtractedRecords.status })
     .from(healthExtractedRecords)
@@ -304,27 +268,15 @@ export async function updateJobStatus(
       ),
     );
 
-  const importedCount = candidates.filter(
-    (candidate) => candidate.status === 'committed',
-  ).length;
+  const importedCount = candidates.filter((candidate) => candidate.status === 'committed').length;
   const unresolvedCount = candidates.filter(
-    (candidate) =>
-      candidate.status === 'candidate' || candidate.status === 'accepted',
+    (candidate) => candidate.status === 'candidate' || candidate.status === 'accepted',
   ).length;
   const nextStatus =
-    unresolvedCount === 0
-      ? 'imported'
-      : importedCount > 0
-        ? 'partially_imported'
-        : 'needs_review';
+    unresolvedCount === 0 ? 'imported' : importedCount > 0 ? 'partially_imported' : 'needs_review';
 
   await tx
     .update(healthIngestionJobs)
     .set({ status: nextStatus, updatedAt: now })
-    .where(
-      and(
-        eq(healthIngestionJobs.id, jobId),
-        eq(healthIngestionJobs.userId, userId),
-      ),
-    );
+    .where(and(eq(healthIngestionJobs.id, jobId), eq(healthIngestionJobs.userId, userId)));
 }

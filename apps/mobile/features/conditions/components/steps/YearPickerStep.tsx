@@ -3,7 +3,9 @@ import type { ConditionStepProps } from './types';
 
 export function YearPickerStep({ step, value, onChange }: ConditionStepProps) {
   const fallbackYear =
-    typeof step.defaultValue === 'number' ? step.defaultValue : Math.min(new Date().getFullYear(), step.maxYear ?? new Date().getFullYear());
+    typeof step.defaultValue === 'number'
+      ? step.defaultValue
+      : Math.min(new Date().getFullYear(), step.maxYear ?? new Date().getFullYear());
   const year = typeof value === 'number' ? value : fallbackYear;
 
   return (

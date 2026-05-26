@@ -42,7 +42,9 @@ function stripUndefinedValues(
   values: Partial<Record<SemanticKey, SemanticValue>>,
 ): Record<string, SemanticValue> {
   return Object.fromEntries(
-    Object.entries(values).filter((entry): entry is [string, SemanticValue] => entry[1] !== undefined),
+    Object.entries(values).filter(
+      (entry): entry is [string, SemanticValue] => entry[1] !== undefined,
+    ),
   );
 }
 

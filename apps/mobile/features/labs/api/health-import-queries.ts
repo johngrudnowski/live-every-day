@@ -28,10 +28,7 @@ export const healthImportQueryKeys = {
   detail: (jobId: string) => getHealthImportsControllerGetImportQueryKey(jobId),
 };
 
-export function useHealthImportQuery(
-  jobId: string | undefined,
-  enabled = true,
-) {
+export function useHealthImportQuery(jobId: string | undefined, enabled = true) {
   const queryClient = useQueryClient();
 
   return useHealthImportsControllerGetImport<HealthImport>(
@@ -89,10 +86,7 @@ export function useAcceptHealthImportCandidatesMutation() {
       mutation: {
         onSuccess: async (response) => {
           await Promise.all([
-            queryClient.setQueryData(
-              healthImportQueryKeys.detail(response.data.job.id),
-              response,
-            ),
+            queryClient.setQueryData(healthImportQueryKeys.detail(response.data.job.id), response),
             queryClient.invalidateQueries({
               queryKey: healthImportQueryKeys.list,
             }),
@@ -115,10 +109,7 @@ export function useRejectHealthImportCandidatesMutation() {
       mutation: {
         onSuccess: async (response) => {
           await Promise.all([
-            queryClient.setQueryData(
-              healthImportQueryKeys.detail(response.data.job.id),
-              response,
-            ),
+            queryClient.setQueryData(healthImportQueryKeys.detail(response.data.job.id), response),
             queryClient.invalidateQueries({
               queryKey: healthImportQueryKeys.list,
             }),

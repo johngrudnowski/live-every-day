@@ -123,7 +123,9 @@ export default function DesignSystemScreen() {
           multiple
           options={[...chipOptions]}
           value={selectedChips}
-          onChange={(nextValue) => setSelectedChips(Array.isArray(nextValue) ? nextValue : [nextValue])}
+          onChange={(nextValue) =>
+            setSelectedChips(Array.isArray(nextValue) ? nextValue : [nextValue])
+          }
         />
       </Section>
 
@@ -132,7 +134,10 @@ export default function DesignSystemScreen() {
           <LedText variant="bodySmall" color="textMid">
             Step {progress} of 7
           </LedText>
-          <PrimaryButton label="Advance" onPress={() => setProgress((value) => (value === 7 ? 1 : value + 1))} />
+          <PrimaryButton
+            label="Advance"
+            onPress={() => setProgress((value) => (value === 7 ? 1 : value + 1))}
+          />
         </View>
         <ProgressBar value={progress} max={7} />
       </Section>

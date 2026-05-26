@@ -5,10 +5,7 @@
  * API documentation
  * OpenAPI spec version: 1.0
  */
-import {
-  useMutation,
-  useQuery
-} from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import type {
   DataTag,
   DefinedInitialDataOptions,
@@ -21,7 +18,7 @@ import type {
   UseMutationOptions,
   UseMutationResult,
   UseQueryOptions,
-  UseQueryResult
+  UseQueryResult,
 } from '@tanstack/react-query';
 
 import type {
@@ -36,829 +33,1234 @@ import type {
   SaveHealthObservationsDto,
   SaveHealthVitalReadingDto,
   VitalMetricsSummaryDto,
-  VitalReadingDto
+  VitalReadingDto,
 } from '../schemas';
 
 import { customFetch } from '../../fetcher';
 
-
 type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
 
-
-
 export type healthDataControllerSaveObservationsResponse200 = {
-  data: HealthObservationListDto
-  status: 200
-}
-
-export type healthDataControllerSaveObservationsResponseSuccess = (healthDataControllerSaveObservationsResponse200) & {
-  headers: Headers;
+  data: HealthObservationListDto;
+  status: 200;
 };
-;
 
-export type healthDataControllerSaveObservationsResponse = (healthDataControllerSaveObservationsResponseSuccess)
+export type healthDataControllerSaveObservationsResponseSuccess =
+  healthDataControllerSaveObservationsResponse200 & {
+    headers: Headers;
+  };
+
+export type healthDataControllerSaveObservationsResponse =
+  healthDataControllerSaveObservationsResponseSuccess;
 
 export const getHealthDataControllerSaveObservationsUrl = () => {
-
-
-
-
-  return `/api/me/health/observations`
-}
-
-export const healthDataControllerSaveObservations = async (saveHealthObservationsDto: SaveHealthObservationsDto, options?: RequestInit): Promise<healthDataControllerSaveObservationsResponse> => {
-
-  return customFetch<healthDataControllerSaveObservationsResponse>(getHealthDataControllerSaveObservationsUrl(),
-  {
-    ...options,
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', ...options?.headers },
-    body: JSON.stringify(
-      saveHealthObservationsDto,)
-  }
-);}
-
-
-
-
-export const getHealthDataControllerSaveObservationsMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof healthDataControllerSaveObservations>>, TError,{data: SaveHealthObservationsDto}, TContext>, request?: SecondParameter<typeof customFetch>}
-): UseMutationOptions<Awaited<ReturnType<typeof healthDataControllerSaveObservations>>, TError,{data: SaveHealthObservationsDto}, TContext> => {
-
-const mutationKey = ['healthDataControllerSaveObservations'];
-const {mutation: mutationOptions, request: requestOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }, request: undefined};
-
-
-
-
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof healthDataControllerSaveObservations>>, {data: SaveHealthObservationsDto}> = (props) => {
-          const {data} = props ?? {};
-
-          return  healthDataControllerSaveObservations(data,requestOptions)
-        }
-
-
-
-
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type HealthDataControllerSaveObservationsMutationResult = NonNullable<Awaited<ReturnType<typeof healthDataControllerSaveObservations>>>
-    export type HealthDataControllerSaveObservationsMutationBody = SaveHealthObservationsDto
-    export type HealthDataControllerSaveObservationsMutationError = unknown
-
-    export const useHealthDataControllerSaveObservations = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof healthDataControllerSaveObservations>>, TError,{data: SaveHealthObservationsDto}, TContext>, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof healthDataControllerSaveObservations>>,
-        TError,
-        {data: SaveHealthObservationsDto},
-        TContext
-      > => {
-      return useMutation(getHealthDataControllerSaveObservationsMutationOptions(options), queryClient);
-    }
-    export type healthDataControllerListObservationsResponse200 = {
-  data: HealthObservationListDto
-  status: 200
-}
-
-export type healthDataControllerListObservationsResponseSuccess = (healthDataControllerListObservationsResponse200) & {
-  headers: Headers;
+  return `/api/me/health/observations`;
 };
-;
 
-export type healthDataControllerListObservationsResponse = (healthDataControllerListObservationsResponseSuccess)
+export const healthDataControllerSaveObservations = async (
+  saveHealthObservationsDto: SaveHealthObservationsDto,
+  options?: RequestInit,
+): Promise<healthDataControllerSaveObservationsResponse> => {
+  return customFetch<healthDataControllerSaveObservationsResponse>(
+    getHealthDataControllerSaveObservationsUrl(),
+    {
+      ...options,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', ...options?.headers },
+      body: JSON.stringify(saveHealthObservationsDto),
+    },
+  );
+};
 
-export const getHealthDataControllerListObservationsUrl = (params: HealthDataControllerListObservationsParams,) => {
+export const getHealthDataControllerSaveObservationsMutationOptions = <
+  TError = unknown,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof healthDataControllerSaveObservations>>,
+    TError,
+    { data: SaveHealthObservationsDto },
+    TContext
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof healthDataControllerSaveObservations>>,
+  TError,
+  { data: SaveHealthObservationsDto },
+  TContext
+> => {
+  const mutationKey = ['healthDataControllerSaveObservations'];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof healthDataControllerSaveObservations>>,
+    { data: SaveHealthObservationsDto }
+  > = (props) => {
+    const { data } = props ?? {};
+
+    return healthDataControllerSaveObservations(data, requestOptions);
+  };
+
+  return { mutationFn, ...mutationOptions };
+};
+
+export type HealthDataControllerSaveObservationsMutationResult = NonNullable<
+  Awaited<ReturnType<typeof healthDataControllerSaveObservations>>
+>;
+export type HealthDataControllerSaveObservationsMutationBody = SaveHealthObservationsDto;
+export type HealthDataControllerSaveObservationsMutationError = unknown;
+
+export const useHealthDataControllerSaveObservations = <TError = unknown, TContext = unknown>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof healthDataControllerSaveObservations>>,
+      TError,
+      { data: SaveHealthObservationsDto },
+      TContext
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof healthDataControllerSaveObservations>>,
+  TError,
+  { data: SaveHealthObservationsDto },
+  TContext
+> => {
+  return useMutation(getHealthDataControllerSaveObservationsMutationOptions(options), queryClient);
+};
+export type healthDataControllerListObservationsResponse200 = {
+  data: HealthObservationListDto;
+  status: 200;
+};
+
+export type healthDataControllerListObservationsResponseSuccess =
+  healthDataControllerListObservationsResponse200 & {
+    headers: Headers;
+  };
+
+export type healthDataControllerListObservationsResponse =
+  healthDataControllerListObservationsResponseSuccess;
+
+export const getHealthDataControllerListObservationsUrl = (
+  params: HealthDataControllerListObservationsParams,
+) => {
   const normalizedParams = new URLSearchParams();
 
   Object.entries(params || {}).forEach(([key, value]) => {
-
     if (value !== undefined) {
-      normalizedParams.append(key, value === null ? 'null' : value.toString())
+      normalizedParams.append(key, value === null ? 'null' : value.toString());
     }
   });
 
   const stringifiedParams = normalizedParams.toString();
 
-  return stringifiedParams.length > 0 ? `/api/me/health/observations?${stringifiedParams}` : `/api/me/health/observations`
-}
+  return stringifiedParams.length > 0
+    ? `/api/me/health/observations?${stringifiedParams}`
+    : `/api/me/health/observations`;
+};
 
-export const healthDataControllerListObservations = async (params: HealthDataControllerListObservationsParams, options?: RequestInit): Promise<healthDataControllerListObservationsResponse> => {
+export const healthDataControllerListObservations = async (
+  params: HealthDataControllerListObservationsParams,
+  options?: RequestInit,
+): Promise<healthDataControllerListObservationsResponse> => {
+  return customFetch<healthDataControllerListObservationsResponse>(
+    getHealthDataControllerListObservationsUrl(params),
+    {
+      ...options,
+      method: 'GET',
+    },
+  );
+};
 
-  return customFetch<healthDataControllerListObservationsResponse>(getHealthDataControllerListObservationsUrl(params),
-  {
-    ...options,
-    method: 'GET'
-
-
-  }
-);}
-
-
-
-
-
-export const getHealthDataControllerListObservationsQueryKey = (params?: HealthDataControllerListObservationsParams,) => {
-    return [
-    `/api/me/health/observations`, ...(params ? [params] : [])
-    ] as const;
-    }
-
-
-export const getHealthDataControllerListObservationsQueryOptions = <TData = Awaited<ReturnType<typeof healthDataControllerListObservations>>, TError = unknown>(params: HealthDataControllerListObservationsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof healthDataControllerListObservations>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+export const getHealthDataControllerListObservationsQueryKey = (
+  params?: HealthDataControllerListObservationsParams,
 ) => {
+  return [`/api/me/health/observations`, ...(params ? [params] : [])] as const;
+};
 
-const {query: queryOptions, request: requestOptions} = options ?? {};
+export const getHealthDataControllerListObservationsQueryOptions = <
+  TData = Awaited<ReturnType<typeof healthDataControllerListObservations>>,
+  TError = unknown,
+>(
+  params: HealthDataControllerListObservationsParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof healthDataControllerListObservations>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
 
-  const queryKey =  queryOptions?.queryKey ?? getHealthDataControllerListObservationsQueryKey(params);
+  const queryKey =
+    queryOptions?.queryKey ?? getHealthDataControllerListObservationsQueryKey(params);
 
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof healthDataControllerListObservations>>
+  > = ({ signal }) => healthDataControllerListObservations(params, { signal, ...requestOptions });
 
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof healthDataControllerListObservations>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof healthDataControllerListObservations>>> = ({ signal }) => healthDataControllerListObservations(params, { signal, ...requestOptions });
+export type HealthDataControllerListObservationsQueryResult = NonNullable<
+  Awaited<ReturnType<typeof healthDataControllerListObservations>>
+>;
+export type HealthDataControllerListObservationsQueryError = unknown;
 
-
-
-
-
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof healthDataControllerListObservations>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type HealthDataControllerListObservationsQueryResult = NonNullable<Awaited<ReturnType<typeof healthDataControllerListObservations>>>
-export type HealthDataControllerListObservationsQueryError = unknown
-
-
-export function useHealthDataControllerListObservations<TData = Awaited<ReturnType<typeof healthDataControllerListObservations>>, TError = unknown>(
- params: HealthDataControllerListObservationsParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof healthDataControllerListObservations>>, TError, TData>> & Pick<
+export function useHealthDataControllerListObservations<
+  TData = Awaited<ReturnType<typeof healthDataControllerListObservations>>,
+  TError = unknown,
+>(
+  params: HealthDataControllerListObservationsParams,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof healthDataControllerListObservations>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof healthDataControllerListObservations>>,
           TError,
           Awaited<ReturnType<typeof healthDataControllerListObservations>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useHealthDataControllerListObservations<TData = Awaited<ReturnType<typeof healthDataControllerListObservations>>, TError = unknown>(
- params: HealthDataControllerListObservationsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof healthDataControllerListObservations>>, TError, TData>> & Pick<
+        >,
+        'initialData'
+      >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useHealthDataControllerListObservations<
+  TData = Awaited<ReturnType<typeof healthDataControllerListObservations>>,
+  TError = unknown,
+>(
+  params: HealthDataControllerListObservationsParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof healthDataControllerListObservations>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof healthDataControllerListObservations>>,
           TError,
           Awaited<ReturnType<typeof healthDataControllerListObservations>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useHealthDataControllerListObservations<TData = Awaited<ReturnType<typeof healthDataControllerListObservations>>, TError = unknown>(
- params: HealthDataControllerListObservationsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof healthDataControllerListObservations>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+        >,
+        'initialData'
+      >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useHealthDataControllerListObservations<
+  TData = Awaited<ReturnType<typeof healthDataControllerListObservations>>,
+  TError = unknown,
+>(
+  params: HealthDataControllerListObservationsParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof healthDataControllerListObservations>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
-export function useHealthDataControllerListObservations<TData = Awaited<ReturnType<typeof healthDataControllerListObservations>>, TError = unknown>(
- params: HealthDataControllerListObservationsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof healthDataControllerListObservations>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+export function useHealthDataControllerListObservations<
+  TData = Awaited<ReturnType<typeof healthDataControllerListObservations>>,
+  TError = unknown,
+>(
+  params: HealthDataControllerListObservationsParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof healthDataControllerListObservations>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+  const queryOptions = getHealthDataControllerListObservationsQueryOptions(params, options);
 
-  const queryOptions = getHealthDataControllerListObservationsQueryOptions(params,options)
-
-  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>;
+  };
 
   return { ...query, queryKey: queryOptions.queryKey };
 }
-
-
-
-
-
 
 export type healthDataControllerGetLatestObservationsResponse200 = {
-  data: LatestHealthObservationsDto
-  status: 200
-}
-
-export type healthDataControllerGetLatestObservationsResponseSuccess = (healthDataControllerGetLatestObservationsResponse200) & {
-  headers: Headers;
+  data: LatestHealthObservationsDto;
+  status: 200;
 };
-;
 
-export type healthDataControllerGetLatestObservationsResponse = (healthDataControllerGetLatestObservationsResponseSuccess)
+export type healthDataControllerGetLatestObservationsResponseSuccess =
+  healthDataControllerGetLatestObservationsResponse200 & {
+    headers: Headers;
+  };
 
-export const getHealthDataControllerGetLatestObservationsUrl = (params: HealthDataControllerGetLatestObservationsParams,) => {
+export type healthDataControllerGetLatestObservationsResponse =
+  healthDataControllerGetLatestObservationsResponseSuccess;
+
+export const getHealthDataControllerGetLatestObservationsUrl = (
+  params: HealthDataControllerGetLatestObservationsParams,
+) => {
   const normalizedParams = new URLSearchParams();
 
   Object.entries(params || {}).forEach(([key, value]) => {
-
     if (value !== undefined) {
-      normalizedParams.append(key, value === null ? 'null' : value.toString())
+      normalizedParams.append(key, value === null ? 'null' : value.toString());
     }
   });
 
   const stringifiedParams = normalizedParams.toString();
 
-  return stringifiedParams.length > 0 ? `/api/me/health/observations/latest?${stringifiedParams}` : `/api/me/health/observations/latest`
-}
+  return stringifiedParams.length > 0
+    ? `/api/me/health/observations/latest?${stringifiedParams}`
+    : `/api/me/health/observations/latest`;
+};
 
-export const healthDataControllerGetLatestObservations = async (params: HealthDataControllerGetLatestObservationsParams, options?: RequestInit): Promise<healthDataControllerGetLatestObservationsResponse> => {
+export const healthDataControllerGetLatestObservations = async (
+  params: HealthDataControllerGetLatestObservationsParams,
+  options?: RequestInit,
+): Promise<healthDataControllerGetLatestObservationsResponse> => {
+  return customFetch<healthDataControllerGetLatestObservationsResponse>(
+    getHealthDataControllerGetLatestObservationsUrl(params),
+    {
+      ...options,
+      method: 'GET',
+    },
+  );
+};
 
-  return customFetch<healthDataControllerGetLatestObservationsResponse>(getHealthDataControllerGetLatestObservationsUrl(params),
-  {
-    ...options,
-    method: 'GET'
-
-
-  }
-);}
-
-
-
-
-
-export const getHealthDataControllerGetLatestObservationsQueryKey = (params?: HealthDataControllerGetLatestObservationsParams,) => {
-    return [
-    `/api/me/health/observations/latest`, ...(params ? [params] : [])
-    ] as const;
-    }
-
-
-export const getHealthDataControllerGetLatestObservationsQueryOptions = <TData = Awaited<ReturnType<typeof healthDataControllerGetLatestObservations>>, TError = unknown>(params: HealthDataControllerGetLatestObservationsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof healthDataControllerGetLatestObservations>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+export const getHealthDataControllerGetLatestObservationsQueryKey = (
+  params?: HealthDataControllerGetLatestObservationsParams,
 ) => {
+  return [`/api/me/health/observations/latest`, ...(params ? [params] : [])] as const;
+};
 
-const {query: queryOptions, request: requestOptions} = options ?? {};
+export const getHealthDataControllerGetLatestObservationsQueryOptions = <
+  TData = Awaited<ReturnType<typeof healthDataControllerGetLatestObservations>>,
+  TError = unknown,
+>(
+  params: HealthDataControllerGetLatestObservationsParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof healthDataControllerGetLatestObservations>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
 
-  const queryKey =  queryOptions?.queryKey ?? getHealthDataControllerGetLatestObservationsQueryKey(params);
+  const queryKey =
+    queryOptions?.queryKey ?? getHealthDataControllerGetLatestObservationsQueryKey(params);
 
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof healthDataControllerGetLatestObservations>>
+  > = ({ signal }) =>
+    healthDataControllerGetLatestObservations(params, { signal, ...requestOptions });
 
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof healthDataControllerGetLatestObservations>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof healthDataControllerGetLatestObservations>>> = ({ signal }) => healthDataControllerGetLatestObservations(params, { signal, ...requestOptions });
+export type HealthDataControllerGetLatestObservationsQueryResult = NonNullable<
+  Awaited<ReturnType<typeof healthDataControllerGetLatestObservations>>
+>;
+export type HealthDataControllerGetLatestObservationsQueryError = unknown;
 
-
-
-
-
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof healthDataControllerGetLatestObservations>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type HealthDataControllerGetLatestObservationsQueryResult = NonNullable<Awaited<ReturnType<typeof healthDataControllerGetLatestObservations>>>
-export type HealthDataControllerGetLatestObservationsQueryError = unknown
-
-
-export function useHealthDataControllerGetLatestObservations<TData = Awaited<ReturnType<typeof healthDataControllerGetLatestObservations>>, TError = unknown>(
- params: HealthDataControllerGetLatestObservationsParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof healthDataControllerGetLatestObservations>>, TError, TData>> & Pick<
+export function useHealthDataControllerGetLatestObservations<
+  TData = Awaited<ReturnType<typeof healthDataControllerGetLatestObservations>>,
+  TError = unknown,
+>(
+  params: HealthDataControllerGetLatestObservationsParams,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof healthDataControllerGetLatestObservations>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof healthDataControllerGetLatestObservations>>,
           TError,
           Awaited<ReturnType<typeof healthDataControllerGetLatestObservations>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useHealthDataControllerGetLatestObservations<TData = Awaited<ReturnType<typeof healthDataControllerGetLatestObservations>>, TError = unknown>(
- params: HealthDataControllerGetLatestObservationsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof healthDataControllerGetLatestObservations>>, TError, TData>> & Pick<
+        >,
+        'initialData'
+      >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useHealthDataControllerGetLatestObservations<
+  TData = Awaited<ReturnType<typeof healthDataControllerGetLatestObservations>>,
+  TError = unknown,
+>(
+  params: HealthDataControllerGetLatestObservationsParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof healthDataControllerGetLatestObservations>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof healthDataControllerGetLatestObservations>>,
           TError,
           Awaited<ReturnType<typeof healthDataControllerGetLatestObservations>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useHealthDataControllerGetLatestObservations<TData = Awaited<ReturnType<typeof healthDataControllerGetLatestObservations>>, TError = unknown>(
- params: HealthDataControllerGetLatestObservationsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof healthDataControllerGetLatestObservations>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+        >,
+        'initialData'
+      >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useHealthDataControllerGetLatestObservations<
+  TData = Awaited<ReturnType<typeof healthDataControllerGetLatestObservations>>,
+  TError = unknown,
+>(
+  params: HealthDataControllerGetLatestObservationsParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof healthDataControllerGetLatestObservations>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
-export function useHealthDataControllerGetLatestObservations<TData = Awaited<ReturnType<typeof healthDataControllerGetLatestObservations>>, TError = unknown>(
- params: HealthDataControllerGetLatestObservationsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof healthDataControllerGetLatestObservations>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+export function useHealthDataControllerGetLatestObservations<
+  TData = Awaited<ReturnType<typeof healthDataControllerGetLatestObservations>>,
+  TError = unknown,
+>(
+  params: HealthDataControllerGetLatestObservationsParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof healthDataControllerGetLatestObservations>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+  const queryOptions = getHealthDataControllerGetLatestObservationsQueryOptions(params, options);
 
-  const queryOptions = getHealthDataControllerGetLatestObservationsQueryOptions(params,options)
-
-  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>;
+  };
 
   return { ...query, queryKey: queryOptions.queryKey };
 }
-
-
-
-
-
 
 export type healthDataControllerGetObservationHistoryResponse200 = {
-  data: HealthObservationListDto
-  status: 200
-}
-
-export type healthDataControllerGetObservationHistoryResponseSuccess = (healthDataControllerGetObservationHistoryResponse200) & {
-  headers: Headers;
+  data: HealthObservationListDto;
+  status: 200;
 };
-;
 
-export type healthDataControllerGetObservationHistoryResponse = (healthDataControllerGetObservationHistoryResponseSuccess)
+export type healthDataControllerGetObservationHistoryResponseSuccess =
+  healthDataControllerGetObservationHistoryResponse200 & {
+    headers: Headers;
+  };
 
-export const getHealthDataControllerGetObservationHistoryUrl = (params: HealthDataControllerGetObservationHistoryParams,) => {
+export type healthDataControllerGetObservationHistoryResponse =
+  healthDataControllerGetObservationHistoryResponseSuccess;
+
+export const getHealthDataControllerGetObservationHistoryUrl = (
+  params: HealthDataControllerGetObservationHistoryParams,
+) => {
   const normalizedParams = new URLSearchParams();
 
   Object.entries(params || {}).forEach(([key, value]) => {
-
     if (value !== undefined) {
-      normalizedParams.append(key, value === null ? 'null' : value.toString())
+      normalizedParams.append(key, value === null ? 'null' : value.toString());
     }
   });
 
   const stringifiedParams = normalizedParams.toString();
 
-  return stringifiedParams.length > 0 ? `/api/me/health/observations/history?${stringifiedParams}` : `/api/me/health/observations/history`
-}
+  return stringifiedParams.length > 0
+    ? `/api/me/health/observations/history?${stringifiedParams}`
+    : `/api/me/health/observations/history`;
+};
 
-export const healthDataControllerGetObservationHistory = async (params: HealthDataControllerGetObservationHistoryParams, options?: RequestInit): Promise<healthDataControllerGetObservationHistoryResponse> => {
+export const healthDataControllerGetObservationHistory = async (
+  params: HealthDataControllerGetObservationHistoryParams,
+  options?: RequestInit,
+): Promise<healthDataControllerGetObservationHistoryResponse> => {
+  return customFetch<healthDataControllerGetObservationHistoryResponse>(
+    getHealthDataControllerGetObservationHistoryUrl(params),
+    {
+      ...options,
+      method: 'GET',
+    },
+  );
+};
 
-  return customFetch<healthDataControllerGetObservationHistoryResponse>(getHealthDataControllerGetObservationHistoryUrl(params),
-  {
-    ...options,
-    method: 'GET'
-
-
-  }
-);}
-
-
-
-
-
-export const getHealthDataControllerGetObservationHistoryQueryKey = (params?: HealthDataControllerGetObservationHistoryParams,) => {
-    return [
-    `/api/me/health/observations/history`, ...(params ? [params] : [])
-    ] as const;
-    }
-
-
-export const getHealthDataControllerGetObservationHistoryQueryOptions = <TData = Awaited<ReturnType<typeof healthDataControllerGetObservationHistory>>, TError = unknown>(params: HealthDataControllerGetObservationHistoryParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof healthDataControllerGetObservationHistory>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+export const getHealthDataControllerGetObservationHistoryQueryKey = (
+  params?: HealthDataControllerGetObservationHistoryParams,
 ) => {
+  return [`/api/me/health/observations/history`, ...(params ? [params] : [])] as const;
+};
 
-const {query: queryOptions, request: requestOptions} = options ?? {};
+export const getHealthDataControllerGetObservationHistoryQueryOptions = <
+  TData = Awaited<ReturnType<typeof healthDataControllerGetObservationHistory>>,
+  TError = unknown,
+>(
+  params: HealthDataControllerGetObservationHistoryParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof healthDataControllerGetObservationHistory>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
 
-  const queryKey =  queryOptions?.queryKey ?? getHealthDataControllerGetObservationHistoryQueryKey(params);
+  const queryKey =
+    queryOptions?.queryKey ?? getHealthDataControllerGetObservationHistoryQueryKey(params);
 
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof healthDataControllerGetObservationHistory>>
+  > = ({ signal }) =>
+    healthDataControllerGetObservationHistory(params, { signal, ...requestOptions });
 
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof healthDataControllerGetObservationHistory>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof healthDataControllerGetObservationHistory>>> = ({ signal }) => healthDataControllerGetObservationHistory(params, { signal, ...requestOptions });
+export type HealthDataControllerGetObservationHistoryQueryResult = NonNullable<
+  Awaited<ReturnType<typeof healthDataControllerGetObservationHistory>>
+>;
+export type HealthDataControllerGetObservationHistoryQueryError = unknown;
 
-
-
-
-
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof healthDataControllerGetObservationHistory>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type HealthDataControllerGetObservationHistoryQueryResult = NonNullable<Awaited<ReturnType<typeof healthDataControllerGetObservationHistory>>>
-export type HealthDataControllerGetObservationHistoryQueryError = unknown
-
-
-export function useHealthDataControllerGetObservationHistory<TData = Awaited<ReturnType<typeof healthDataControllerGetObservationHistory>>, TError = unknown>(
- params: HealthDataControllerGetObservationHistoryParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof healthDataControllerGetObservationHistory>>, TError, TData>> & Pick<
+export function useHealthDataControllerGetObservationHistory<
+  TData = Awaited<ReturnType<typeof healthDataControllerGetObservationHistory>>,
+  TError = unknown,
+>(
+  params: HealthDataControllerGetObservationHistoryParams,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof healthDataControllerGetObservationHistory>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof healthDataControllerGetObservationHistory>>,
           TError,
           Awaited<ReturnType<typeof healthDataControllerGetObservationHistory>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useHealthDataControllerGetObservationHistory<TData = Awaited<ReturnType<typeof healthDataControllerGetObservationHistory>>, TError = unknown>(
- params: HealthDataControllerGetObservationHistoryParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof healthDataControllerGetObservationHistory>>, TError, TData>> & Pick<
+        >,
+        'initialData'
+      >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useHealthDataControllerGetObservationHistory<
+  TData = Awaited<ReturnType<typeof healthDataControllerGetObservationHistory>>,
+  TError = unknown,
+>(
+  params: HealthDataControllerGetObservationHistoryParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof healthDataControllerGetObservationHistory>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof healthDataControllerGetObservationHistory>>,
           TError,
           Awaited<ReturnType<typeof healthDataControllerGetObservationHistory>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useHealthDataControllerGetObservationHistory<TData = Awaited<ReturnType<typeof healthDataControllerGetObservationHistory>>, TError = unknown>(
- params: HealthDataControllerGetObservationHistoryParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof healthDataControllerGetObservationHistory>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+        >,
+        'initialData'
+      >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useHealthDataControllerGetObservationHistory<
+  TData = Awaited<ReturnType<typeof healthDataControllerGetObservationHistory>>,
+  TError = unknown,
+>(
+  params: HealthDataControllerGetObservationHistoryParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof healthDataControllerGetObservationHistory>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
-export function useHealthDataControllerGetObservationHistory<TData = Awaited<ReturnType<typeof healthDataControllerGetObservationHistory>>, TError = unknown>(
- params: HealthDataControllerGetObservationHistoryParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof healthDataControllerGetObservationHistory>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+export function useHealthDataControllerGetObservationHistory<
+  TData = Awaited<ReturnType<typeof healthDataControllerGetObservationHistory>>,
+  TError = unknown,
+>(
+  params: HealthDataControllerGetObservationHistoryParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof healthDataControllerGetObservationHistory>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+  const queryOptions = getHealthDataControllerGetObservationHistoryQueryOptions(params, options);
 
-  const queryOptions = getHealthDataControllerGetObservationHistoryQueryOptions(params,options)
-
-  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>;
+  };
 
   return { ...query, queryKey: queryOptions.queryKey };
 }
-
-
-
-
-
 
 export type healthDataControllerGetDailySummaryResponse200 = {
-  data: DailyHealthSummaryDto
-  status: 200
-}
-
-export type healthDataControllerGetDailySummaryResponseSuccess = (healthDataControllerGetDailySummaryResponse200) & {
-  headers: Headers;
+  data: DailyHealthSummaryDto;
+  status: 200;
 };
-;
 
-export type healthDataControllerGetDailySummaryResponse = (healthDataControllerGetDailySummaryResponseSuccess)
+export type healthDataControllerGetDailySummaryResponseSuccess =
+  healthDataControllerGetDailySummaryResponse200 & {
+    headers: Headers;
+  };
 
-export const getHealthDataControllerGetDailySummaryUrl = (params: HealthDataControllerGetDailySummaryParams,) => {
+export type healthDataControllerGetDailySummaryResponse =
+  healthDataControllerGetDailySummaryResponseSuccess;
+
+export const getHealthDataControllerGetDailySummaryUrl = (
+  params: HealthDataControllerGetDailySummaryParams,
+) => {
   const normalizedParams = new URLSearchParams();
 
   Object.entries(params || {}).forEach(([key, value]) => {
-
     if (value !== undefined) {
-      normalizedParams.append(key, value === null ? 'null' : value.toString())
+      normalizedParams.append(key, value === null ? 'null' : value.toString());
     }
   });
 
   const stringifiedParams = normalizedParams.toString();
 
-  return stringifiedParams.length > 0 ? `/api/me/health/summary/daily?${stringifiedParams}` : `/api/me/health/summary/daily`
-}
+  return stringifiedParams.length > 0
+    ? `/api/me/health/summary/daily?${stringifiedParams}`
+    : `/api/me/health/summary/daily`;
+};
 
-export const healthDataControllerGetDailySummary = async (params: HealthDataControllerGetDailySummaryParams, options?: RequestInit): Promise<healthDataControllerGetDailySummaryResponse> => {
+export const healthDataControllerGetDailySummary = async (
+  params: HealthDataControllerGetDailySummaryParams,
+  options?: RequestInit,
+): Promise<healthDataControllerGetDailySummaryResponse> => {
+  return customFetch<healthDataControllerGetDailySummaryResponse>(
+    getHealthDataControllerGetDailySummaryUrl(params),
+    {
+      ...options,
+      method: 'GET',
+    },
+  );
+};
 
-  return customFetch<healthDataControllerGetDailySummaryResponse>(getHealthDataControllerGetDailySummaryUrl(params),
-  {
-    ...options,
-    method: 'GET'
-
-
-  }
-);}
-
-
-
-
-
-export const getHealthDataControllerGetDailySummaryQueryKey = (params?: HealthDataControllerGetDailySummaryParams,) => {
-    return [
-    `/api/me/health/summary/daily`, ...(params ? [params] : [])
-    ] as const;
-    }
-
-
-export const getHealthDataControllerGetDailySummaryQueryOptions = <TData = Awaited<ReturnType<typeof healthDataControllerGetDailySummary>>, TError = unknown>(params: HealthDataControllerGetDailySummaryParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof healthDataControllerGetDailySummary>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+export const getHealthDataControllerGetDailySummaryQueryKey = (
+  params?: HealthDataControllerGetDailySummaryParams,
 ) => {
+  return [`/api/me/health/summary/daily`, ...(params ? [params] : [])] as const;
+};
 
-const {query: queryOptions, request: requestOptions} = options ?? {};
+export const getHealthDataControllerGetDailySummaryQueryOptions = <
+  TData = Awaited<ReturnType<typeof healthDataControllerGetDailySummary>>,
+  TError = unknown,
+>(
+  params: HealthDataControllerGetDailySummaryParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof healthDataControllerGetDailySummary>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
 
-  const queryKey =  queryOptions?.queryKey ?? getHealthDataControllerGetDailySummaryQueryKey(params);
+  const queryKey = queryOptions?.queryKey ?? getHealthDataControllerGetDailySummaryQueryKey(params);
 
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof healthDataControllerGetDailySummary>>> = ({
+    signal,
+  }) => healthDataControllerGetDailySummary(params, { signal, ...requestOptions });
 
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof healthDataControllerGetDailySummary>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof healthDataControllerGetDailySummary>>> = ({ signal }) => healthDataControllerGetDailySummary(params, { signal, ...requestOptions });
+export type HealthDataControllerGetDailySummaryQueryResult = NonNullable<
+  Awaited<ReturnType<typeof healthDataControllerGetDailySummary>>
+>;
+export type HealthDataControllerGetDailySummaryQueryError = unknown;
 
-
-
-
-
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof healthDataControllerGetDailySummary>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type HealthDataControllerGetDailySummaryQueryResult = NonNullable<Awaited<ReturnType<typeof healthDataControllerGetDailySummary>>>
-export type HealthDataControllerGetDailySummaryQueryError = unknown
-
-
-export function useHealthDataControllerGetDailySummary<TData = Awaited<ReturnType<typeof healthDataControllerGetDailySummary>>, TError = unknown>(
- params: HealthDataControllerGetDailySummaryParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof healthDataControllerGetDailySummary>>, TError, TData>> & Pick<
+export function useHealthDataControllerGetDailySummary<
+  TData = Awaited<ReturnType<typeof healthDataControllerGetDailySummary>>,
+  TError = unknown,
+>(
+  params: HealthDataControllerGetDailySummaryParams,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof healthDataControllerGetDailySummary>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof healthDataControllerGetDailySummary>>,
           TError,
           Awaited<ReturnType<typeof healthDataControllerGetDailySummary>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useHealthDataControllerGetDailySummary<TData = Awaited<ReturnType<typeof healthDataControllerGetDailySummary>>, TError = unknown>(
- params: HealthDataControllerGetDailySummaryParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof healthDataControllerGetDailySummary>>, TError, TData>> & Pick<
+        >,
+        'initialData'
+      >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useHealthDataControllerGetDailySummary<
+  TData = Awaited<ReturnType<typeof healthDataControllerGetDailySummary>>,
+  TError = unknown,
+>(
+  params: HealthDataControllerGetDailySummaryParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof healthDataControllerGetDailySummary>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof healthDataControllerGetDailySummary>>,
           TError,
           Awaited<ReturnType<typeof healthDataControllerGetDailySummary>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useHealthDataControllerGetDailySummary<TData = Awaited<ReturnType<typeof healthDataControllerGetDailySummary>>, TError = unknown>(
- params: HealthDataControllerGetDailySummaryParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof healthDataControllerGetDailySummary>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+        >,
+        'initialData'
+      >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useHealthDataControllerGetDailySummary<
+  TData = Awaited<ReturnType<typeof healthDataControllerGetDailySummary>>,
+  TError = unknown,
+>(
+  params: HealthDataControllerGetDailySummaryParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof healthDataControllerGetDailySummary>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
-export function useHealthDataControllerGetDailySummary<TData = Awaited<ReturnType<typeof healthDataControllerGetDailySummary>>, TError = unknown>(
- params: HealthDataControllerGetDailySummaryParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof healthDataControllerGetDailySummary>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+export function useHealthDataControllerGetDailySummary<
+  TData = Awaited<ReturnType<typeof healthDataControllerGetDailySummary>>,
+  TError = unknown,
+>(
+  params: HealthDataControllerGetDailySummaryParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof healthDataControllerGetDailySummary>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+  const queryOptions = getHealthDataControllerGetDailySummaryQueryOptions(params, options);
 
-  const queryOptions = getHealthDataControllerGetDailySummaryQueryOptions(params,options)
-
-  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>;
+  };
 
   return { ...query, queryKey: queryOptions.queryKey };
 }
-
-
-
-
-
 
 export type healthDataControllerGetLatestVitalReadingResponse200 = {
-  data: LatestVitalReadingDto
-  status: 200
-}
-
-export type healthDataControllerGetLatestVitalReadingResponseSuccess = (healthDataControllerGetLatestVitalReadingResponse200) & {
-  headers: Headers;
+  data: LatestVitalReadingDto;
+  status: 200;
 };
-;
 
-export type healthDataControllerGetLatestVitalReadingResponse = (healthDataControllerGetLatestVitalReadingResponseSuccess)
+export type healthDataControllerGetLatestVitalReadingResponseSuccess =
+  healthDataControllerGetLatestVitalReadingResponse200 & {
+    headers: Headers;
+  };
+
+export type healthDataControllerGetLatestVitalReadingResponse =
+  healthDataControllerGetLatestVitalReadingResponseSuccess;
 
 export const getHealthDataControllerGetLatestVitalReadingUrl = () => {
+  return `/api/me/health/vitals/latest`;
+};
 
-
-
-
-  return `/api/me/health/vitals/latest`
-}
-
-export const healthDataControllerGetLatestVitalReading = async ( options?: RequestInit): Promise<healthDataControllerGetLatestVitalReadingResponse> => {
-
-  return customFetch<healthDataControllerGetLatestVitalReadingResponse>(getHealthDataControllerGetLatestVitalReadingUrl(),
-  {
-    ...options,
-    method: 'GET'
-
-
-  }
-);}
-
-
-
-
+export const healthDataControllerGetLatestVitalReading = async (
+  options?: RequestInit,
+): Promise<healthDataControllerGetLatestVitalReadingResponse> => {
+  return customFetch<healthDataControllerGetLatestVitalReadingResponse>(
+    getHealthDataControllerGetLatestVitalReadingUrl(),
+    {
+      ...options,
+      method: 'GET',
+    },
+  );
+};
 
 export const getHealthDataControllerGetLatestVitalReadingQueryKey = () => {
-    return [
-    `/api/me/health/vitals/latest`
-    ] as const;
-    }
+  return [`/api/me/health/vitals/latest`] as const;
+};
 
+export const getHealthDataControllerGetLatestVitalReadingQueryOptions = <
+  TData = Awaited<ReturnType<typeof healthDataControllerGetLatestVitalReading>>,
+  TError = unknown,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof healthDataControllerGetLatestVitalReading>>,
+      TError,
+      TData
+    >
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
 
-export const getHealthDataControllerGetLatestVitalReadingQueryOptions = <TData = Awaited<ReturnType<typeof healthDataControllerGetLatestVitalReading>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof healthDataControllerGetLatestVitalReading>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
-) => {
+  const queryKey = queryOptions?.queryKey ?? getHealthDataControllerGetLatestVitalReadingQueryKey();
 
-const {query: queryOptions, request: requestOptions} = options ?? {};
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof healthDataControllerGetLatestVitalReading>>
+  > = ({ signal }) => healthDataControllerGetLatestVitalReading({ signal, ...requestOptions });
 
-  const queryKey =  queryOptions?.queryKey ?? getHealthDataControllerGetLatestVitalReadingQueryKey();
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof healthDataControllerGetLatestVitalReading>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
 
+export type HealthDataControllerGetLatestVitalReadingQueryResult = NonNullable<
+  Awaited<ReturnType<typeof healthDataControllerGetLatestVitalReading>>
+>;
+export type HealthDataControllerGetLatestVitalReadingQueryError = unknown;
 
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof healthDataControllerGetLatestVitalReading>>> = ({ signal }) => healthDataControllerGetLatestVitalReading({ signal, ...requestOptions });
-
-
-
-
-
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof healthDataControllerGetLatestVitalReading>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type HealthDataControllerGetLatestVitalReadingQueryResult = NonNullable<Awaited<ReturnType<typeof healthDataControllerGetLatestVitalReading>>>
-export type HealthDataControllerGetLatestVitalReadingQueryError = unknown
-
-
-export function useHealthDataControllerGetLatestVitalReading<TData = Awaited<ReturnType<typeof healthDataControllerGetLatestVitalReading>>, TError = unknown>(
-  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof healthDataControllerGetLatestVitalReading>>, TError, TData>> & Pick<
+export function useHealthDataControllerGetLatestVitalReading<
+  TData = Awaited<ReturnType<typeof healthDataControllerGetLatestVitalReading>>,
+  TError = unknown,
+>(
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof healthDataControllerGetLatestVitalReading>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof healthDataControllerGetLatestVitalReading>>,
           TError,
           Awaited<ReturnType<typeof healthDataControllerGetLatestVitalReading>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useHealthDataControllerGetLatestVitalReading<TData = Awaited<ReturnType<typeof healthDataControllerGetLatestVitalReading>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof healthDataControllerGetLatestVitalReading>>, TError, TData>> & Pick<
+        >,
+        'initialData'
+      >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useHealthDataControllerGetLatestVitalReading<
+  TData = Awaited<ReturnType<typeof healthDataControllerGetLatestVitalReading>>,
+  TError = unknown,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof healthDataControllerGetLatestVitalReading>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof healthDataControllerGetLatestVitalReading>>,
           TError,
           Awaited<ReturnType<typeof healthDataControllerGetLatestVitalReading>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useHealthDataControllerGetLatestVitalReading<TData = Awaited<ReturnType<typeof healthDataControllerGetLatestVitalReading>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof healthDataControllerGetLatestVitalReading>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+        >,
+        'initialData'
+      >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useHealthDataControllerGetLatestVitalReading<
+  TData = Awaited<ReturnType<typeof healthDataControllerGetLatestVitalReading>>,
+  TError = unknown,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof healthDataControllerGetLatestVitalReading>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
-export function useHealthDataControllerGetLatestVitalReading<TData = Awaited<ReturnType<typeof healthDataControllerGetLatestVitalReading>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof healthDataControllerGetLatestVitalReading>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+export function useHealthDataControllerGetLatestVitalReading<
+  TData = Awaited<ReturnType<typeof healthDataControllerGetLatestVitalReading>>,
+  TError = unknown,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof healthDataControllerGetLatestVitalReading>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+  const queryOptions = getHealthDataControllerGetLatestVitalReadingQueryOptions(options);
 
-  const queryOptions = getHealthDataControllerGetLatestVitalReadingQueryOptions(options)
-
-  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>;
+  };
 
   return { ...query, queryKey: queryOptions.queryKey };
 }
-
-
-
-
-
 
 export type healthDataControllerGetVitalMetricsSummaryResponse200 = {
-  data: VitalMetricsSummaryDto
-  status: 200
-}
-
-export type healthDataControllerGetVitalMetricsSummaryResponseSuccess = (healthDataControllerGetVitalMetricsSummaryResponse200) & {
-  headers: Headers;
+  data: VitalMetricsSummaryDto;
+  status: 200;
 };
-;
 
-export type healthDataControllerGetVitalMetricsSummaryResponse = (healthDataControllerGetVitalMetricsSummaryResponseSuccess)
+export type healthDataControllerGetVitalMetricsSummaryResponseSuccess =
+  healthDataControllerGetVitalMetricsSummaryResponse200 & {
+    headers: Headers;
+  };
+
+export type healthDataControllerGetVitalMetricsSummaryResponse =
+  healthDataControllerGetVitalMetricsSummaryResponseSuccess;
 
 export const getHealthDataControllerGetVitalMetricsSummaryUrl = () => {
+  return `/api/me/health/vitals/summary`;
+};
 
-
-
-
-  return `/api/me/health/vitals/summary`
-}
-
-export const healthDataControllerGetVitalMetricsSummary = async ( options?: RequestInit): Promise<healthDataControllerGetVitalMetricsSummaryResponse> => {
-
-  return customFetch<healthDataControllerGetVitalMetricsSummaryResponse>(getHealthDataControllerGetVitalMetricsSummaryUrl(),
-  {
-    ...options,
-    method: 'GET'
-
-
-  }
-);}
-
-
-
-
+export const healthDataControllerGetVitalMetricsSummary = async (
+  options?: RequestInit,
+): Promise<healthDataControllerGetVitalMetricsSummaryResponse> => {
+  return customFetch<healthDataControllerGetVitalMetricsSummaryResponse>(
+    getHealthDataControllerGetVitalMetricsSummaryUrl(),
+    {
+      ...options,
+      method: 'GET',
+    },
+  );
+};
 
 export const getHealthDataControllerGetVitalMetricsSummaryQueryKey = () => {
-    return [
-    `/api/me/health/vitals/summary`
-    ] as const;
-    }
+  return [`/api/me/health/vitals/summary`] as const;
+};
 
+export const getHealthDataControllerGetVitalMetricsSummaryQueryOptions = <
+  TData = Awaited<ReturnType<typeof healthDataControllerGetVitalMetricsSummary>>,
+  TError = unknown,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof healthDataControllerGetVitalMetricsSummary>>,
+      TError,
+      TData
+    >
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
 
-export const getHealthDataControllerGetVitalMetricsSummaryQueryOptions = <TData = Awaited<ReturnType<typeof healthDataControllerGetVitalMetricsSummary>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof healthDataControllerGetVitalMetricsSummary>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
-) => {
+  const queryKey =
+    queryOptions?.queryKey ?? getHealthDataControllerGetVitalMetricsSummaryQueryKey();
 
-const {query: queryOptions, request: requestOptions} = options ?? {};
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof healthDataControllerGetVitalMetricsSummary>>
+  > = ({ signal }) => healthDataControllerGetVitalMetricsSummary({ signal, ...requestOptions });
 
-  const queryKey =  queryOptions?.queryKey ?? getHealthDataControllerGetVitalMetricsSummaryQueryKey();
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof healthDataControllerGetVitalMetricsSummary>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
 
+export type HealthDataControllerGetVitalMetricsSummaryQueryResult = NonNullable<
+  Awaited<ReturnType<typeof healthDataControllerGetVitalMetricsSummary>>
+>;
+export type HealthDataControllerGetVitalMetricsSummaryQueryError = unknown;
 
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof healthDataControllerGetVitalMetricsSummary>>> = ({ signal }) => healthDataControllerGetVitalMetricsSummary({ signal, ...requestOptions });
-
-
-
-
-
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof healthDataControllerGetVitalMetricsSummary>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type HealthDataControllerGetVitalMetricsSummaryQueryResult = NonNullable<Awaited<ReturnType<typeof healthDataControllerGetVitalMetricsSummary>>>
-export type HealthDataControllerGetVitalMetricsSummaryQueryError = unknown
-
-
-export function useHealthDataControllerGetVitalMetricsSummary<TData = Awaited<ReturnType<typeof healthDataControllerGetVitalMetricsSummary>>, TError = unknown>(
-  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof healthDataControllerGetVitalMetricsSummary>>, TError, TData>> & Pick<
+export function useHealthDataControllerGetVitalMetricsSummary<
+  TData = Awaited<ReturnType<typeof healthDataControllerGetVitalMetricsSummary>>,
+  TError = unknown,
+>(
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof healthDataControllerGetVitalMetricsSummary>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof healthDataControllerGetVitalMetricsSummary>>,
           TError,
           Awaited<ReturnType<typeof healthDataControllerGetVitalMetricsSummary>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useHealthDataControllerGetVitalMetricsSummary<TData = Awaited<ReturnType<typeof healthDataControllerGetVitalMetricsSummary>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof healthDataControllerGetVitalMetricsSummary>>, TError, TData>> & Pick<
+        >,
+        'initialData'
+      >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useHealthDataControllerGetVitalMetricsSummary<
+  TData = Awaited<ReturnType<typeof healthDataControllerGetVitalMetricsSummary>>,
+  TError = unknown,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof healthDataControllerGetVitalMetricsSummary>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof healthDataControllerGetVitalMetricsSummary>>,
           TError,
           Awaited<ReturnType<typeof healthDataControllerGetVitalMetricsSummary>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useHealthDataControllerGetVitalMetricsSummary<TData = Awaited<ReturnType<typeof healthDataControllerGetVitalMetricsSummary>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof healthDataControllerGetVitalMetricsSummary>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+        >,
+        'initialData'
+      >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useHealthDataControllerGetVitalMetricsSummary<
+  TData = Awaited<ReturnType<typeof healthDataControllerGetVitalMetricsSummary>>,
+  TError = unknown,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof healthDataControllerGetVitalMetricsSummary>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
-export function useHealthDataControllerGetVitalMetricsSummary<TData = Awaited<ReturnType<typeof healthDataControllerGetVitalMetricsSummary>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof healthDataControllerGetVitalMetricsSummary>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+export function useHealthDataControllerGetVitalMetricsSummary<
+  TData = Awaited<ReturnType<typeof healthDataControllerGetVitalMetricsSummary>>,
+  TError = unknown,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof healthDataControllerGetVitalMetricsSummary>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+  const queryOptions = getHealthDataControllerGetVitalMetricsSummaryQueryOptions(options);
 
-  const queryOptions = getHealthDataControllerGetVitalMetricsSummaryQueryOptions(options)
-
-  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>;
+  };
 
   return { ...query, queryKey: queryOptions.queryKey };
 }
 
-
-
-
-
-
 export type healthDataControllerSaveVitalReadingResponse200 = {
-  data: VitalReadingDto
-  status: 200
-}
-
-export type healthDataControllerSaveVitalReadingResponseSuccess = (healthDataControllerSaveVitalReadingResponse200) & {
-  headers: Headers;
+  data: VitalReadingDto;
+  status: 200;
 };
-;
 
-export type healthDataControllerSaveVitalReadingResponse = (healthDataControllerSaveVitalReadingResponseSuccess)
+export type healthDataControllerSaveVitalReadingResponseSuccess =
+  healthDataControllerSaveVitalReadingResponse200 & {
+    headers: Headers;
+  };
+
+export type healthDataControllerSaveVitalReadingResponse =
+  healthDataControllerSaveVitalReadingResponseSuccess;
 
 export const getHealthDataControllerSaveVitalReadingUrl = () => {
+  return `/api/me/health/vitals/readings`;
+};
 
+export const healthDataControllerSaveVitalReading = async (
+  saveHealthVitalReadingDto: SaveHealthVitalReadingDto,
+  options?: RequestInit,
+): Promise<healthDataControllerSaveVitalReadingResponse> => {
+  return customFetch<healthDataControllerSaveVitalReadingResponse>(
+    getHealthDataControllerSaveVitalReadingUrl(),
+    {
+      ...options,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', ...options?.headers },
+      body: JSON.stringify(saveHealthVitalReadingDto),
+    },
+  );
+};
 
+export const getHealthDataControllerSaveVitalReadingMutationOptions = <
+  TError = unknown,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof healthDataControllerSaveVitalReading>>,
+    TError,
+    { data: SaveHealthVitalReadingDto },
+    TContext
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof healthDataControllerSaveVitalReading>>,
+  TError,
+  { data: SaveHealthVitalReadingDto },
+  TContext
+> => {
+  const mutationKey = ['healthDataControllerSaveVitalReading'];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
 
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof healthDataControllerSaveVitalReading>>,
+    { data: SaveHealthVitalReadingDto }
+  > = (props) => {
+    const { data } = props ?? {};
 
-  return `/api/me/health/vitals/readings`
-}
+    return healthDataControllerSaveVitalReading(data, requestOptions);
+  };
 
-export const healthDataControllerSaveVitalReading = async (saveHealthVitalReadingDto: SaveHealthVitalReadingDto, options?: RequestInit): Promise<healthDataControllerSaveVitalReadingResponse> => {
+  return { mutationFn, ...mutationOptions };
+};
 
-  return customFetch<healthDataControllerSaveVitalReadingResponse>(getHealthDataControllerSaveVitalReadingUrl(),
-  {
-    ...options,
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', ...options?.headers },
-    body: JSON.stringify(
-      saveHealthVitalReadingDto,)
-  }
-);}
+export type HealthDataControllerSaveVitalReadingMutationResult = NonNullable<
+  Awaited<ReturnType<typeof healthDataControllerSaveVitalReading>>
+>;
+export type HealthDataControllerSaveVitalReadingMutationBody = SaveHealthVitalReadingDto;
+export type HealthDataControllerSaveVitalReadingMutationError = unknown;
 
-
-
-
-export const getHealthDataControllerSaveVitalReadingMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof healthDataControllerSaveVitalReading>>, TError,{data: SaveHealthVitalReadingDto}, TContext>, request?: SecondParameter<typeof customFetch>}
-): UseMutationOptions<Awaited<ReturnType<typeof healthDataControllerSaveVitalReading>>, TError,{data: SaveHealthVitalReadingDto}, TContext> => {
-
-const mutationKey = ['healthDataControllerSaveVitalReading'];
-const {mutation: mutationOptions, request: requestOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }, request: undefined};
-
-
-
-
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof healthDataControllerSaveVitalReading>>, {data: SaveHealthVitalReadingDto}> = (props) => {
-          const {data} = props ?? {};
-
-          return  healthDataControllerSaveVitalReading(data,requestOptions)
-        }
-
-
-
-
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type HealthDataControllerSaveVitalReadingMutationResult = NonNullable<Awaited<ReturnType<typeof healthDataControllerSaveVitalReading>>>
-    export type HealthDataControllerSaveVitalReadingMutationBody = SaveHealthVitalReadingDto
-    export type HealthDataControllerSaveVitalReadingMutationError = unknown
-
-    export const useHealthDataControllerSaveVitalReading = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof healthDataControllerSaveVitalReading>>, TError,{data: SaveHealthVitalReadingDto}, TContext>, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof healthDataControllerSaveVitalReading>>,
-        TError,
-        {data: SaveHealthVitalReadingDto},
-        TContext
-      > => {
-      return useMutation(getHealthDataControllerSaveVitalReadingMutationOptions(options), queryClient);
-    }
+export const useHealthDataControllerSaveVitalReading = <TError = unknown, TContext = unknown>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof healthDataControllerSaveVitalReading>>,
+      TError,
+      { data: SaveHealthVitalReadingDto },
+      TContext
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof healthDataControllerSaveVitalReading>>,
+  TError,
+  { data: SaveHealthVitalReadingDto },
+  TContext
+> => {
+  return useMutation(getHealthDataControllerSaveVitalReadingMutationOptions(options), queryClient);
+};

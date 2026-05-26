@@ -57,14 +57,26 @@ export function YearStepper({
   );
 }
 
-function StepperButton({ label, disabled, onPress }: { label: string; disabled: boolean; onPress: () => void }) {
+function StepperButton({
+  label,
+  disabled,
+  onPress,
+}: {
+  label: string;
+  disabled: boolean;
+  onPress: () => void;
+}) {
   return (
     <Pressable
       accessibilityRole="button"
       accessibilityState={{ disabled }}
       disabled={disabled}
       onPress={onPress}
-      style={({ pressed }) => [styles.stepperButton, disabled && styles.disabled, pressed && !disabled && styles.pressed]}
+      style={({ pressed }) => [
+        styles.stepperButton,
+        disabled && styles.disabled,
+        pressed && !disabled && styles.pressed,
+      ]}
     >
       <LedText variant="title" color="midnight">
         {label}

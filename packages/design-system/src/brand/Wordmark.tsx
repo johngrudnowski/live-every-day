@@ -19,14 +19,28 @@ export function Wordmark({ size = 'medium', inverse = false, style, ...props }: 
   const baseColor = inverse ? colors.canvas : colors.midnight;
 
   return (
-    <View accessibilityRole="image" accessibilityLabel="Live Every Day" {...props} style={[styles.row, style]}>
-      <LedText variant="displayMedium" style={[styles.word, { color: baseColor, fontSize, lineHeight: fontSize + 8 }]}>
+    <View
+      accessibilityRole="image"
+      accessibilityLabel="Live Every Day"
+      {...props}
+      style={[styles.row, style]}
+    >
+      <LedText
+        variant="displayMedium"
+        style={[styles.word, { color: baseColor, fontSize, lineHeight: fontSize + 8 }]}
+      >
         Live{' '}
       </LedText>
-      <LedText variant="displayMedium" style={[styles.word, { color: colors.sunrise, fontSize, lineHeight: fontSize + 8 }]}>
+      <LedText
+        variant="displayMedium"
+        style={[styles.word, { color: colors.sunrise, fontSize, lineHeight: fontSize + 8 }]}
+      >
         Every
       </LedText>
-      <LedText variant="displayMedium" style={[styles.word, { color: baseColor, fontSize, lineHeight: fontSize + 8 }]}>
+      <LedText
+        variant="displayMedium"
+        style={[styles.word, { color: baseColor, fontSize, lineHeight: fontSize + 8 }]}
+      >
         {' '}
         Day
       </LedText>

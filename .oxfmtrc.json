@@ -2,9 +2,5 @@
   "$schema": "./node_modules/oxfmt/configuration_schema.json",
   "singleQuote": true,
   "trailingComma": "all",
-  "ignorePatterns": [
-    "**/node_modules/**",
-    "**/dist/**",
-    "**/.turbo/**"
-  ]
+  "ignorePatterns": ["**/node_modules/**", "**/dist/**", "**/.turbo/**"]
 }

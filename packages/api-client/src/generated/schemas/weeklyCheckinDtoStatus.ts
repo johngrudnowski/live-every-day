@@ -6,8 +6,8 @@
  * OpenAPI spec version: 1.0
  */
 
-export type WeeklyCheckinDtoStatus = typeof WeeklyCheckinDtoStatus[keyof typeof WeeklyCheckinDtoStatus];
-
+export type WeeklyCheckinDtoStatus =
+  (typeof WeeklyCheckinDtoStatus)[keyof typeof WeeklyCheckinDtoStatus];
 
 export const WeeklyCheckinDtoStatus = {
   draft: 'draft',

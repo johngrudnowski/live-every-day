@@ -28,7 +28,11 @@ function parseCorsOrigins() {
   const allowedOrigins = new Set([...configuredOrigins, ...developmentOrigins]);
 
   return (origin: string | undefined, callback: (error: Error | null, allow?: boolean) => void) => {
-    if (!origin || allowedOrigins.has(origin) || (process.env.NODE_ENV !== 'production' && localDevOriginPattern.test(origin))) {
+    if (
+      !origin ||
+      allowedOrigins.has(origin) ||
+      (process.env.NODE_ENV !== 'production' && localDevOriginPattern.test(origin))
+    ) {
       callback(null, true);
       return;
     }

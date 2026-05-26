@@ -6,8 +6,6 @@ import { getHealthMetricDefinition } from '../lib/healthMetrics';
 import { DataMetricCard } from './DataMetricCard';
 import { SectionHeader } from './SectionHeader';
 
-type WidgetTone = 'ok' | 'empty';
-
 const wearableWidgetMetricKeys = [
   'resting_heart_rate',
   'sleep_duration',
@@ -22,22 +20,17 @@ export function WearablesSection() {
   const observations = latestQuery.data?.observations ?? [];
   const widgets = wearableWidgetMetricKeys.map((metricKey) => {
     const metric = getHealthMetricDefinition(metricKey);
-    const observation = observations.find(
-      (item) => item.metricKey === metricKey,
-    );
+    const observation = observations.find((item) => item.metricKey === metricKey);
 
     return {
       metricKey,
       label: metric?.shortLabel ?? metric?.label ?? metricKey,
       unit: observation?.unit ?? metric?.unit ?? null,
       value:
-        observation?.valueNumeric === null ||
-        observation?.valueNumeric === undefined
+        observation?.valueNumeric === null || observation?.valueNumeric === undefined
           ? null
           : formatMetricValue(observation.valueNumeric, metric?.precision ?? 0),
-      status: observation
-        ? `Latest ${formatObservationDate(observation.observedAt)}`
-        : 'No data',
+      status: observation ? `Latest ${formatObservationDate(observation.observedAt)}` : 'No data',
       tone: observation ? ('ok' as const) : ('empty' as const),
     };
   });
@@ -69,8 +62,7 @@ export function WearablesSection() {
         <View style={styles.emptyCard}>
           <LedText variant="subtitle">No wearable data yet.</LedText>
           <LedText variant="bodySmall" color="predawn" style={styles.emptyCopy}>
-            Connect Apple Health, Oura, or another source to track wearable
-            trends here.
+            Connect Apple Health, Oura, or another source to track wearable trends here.
           </LedText>
         </View>
       )}

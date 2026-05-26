@@ -5,10 +5,7 @@
  * API documentation
  * OpenAPI spec version: 1.0
  */
-import {
-  useMutation,
-  useQuery
-} from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import type {
   DataTag,
   DefinedInitialDataOptions,
@@ -21,7 +18,7 @@ import type {
   UseMutationOptions,
   UseMutationResult,
   UseQueryOptions,
-  UseQueryResult
+  UseQueryResult,
 } from '@tanstack/react-query';
 
 import type {
@@ -29,534 +26,684 @@ import type {
   HealthImportDto,
   HealthImportListDto,
   ReviewHealthImportCandidatesDto,
-  UpdateHealthImportCandidateDto
+  UpdateHealthImportCandidateDto,
 } from '../schemas';
 
 import { customFetch } from '../../fetcher';
 
-
 type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
 
-
-
 export type healthImportsControllerListImportsResponse200 = {
-  data: HealthImportListDto
-  status: 200
-}
-
-export type healthImportsControllerListImportsResponseSuccess = (healthImportsControllerListImportsResponse200) & {
-  headers: Headers;
+  data: HealthImportListDto;
+  status: 200;
 };
-;
 
-export type healthImportsControllerListImportsResponse = (healthImportsControllerListImportsResponseSuccess)
+export type healthImportsControllerListImportsResponseSuccess =
+  healthImportsControllerListImportsResponse200 & {
+    headers: Headers;
+  };
+
+export type healthImportsControllerListImportsResponse =
+  healthImportsControllerListImportsResponseSuccess;
 
 export const getHealthImportsControllerListImportsUrl = () => {
+  return `/api/me/health/imports`;
+};
 
-
-
-
-  return `/api/me/health/imports`
-}
-
-export const healthImportsControllerListImports = async ( options?: RequestInit): Promise<healthImportsControllerListImportsResponse> => {
-
-  return customFetch<healthImportsControllerListImportsResponse>(getHealthImportsControllerListImportsUrl(),
-  {
-    ...options,
-    method: 'GET'
-
-
-  }
-);}
-
-
-
-
+export const healthImportsControllerListImports = async (
+  options?: RequestInit,
+): Promise<healthImportsControllerListImportsResponse> => {
+  return customFetch<healthImportsControllerListImportsResponse>(
+    getHealthImportsControllerListImportsUrl(),
+    {
+      ...options,
+      method: 'GET',
+    },
+  );
+};
 
 export const getHealthImportsControllerListImportsQueryKey = () => {
-    return [
-    `/api/me/health/imports`
-    ] as const;
-    }
+  return [`/api/me/health/imports`] as const;
+};
 
+export const getHealthImportsControllerListImportsQueryOptions = <
+  TData = Awaited<ReturnType<typeof healthImportsControllerListImports>>,
+  TError = unknown,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<Awaited<ReturnType<typeof healthImportsControllerListImports>>, TError, TData>
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
 
-export const getHealthImportsControllerListImportsQueryOptions = <TData = Awaited<ReturnType<typeof healthImportsControllerListImports>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof healthImportsControllerListImports>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
-) => {
+  const queryKey = queryOptions?.queryKey ?? getHealthImportsControllerListImportsQueryKey();
 
-const {query: queryOptions, request: requestOptions} = options ?? {};
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof healthImportsControllerListImports>>> = ({
+    signal,
+  }) => healthImportsControllerListImports({ signal, ...requestOptions });
 
-  const queryKey =  queryOptions?.queryKey ?? getHealthImportsControllerListImportsQueryKey();
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof healthImportsControllerListImports>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
 
+export type HealthImportsControllerListImportsQueryResult = NonNullable<
+  Awaited<ReturnType<typeof healthImportsControllerListImports>>
+>;
+export type HealthImportsControllerListImportsQueryError = unknown;
 
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof healthImportsControllerListImports>>> = ({ signal }) => healthImportsControllerListImports({ signal, ...requestOptions });
-
-
-
-
-
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof healthImportsControllerListImports>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type HealthImportsControllerListImportsQueryResult = NonNullable<Awaited<ReturnType<typeof healthImportsControllerListImports>>>
-export type HealthImportsControllerListImportsQueryError = unknown
-
-
-export function useHealthImportsControllerListImports<TData = Awaited<ReturnType<typeof healthImportsControllerListImports>>, TError = unknown>(
-  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof healthImportsControllerListImports>>, TError, TData>> & Pick<
+export function useHealthImportsControllerListImports<
+  TData = Awaited<ReturnType<typeof healthImportsControllerListImports>>,
+  TError = unknown,
+>(
+  options: {
+    query: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof healthImportsControllerListImports>>, TError, TData>
+    > &
+      Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof healthImportsControllerListImports>>,
           TError,
           Awaited<ReturnType<typeof healthImportsControllerListImports>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useHealthImportsControllerListImports<TData = Awaited<ReturnType<typeof healthImportsControllerListImports>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof healthImportsControllerListImports>>, TError, TData>> & Pick<
+        >,
+        'initialData'
+      >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useHealthImportsControllerListImports<
+  TData = Awaited<ReturnType<typeof healthImportsControllerListImports>>,
+  TError = unknown,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof healthImportsControllerListImports>>, TError, TData>
+    > &
+      Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof healthImportsControllerListImports>>,
           TError,
           Awaited<ReturnType<typeof healthImportsControllerListImports>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useHealthImportsControllerListImports<TData = Awaited<ReturnType<typeof healthImportsControllerListImports>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof healthImportsControllerListImports>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+        >,
+        'initialData'
+      >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useHealthImportsControllerListImports<
+  TData = Awaited<ReturnType<typeof healthImportsControllerListImports>>,
+  TError = unknown,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof healthImportsControllerListImports>>, TError, TData>
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
-export function useHealthImportsControllerListImports<TData = Awaited<ReturnType<typeof healthImportsControllerListImports>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof healthImportsControllerListImports>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+export function useHealthImportsControllerListImports<
+  TData = Awaited<ReturnType<typeof healthImportsControllerListImports>>,
+  TError = unknown,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof healthImportsControllerListImports>>, TError, TData>
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+  const queryOptions = getHealthImportsControllerListImportsQueryOptions(options);
 
-  const queryOptions = getHealthImportsControllerListImportsQueryOptions(options)
-
-  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>;
+  };
 
   return { ...query, queryKey: queryOptions.queryKey };
 }
-
-
-
-
-
 
 export type healthImportsControllerCreateManualLabImportResponse200 = {
-  data: HealthImportDto
-  status: 200
-}
-
-export type healthImportsControllerCreateManualLabImportResponseSuccess = (healthImportsControllerCreateManualLabImportResponse200) & {
-  headers: Headers;
+  data: HealthImportDto;
+  status: 200;
 };
-;
 
-export type healthImportsControllerCreateManualLabImportResponse = (healthImportsControllerCreateManualLabImportResponseSuccess)
+export type healthImportsControllerCreateManualLabImportResponseSuccess =
+  healthImportsControllerCreateManualLabImportResponse200 & {
+    headers: Headers;
+  };
+
+export type healthImportsControllerCreateManualLabImportResponse =
+  healthImportsControllerCreateManualLabImportResponseSuccess;
 
 export const getHealthImportsControllerCreateManualLabImportUrl = () => {
-
-
-
-
-  return `/api/me/health/imports/labs/manual`
-}
-
-export const healthImportsControllerCreateManualLabImport = async (createManualLabImportDto: CreateManualLabImportDto, options?: RequestInit): Promise<healthImportsControllerCreateManualLabImportResponse> => {
-
-  return customFetch<healthImportsControllerCreateManualLabImportResponse>(getHealthImportsControllerCreateManualLabImportUrl(),
-  {
-    ...options,
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', ...options?.headers },
-    body: JSON.stringify(
-      createManualLabImportDto,)
-  }
-);}
-
-
-
-
-export const getHealthImportsControllerCreateManualLabImportMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof healthImportsControllerCreateManualLabImport>>, TError,{data: CreateManualLabImportDto}, TContext>, request?: SecondParameter<typeof customFetch>}
-): UseMutationOptions<Awaited<ReturnType<typeof healthImportsControllerCreateManualLabImport>>, TError,{data: CreateManualLabImportDto}, TContext> => {
-
-const mutationKey = ['healthImportsControllerCreateManualLabImport'];
-const {mutation: mutationOptions, request: requestOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }, request: undefined};
-
-
-
-
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof healthImportsControllerCreateManualLabImport>>, {data: CreateManualLabImportDto}> = (props) => {
-          const {data} = props ?? {};
-
-          return  healthImportsControllerCreateManualLabImport(data,requestOptions)
-        }
-
-
-
-
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type HealthImportsControllerCreateManualLabImportMutationResult = NonNullable<Awaited<ReturnType<typeof healthImportsControllerCreateManualLabImport>>>
-    export type HealthImportsControllerCreateManualLabImportMutationBody = CreateManualLabImportDto
-    export type HealthImportsControllerCreateManualLabImportMutationError = unknown
-
-    export const useHealthImportsControllerCreateManualLabImport = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof healthImportsControllerCreateManualLabImport>>, TError,{data: CreateManualLabImportDto}, TContext>, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof healthImportsControllerCreateManualLabImport>>,
-        TError,
-        {data: CreateManualLabImportDto},
-        TContext
-      > => {
-      return useMutation(getHealthImportsControllerCreateManualLabImportMutationOptions(options), queryClient);
-    }
-    export type healthImportsControllerGetImportResponse200 = {
-  data: HealthImportDto
-  status: 200
-}
-
-export type healthImportsControllerGetImportResponseSuccess = (healthImportsControllerGetImportResponse200) & {
-  headers: Headers;
+  return `/api/me/health/imports/labs/manual`;
 };
-;
 
-export type healthImportsControllerGetImportResponse = (healthImportsControllerGetImportResponseSuccess)
+export const healthImportsControllerCreateManualLabImport = async (
+  createManualLabImportDto: CreateManualLabImportDto,
+  options?: RequestInit,
+): Promise<healthImportsControllerCreateManualLabImportResponse> => {
+  return customFetch<healthImportsControllerCreateManualLabImportResponse>(
+    getHealthImportsControllerCreateManualLabImportUrl(),
+    {
+      ...options,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', ...options?.headers },
+      body: JSON.stringify(createManualLabImportDto),
+    },
+  );
+};
 
-export const getHealthImportsControllerGetImportUrl = (jobId: string,) => {
+export const getHealthImportsControllerCreateManualLabImportMutationOptions = <
+  TError = unknown,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof healthImportsControllerCreateManualLabImport>>,
+    TError,
+    { data: CreateManualLabImportDto },
+    TContext
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof healthImportsControllerCreateManualLabImport>>,
+  TError,
+  { data: CreateManualLabImportDto },
+  TContext
+> => {
+  const mutationKey = ['healthImportsControllerCreateManualLabImport'];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
 
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof healthImportsControllerCreateManualLabImport>>,
+    { data: CreateManualLabImportDto }
+  > = (props) => {
+    const { data } = props ?? {};
 
+    return healthImportsControllerCreateManualLabImport(data, requestOptions);
+  };
 
+  return { mutationFn, ...mutationOptions };
+};
 
-  return `/api/me/health/imports/${jobId}`
-}
+export type HealthImportsControllerCreateManualLabImportMutationResult = NonNullable<
+  Awaited<ReturnType<typeof healthImportsControllerCreateManualLabImport>>
+>;
+export type HealthImportsControllerCreateManualLabImportMutationBody = CreateManualLabImportDto;
+export type HealthImportsControllerCreateManualLabImportMutationError = unknown;
 
-export const healthImportsControllerGetImport = async (jobId: string, options?: RequestInit): Promise<healthImportsControllerGetImportResponse> => {
+export const useHealthImportsControllerCreateManualLabImport = <
+  TError = unknown,
+  TContext = unknown,
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof healthImportsControllerCreateManualLabImport>>,
+      TError,
+      { data: CreateManualLabImportDto },
+      TContext
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof healthImportsControllerCreateManualLabImport>>,
+  TError,
+  { data: CreateManualLabImportDto },
+  TContext
+> => {
+  return useMutation(
+    getHealthImportsControllerCreateManualLabImportMutationOptions(options),
+    queryClient,
+  );
+};
+export type healthImportsControllerGetImportResponse200 = {
+  data: HealthImportDto;
+  status: 200;
+};
 
-  return customFetch<healthImportsControllerGetImportResponse>(getHealthImportsControllerGetImportUrl(jobId),
-  {
-    ...options,
-    method: 'GET'
+export type healthImportsControllerGetImportResponseSuccess =
+  healthImportsControllerGetImportResponse200 & {
+    headers: Headers;
+  };
 
+export type healthImportsControllerGetImportResponse =
+  healthImportsControllerGetImportResponseSuccess;
 
-  }
-);}
+export const getHealthImportsControllerGetImportUrl = (jobId: string) => {
+  return `/api/me/health/imports/${jobId}`;
+};
 
+export const healthImportsControllerGetImport = async (
+  jobId: string,
+  options?: RequestInit,
+): Promise<healthImportsControllerGetImportResponse> => {
+  return customFetch<healthImportsControllerGetImportResponse>(
+    getHealthImportsControllerGetImportUrl(jobId),
+    {
+      ...options,
+      method: 'GET',
+    },
+  );
+};
 
+export const getHealthImportsControllerGetImportQueryKey = (jobId: string) => {
+  return [`/api/me/health/imports/${jobId}`] as const;
+};
 
-
-
-export const getHealthImportsControllerGetImportQueryKey = (jobId: string,) => {
-    return [
-    `/api/me/health/imports/${jobId}`
-    ] as const;
-    }
-
-
-export const getHealthImportsControllerGetImportQueryOptions = <TData = Awaited<ReturnType<typeof healthImportsControllerGetImport>>, TError = unknown>(jobId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof healthImportsControllerGetImport>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+export const getHealthImportsControllerGetImportQueryOptions = <
+  TData = Awaited<ReturnType<typeof healthImportsControllerGetImport>>,
+  TError = unknown,
+>(
+  jobId: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof healthImportsControllerGetImport>>, TError, TData>
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
 ) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
 
-const {query: queryOptions, request: requestOptions} = options ?? {};
+  const queryKey = queryOptions?.queryKey ?? getHealthImportsControllerGetImportQueryKey(jobId);
 
-  const queryKey =  queryOptions?.queryKey ?? getHealthImportsControllerGetImportQueryKey(jobId);
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof healthImportsControllerGetImport>>> = ({
+    signal,
+  }) => healthImportsControllerGetImport(jobId, { signal, ...requestOptions });
 
+  return { queryKey, queryFn, enabled: !!jobId, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof healthImportsControllerGetImport>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
 
+export type HealthImportsControllerGetImportQueryResult = NonNullable<
+  Awaited<ReturnType<typeof healthImportsControllerGetImport>>
+>;
+export type HealthImportsControllerGetImportQueryError = unknown;
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof healthImportsControllerGetImport>>> = ({ signal }) => healthImportsControllerGetImport(jobId, { signal, ...requestOptions });
-
-
-
-
-
-   return  { queryKey, queryFn, enabled: !!(jobId), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof healthImportsControllerGetImport>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type HealthImportsControllerGetImportQueryResult = NonNullable<Awaited<ReturnType<typeof healthImportsControllerGetImport>>>
-export type HealthImportsControllerGetImportQueryError = unknown
-
-
-export function useHealthImportsControllerGetImport<TData = Awaited<ReturnType<typeof healthImportsControllerGetImport>>, TError = unknown>(
- jobId: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof healthImportsControllerGetImport>>, TError, TData>> & Pick<
+export function useHealthImportsControllerGetImport<
+  TData = Awaited<ReturnType<typeof healthImportsControllerGetImport>>,
+  TError = unknown,
+>(
+  jobId: string,
+  options: {
+    query: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof healthImportsControllerGetImport>>, TError, TData>
+    > &
+      Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof healthImportsControllerGetImport>>,
           TError,
           Awaited<ReturnType<typeof healthImportsControllerGetImport>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useHealthImportsControllerGetImport<TData = Awaited<ReturnType<typeof healthImportsControllerGetImport>>, TError = unknown>(
- jobId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof healthImportsControllerGetImport>>, TError, TData>> & Pick<
+        >,
+        'initialData'
+      >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useHealthImportsControllerGetImport<
+  TData = Awaited<ReturnType<typeof healthImportsControllerGetImport>>,
+  TError = unknown,
+>(
+  jobId: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof healthImportsControllerGetImport>>, TError, TData>
+    > &
+      Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof healthImportsControllerGetImport>>,
           TError,
           Awaited<ReturnType<typeof healthImportsControllerGetImport>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useHealthImportsControllerGetImport<TData = Awaited<ReturnType<typeof healthImportsControllerGetImport>>, TError = unknown>(
- jobId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof healthImportsControllerGetImport>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+        >,
+        'initialData'
+      >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useHealthImportsControllerGetImport<
+  TData = Awaited<ReturnType<typeof healthImportsControllerGetImport>>,
+  TError = unknown,
+>(
+  jobId: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof healthImportsControllerGetImport>>, TError, TData>
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
-export function useHealthImportsControllerGetImport<TData = Awaited<ReturnType<typeof healthImportsControllerGetImport>>, TError = unknown>(
- jobId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof healthImportsControllerGetImport>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+export function useHealthImportsControllerGetImport<
+  TData = Awaited<ReturnType<typeof healthImportsControllerGetImport>>,
+  TError = unknown,
+>(
+  jobId: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof healthImportsControllerGetImport>>, TError, TData>
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+  const queryOptions = getHealthImportsControllerGetImportQueryOptions(jobId, options);
 
-  const queryOptions = getHealthImportsControllerGetImportQueryOptions(jobId,options)
-
-  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>;
+  };
 
   return { ...query, queryKey: queryOptions.queryKey };
 }
 
-
-
-
-
-
 export type healthImportsControllerUpdateCandidateResponse200 = {
-  data: HealthImportDto
-  status: 200
-}
-
-export type healthImportsControllerUpdateCandidateResponseSuccess = (healthImportsControllerUpdateCandidateResponse200) & {
-  headers: Headers;
+  data: HealthImportDto;
+  status: 200;
 };
-;
 
-export type healthImportsControllerUpdateCandidateResponse = (healthImportsControllerUpdateCandidateResponseSuccess)
+export type healthImportsControllerUpdateCandidateResponseSuccess =
+  healthImportsControllerUpdateCandidateResponse200 & {
+    headers: Headers;
+  };
 
-export const getHealthImportsControllerUpdateCandidateUrl = (jobId: string,
-    candidateId: string,) => {
+export type healthImportsControllerUpdateCandidateResponse =
+  healthImportsControllerUpdateCandidateResponseSuccess;
 
-
-
-
-  return `/api/me/health/imports/${jobId}/candidates/${candidateId}`
-}
-
-export const healthImportsControllerUpdateCandidate = async (jobId: string,
-    candidateId: string,
-    updateHealthImportCandidateDto: UpdateHealthImportCandidateDto, options?: RequestInit): Promise<healthImportsControllerUpdateCandidateResponse> => {
-
-  return customFetch<healthImportsControllerUpdateCandidateResponse>(getHealthImportsControllerUpdateCandidateUrl(jobId,candidateId),
-  {
-    ...options,
-    method: 'PATCH',
-    headers: { 'Content-Type': 'application/json', ...options?.headers },
-    body: JSON.stringify(
-      updateHealthImportCandidateDto,)
-  }
-);}
-
-
-
-
-export const getHealthImportsControllerUpdateCandidateMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof healthImportsControllerUpdateCandidate>>, TError,{jobId: string;candidateId: string;data: UpdateHealthImportCandidateDto}, TContext>, request?: SecondParameter<typeof customFetch>}
-): UseMutationOptions<Awaited<ReturnType<typeof healthImportsControllerUpdateCandidate>>, TError,{jobId: string;candidateId: string;data: UpdateHealthImportCandidateDto}, TContext> => {
-
-const mutationKey = ['healthImportsControllerUpdateCandidate'];
-const {mutation: mutationOptions, request: requestOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }, request: undefined};
-
-
-
-
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof healthImportsControllerUpdateCandidate>>, {jobId: string;candidateId: string;data: UpdateHealthImportCandidateDto}> = (props) => {
-          const {jobId,candidateId,data} = props ?? {};
-
-          return  healthImportsControllerUpdateCandidate(jobId,candidateId,data,requestOptions)
-        }
-
-
-
-
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type HealthImportsControllerUpdateCandidateMutationResult = NonNullable<Awaited<ReturnType<typeof healthImportsControllerUpdateCandidate>>>
-    export type HealthImportsControllerUpdateCandidateMutationBody = UpdateHealthImportCandidateDto
-    export type HealthImportsControllerUpdateCandidateMutationError = unknown
-
-    export const useHealthImportsControllerUpdateCandidate = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof healthImportsControllerUpdateCandidate>>, TError,{jobId: string;candidateId: string;data: UpdateHealthImportCandidateDto}, TContext>, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof healthImportsControllerUpdateCandidate>>,
-        TError,
-        {jobId: string;candidateId: string;data: UpdateHealthImportCandidateDto},
-        TContext
-      > => {
-      return useMutation(getHealthImportsControllerUpdateCandidateMutationOptions(options), queryClient);
-    }
-    export type healthImportsControllerAcceptCandidatesResponse200 = {
-  data: HealthImportDto
-  status: 200
-}
-
-export type healthImportsControllerAcceptCandidatesResponseSuccess = (healthImportsControllerAcceptCandidatesResponse200) & {
-  headers: Headers;
+export const getHealthImportsControllerUpdateCandidateUrl = (
+  jobId: string,
+  candidateId: string,
+) => {
+  return `/api/me/health/imports/${jobId}/candidates/${candidateId}`;
 };
-;
 
-export type healthImportsControllerAcceptCandidatesResponse = (healthImportsControllerAcceptCandidatesResponseSuccess)
-
-export const getHealthImportsControllerAcceptCandidatesUrl = (jobId: string,) => {
-
-
-
-
-  return `/api/me/health/imports/${jobId}/accept`
-}
-
-export const healthImportsControllerAcceptCandidates = async (jobId: string,
-    reviewHealthImportCandidatesDto: ReviewHealthImportCandidatesDto, options?: RequestInit): Promise<healthImportsControllerAcceptCandidatesResponse> => {
-
-  return customFetch<healthImportsControllerAcceptCandidatesResponse>(getHealthImportsControllerAcceptCandidatesUrl(jobId),
-  {
-    ...options,
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', ...options?.headers },
-    body: JSON.stringify(
-      reviewHealthImportCandidatesDto,)
-  }
-);}
-
-
-
-
-export const getHealthImportsControllerAcceptCandidatesMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof healthImportsControllerAcceptCandidates>>, TError,{jobId: string;data: ReviewHealthImportCandidatesDto}, TContext>, request?: SecondParameter<typeof customFetch>}
-): UseMutationOptions<Awaited<ReturnType<typeof healthImportsControllerAcceptCandidates>>, TError,{jobId: string;data: ReviewHealthImportCandidatesDto}, TContext> => {
-
-const mutationKey = ['healthImportsControllerAcceptCandidates'];
-const {mutation: mutationOptions, request: requestOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }, request: undefined};
-
-
-
-
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof healthImportsControllerAcceptCandidates>>, {jobId: string;data: ReviewHealthImportCandidatesDto}> = (props) => {
-          const {jobId,data} = props ?? {};
-
-          return  healthImportsControllerAcceptCandidates(jobId,data,requestOptions)
-        }
-
-
-
-
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type HealthImportsControllerAcceptCandidatesMutationResult = NonNullable<Awaited<ReturnType<typeof healthImportsControllerAcceptCandidates>>>
-    export type HealthImportsControllerAcceptCandidatesMutationBody = ReviewHealthImportCandidatesDto
-    export type HealthImportsControllerAcceptCandidatesMutationError = unknown
-
-    export const useHealthImportsControllerAcceptCandidates = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof healthImportsControllerAcceptCandidates>>, TError,{jobId: string;data: ReviewHealthImportCandidatesDto}, TContext>, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof healthImportsControllerAcceptCandidates>>,
-        TError,
-        {jobId: string;data: ReviewHealthImportCandidatesDto},
-        TContext
-      > => {
-      return useMutation(getHealthImportsControllerAcceptCandidatesMutationOptions(options), queryClient);
-    }
-    export type healthImportsControllerRejectCandidatesResponse200 = {
-  data: HealthImportDto
-  status: 200
-}
-
-export type healthImportsControllerRejectCandidatesResponseSuccess = (healthImportsControllerRejectCandidatesResponse200) & {
-  headers: Headers;
+export const healthImportsControllerUpdateCandidate = async (
+  jobId: string,
+  candidateId: string,
+  updateHealthImportCandidateDto: UpdateHealthImportCandidateDto,
+  options?: RequestInit,
+): Promise<healthImportsControllerUpdateCandidateResponse> => {
+  return customFetch<healthImportsControllerUpdateCandidateResponse>(
+    getHealthImportsControllerUpdateCandidateUrl(jobId, candidateId),
+    {
+      ...options,
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json', ...options?.headers },
+      body: JSON.stringify(updateHealthImportCandidateDto),
+    },
+  );
 };
-;
 
-export type healthImportsControllerRejectCandidatesResponse = (healthImportsControllerRejectCandidatesResponseSuccess)
+export const getHealthImportsControllerUpdateCandidateMutationOptions = <
+  TError = unknown,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof healthImportsControllerUpdateCandidate>>,
+    TError,
+    { jobId: string; candidateId: string; data: UpdateHealthImportCandidateDto },
+    TContext
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof healthImportsControllerUpdateCandidate>>,
+  TError,
+  { jobId: string; candidateId: string; data: UpdateHealthImportCandidateDto },
+  TContext
+> => {
+  const mutationKey = ['healthImportsControllerUpdateCandidate'];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
 
-export const getHealthImportsControllerRejectCandidatesUrl = (jobId: string,) => {
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof healthImportsControllerUpdateCandidate>>,
+    { jobId: string; candidateId: string; data: UpdateHealthImportCandidateDto }
+  > = (props) => {
+    const { jobId, candidateId, data } = props ?? {};
 
+    return healthImportsControllerUpdateCandidate(jobId, candidateId, data, requestOptions);
+  };
 
+  return { mutationFn, ...mutationOptions };
+};
 
+export type HealthImportsControllerUpdateCandidateMutationResult = NonNullable<
+  Awaited<ReturnType<typeof healthImportsControllerUpdateCandidate>>
+>;
+export type HealthImportsControllerUpdateCandidateMutationBody = UpdateHealthImportCandidateDto;
+export type HealthImportsControllerUpdateCandidateMutationError = unknown;
 
-  return `/api/me/health/imports/${jobId}/reject`
-}
+export const useHealthImportsControllerUpdateCandidate = <TError = unknown, TContext = unknown>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof healthImportsControllerUpdateCandidate>>,
+      TError,
+      { jobId: string; candidateId: string; data: UpdateHealthImportCandidateDto },
+      TContext
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof healthImportsControllerUpdateCandidate>>,
+  TError,
+  { jobId: string; candidateId: string; data: UpdateHealthImportCandidateDto },
+  TContext
+> => {
+  return useMutation(
+    getHealthImportsControllerUpdateCandidateMutationOptions(options),
+    queryClient,
+  );
+};
+export type healthImportsControllerAcceptCandidatesResponse200 = {
+  data: HealthImportDto;
+  status: 200;
+};
 
-export const healthImportsControllerRejectCandidates = async (jobId: string,
-    reviewHealthImportCandidatesDto: ReviewHealthImportCandidatesDto, options?: RequestInit): Promise<healthImportsControllerRejectCandidatesResponse> => {
+export type healthImportsControllerAcceptCandidatesResponseSuccess =
+  healthImportsControllerAcceptCandidatesResponse200 & {
+    headers: Headers;
+  };
 
-  return customFetch<healthImportsControllerRejectCandidatesResponse>(getHealthImportsControllerRejectCandidatesUrl(jobId),
-  {
-    ...options,
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', ...options?.headers },
-    body: JSON.stringify(
-      reviewHealthImportCandidatesDto,)
-  }
-);}
+export type healthImportsControllerAcceptCandidatesResponse =
+  healthImportsControllerAcceptCandidatesResponseSuccess;
 
+export const getHealthImportsControllerAcceptCandidatesUrl = (jobId: string) => {
+  return `/api/me/health/imports/${jobId}/accept`;
+};
 
+export const healthImportsControllerAcceptCandidates = async (
+  jobId: string,
+  reviewHealthImportCandidatesDto: ReviewHealthImportCandidatesDto,
+  options?: RequestInit,
+): Promise<healthImportsControllerAcceptCandidatesResponse> => {
+  return customFetch<healthImportsControllerAcceptCandidatesResponse>(
+    getHealthImportsControllerAcceptCandidatesUrl(jobId),
+    {
+      ...options,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', ...options?.headers },
+      body: JSON.stringify(reviewHealthImportCandidatesDto),
+    },
+  );
+};
 
+export const getHealthImportsControllerAcceptCandidatesMutationOptions = <
+  TError = unknown,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof healthImportsControllerAcceptCandidates>>,
+    TError,
+    { jobId: string; data: ReviewHealthImportCandidatesDto },
+    TContext
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof healthImportsControllerAcceptCandidates>>,
+  TError,
+  { jobId: string; data: ReviewHealthImportCandidatesDto },
+  TContext
+> => {
+  const mutationKey = ['healthImportsControllerAcceptCandidates'];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
 
-export const getHealthImportsControllerRejectCandidatesMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof healthImportsControllerRejectCandidates>>, TError,{jobId: string;data: ReviewHealthImportCandidatesDto}, TContext>, request?: SecondParameter<typeof customFetch>}
-): UseMutationOptions<Awaited<ReturnType<typeof healthImportsControllerRejectCandidates>>, TError,{jobId: string;data: ReviewHealthImportCandidatesDto}, TContext> => {
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof healthImportsControllerAcceptCandidates>>,
+    { jobId: string; data: ReviewHealthImportCandidatesDto }
+  > = (props) => {
+    const { jobId, data } = props ?? {};
 
-const mutationKey = ['healthImportsControllerRejectCandidates'];
-const {mutation: mutationOptions, request: requestOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }, request: undefined};
+    return healthImportsControllerAcceptCandidates(jobId, data, requestOptions);
+  };
 
+  return { mutationFn, ...mutationOptions };
+};
 
+export type HealthImportsControllerAcceptCandidatesMutationResult = NonNullable<
+  Awaited<ReturnType<typeof healthImportsControllerAcceptCandidates>>
+>;
+export type HealthImportsControllerAcceptCandidatesMutationBody = ReviewHealthImportCandidatesDto;
+export type HealthImportsControllerAcceptCandidatesMutationError = unknown;
 
+export const useHealthImportsControllerAcceptCandidates = <TError = unknown, TContext = unknown>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof healthImportsControllerAcceptCandidates>>,
+      TError,
+      { jobId: string; data: ReviewHealthImportCandidatesDto },
+      TContext
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof healthImportsControllerAcceptCandidates>>,
+  TError,
+  { jobId: string; data: ReviewHealthImportCandidatesDto },
+  TContext
+> => {
+  return useMutation(
+    getHealthImportsControllerAcceptCandidatesMutationOptions(options),
+    queryClient,
+  );
+};
+export type healthImportsControllerRejectCandidatesResponse200 = {
+  data: HealthImportDto;
+  status: 200;
+};
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof healthImportsControllerRejectCandidates>>, {jobId: string;data: ReviewHealthImportCandidatesDto}> = (props) => {
-          const {jobId,data} = props ?? {};
+export type healthImportsControllerRejectCandidatesResponseSuccess =
+  healthImportsControllerRejectCandidatesResponse200 & {
+    headers: Headers;
+  };
 
-          return  healthImportsControllerRejectCandidates(jobId,data,requestOptions)
-        }
+export type healthImportsControllerRejectCandidatesResponse =
+  healthImportsControllerRejectCandidatesResponseSuccess;
 
+export const getHealthImportsControllerRejectCandidatesUrl = (jobId: string) => {
+  return `/api/me/health/imports/${jobId}/reject`;
+};
 
+export const healthImportsControllerRejectCandidates = async (
+  jobId: string,
+  reviewHealthImportCandidatesDto: ReviewHealthImportCandidatesDto,
+  options?: RequestInit,
+): Promise<healthImportsControllerRejectCandidatesResponse> => {
+  return customFetch<healthImportsControllerRejectCandidatesResponse>(
+    getHealthImportsControllerRejectCandidatesUrl(jobId),
+    {
+      ...options,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', ...options?.headers },
+      body: JSON.stringify(reviewHealthImportCandidatesDto),
+    },
+  );
+};
 
+export const getHealthImportsControllerRejectCandidatesMutationOptions = <
+  TError = unknown,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof healthImportsControllerRejectCandidates>>,
+    TError,
+    { jobId: string; data: ReviewHealthImportCandidatesDto },
+    TContext
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof healthImportsControllerRejectCandidates>>,
+  TError,
+  { jobId: string; data: ReviewHealthImportCandidatesDto },
+  TContext
+> => {
+  const mutationKey = ['healthImportsControllerRejectCandidates'];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
 
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof healthImportsControllerRejectCandidates>>,
+    { jobId: string; data: ReviewHealthImportCandidatesDto }
+  > = (props) => {
+    const { jobId, data } = props ?? {};
 
+    return healthImportsControllerRejectCandidates(jobId, data, requestOptions);
+  };
 
-  return  { mutationFn, ...mutationOptions }}
+  return { mutationFn, ...mutationOptions };
+};
 
-    export type HealthImportsControllerRejectCandidatesMutationResult = NonNullable<Awaited<ReturnType<typeof healthImportsControllerRejectCandidates>>>
-    export type HealthImportsControllerRejectCandidatesMutationBody = ReviewHealthImportCandidatesDto
-    export type HealthImportsControllerRejectCandidatesMutationError = unknown
+export type HealthImportsControllerRejectCandidatesMutationResult = NonNullable<
+  Awaited<ReturnType<typeof healthImportsControllerRejectCandidates>>
+>;
+export type HealthImportsControllerRejectCandidatesMutationBody = ReviewHealthImportCandidatesDto;
+export type HealthImportsControllerRejectCandidatesMutationError = unknown;
 
-    export const useHealthImportsControllerRejectCandidates = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof healthImportsControllerRejectCandidates>>, TError,{jobId: string;data: ReviewHealthImportCandidatesDto}, TContext>, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof healthImportsControllerRejectCandidates>>,
-        TError,
-        {jobId: string;data: ReviewHealthImportCandidatesDto},
-        TContext
-      > => {
-      return useMutation(getHealthImportsControllerRejectCandidatesMutationOptions(options), queryClient);
-    }
+export const useHealthImportsControllerRejectCandidates = <TError = unknown, TContext = unknown>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof healthImportsControllerRejectCandidates>>,
+      TError,
+      { jobId: string; data: ReviewHealthImportCandidatesDto },
+      TContext
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof healthImportsControllerRejectCandidates>>,
+  TError,
+  { jobId: string; data: ReviewHealthImportCandidatesDto },
+  TContext
+> => {
+  return useMutation(
+    getHealthImportsControllerRejectCandidatesMutationOptions(options),
+    queryClient,
+  );
+};

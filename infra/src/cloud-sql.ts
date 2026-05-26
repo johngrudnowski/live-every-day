@@ -57,6 +57,9 @@ const privateIpAddress = instance.privateIpAddress;
 
 export const databaseUrl = pulumi
   .all([dbPassword.result, privateIpAddress])
-  .apply(([password, host]) => `postgresql://${database.user}:${encodeURIComponent(password)}@${host}:5432/${database.name}`);
+  .apply(
+    ([password, host]) =>
+      `postgresql://${database.user}:${encodeURIComponent(password)}@${host}:5432/${database.name}`,
+  );
 
 export const databaseUrlSecretVersion = createDatabaseUrlSecretVersion(databaseUrl);

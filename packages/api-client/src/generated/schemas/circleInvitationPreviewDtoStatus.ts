@@ -6,8 +6,8 @@
  * OpenAPI spec version: 1.0
  */
 
-export type CircleInvitationPreviewDtoStatus = typeof CircleInvitationPreviewDtoStatus[keyof typeof CircleInvitationPreviewDtoStatus];
-
+export type CircleInvitationPreviewDtoStatus =
+  (typeof CircleInvitationPreviewDtoStatus)[keyof typeof CircleInvitationPreviewDtoStatus];
 
 export const CircleInvitationPreviewDtoStatus = {
   pending: 'pending',

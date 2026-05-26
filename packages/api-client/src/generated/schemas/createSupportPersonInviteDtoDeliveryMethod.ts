@@ -6,8 +6,8 @@
  * OpenAPI spec version: 1.0
  */
 
-export type CreateSupportPersonInviteDtoDeliveryMethod = typeof CreateSupportPersonInviteDtoDeliveryMethod[keyof typeof CreateSupportPersonInviteDtoDeliveryMethod];
-
+export type CreateSupportPersonInviteDtoDeliveryMethod =
+  (typeof CreateSupportPersonInviteDtoDeliveryMethod)[keyof typeof CreateSupportPersonInviteDtoDeliveryMethod];
 
 export const CreateSupportPersonInviteDtoDeliveryMethod = {
   email: 'email',

@@ -7,7 +7,7 @@
  */
 
 export type HealthDataControllerGetDailySummaryParams = {
-metricKeys: string;
-from: string;
-to: string;
+  metricKeys: string;
+  from: string;
+  to: string;
 };

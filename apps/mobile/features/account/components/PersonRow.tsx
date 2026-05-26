@@ -30,7 +30,12 @@ export function PersonRow({
         {avatar}
         <View style={styles.personCopy}>
           <View style={styles.personNameRow}>
-            <LedText variant="subtitle" numberOfLines={1} ellipsizeMode="tail" style={styles.personName}>
+            <LedText
+              variant="subtitle"
+              numberOfLines={1}
+              ellipsizeMode="tail"
+              style={styles.personName}
+            >
               {name}
             </LedText>
             {nameAddon}

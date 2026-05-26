@@ -1,6 +1,15 @@
 import { router } from 'expo-router';
 import { StyleSheet, View } from 'react-native';
-import { AppScreen, LedText, LogoMark, PrimaryButton, Wordmark, colors, radii, spacing } from '@led/design-system';
+import {
+  AppScreen,
+  LedText,
+  LogoMark,
+  PrimaryButton,
+  Wordmark,
+  colors,
+  radii,
+  spacing,
+} from '@led/design-system';
 
 export function WelcomeScreen() {
   return (
@@ -12,8 +21,8 @@ export function WelcomeScreen() {
 
       <View style={styles.copyStack}>
         <LedText variant="body" style={styles.storyText}>
-          Weekly shifts in how we feel are simply a part of our lives. Those of us with chronic cancer? Noticing those
-          shifts carries deeper meaning.
+          Weekly shifts in how we feel are simply a part of our lives. Those of us with chronic
+          cancer? Noticing those shifts carries deeper meaning.
         </LedText>
 
         <View style={styles.questionBlock}>
@@ -23,13 +32,17 @@ export function WelcomeScreen() {
         </View>
 
         <LedText variant="body" style={styles.storyText}>
-          Knowing — having the data — is our best way to be our own advocates. Live Every Day was built by a patient,
-          for all of us living this every day.
+          Knowing — having the data — is our best way to be our own advocates. Live Every Day was
+          built by a patient, for all of us living this every day.
         </LedText>
       </View>
 
       <View style={styles.actions}>
-        <PrimaryButton label="Get Started" fullWidth onPress={() => router.push('/auth/register')} />
+        <PrimaryButton
+          label="Get Started"
+          fullWidth
+          onPress={() => router.push('/auth/register')}
+        />
         <PrimaryButton
           label="I already have an account"
           variant="secondary"

@@ -7,5 +7,5 @@
  */
 
 export type HealthDataControllerGetLatestObservationsParams = {
-metricKeys: string;
+  metricKeys: string;
 };

@@ -166,12 +166,7 @@ export const healthMetricCatalog = [
     metadataJson: {
       chartKind: 'line',
       displayGroup: 'CBC',
-      synonyms: [
-        'white blood cells',
-        'white blood cell count',
-        'wbc',
-        'leukocytes',
-      ],
+      synonyms: ['white blood cells', 'white blood cell count', 'wbc', 'leukocytes'],
     },
   },
   {
@@ -213,12 +208,7 @@ export const healthMetricCatalog = [
     metadataJson: {
       chartKind: 'line',
       displayGroup: 'CBC',
-      synonyms: [
-        'red blood cells',
-        'red blood cell count',
-        'rbc',
-        'erythrocytes',
-      ],
+      synonyms: ['red blood cells', 'red blood cell count', 'rbc', 'erythrocytes'],
     },
   },
   {

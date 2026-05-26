@@ -15,19 +15,9 @@ import {
   type barDataItem,
   type lineDataItem,
 } from 'react-native-gifted-charts';
-import {
-  AppScreen,
-  LedText,
-  PrimaryButton,
-  colors,
-  radii,
-  spacing,
-} from '@led/design-system';
+import { AppScreen, LedText, PrimaryButton, colors, radii, spacing } from '@led/design-system';
 
-import {
-  ScreenHeaderChevronLink,
-  ScreenHeaderNavRow,
-} from '@/components/screen-header';
+import { ScreenHeaderChevronLink, ScreenHeaderNavRow } from '@/components/screen-header';
 import { LoadingScreen } from '@/features/launch/components/LoadingScreen';
 import { useDailyHealthSummaryQuery } from '../api/health-data-queries';
 import {
@@ -76,20 +66,14 @@ const companionColor = colors.flagHigh;
 export function MetricHistoryScreen() {
   const { metricKey } = useLocalSearchParams<{ metricKey?: string }>();
   const initialMetric =
-    getCanonicalHealthMetricDefinition(metricKey) ??
-    getHealthMetricDefinition(defaultMetricKey);
+    getCanonicalHealthMetricDefinition(metricKey) ?? getHealthMetricDefinition(defaultMetricKey);
   const [selectedMetricKey, setSelectedMetricKey] = useState<string>(
     initialMetric?.key ?? defaultMetricKey,
   );
   const [period, setPeriod] = useState<HistoryPeriod>('7D');
-  const [range, setRange] = useState<HistoryDateRange>(() =>
-    getInitialRange('7D'),
-  );
-  const selectedMetric =
-    getHealthMetricDefinition(selectedMetricKey) ?? initialMetric;
-  const historyMetricKeys = selectedMetric
-    ? getHistoryMetricKeys(selectedMetric)
-    : [];
+  const [range, setRange] = useState<HistoryDateRange>(() => getInitialRange('7D'));
+  const selectedMetric = getHealthMetricDefinition(selectedMetricKey) ?? initialMetric;
+  const historyMetricKeys = selectedMetric ? getHistoryMetricKeys(selectedMetric) : [];
   const bounds = useMemo(() => getRangeIsoBounds(range), [range]);
   const summaryQuery = useDailyHealthSummaryQuery(
     {
@@ -119,20 +103,12 @@ export function MetricHistoryScreen() {
   }
 
   const dates = enumerateDates(range);
-  const primaryPoints = buildDailyPoints(
-    selectedMetric,
-    dates,
-    summaryQuery.data?.summaries ?? [],
-  );
+  const primaryPoints = buildDailyPoints(selectedMetric, dates, summaryQuery.data?.summaries ?? []);
   const companionMetric = selectedMetric.companionMetricKey
     ? getHealthMetricDefinition(selectedMetric.companionMetricKey)
     : null;
   const companionPoints = companionMetric
-    ? buildDailyPoints(
-        companionMetric,
-        dates,
-        summaryQuery.data?.summaries ?? [],
-      )
+    ? buildDailyPoints(companionMetric, dates, summaryQuery.data?.summaries ?? [])
     : [];
   const primaryStats = getMetricStats(primaryPoints);
   const companionStats = getMetricStats(companionPoints);
@@ -145,9 +121,7 @@ export function MetricHistoryScreen() {
   }
 
   function updateMetric(nextMetricKey: string) {
-    setSelectedMetricKey(
-      getCanonicalHealthMetricKey(nextMetricKey) ?? nextMetricKey,
-    );
+    setSelectedMetricKey(getCanonicalHealthMetricKey(nextMetricKey) ?? nextMetricKey);
   }
 
   return (
@@ -162,8 +136,8 @@ export function MetricHistoryScreen() {
             {selectedMetric.label}
           </LedText>
           <LedText variant="body" color="textMid" style={styles.subtitle}>
-            Review trends, range summaries, and exact daily values from your
-            connected and logged health data.
+            Review trends, range summaries, and exact daily values from your connected and logged
+            health data.
           </LedText>
           {isHomeVitalMetric(selectedMetric) ? (
             <PrimaryButton
@@ -180,15 +154,10 @@ export function MetricHistoryScreen() {
           <DateRangeNavigator
             range={range}
             period={period}
-            onPrevious={() =>
-              setRange((current) => shiftRange(current, period, -1))
-            }
+            onPrevious={() => setRange((current) => shiftRange(current, period, -1))}
             onNext={() => setRange((current) => shiftRange(current, period, 1))}
           />
-          <MetricPicker
-            selectedMetric={selectedMetric}
-            onSelect={updateMetric}
-          />
+          <MetricPicker selectedMetric={selectedMetric} onSelect={updateMetric} />
         </View>
 
         <View style={styles.card}>
@@ -230,23 +199,12 @@ export function MetricHistoryScreen() {
   );
 }
 
-function MetricHistoryShell({
-  title,
-  children,
-}: {
-  title: string;
-  children: React.ReactNode;
-}) {
+function MetricHistoryShell({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <AppScreen padded={false} style={styles.screen}>
       <View style={styles.header}>
         <ScreenHeaderNavRow
-          left={
-            <ScreenHeaderChevronLink
-              label="Data"
-              onPress={() => router.replace('/data')}
-            />
-          }
+          left={<ScreenHeaderChevronLink label="Data" onPress={() => router.replace('/data')} />}
           title={
             <LedText variant="subtitle" numberOfLines={1} ellipsizeMode="tail">
               {title}
@@ -291,10 +249,7 @@ function PeriodControl({
         >
           <LedText
             variant="bodySmall"
-            style={[
-              styles.periodLabel,
-              period === value && styles.periodLabelSelected,
-            ]}
+            style={[styles.periodLabel, period === value && styles.periodLabelSelected]}
           >
             {period}
           </LedText>
@@ -319,11 +274,7 @@ function DateRangeNavigator({
 
   return (
     <View style={styles.rangeRow}>
-      <IconButton
-        label="Previous range"
-        icon="chevron-left"
-        onPress={onPrevious}
-      />
+      <IconButton label="Previous range" icon="chevron-left" onPress={onPrevious} />
       <LedText variant="subtitle" numberOfLines={1} style={styles.rangeLabel}>
         {formatRangeLabel(range, period)}
       </LedText>
@@ -354,11 +305,7 @@ function MetricPicker({
         const metrics = getMetricsForCategory(category.key);
         return (
           <View key={category.key} style={styles.metricGroup}>
-            <LedText
-              variant="label"
-              color="predawn"
-              style={styles.metricGroupLabel}
-            >
+            <LedText variant="label" color="predawn" style={styles.metricGroupLabel}>
               {category.label}
             </LedText>
             <View style={styles.metricChips}>
@@ -372,8 +319,7 @@ function MetricPicker({
                   onPress={() => onSelect(metric.key)}
                   style={({ pressed }) => [
                     styles.metricChip,
-                    metric.key === selectedMetric.key &&
-                      styles.metricChipSelected,
+                    metric.key === selectedMetric.key && styles.metricChipSelected,
                     pressed && styles.pressed,
                   ]}
                 >
@@ -381,8 +327,7 @@ function MetricPicker({
                     variant="bodySmall"
                     style={[
                       styles.metricChipLabel,
-                      metric.key === selectedMetric.key &&
-                        styles.metricChipLabelSelected,
+                      metric.key === selectedMetric.key && styles.metricChipLabelSelected,
                     ]}
                   >
                     {metric.shortLabel}
@@ -441,11 +386,7 @@ function ChartHeader({
         <View style={styles.chartTitleRow}>
           <LedText variant="subtitle">{metric.label}</LedText>
           {isUpdating ? (
-            <LedText
-              variant="bodySmall"
-              color="predawn"
-              style={styles.updatingLabel}
-            >
+            <LedText variant="bodySmall" color="predawn" style={styles.updatingLabel}>
               Updating...
             </LedText>
           ) : null}
@@ -457,10 +398,7 @@ function ChartHeader({
       <View style={styles.legend}>
         <LegendItem color={primaryColor} label={metric.shortLabel} />
         {companionMetric ? (
-          <LegendItem
-            color={companionColor}
-            label={companionMetric.shortLabel}
-          />
+          <LegendItem color={companionColor} label={companionMetric.shortLabel} />
         ) : null}
       </View>
     </View>
@@ -574,9 +512,7 @@ function MetricTrendChart({
 function EmptyChart({ metric }: { metric: HealthMetricDefinition }) {
   return (
     <View style={styles.emptyChart}>
-      <LedText variant="subtitle">
-        No {metric.shortLabel.toLowerCase()} data in this range.
-      </LedText>
+      <LedText variant="subtitle">No {metric.shortLabel.toLowerCase()} data in this range.</LedText>
       <LedText variant="bodySmall" color="predawn" style={styles.emptyCopy}>
         Try another date range or log a new reading.
       </LedText>
@@ -613,10 +549,7 @@ function MetricSummaryStats({
             {companionMetric.shortLabel} latest
           </LedText>
           <LedText style={styles.statValue}>
-            {formatPointValue(
-              companionMetric,
-              companionStats.latest?.value ?? null,
-            )}
+            {formatPointValue(companionMetric, companionStats.latest?.value ?? null)}
           </LedText>
         </View>
       ) : null}
@@ -636,9 +569,7 @@ function DailyRows({
   companionPoints: DailyMetricPoint[];
 }) {
   const rows = [...points].reverse();
-  const companionByDate = new Map(
-    companionPoints.map((point) => [point.date, point]),
-  );
+  const companionByDate = new Map(companionPoints.map((point) => [point.date, point]));
 
   return (
     <View style={styles.card}>
@@ -652,10 +583,7 @@ function DailyRows({
         {rows.map((point, index) => (
           <View
             key={point.date}
-            style={[
-              styles.valueRow,
-              index < rows.length - 1 && styles.rowBorder,
-            ]}
+            style={[styles.valueRow, index < rows.length - 1 && styles.rowBorder]}
           >
             <View style={styles.rowCopy}>
               <LedText variant="subtitle" style={styles.rowDate}>
@@ -668,12 +596,7 @@ function DailyRows({
               </LedText>
             </View>
             <LedText style={styles.rowValue}>
-              {formatDailyRowValue(
-                metric,
-                point,
-                companionMetric,
-                companionByDate.get(point.date),
-              )}
+              {formatDailyRowValue(metric, point, companionMetric, companionByDate.get(point.date))}
             </LedText>
           </View>
         ))}
@@ -775,17 +698,11 @@ function getMetricStats(points: DailyMetricPoint[]): MetricStats {
     average: values.length > 0 ? total / values.length : null,
     latest: values.at(-1) ?? null,
     high: values.reduce<DailyMetricPoint | null>(
-      (max, point) =>
-        !max || point.value > (max.value ?? Number.NEGATIVE_INFINITY)
-          ? point
-          : max,
+      (max, point) => (!max || point.value > (max.value ?? Number.NEGATIVE_INFINITY) ? point : max),
       null,
     ),
     low: values.reduce<DailyMetricPoint | null>(
-      (min, point) =>
-        !min || point.value < (min.value ?? Number.POSITIVE_INFINITY)
-          ? point
-          : min,
+      (min, point) => (!min || point.value < (min.value ?? Number.POSITIVE_INFINITY) ? point : min),
       null,
     ),
     total: values.length > 0 ? total : null,
@@ -793,13 +710,9 @@ function getMetricStats(points: DailyMetricPoint[]): MetricStats {
   };
 }
 
-function getChartMaxValue(
-  points: DailyMetricPoint[],
-  companionPoints: DailyMetricPoint[],
-) {
+function getChartMaxValue(points: DailyMetricPoint[], companionPoints: DailyMetricPoint[]) {
   const max = [...points, ...companionPoints].reduce(
-    (currentMax, point) =>
-      point.value === null ? currentMax : Math.max(currentMax, point.value),
+    (currentMax, point) => (point.value === null ? currentMax : Math.max(currentMax, point.value)),
     0,
   );
 
@@ -845,10 +758,7 @@ function formatDailyRowValue(
 ) {
   if (companionMetric) {
     const first = formatNumber(point.value, metric.precision);
-    const second = formatNumber(
-      companionPoint?.value ?? null,
-      companionMetric.precision,
-    );
+    const second = formatNumber(companionPoint?.value ?? null, companionMetric.precision);
     const unit = getDisplayUnit(metric);
     return `${first} / ${second}${unit ? ` ${unit}` : ''}`;
   }
@@ -856,10 +766,7 @@ function formatDailyRowValue(
   return formatPointValue(metric, point.value);
 }
 
-function formatPointValue(
-  metric: HealthMetricDefinition,
-  value: number | null | undefined,
-) {
+function formatPointValue(metric: HealthMetricDefinition, value: number | null | undefined) {
   const formatted = formatNumber(value ?? null, metric.precision);
   const unit = getDisplayUnit(metric);
   return unit && formatted !== '--' ? `${formatted} ${unit}` : formatted;

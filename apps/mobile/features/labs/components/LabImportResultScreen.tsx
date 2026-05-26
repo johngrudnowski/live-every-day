@@ -1,17 +1,7 @@
 import { router, useLocalSearchParams } from 'expo-router';
 import { ScrollView, StyleSheet, View } from 'react-native';
-import {
-  AppScreen,
-  LedText,
-  PrimaryButton,
-  colors,
-  radii,
-  spacing,
-} from '@led/design-system';
-import {
-  ScreenHeaderChevronLink,
-  ScreenHeaderNavRow,
-} from '@/components/screen-header';
+import { AppScreen, LedText, PrimaryButton, colors, radii, spacing } from '@led/design-system';
+import { ScreenHeaderChevronLink, ScreenHeaderNavRow } from '@/components/screen-header';
 import { LoadingScreen } from '@/features/launch/components/LoadingScreen';
 import { useHealthImportQuery } from '../api/health-import-queries';
 
@@ -24,12 +14,8 @@ export function LabImportResultScreen() {
   }
 
   const candidates = importQuery.data?.candidates ?? [];
-  const committedCount = candidates.filter(
-    (candidate) => candidate.status === 'committed',
-  ).length;
-  const rejectedCount = candidates.filter(
-    (candidate) => candidate.status === 'rejected',
-  ).length;
+  const committedCount = candidates.filter((candidate) => candidate.status === 'committed').length;
+  const rejectedCount = candidates.filter((candidate) => candidate.status === 'rejected').length;
 
   return (
     <AppScreen padded={false} style={styles.screen}>
@@ -45,35 +31,24 @@ export function LabImportResultScreen() {
         />
       </View>
 
-      <ScrollView
-        contentContainerStyle={styles.content}
-        showsVerticalScrollIndicator={false}
-      >
+      <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
         <View style={styles.card}>
           <LedText variant="displayMedium" style={styles.title}>
             Labs saved.
           </LedText>
           <LedText variant="body" color="textMid" style={styles.subtitle}>
-            {committedCount} row{committedCount === 1 ? '' : 's'} were saved as
-            observations.
+            {committedCount} row{committedCount === 1 ? '' : 's'} were saved as observations.
           </LedText>
         </View>
 
         <View style={styles.stats}>
           <Stat label="Imported" value={committedCount} />
           <Stat label="Rejected" value={rejectedCount} />
-          <Stat
-            label="Status"
-            value={importQuery.data?.job.status ?? 'unknown'}
-          />
+          <Stat label="Status" value={importQuery.data?.job.status ?? 'unknown'} />
         </View>
 
         <View style={styles.actions}>
-          <PrimaryButton
-            label="View Our Data"
-            fullWidth
-            onPress={() => router.replace('/data')}
-          />
+          <PrimaryButton label="View Our Data" fullWidth onPress={() => router.replace('/data')} />
           <PrimaryButton
             label="Add another panel"
             variant="secondary"

@@ -6,8 +6,8 @@
  * OpenAPI spec version: 1.0
  */
 
-export type RegenerateSupportInvitationDtoDeliveryMethod = typeof RegenerateSupportInvitationDtoDeliveryMethod[keyof typeof RegenerateSupportInvitationDtoDeliveryMethod];
-
+export type RegenerateSupportInvitationDtoDeliveryMethod =
+  (typeof RegenerateSupportInvitationDtoDeliveryMethod)[keyof typeof RegenerateSupportInvitationDtoDeliveryMethod];
 
 export const RegenerateSupportInvitationDtoDeliveryMethod = {
   email: 'email',

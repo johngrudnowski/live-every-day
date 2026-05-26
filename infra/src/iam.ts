@@ -34,12 +34,21 @@ export const githubDeployAccount = new gcp.serviceaccount.Account(
 );
 
 const deployRoles = [
-  'roles/artifactregistry.writer',
+  'roles/artifactregistry.admin',
   'roles/run.admin',
+  'roles/firebase.admin',
   'roles/firebasehosting.admin',
   'roles/cloudsql.admin',
   'roles/secretmanager.admin',
+  'roles/iam.serviceAccountAdmin',
+  'roles/iam.workloadIdentityPoolAdmin',
   'roles/iam.serviceAccountUser',
+  'roles/resourcemanager.projectIamAdmin',
+  'roles/serviceusage.serviceUsageAdmin',
+  'roles/compute.networkAdmin',
+  'roles/servicenetworking.networksAdmin',
+  'roles/monitoring.editor',
+  'roles/logging.configWriter',
 ] as const;
 
 export const githubDeployRoleBindings = deployRoles.map(
@@ -88,7 +97,7 @@ export const githubIdentityProvider =
           'attribute.repository': 'assertion.repository',
           'attribute.ref': 'assertion.ref',
         },
-        attributeCondition: `assertion.repository == "${github.repository}"`,
+        attributeCondition: `assertion.repository == "${github.repository}" && assertion.ref == "${github.deploymentRef}"`,
         oidc: {
           issuerUri: 'https://token.actions.githubusercontent.com',
         },

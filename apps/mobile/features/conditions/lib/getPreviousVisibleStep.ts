@@ -1,4 +1,9 @@
-import type { ConditionDefinition, ConditionFlowStep, SemanticKey, SemanticValue } from '@led/conditions';
+import type {
+  ConditionDefinition,
+  ConditionFlowStep,
+  SemanticKey,
+  SemanticValue,
+} from '@led/conditions';
 import { getVisibleSteps } from './getVisibleSteps';
 
 export function getPreviousVisibleStep(
@@ -8,5 +13,5 @@ export function getPreviousVisibleStep(
 ): ConditionFlowStep | null {
   const steps = getVisibleSteps(conditionDefinition, values);
   const currentIndex = steps.findIndex((step) => step.id === currentStepId);
-  return currentIndex > 0 ? steps[currentIndex - 1] ?? null : null;
+  return currentIndex > 0 ? (steps[currentIndex - 1] ?? null) : null;
 }

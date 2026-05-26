@@ -6,8 +6,8 @@
  * OpenAPI spec version: 1.0
  */
 
-export type WeeklyCheckinQuestionDtoKind = typeof WeeklyCheckinQuestionDtoKind[keyof typeof WeeklyCheckinQuestionDtoKind];
-
+export type WeeklyCheckinQuestionDtoKind =
+  (typeof WeeklyCheckinQuestionDtoKind)[keyof typeof WeeklyCheckinQuestionDtoKind];
 
 export const WeeklyCheckinQuestionDtoKind = {
   number_scale: 'number_scale',

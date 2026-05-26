@@ -1,4 +1,11 @@
-import { Pressable, StyleSheet, View, type PressableProps, type StyleProp, type ViewStyle } from 'react-native';
+import {
+  Pressable,
+  StyleSheet,
+  View,
+  type PressableProps,
+  type StyleProp,
+  type ViewStyle,
+} from 'react-native';
 
 import { colors } from '../theme/colors';
 import { radii } from '../theme/radii';
@@ -55,7 +62,13 @@ export function CardOption({
   );
 }
 
-function SelectionIndicator({ selected, variant }: { selected: boolean; variant: SelectionVariant }) {
+function SelectionIndicator({
+  selected,
+  variant,
+}: {
+  selected: boolean;
+  variant: SelectionVariant;
+}) {
   if (variant === 'checkbox') {
     return (
       <View style={[styles.checkbox, selected && styles.indicatorSelected]}>
@@ -64,7 +77,11 @@ function SelectionIndicator({ selected, variant }: { selected: boolean; variant:
     );
   }
 
-  return <View style={[styles.radio, selected && styles.indicatorSelected]}>{selected ? <View style={styles.dot} /> : null}</View>;
+  return (
+    <View style={[styles.radio, selected && styles.indicatorSelected]}>
+      {selected ? <View style={styles.dot} /> : null}
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({

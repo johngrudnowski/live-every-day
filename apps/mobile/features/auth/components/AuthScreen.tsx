@@ -1,7 +1,16 @@
 import { useEffect, useMemo, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { router } from 'expo-router';
-import { AppScreen, LedText, LogoMark, PrimaryButton, Wordmark, colors, radii, spacing } from '@led/design-system';
+import {
+  AppScreen,
+  LedText,
+  LogoMark,
+  PrimaryButton,
+  Wordmark,
+  colors,
+  radii,
+  spacing,
+} from '@led/design-system';
 
 import { LoadingScreen } from '@/features/launch/components/LoadingScreen';
 import { useMobileAuth } from '../hooks/use-mobile-auth';

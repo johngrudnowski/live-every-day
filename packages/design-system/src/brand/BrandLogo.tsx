@@ -20,7 +20,12 @@ export function BrandLogo({
   ...props
 }: BrandLogoProps) {
   return (
-    <View accessibilityRole="image" accessibilityLabel="Live Every Day" {...props} style={[styles.row, style]}>
+    <View
+      accessibilityRole="image"
+      accessibilityLabel="Live Every Day"
+      {...props}
+      style={[styles.row, style]}
+    >
       <LogoMark size={markSize} />
       {showWordmark ? <Wordmark size={wordmarkSize} inverse={inverse} /> : null}
     </View>

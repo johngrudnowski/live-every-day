@@ -19,9 +19,5 @@ export const cbcLabMetrics = [
 export const cbcLabMetricKeys = cbcLabMetrics.map((metric) => metric.key);
 
 export function getLabMetricLabel(metricKey: string | null | undefined) {
-  return (
-    cbcLabMetrics.find((metric) => metric.key === metricKey)?.label ??
-    metricKey ??
-    'Unknown'
-  );
+  return cbcLabMetrics.find((metric) => metric.key === metricKey)?.label ?? metricKey ?? 'Unknown';
 }

@@ -1,9 +1,4 @@
-import {
-  BadRequestException,
-  Inject,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { BadRequestException, Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { and, desc, eq, inArray } from 'drizzle-orm';
 import { randomUUID } from 'node:crypto';
 import { healthMetricCatalog } from 'database';
@@ -15,10 +10,7 @@ import type {
   CreateManualLabImportRowDto,
 } from './dto/create-manual-lab-import.dto';
 import type { UpdateHealthImportCandidateDto } from './dto/update-health-import-candidate.dto';
-import {
-  HealthImportCommitService,
-  updateJobStatus,
-} from './health-import-commit.service';
+import { HealthImportCommitService, updateJobStatus } from './health-import-commit.service';
 import {
   HealthImportNormalizationService,
   type HealthImportIssue,
@@ -63,10 +55,7 @@ export class HealthImportsService {
       );
     const counts = new Map<string, number>();
     for (const candidate of candidates) {
-      counts.set(
-        candidate.ingestionJobId,
-        (counts.get(candidate.ingestionJobId) ?? 0) + 1,
-      );
+      counts.set(candidate.ingestionJobId, (counts.get(candidate.ingestionJobId) ?? 0) + 1);
     }
 
     return {
@@ -140,12 +129,7 @@ export class HealthImportsService {
     const [job] = await this.db
       .select()
       .from(healthIngestionJobs)
-      .where(
-        and(
-          eq(healthIngestionJobs.id, jobId),
-          eq(healthIngestionJobs.userId, userId),
-        ),
-      )
+      .where(and(eq(healthIngestionJobs.id, jobId), eq(healthIngestionJobs.userId, userId)))
       .limit(1);
 
     if (!job) {
@@ -175,27 +159,16 @@ export class HealthImportsService {
     candidateId: string,
     dto: UpdateHealthImportCandidateDto,
   ) {
-    const candidate = await this.getCandidateForUpdate(
-      userId,
-      jobId,
-      candidateId,
-    );
+    const candidate = await this.getCandidateForUpdate(userId, jobId, candidateId);
     if (candidate.status === 'committed') {
       throw new BadRequestException('Committed candidates cannot be edited.');
     }
 
     const rawLabel =
-      dto.rawLabel !== undefined
-        ? readRequiredText(dto.rawLabel, 'rawLabel')
-        : candidate.rawLabel;
+      dto.rawLabel !== undefined ? readRequiredText(dto.rawLabel, 'rawLabel') : candidate.rawLabel;
     const rawValue =
-      dto.rawValue !== undefined
-        ? readRequiredText(dto.rawValue, 'rawValue')
-        : candidate.rawValue;
-    const rawUnit =
-      dto.rawUnit !== undefined
-        ? readNullableText(dto.rawUnit)
-        : candidate.rawUnit;
+      dto.rawValue !== undefined ? readRequiredText(dto.rawValue, 'rawValue') : candidate.rawValue;
+    const rawUnit = dto.rawUnit !== undefined ? readNullableText(dto.rawUnit) : candidate.rawUnit;
     const rawReferenceRange =
       dto.rawReferenceRange !== undefined
         ? readNullableText(dto.rawReferenceRange)
@@ -220,9 +193,7 @@ export class HealthImportsService {
     const status = dto.status ?? 'candidate';
 
     if (status !== 'candidate' && status !== 'rejected') {
-      throw new BadRequestException(
-        'Candidate status must be candidate or rejected.',
-      );
+      throw new BadRequestException('Candidate status must be candidate or rejected.');
     }
 
     await this.db
@@ -237,9 +208,7 @@ export class HealthImportsService {
         normalizedUnit: normalized.normalizedUnit,
         normalizedObservedAt: normalized.normalizedObservedAt,
         abnormalFlag:
-          dto.abnormalFlag !== undefined
-            ? normalizeFlag(dto.abnormalFlag)
-            : candidate.abnormalFlag,
+          dto.abnormalFlag !== undefined ? normalizeFlag(dto.abnormalFlag) : candidate.abnormalFlag,
         confidence: normalized.confidence,
         issuesJson: normalized.issues,
         status,
@@ -250,20 +219,12 @@ export class HealthImportsService {
     return await this.getImport(userId, jobId);
   }
 
-  async acceptCandidates(
-    userId: string,
-    jobId: string,
-    candidateIds: string[],
-  ) {
+  async acceptCandidates(userId: string, jobId: string, candidateIds: string[]) {
     await this.commitService.acceptAndCommit(userId, jobId, candidateIds);
     return await this.getImport(userId, jobId);
   }
 
-  async rejectCandidates(
-    userId: string,
-    jobId: string,
-    candidateIds: string[],
-  ) {
+  async rejectCandidates(userId: string, jobId: string, candidateIds: string[]) {
     const ids = readCandidateIds(candidateIds);
     const now = new Date();
 
@@ -271,12 +232,7 @@ export class HealthImportsService {
       const [job] = await tx
         .select()
         .from(healthIngestionJobs)
-        .where(
-          and(
-            eq(healthIngestionJobs.id, jobId),
-            eq(healthIngestionJobs.userId, userId),
-          ),
-        )
+        .where(and(eq(healthIngestionJobs.id, jobId), eq(healthIngestionJobs.userId, userId)))
         .limit(1);
 
       if (!job) {
@@ -295,18 +251,12 @@ export class HealthImportsService {
         );
 
       if (candidates.length !== ids.length) {
-        throw new BadRequestException(
-          'One or more candidates were not found for this import.',
-        );
+        throw new BadRequestException('One or more candidates were not found for this import.');
       }
 
-      const committed = candidates.find(
-        (candidate) => candidate.status === 'committed',
-      );
+      const committed = candidates.find((candidate) => candidate.status === 'committed');
       if (committed) {
-        throw new BadRequestException(
-          'Committed candidates cannot be rejected.',
-        );
+        throw new BadRequestException('Committed candidates cannot be rejected.');
       }
 
       await tx
@@ -320,11 +270,7 @@ export class HealthImportsService {
     return await this.getImport(userId, jobId);
   }
 
-  private async getCandidateForUpdate(
-    userId: string,
-    jobId: string,
-    candidateId: string,
-  ) {
+  private async getCandidateForUpdate(userId: string, jobId: string, candidateId: string) {
     const [candidate] = await this.db
       .select()
       .from(healthExtractedRecords)
@@ -417,9 +363,7 @@ function normalizeFlag(value: string | null | undefined) {
 }
 
 function readCandidateIds(candidateIds: string[] | undefined) {
-  const ids = [
-    ...new Set((candidateIds ?? []).map((id) => id.trim()).filter(Boolean)),
-  ];
+  const ids = [...new Set((candidateIds ?? []).map((id) => id.trim()).filter(Boolean))];
   if (ids.length === 0) {
     throw new BadRequestException('At least one candidate is required.');
   }
@@ -441,9 +385,7 @@ function mapJob(job: JobRow) {
 
 function mapCandidate(candidate: CandidateRow) {
   const metric = candidate.normalizedMetricKey
-    ? healthMetricCatalog.find(
-        (item) => item.key === candidate.normalizedMetricKey,
-      )
+    ? healthMetricCatalog.find((item) => item.key === candidate.normalizedMetricKey)
     : null;
 
   return {

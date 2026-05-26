@@ -6,8 +6,8 @@
  * OpenAPI spec version: 1.0
  */
 
-export type HealthImportIssueDtoSeverity = typeof HealthImportIssueDtoSeverity[keyof typeof HealthImportIssueDtoSeverity];
-
+export type HealthImportIssueDtoSeverity =
+  (typeof HealthImportIssueDtoSeverity)[keyof typeof HealthImportIssueDtoSeverity];
 
 export const HealthImportIssueDtoSeverity = {
   error: 'error',

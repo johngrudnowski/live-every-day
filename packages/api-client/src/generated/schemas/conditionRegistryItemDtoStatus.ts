@@ -6,8 +6,8 @@
  * OpenAPI spec version: 1.0
  */
 
-export type ConditionRegistryItemDtoStatus = typeof ConditionRegistryItemDtoStatus[keyof typeof ConditionRegistryItemDtoStatus];
-
+export type ConditionRegistryItemDtoStatus =
+  (typeof ConditionRegistryItemDtoStatus)[keyof typeof ConditionRegistryItemDtoStatus];
 
 export const ConditionRegistryItemDtoStatus = {
   active: 'active',
