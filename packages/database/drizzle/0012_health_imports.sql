@@ -66,29 +66,29 @@ CREATE TABLE "health_observation_provenance" (
 	"updated_at" timestamp with time zone DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
-ALTER TABLE "health_ingestion_jobs" ADD CONSTRAINT "health_ingestion_jobs_user_id_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."user"("id") ON DELETE cascade ON UPDATE no action;
+ALTER TABLE "health_ingestion_jobs" ADD CONSTRAINT "health_ingestion_jobs_user_fk" FOREIGN KEY ("user_id") REFERENCES "public"."user"("id") ON DELETE cascade ON UPDATE no action;
 --> statement-breakpoint
-ALTER TABLE "health_source_documents" ADD CONSTRAINT "health_source_documents_user_id_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."user"("id") ON DELETE cascade ON UPDATE no action;
+ALTER TABLE "health_source_documents" ADD CONSTRAINT "health_source_documents_user_fk" FOREIGN KEY ("user_id") REFERENCES "public"."user"("id") ON DELETE cascade ON UPDATE no action;
 --> statement-breakpoint
-ALTER TABLE "health_source_documents" ADD CONSTRAINT "health_source_documents_ingestion_job_id_health_ingestion_jobs_id_fk" FOREIGN KEY ("ingestion_job_id") REFERENCES "public"."health_ingestion_jobs"("id") ON DELETE cascade ON UPDATE no action;
+ALTER TABLE "health_source_documents" ADD CONSTRAINT "health_source_documents_job_fk" FOREIGN KEY ("ingestion_job_id") REFERENCES "public"."health_ingestion_jobs"("id") ON DELETE cascade ON UPDATE no action;
 --> statement-breakpoint
-ALTER TABLE "health_extracted_records" ADD CONSTRAINT "health_extracted_records_user_id_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."user"("id") ON DELETE cascade ON UPDATE no action;
+ALTER TABLE "health_extracted_records" ADD CONSTRAINT "health_extracted_records_user_fk" FOREIGN KEY ("user_id") REFERENCES "public"."user"("id") ON DELETE cascade ON UPDATE no action;
 --> statement-breakpoint
-ALTER TABLE "health_extracted_records" ADD CONSTRAINT "health_extracted_records_ingestion_job_id_health_ingestion_jobs_id_fk" FOREIGN KEY ("ingestion_job_id") REFERENCES "public"."health_ingestion_jobs"("id") ON DELETE cascade ON UPDATE no action;
+ALTER TABLE "health_extracted_records" ADD CONSTRAINT "health_extracted_records_job_fk" FOREIGN KEY ("ingestion_job_id") REFERENCES "public"."health_ingestion_jobs"("id") ON DELETE cascade ON UPDATE no action;
 --> statement-breakpoint
-ALTER TABLE "health_extracted_records" ADD CONSTRAINT "health_extracted_records_source_document_id_health_source_documents_id_fk" FOREIGN KEY ("source_document_id") REFERENCES "public"."health_source_documents"("id") ON DELETE set null ON UPDATE no action;
+ALTER TABLE "health_extracted_records" ADD CONSTRAINT "health_extracted_records_document_fk" FOREIGN KEY ("source_document_id") REFERENCES "public"."health_source_documents"("id") ON DELETE set null ON UPDATE no action;
 --> statement-breakpoint
-ALTER TABLE "health_extracted_records" ADD CONSTRAINT "health_extracted_records_committed_observation_id_health_observations_id_fk" FOREIGN KEY ("committed_observation_id") REFERENCES "public"."health_observations"("id") ON DELETE set null ON UPDATE no action;
+ALTER TABLE "health_extracted_records" ADD CONSTRAINT "health_extracted_records_observation_fk" FOREIGN KEY ("committed_observation_id") REFERENCES "public"."health_observations"("id") ON DELETE set null ON UPDATE no action;
 --> statement-breakpoint
-ALTER TABLE "health_observation_provenance" ADD CONSTRAINT "health_observation_provenance_observation_id_health_observations_id_fk" FOREIGN KEY ("observation_id") REFERENCES "public"."health_observations"("id") ON DELETE cascade ON UPDATE no action;
+ALTER TABLE "health_observation_provenance" ADD CONSTRAINT "health_observation_provenance_observation_fk" FOREIGN KEY ("observation_id") REFERENCES "public"."health_observations"("id") ON DELETE cascade ON UPDATE no action;
 --> statement-breakpoint
-ALTER TABLE "health_observation_provenance" ADD CONSTRAINT "health_observation_provenance_ingestion_job_id_health_ingestion_jobs_id_fk" FOREIGN KEY ("ingestion_job_id") REFERENCES "public"."health_ingestion_jobs"("id") ON DELETE cascade ON UPDATE no action;
+ALTER TABLE "health_observation_provenance" ADD CONSTRAINT "health_observation_provenance_job_fk" FOREIGN KEY ("ingestion_job_id") REFERENCES "public"."health_ingestion_jobs"("id") ON DELETE cascade ON UPDATE no action;
 --> statement-breakpoint
-ALTER TABLE "health_observation_provenance" ADD CONSTRAINT "health_observation_provenance_source_document_id_health_source_documents_id_fk" FOREIGN KEY ("source_document_id") REFERENCES "public"."health_source_documents"("id") ON DELETE set null ON UPDATE no action;
+ALTER TABLE "health_observation_provenance" ADD CONSTRAINT "health_observation_provenance_document_fk" FOREIGN KEY ("source_document_id") REFERENCES "public"."health_source_documents"("id") ON DELETE set null ON UPDATE no action;
 --> statement-breakpoint
-ALTER TABLE "health_observation_provenance" ADD CONSTRAINT "health_observation_provenance_extracted_record_id_health_extracted_records_id_fk" FOREIGN KEY ("extracted_record_id") REFERENCES "public"."health_extracted_records"("id") ON DELETE cascade ON UPDATE no action;
+ALTER TABLE "health_observation_provenance" ADD CONSTRAINT "health_observation_provenance_record_fk" FOREIGN KEY ("extracted_record_id") REFERENCES "public"."health_extracted_records"("id") ON DELETE cascade ON UPDATE no action;
 --> statement-breakpoint
-ALTER TABLE "health_observation_provenance" ADD CONSTRAINT "health_observation_provenance_reviewed_by_user_id_user_id_fk" FOREIGN KEY ("reviewed_by_user_id") REFERENCES "public"."user"("id") ON DELETE set null ON UPDATE no action;
+ALTER TABLE "health_observation_provenance" ADD CONSTRAINT "health_observation_provenance_reviewer_fk" FOREIGN KEY ("reviewed_by_user_id") REFERENCES "public"."user"("id") ON DELETE set null ON UPDATE no action;
 --> statement-breakpoint
 CREATE INDEX "health_ingestion_jobs_user_created_idx" ON "health_ingestion_jobs" USING btree ("user_id","created_at");
 --> statement-breakpoint

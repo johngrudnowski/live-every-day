@@ -8,12 +8,18 @@
     "preview": "pulumi preview",
     "up": "pulumi up",
     "destroy": "pulumi destroy",
-    "typecheck": "tsc -p tsconfig.json --noEmit"
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "stack:preview": "./scripts/deploy-stack.sh preview",
+    "stack:deploy": "./scripts/deploy-stack.sh up",
+    "publish:api": "./scripts/publish-api-image.sh",
+    "migrate:api": "./scripts/run-migrations.sh",
+    "deploy:api": "./scripts/deploy-api-image.sh",
+    "release:api": "./scripts/release-api.sh"
   },
   "dependencies": {
-    "@pulumi/gcp": "^9.23.0",
-    "@pulumi/pulumi": "^3.241.0",
-    "@pulumi/random": "^4.20.0"
+    "@pulumi/gcp": "^9.25.0",
+    "@pulumi/pulumi": "^3.243.0",
+    "@pulumi/random": "^4.21.0"
   },
   "devDependencies": {
     "@types/node": "^24.12.4",

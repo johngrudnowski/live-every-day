@@ -3,6 +3,7 @@ import {
   boolean,
   date,
   doublePrecision,
+  foreignKey,
   index,
   integer,
   jsonb,
@@ -17,8 +18,12 @@ export const healthDataSources = pgTable('health_data_sources', {
   id: text('id').primaryKey(),
   label: text('label').notNull(),
   kind: text('kind').notNull(),
-  createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
-  updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull(),
+  createdAt: timestamp('created_at', { withTimezone: true })
+    .defaultNow()
+    .notNull(),
+  updatedAt: timestamp('updated_at', { withTimezone: true })
+    .defaultNow()
+    .notNull(),
 });
 
 export const healthSourceConnections = pgTable(
@@ -41,8 +46,12 @@ export const healthSourceConnections = pgTable(
       .notNull()
       .default(sql`'{}'::jsonb`),
     lastSyncAt: timestamp('last_sync_at', { withTimezone: true }),
-    createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
-    updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull(),
+    createdAt: timestamp('created_at', { withTimezone: true })
+      .defaultNow()
+      .notNull(),
+    updatedAt: timestamp('updated_at', { withTimezone: true })
+      .defaultNow()
+      .notNull(),
   },
   (table) => ({
     userSourceIdx: index('health_source_connections_user_source_idx').on(
@@ -63,9 +72,7 @@ export const healthSyncRuns = pgTable(
     userId: text('user_id')
       .notNull()
       .references(() => user.id, { onDelete: 'cascade' }),
-    sourceConnectionId: text('source_connection_id').references(() => healthSourceConnections.id, {
-      onDelete: 'set null',
-    }),
+    sourceConnectionId: text('source_connection_id'),
     status: text('status').notNull(),
     syncKind: text('sync_kind').notNull(),
     windowStartAt: timestamp('window_start_at', { withTimezone: true }),
@@ -75,15 +82,25 @@ export const healthSyncRuns = pgTable(
     recordsRead: integer('records_read').notNull().default(0),
     recordsWritten: integer('records_written').notNull().default(0),
     errorMessage: text('error_message'),
-    startedAt: timestamp('started_at', { withTimezone: true }).defaultNow().notNull(),
+    startedAt: timestamp('started_at', { withTimezone: true })
+      .defaultNow()
+      .notNull(),
     completedAt: timestamp('completed_at', { withTimezone: true }),
   },
   (table) => ({
-    userStartedIdx: index('health_sync_runs_user_started_idx').on(table.userId, table.startedAt),
+    userStartedIdx: index('health_sync_runs_user_started_idx').on(
+      table.userId,
+      table.startedAt,
+    ),
     connectionStartedIdx: index('health_sync_runs_connection_started_idx').on(
       table.sourceConnectionId,
       table.startedAt,
     ),
+    sourceConnectionFk: foreignKey({
+      columns: [table.sourceConnectionId],
+      foreignColumns: [healthSourceConnections.id],
+      name: 'health_sync_runs_source_connection_fk',
+    }).onDelete('set null'),
   }),
 );
 
@@ -100,8 +117,12 @@ export const healthMetricTypes = pgTable('health_metric_types', {
   metadataJson: jsonb('metadata_json')
     .notNull()
     .default(sql`'{}'::jsonb`),
-  createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
-  updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull(),
+  createdAt: timestamp('created_at', { withTimezone: true })
+    .defaultNow()
+    .notNull(),
+  updatedAt: timestamp('updated_at', { withTimezone: true })
+    .defaultNow()
+    .notNull(),
 });
 
 export const healthObservationGroups = pgTable(
@@ -112,9 +133,7 @@ export const healthObservationGroups = pgTable(
       .notNull()
       .references(() => user.id, { onDelete: 'cascade' }),
     groupType: text('group_type').notNull(),
-    sourceConnectionId: text('source_connection_id').references(() => healthSourceConnections.id, {
-      onDelete: 'set null',
-    }),
+    sourceConnectionId: text('source_connection_id'),
     sourceRecordId: text('source_record_id'),
     observedAt: timestamp('observed_at', { withTimezone: true }).notNull(),
     startedAt: timestamp('started_at', { withTimezone: true }),
@@ -122,18 +141,27 @@ export const healthObservationGroups = pgTable(
     metadataJson: jsonb('metadata_json')
       .notNull()
       .default(sql`'{}'::jsonb`),
-    createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
-    updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull(),
+    createdAt: timestamp('created_at', { withTimezone: true })
+      .defaultNow()
+      .notNull(),
+    updatedAt: timestamp('updated_at', { withTimezone: true })
+      .defaultNow()
+      .notNull(),
   },
   (table) => ({
-    userGroupObservedIdx: index('health_observation_groups_user_group_observed_idx').on(
-      table.userId,
-      table.groupType,
-      table.observedAt,
-    ),
-    sourceRecordUnique: uniqueIndex('health_observation_groups_source_record_unique')
+    userGroupObservedIdx: index(
+      'health_observation_groups_user_group_observed_idx',
+    ).on(table.userId, table.groupType, table.observedAt),
+    sourceRecordUnique: uniqueIndex(
+      'health_observation_groups_source_record_unique',
+    )
       .on(table.sourceConnectionId, table.sourceRecordId)
       .where(sql`${table.sourceRecordId} is not null`),
+    sourceConnectionFk: foreignKey({
+      columns: [table.sourceConnectionId],
+      foreignColumns: [healthSourceConnections.id],
+      name: 'health_observation_groups_source_connection_fk',
+    }).onDelete('set null'),
   }),
 );
 
@@ -147,12 +175,8 @@ export const healthObservations = pgTable(
     metricKey: text('metric_key')
       .notNull()
       .references(() => healthMetricTypes.key),
-    sourceConnectionId: text('source_connection_id').references(() => healthSourceConnections.id, {
-      onDelete: 'set null',
-    }),
-    observationGroupId: text('observation_group_id').references(() => healthObservationGroups.id, {
-      onDelete: 'set null',
-    }),
+    sourceConnectionId: text('source_connection_id'),
+    observationGroupId: text('observation_group_id'),
     sourceRecordId: text('source_record_id'),
     sourceRecordVersion: text('source_record_version'),
     valueNumeric: doublePrecision('value_numeric'),
@@ -172,27 +196,46 @@ export const healthObservations = pgTable(
     qualityJson: jsonb('quality_json')
       .notNull()
       .default(sql`'{}'::jsonb`),
-    createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
-    updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull(),
+    createdAt: timestamp('created_at', { withTimezone: true })
+      .defaultNow()
+      .notNull(),
+    updatedAt: timestamp('updated_at', { withTimezone: true })
+      .defaultNow()
+      .notNull(),
     deletedAt: timestamp('deleted_at', { withTimezone: true }),
   },
   (table) => ({
-    userMetricObservedIdx: index('health_observations_user_metric_observed_idx').on(
-      table.userId,
-      table.metricKey,
-      table.observedAt,
-    ),
+    userMetricObservedIdx: index(
+      'health_observations_user_metric_observed_idx',
+    ).on(table.userId, table.metricKey, table.observedAt),
     userObservedIdx: index('health_observations_user_observed_idx').on(
       table.userId,
       table.observedAt,
     ),
-    groupIdx: index('health_observations_group_idx').on(table.observationGroupId),
+    groupIdx: index('health_observations_group_idx').on(
+      table.observationGroupId,
+    ),
     userMetricAggregationObservedIdx: index(
       'health_observations_user_metric_aggregation_observed_idx',
-    ).on(table.userId, table.metricKey, table.aggregationKind, table.observedAt),
+    ).on(
+      table.userId,
+      table.metricKey,
+      table.aggregationKind,
+      table.observedAt,
+    ),
     sourceRecordUnique: uniqueIndex('health_observations_source_record_unique')
       .on(table.sourceConnectionId, table.sourceRecordId, table.metricKey)
       .where(sql`${table.sourceRecordId} is not null`),
+    sourceConnectionFk: foreignKey({
+      columns: [table.sourceConnectionId],
+      foreignColumns: [healthSourceConnections.id],
+      name: 'health_observations_source_connection_fk',
+    }).onDelete('set null'),
+    observationGroupFk: foreignKey({
+      columns: [table.observationGroupId],
+      foreignColumns: [healthObservationGroups.id],
+      name: 'health_observations_group_fk',
+    }).onDelete('set null'),
   }),
 );
 
@@ -208,9 +251,7 @@ export const healthDailySummaries = pgTable(
       .references(() => healthMetricTypes.key),
     summaryDate: date('summary_date').notNull(),
     timezone: text('timezone').notNull(),
-    sourceConnectionId: text('source_connection_id').references(() => healthSourceConnections.id, {
-      onDelete: 'set null',
-    }),
+    sourceConnectionId: text('source_connection_id'),
     sampleCount: integer('sample_count').notNull().default(0),
     valueSum: doublePrecision('value_sum'),
     valueAvg: doublePrecision('value_avg'),
@@ -221,21 +262,42 @@ export const healthDailySummaries = pgTable(
     metadataJson: jsonb('metadata_json')
       .notNull()
       .default(sql`'{}'::jsonb`),
-    createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
-    updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull(),
+    createdAt: timestamp('created_at', { withTimezone: true })
+      .defaultNow()
+      .notNull(),
+    updatedAt: timestamp('updated_at', { withTimezone: true })
+      .defaultNow()
+      .notNull(),
   },
   (table) => ({
-    userDateIdx: index('health_daily_summaries_user_date_idx').on(table.userId, table.summaryDate),
+    userDateIdx: index('health_daily_summaries_user_date_idx').on(
+      table.userId,
+      table.summaryDate,
+    ),
     userMetricDateIdx: index('health_daily_summaries_user_metric_date_idx').on(
       table.userId,
       table.metricKey,
       table.summaryDate,
     ),
-    userMetricSourceDateUnique: uniqueIndex('health_daily_summaries_user_metric_source_date_unique')
-      .on(table.userId, table.metricKey, table.summaryDate, table.sourceConnectionId)
+    userMetricSourceDateUnique: uniqueIndex(
+      'health_daily_summaries_user_metric_source_date_unique',
+    )
+      .on(
+        table.userId,
+        table.metricKey,
+        table.summaryDate,
+        table.sourceConnectionId,
+      )
       .where(sql`${table.sourceConnectionId} is not null`),
-    userMetricManualDateUnique: uniqueIndex('health_daily_summaries_user_metric_manual_date_unique')
+    userMetricManualDateUnique: uniqueIndex(
+      'health_daily_summaries_user_metric_manual_date_unique',
+    )
       .on(table.userId, table.metricKey, table.summaryDate)
       .where(sql`${table.sourceConnectionId} is null`),
+    sourceConnectionFk: foreignKey({
+      columns: [table.sourceConnectionId],
+      foreignColumns: [healthSourceConnections.id],
+      name: 'health_daily_summaries_source_connection_fk',
+    }).onDelete('set null'),
   }),
 );

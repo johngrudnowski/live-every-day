@@ -59,3 +59,7 @@ export const cloudRun = {
 export const github = {
   repository: config.get('githubRepository'),
 };
+
+export const monitoringConfig = {
+  uptimeCheckEnabled: config.getBoolean('uptimeCheckEnabled') ?? false,
+};

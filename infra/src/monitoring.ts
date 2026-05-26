@@ -1,6 +1,6 @@
 import * as gcp from '@pulumi/gcp';
 import * as pulumi from '@pulumi/pulumi';
-import { names, project } from './config';
+import { monitoringConfig, project } from './config';
 import { service } from './cloud-run-api';
 import { job } from './cloud-run-migrations';
 import { instance } from './cloud-sql';
@@ -63,28 +63,39 @@ export const cloudSqlCpuAlert = alertPolicy(
   'ALIGN_MEAN',
 );
 
-export const uptimeCheck = new gcp.monitoring.UptimeCheckConfig('api-health-uptime-check', {
-  project,
-  displayName: 'Live Every Day API health',
-  timeout: '10s',
-  period: '60s',
-  httpCheck: {
-    path: '/api/health',
-    port: 443,
-    useSsl: true,
-  },
-  monitoredResource: {
-    type: 'uptime_url',
-    labels: {
-      project_id: project,
-      host: service.uri.apply((uri) => new URL(uri).host),
-    },
-  },
-});
+export let uptimeCheck: gcp.monitoring.UptimeCheckConfig | undefined;
 
-export const monitoringResourceNames = {
+if (monitoringConfig.uptimeCheckEnabled) {
+  uptimeCheck = new gcp.monitoring.UptimeCheckConfig('api-health-uptime-check', {
+    project,
+    displayName: 'Live Every Day API health',
+    timeout: '10s',
+    period: '60s',
+    httpCheck: {
+      path: '/api/health',
+      port: 443,
+      useSsl: true,
+    },
+    monitoredResource: {
+      type: 'uptime_url',
+      labels: {
+        project_id: project,
+        host: service.uri.apply((uri) => new URL(uri).host),
+      },
+    },
+  });
+}
+
+type MonitoringResourceNames = {
+  apiFiveHundredAlert: pulumi.Output<string>;
+  migrationFailureAlert: pulumi.Output<string>;
+  cloudSqlCpuAlert: pulumi.Output<string>;
+  uptimeCheck?: pulumi.Output<string>;
+};
+
+export const monitoringResourceNames: MonitoringResourceNames = {
   apiFiveHundredAlert: apiFiveHundredAlert.name,
   migrationFailureAlert: migrationFailureAlert.name,
   cloudSqlCpuAlert: cloudSqlCpuAlert.name,
-  uptimeCheck: uptimeCheck.name,
+  ...(uptimeCheck ? { uptimeCheck: uptimeCheck.name } : {}),
 };

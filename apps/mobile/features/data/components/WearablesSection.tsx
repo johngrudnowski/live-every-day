@@ -1,68 +1,96 @@
 import { router } from 'expo-router';
 import { StyleSheet, View } from 'react-native';
-import { spacing } from '@led/design-system';
+import { LedText, colors, radii, spacing } from '@led/design-system';
+import { useLatestObservationsQuery } from '../api/health-data-queries';
+import { getHealthMetricDefinition } from '../lib/healthMetrics';
 import { DataMetricCard } from './DataMetricCard';
 import { SectionHeader } from './SectionHeader';
 
-const wearableMetrics = [
-  {
-    label: 'Resting HR',
-    metricKey: 'resting_heart_rate',
-    value: '72',
-    unit: 'bpm',
-    status: '+6 bpm',
-    tone: 'high',
-  },
-  {
-    label: 'Deep sleep',
-    metricKey: 'sleep_duration',
-    value: '52',
-    unit: 'min',
-    status: 'from 78',
-    tone: 'high',
-  },
-  {
-    label: 'HRV',
-    metricKey: 'heart_rate_variability_sdnn',
-    value: '28',
-    unit: 'ms',
-    status: 'declining',
-    tone: 'high',
-  },
-  {
-    label: 'Steps/day',
-    metricKey: 'steps',
-    value: '4,820',
-    unit: null,
-    status: 'from 6,400',
-    tone: 'high',
-  },
+type WidgetTone = 'ok' | 'empty';
+
+const wearableWidgetMetricKeys = [
+  'resting_heart_rate',
+  'sleep_duration',
+  'heart_rate_variability_sdnn',
+  'steps',
 ] as const;
 
 export function WearablesSection() {
+  const latestQuery = useLatestObservationsQuery({
+    metricKeys: wearableWidgetMetricKeys.join(','),
+  });
+  const observations = latestQuery.data?.observations ?? [];
+  const widgets = wearableWidgetMetricKeys.map((metricKey) => {
+    const metric = getHealthMetricDefinition(metricKey);
+    const observation = observations.find(
+      (item) => item.metricKey === metricKey,
+    );
+
+    return {
+      metricKey,
+      label: metric?.shortLabel ?? metric?.label ?? metricKey,
+      unit: observation?.unit ?? metric?.unit ?? null,
+      value:
+        observation?.valueNumeric === null ||
+        observation?.valueNumeric === undefined
+          ? null
+          : formatMetricValue(observation.valueNumeric, metric?.precision ?? 0),
+      status: observation
+        ? `Latest ${formatObservationDate(observation.observedAt)}`
+        : 'No data',
+      tone: observation ? ('ok' as const) : ('empty' as const),
+    };
+  });
+  const hasAnyData = widgets.some((widget) => widget.value !== null);
+
   return (
     <View style={styles.section}>
-      <SectionHeader title="Wearables - Oura / Apple Health" />
-      <View style={styles.grid}>
-        {wearableMetrics.map((metric) => (
-          <DataMetricCard
-            key={metric.label}
-            label={metric.label}
-            status={metric.status}
-            tone={metric.tone}
-            unit={metric.unit}
-            value={metric.value}
-            onPress={() =>
-              router.push({
-                pathname: '/data/history/[metricKey]',
-                params: { metricKey: metric.metricKey },
-              })
-            }
-          />
-        ))}
-      </View>
+      <SectionHeader title="Wearables" />
+      {hasAnyData || latestQuery.isPending ? (
+        <View style={styles.grid}>
+          {widgets.map((widget) => (
+            <DataMetricCard
+              key={widget.metricKey}
+              label={widget.label}
+              status={latestQuery.isPending ? 'Loading' : widget.status}
+              tone={latestQuery.isPending ? 'empty' : widget.tone}
+              unit={widget.value ? widget.unit : null}
+              value={latestQuery.isPending ? '--' : (widget.value ?? '--')}
+              onPress={() =>
+                router.push({
+                  pathname: '/data/history/[metricKey]',
+                  params: { metricKey: widget.metricKey },
+                })
+              }
+            />
+          ))}
+        </View>
+      ) : (
+        <View style={styles.emptyCard}>
+          <LedText variant="subtitle">No wearable data yet.</LedText>
+          <LedText variant="bodySmall" color="predawn" style={styles.emptyCopy}>
+            Connect Apple Health, Oura, or another source to track wearable
+            trends here.
+          </LedText>
+        </View>
+      )}
     </View>
   );
+}
+
+function formatMetricValue(value: number, precision: number) {
+  if (precision === 0) {
+    return String(Math.round(value));
+  }
+
+  return value.toFixed(precision);
+}
+
+function formatObservationDate(value: string) {
+  return new Intl.DateTimeFormat('en-US', {
+    month: 'short',
+    day: 'numeric',
+  }).format(new Date(value));
 }
 
 const styles = StyleSheet.create({
@@ -73,5 +101,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     gap: spacing.sm,
+  },
+  emptyCard: {
+    gap: spacing.xs,
+    borderWidth: 1,
+    borderColor: colors.border,
+    borderRadius: radii.xxl,
+    backgroundColor: colors.card,
+    padding: spacing.lg,
+  },
+  emptyCopy: {
+    lineHeight: 18,
   },
 });

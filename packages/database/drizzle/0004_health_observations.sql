@@ -117,25 +117,25 @@ ALTER TABLE "health_source_connections" ADD CONSTRAINT "health_source_connection
 --> statement-breakpoint
 ALTER TABLE "health_sync_runs" ADD CONSTRAINT "health_sync_runs_user_id_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."user"("id") ON DELETE cascade ON UPDATE no action;
 --> statement-breakpoint
-ALTER TABLE "health_sync_runs" ADD CONSTRAINT "health_sync_runs_source_connection_id_health_source_connections_id_fk" FOREIGN KEY ("source_connection_id") REFERENCES "public"."health_source_connections"("id") ON DELETE set null ON UPDATE no action;
+ALTER TABLE "health_sync_runs" ADD CONSTRAINT "health_sync_runs_source_connection_fk" FOREIGN KEY ("source_connection_id") REFERENCES "public"."health_source_connections"("id") ON DELETE set null ON UPDATE no action;
 --> statement-breakpoint
 ALTER TABLE "health_observation_groups" ADD CONSTRAINT "health_observation_groups_user_id_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."user"("id") ON DELETE cascade ON UPDATE no action;
 --> statement-breakpoint
-ALTER TABLE "health_observation_groups" ADD CONSTRAINT "health_observation_groups_source_connection_id_health_source_connections_id_fk" FOREIGN KEY ("source_connection_id") REFERENCES "public"."health_source_connections"("id") ON DELETE set null ON UPDATE no action;
+ALTER TABLE "health_observation_groups" ADD CONSTRAINT "health_observation_groups_source_connection_fk" FOREIGN KEY ("source_connection_id") REFERENCES "public"."health_source_connections"("id") ON DELETE set null ON UPDATE no action;
 --> statement-breakpoint
 ALTER TABLE "health_observations" ADD CONSTRAINT "health_observations_user_id_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."user"("id") ON DELETE cascade ON UPDATE no action;
 --> statement-breakpoint
 ALTER TABLE "health_observations" ADD CONSTRAINT "health_observations_metric_key_health_metric_types_key_fk" FOREIGN KEY ("metric_key") REFERENCES "public"."health_metric_types"("key") ON DELETE no action ON UPDATE no action;
 --> statement-breakpoint
-ALTER TABLE "health_observations" ADD CONSTRAINT "health_observations_source_connection_id_health_source_connections_id_fk" FOREIGN KEY ("source_connection_id") REFERENCES "public"."health_source_connections"("id") ON DELETE set null ON UPDATE no action;
+ALTER TABLE "health_observations" ADD CONSTRAINT "health_observations_source_connection_fk" FOREIGN KEY ("source_connection_id") REFERENCES "public"."health_source_connections"("id") ON DELETE set null ON UPDATE no action;
 --> statement-breakpoint
-ALTER TABLE "health_observations" ADD CONSTRAINT "health_observations_observation_group_id_health_observation_groups_id_fk" FOREIGN KEY ("observation_group_id") REFERENCES "public"."health_observation_groups"("id") ON DELETE set null ON UPDATE no action;
+ALTER TABLE "health_observations" ADD CONSTRAINT "health_observations_group_fk" FOREIGN KEY ("observation_group_id") REFERENCES "public"."health_observation_groups"("id") ON DELETE set null ON UPDATE no action;
 --> statement-breakpoint
 ALTER TABLE "health_daily_summaries" ADD CONSTRAINT "health_daily_summaries_user_id_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."user"("id") ON DELETE cascade ON UPDATE no action;
 --> statement-breakpoint
 ALTER TABLE "health_daily_summaries" ADD CONSTRAINT "health_daily_summaries_metric_key_health_metric_types_key_fk" FOREIGN KEY ("metric_key") REFERENCES "public"."health_metric_types"("key") ON DELETE no action ON UPDATE no action;
 --> statement-breakpoint
-ALTER TABLE "health_daily_summaries" ADD CONSTRAINT "health_daily_summaries_source_connection_id_health_source_connections_id_fk" FOREIGN KEY ("source_connection_id") REFERENCES "public"."health_source_connections"("id") ON DELETE set null ON UPDATE no action;
+ALTER TABLE "health_daily_summaries" ADD CONSTRAINT "health_daily_summaries_source_connection_fk" FOREIGN KEY ("source_connection_id") REFERENCES "public"."health_source_connections"("id") ON DELETE set null ON UPDATE no action;
 --> statement-breakpoint
 CREATE INDEX "health_source_connections_user_source_idx" ON "health_source_connections" USING btree ("user_id","source_id");
 --> statement-breakpoint

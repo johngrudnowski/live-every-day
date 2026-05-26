@@ -1,6 +1,7 @@
 import { sql } from 'drizzle-orm';
 import {
   doublePrecision,
+  foreignKey,
   index,
   jsonb,
   pgTable,
@@ -15,9 +16,7 @@ export const healthIngestionJobs = pgTable(
   'health_ingestion_jobs',
   {
     id: text('id').primaryKey(),
-    userId: text('user_id')
-      .notNull()
-      .references(() => user.id, { onDelete: 'cascade' }),
+    userId: text('user_id').notNull(),
     sourceId: text('source_id').notNull(),
     status: text('status').notNull(),
     inputKind: text('input_kind').notNull(),
@@ -42,6 +41,11 @@ export const healthIngestionJobs = pgTable(
       table.userId,
       table.status,
     ),
+    userFk: foreignKey({
+      columns: [table.userId],
+      foreignColumns: [user.id],
+      name: 'health_ingestion_jobs_user_fk',
+    }).onDelete('cascade'),
   }),
 );
 
@@ -49,12 +53,8 @@ export const healthSourceDocuments = pgTable(
   'health_source_documents',
   {
     id: text('id').primaryKey(),
-    userId: text('user_id')
-      .notNull()
-      .references(() => user.id, { onDelete: 'cascade' }),
-    ingestionJobId: text('ingestion_job_id')
-      .notNull()
-      .references(() => healthIngestionJobs.id, { onDelete: 'cascade' }),
+    userId: text('user_id').notNull(),
+    ingestionJobId: text('ingestion_job_id').notNull(),
     documentKind: text('document_kind').notNull(),
     sourceFilename: text('source_filename'),
     mimeType: text('mime_type'),
@@ -75,6 +75,16 @@ export const healthSourceDocuments = pgTable(
       table.userId,
       table.ingestionJobId,
     ),
+    userFk: foreignKey({
+      columns: [table.userId],
+      foreignColumns: [user.id],
+      name: 'health_source_documents_user_fk',
+    }).onDelete('cascade'),
+    ingestionJobFk: foreignKey({
+      columns: [table.ingestionJobId],
+      foreignColumns: [healthIngestionJobs.id],
+      name: 'health_source_documents_job_fk',
+    }).onDelete('cascade'),
   }),
 );
 
@@ -82,18 +92,9 @@ export const healthExtractedRecords = pgTable(
   'health_extracted_records',
   {
     id: text('id').primaryKey(),
-    userId: text('user_id')
-      .notNull()
-      .references(() => user.id, { onDelete: 'cascade' }),
-    ingestionJobId: text('ingestion_job_id')
-      .notNull()
-      .references(() => healthIngestionJobs.id, { onDelete: 'cascade' }),
-    sourceDocumentId: text('source_document_id').references(
-      () => healthSourceDocuments.id,
-      {
-        onDelete: 'set null',
-      },
-    ),
+    userId: text('user_id').notNull(),
+    ingestionJobId: text('ingestion_job_id').notNull(),
+    sourceDocumentId: text('source_document_id'),
     recordKind: text('record_kind').notNull(),
     rawLabel: text('raw_label').notNull(),
     rawValue: text('raw_value').notNull(),
@@ -116,12 +117,7 @@ export const healthExtractedRecords = pgTable(
       .notNull()
       .default(sql`'{}'::jsonb`),
     status: text('status').notNull(),
-    committedObservationId: text('committed_observation_id').references(
-      () => healthObservations.id,
-      {
-        onDelete: 'set null',
-      },
-    ),
+    committedObservationId: text('committed_observation_id'),
     createdAt: timestamp('created_at', { withTimezone: true })
       .defaultNow()
       .notNull(),
@@ -142,6 +138,26 @@ export const healthExtractedRecords = pgTable(
       table.normalizedMetricKey,
       table.normalizedObservedAt,
     ),
+    userFk: foreignKey({
+      columns: [table.userId],
+      foreignColumns: [user.id],
+      name: 'health_extracted_records_user_fk',
+    }).onDelete('cascade'),
+    ingestionJobFk: foreignKey({
+      columns: [table.ingestionJobId],
+      foreignColumns: [healthIngestionJobs.id],
+      name: 'health_extracted_records_job_fk',
+    }).onDelete('cascade'),
+    sourceDocumentFk: foreignKey({
+      columns: [table.sourceDocumentId],
+      foreignColumns: [healthSourceDocuments.id],
+      name: 'health_extracted_records_document_fk',
+    }).onDelete('set null'),
+    committedObservationFk: foreignKey({
+      columns: [table.committedObservationId],
+      foreignColumns: [healthObservations.id],
+      name: 'health_extracted_records_observation_fk',
+    }).onDelete('set null'),
   }),
 );
 
@@ -149,26 +165,13 @@ export const healthObservationProvenance = pgTable(
   'health_observation_provenance',
   {
     id: text('id').primaryKey(),
-    observationId: text('observation_id')
-      .notNull()
-      .references(() => healthObservations.id, { onDelete: 'cascade' }),
-    ingestionJobId: text('ingestion_job_id')
-      .notNull()
-      .references(() => healthIngestionJobs.id, { onDelete: 'cascade' }),
-    sourceDocumentId: text('source_document_id').references(
-      () => healthSourceDocuments.id,
-      {
-        onDelete: 'set null',
-      },
-    ),
-    extractedRecordId: text('extracted_record_id')
-      .notNull()
-      .references(() => healthExtractedRecords.id, { onDelete: 'cascade' }),
+    observationId: text('observation_id').notNull(),
+    ingestionJobId: text('ingestion_job_id').notNull(),
+    sourceDocumentId: text('source_document_id'),
+    extractedRecordId: text('extracted_record_id').notNull(),
     confidence: doublePrecision('confidence'),
     reviewStatus: text('review_status').notNull(),
-    reviewedByUserId: text('reviewed_by_user_id').references(() => user.id, {
-      onDelete: 'set null',
-    }),
+    reviewedByUserId: text('reviewed_by_user_id'),
     reviewedAt: timestamp('reviewed_at', { withTimezone: true }),
     metadataJson: jsonb('metadata_json')
       .notNull()
@@ -190,5 +193,30 @@ export const healthObservationProvenance = pgTable(
     extractedRecordUnique: uniqueIndex(
       'health_observation_provenance_extracted_record_unique',
     ).on(table.extractedRecordId),
+    observationFk: foreignKey({
+      columns: [table.observationId],
+      foreignColumns: [healthObservations.id],
+      name: 'health_observation_provenance_observation_fk',
+    }).onDelete('cascade'),
+    ingestionJobFk: foreignKey({
+      columns: [table.ingestionJobId],
+      foreignColumns: [healthIngestionJobs.id],
+      name: 'health_observation_provenance_job_fk',
+    }).onDelete('cascade'),
+    sourceDocumentFk: foreignKey({
+      columns: [table.sourceDocumentId],
+      foreignColumns: [healthSourceDocuments.id],
+      name: 'health_observation_provenance_document_fk',
+    }).onDelete('set null'),
+    extractedRecordFk: foreignKey({
+      columns: [table.extractedRecordId],
+      foreignColumns: [healthExtractedRecords.id],
+      name: 'health_observation_provenance_record_fk',
+    }).onDelete('cascade'),
+    reviewedByUserFk: foreignKey({
+      columns: [table.reviewedByUserId],
+      foreignColumns: [user.id],
+      name: 'health_observation_provenance_reviewer_fk',
+    }).onDelete('set null'),
   }),
 );
