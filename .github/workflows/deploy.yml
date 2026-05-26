@@ -113,6 +113,15 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Validate deploy identity claims
+        run: |
+          echo "github.repository=${{ github.repository }}"
+          echo "github.ref=${{ github.ref }}"
+          if [ "${{ github.ref }}" != "refs/heads/main" ]; then
+            echo "::error::Google Cloud deploy auth is restricted to refs/heads/main. Re-run this workflow from main, or merge the PR and let the push-to-main deploy run."
+            exit 1
+          fi
+
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v3
         with:
@@ -161,6 +170,15 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+
+      - name: Validate deploy identity claims
+        run: |
+          echo "github.repository=${{ github.repository }}"
+          echo "github.ref=${{ github.ref }}"
+          if [ "${{ github.ref }}" != "refs/heads/main" ]; then
+            echo "::error::Google Cloud deploy auth is restricted to refs/heads/main. Re-run this workflow from main, or merge the PR and let the push-to-main deploy run."
+            exit 1
+          fi
 
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v3
