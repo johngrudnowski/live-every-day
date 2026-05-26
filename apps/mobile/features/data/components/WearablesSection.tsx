@@ -6,8 +6,6 @@ import { getHealthMetricDefinition } from '../lib/healthMetrics';
 import { DataMetricCard } from './DataMetricCard';
 import { SectionHeader } from './SectionHeader';
 
-type WidgetTone = 'ok' | 'empty';
-
 const wearableWidgetMetricKeys = [
   'resting_heart_rate',
   'sleep_duration',

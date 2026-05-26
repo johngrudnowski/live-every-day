@@ -31,7 +31,10 @@ export function LabImportReviewScreen() {
   const updateMutation = useUpdateHealthImportCandidateMutation();
   const acceptMutation = useAcceptHealthImportCandidatesMutation();
   const rejectMutation = useRejectHealthImportCandidatesMutation();
-  const candidates = importQuery.data?.candidates ?? [];
+  const candidates = useMemo(
+    () => importQuery.data?.candidates ?? [],
+    [importQuery.data?.candidates],
+  );
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
 
   useEffect(() => {
