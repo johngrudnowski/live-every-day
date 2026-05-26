@@ -58,6 +58,7 @@ export const cloudRun = {
 
 export const github = {
   repository: config.get('githubRepository'),
+  deploymentRef: config.get('githubDeploymentRef') ?? 'refs/heads/main',
 };
 
 export const monitoringConfig = {

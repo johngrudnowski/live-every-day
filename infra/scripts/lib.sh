@@ -30,6 +30,11 @@ default_image_tag() {
     return
   fi
 
+  if [[ -n "${GITHUB_SHA:-}" ]]; then
+    printf '%s\n' "$GITHUB_SHA"
+    return
+  fi
+
   if [[ -n "${CI_COMMIT_SHA:-}" ]]; then
     printf '%s\n' "$CI_COMMIT_SHA"
     return
@@ -55,11 +60,20 @@ api_image_uri() {
 
 write_image_env_file() {
   local image_uri="$1"
-  local env_file="${OUTPUT_ENV_FILE:-${GITLAB_ENV_FILE:-}}"
 
-  if [[ -n "$env_file" ]]; then
-    printf 'IMAGE_URI=%s\nAPI_IMAGE_URI=%s\n' "$image_uri" "$image_uri" >"$env_file"
-    log "Wrote image URI to $env_file"
+  if [[ -n "${OUTPUT_ENV_FILE:-}" ]]; then
+    printf 'IMAGE_URI=%s\nAPI_IMAGE_URI=%s\n' "$image_uri" "$image_uri" >"$OUTPUT_ENV_FILE"
+    log "Wrote image URI to $OUTPUT_ENV_FILE"
+  fi
+
+  if [[ -n "${GITHUB_ENV:-}" ]]; then
+    printf 'IMAGE_URI=%s\nAPI_IMAGE_URI=%s\n' "$image_uri" "$image_uri" >>"$GITHUB_ENV"
+    log "Appended image URI to GITHUB_ENV"
+  fi
+
+  if [[ -n "${GITHUB_OUTPUT:-}" ]]; then
+    printf 'image_uri=%s\napi_image_uri=%s\n' "$image_uri" "$image_uri" >>"$GITHUB_OUTPUT"
+    log "Appended image URI to GITHUB_OUTPUT"
   fi
 }
 

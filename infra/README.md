@@ -100,17 +100,61 @@ instead of duplicating deployment logic in workflow YAML.
 Useful environment variables:
 
 - `PULUMI_STACK`: Pulumi stack name, default `dev`.
-- `API_IMAGE_TAG`: image tag to publish, default `CI_COMMIT_SHA`, the local git SHA for a clean worktree, or `manual-<timestamp>` for a dirty worktree.
+- `API_IMAGE_TAG`: image tag to publish, default `GITHUB_SHA`, the local git SHA for a clean worktree, or `manual-<timestamp>` for a dirty worktree.
 - `IMAGE_URI`: full image URI for migration/deployment commands.
-- `OUTPUT_ENV_FILE` or `GITLAB_ENV_FILE`: write `IMAGE_URI` and `API_IMAGE_URI` dotenv output for CI.
+- `OUTPUT_ENV_FILE`: write `IMAGE_URI` and `API_IMAGE_URI` to a dotenv-style file.
+- `GITHUB_ENV` and `GITHUB_OUTPUT`: automatically used by GitHub Actions when present.
 - `GCP_PROJECT`, `GCP_REGION`, `API_SERVICE_NAME`, `MIGRATION_JOB_NAME`: override Pulumi stack outputs when needed.
 - `SKIP_TYPECHECK=1`: skip infra typecheck in `deploy-stack.sh`.
 - `PULUMI_YES=1`: pass `--yes` to `pulumi up`; this is automatic when `CI=true`.
 
 ## GitHub Actions Shape
 
-GitHub Actions should authenticate to GCP, install dependencies, then call the same
-commands used locally. A typical split is:
+This repo has two workflows:
+
+- `.github/workflows/ci.yml`: PR checks plus manual dispatch. It runs formatting,
+  lint, typecheck, infra typecheck, tests, and build. It does not need cloud
+  credentials.
+- `.github/workflows/deploy.yml`: validates, applies the Pulumi stack, then
+  builds, pushes, migrates, and deploys the API image. It runs on pushes to
+  `main` and supports manual dispatch for `dev` or future `prod` deploys.
+  The `prod` option is scaffolding until a `prod` Pulumi stack and matching
+  GitHub environment variables/secrets exist.
+
+GitHub Actions authenticates to GCP with Workload Identity Federation, not a
+long-lived service account key. The workflow needs `id-token: write`, which is
+already set in `deploy.yml`.
+
+The Google trust condition is limited to the configured repository and
+`refs/heads/main` by default. Run manual deploys from `main`, including future
+production deploys, unless `live-every-day-infra:githubDeploymentRef` is changed
+intentionally.
+
+### Repository Variables And Secrets
+
+Apply the stack locally once, then use the Pulumi outputs to configure GitHub:
+
+```sh
+pnpm infra:deploy
+pulumi --cwd infra stack output gcpProject --stack dev
+pulumi --cwd infra stack output gcpRegion --stack dev
+pulumi --cwd infra stack output githubWorkloadIdentityProvider --stack dev
+pulumi --cwd infra stack output githubDeployServiceAccountEmail --stack dev
+```
+
+Set these GitHub repository or environment variables:
+
+- `GCP_PROJECT`: `gcpProject`
+- `GCP_REGION`: `gcpRegion`
+- `GCP_WORKLOAD_IDENTITY_PROVIDER`: `githubWorkloadIdentityProvider`
+- `GCP_SERVICE_ACCOUNT`: `githubDeployServiceAccountEmail`
+
+Set this GitHub secret if the stack uses Pulumi Cloud as its backend:
+
+- `PULUMI_ACCESS_TOKEN`
+
+After variables are configured, the deploy workflow calls the same commands used
+locally:
 
 ```sh
 pnpm install --frozen-lockfile
@@ -121,12 +165,13 @@ pnpm infra:deploy
 For an API release:
 
 ```sh
-OUTPUT_ENV_FILE=image.env pnpm infra:publish:api
+pnpm infra:publish:api
 pnpm infra:deploy:api
 ```
 
-In GitHub Actions, write `IMAGE_URI` to `$GITHUB_ENV` or `$GITHUB_OUTPUT` from
-the image job so the deploy job receives the exact same image URI.
+In GitHub Actions, `publish-api-image.sh` appends the image URI to `$GITHUB_ENV`
+and `$GITHUB_OUTPUT` automatically when those files are present. Use job outputs
+when the deploy step runs in a separate job.
 
 ## Mobile / Expo CORS
 
