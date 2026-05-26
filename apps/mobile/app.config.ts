@@ -48,10 +48,10 @@ export default ({ config }: ConfigContext): LiveEveryDayExpoConfig => ({
   },
   ios: {
     supportsTablet: true,
-    bundleIdentifier: `com.led.liveeveryday${variantSuffix()}`,
+    bundleIdentifier: `com.led.liveeverydaytest${variantSuffix()}`,
   },
   android: {
-    package: `com.led.liveeveryday${variantSuffix()}`,
+    package: `com.led.liveeverydaytest${variantSuffix()}`,
     adaptiveIcon: {
       foregroundImage: './assets/images/adaptive-icon.png',
       backgroundColor: '#ffffff',
@@ -99,6 +99,7 @@ export default ({ config }: ConfigContext): LiveEveryDayExpoConfig => ({
         },
       },
     ],
+    './plugins/withAndroidReleaseSigning',
   ],
   experiments: {
     typedRoutes: true,
