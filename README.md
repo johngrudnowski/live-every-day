@@ -211,6 +211,14 @@ Android notes:
 
 For local browser-based Expo testing, include `http://localhost:8081` in both `CORS_ORIGIN` and `BETTER_AUTH_TRUSTED_ORIGINS`.
 
+Build a signed Android App Bundle locally:
+
+```sh
+pnpm mobile:build:android
+```
+
+See `apps/mobile/BUILD_AND_RELEASE.md` for Android signing, prebuild, EAS Build, and Google Play release notes.
+
 ## Auth
 
 Better Auth is mounted by the API at:
