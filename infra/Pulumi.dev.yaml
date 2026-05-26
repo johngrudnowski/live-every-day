@@ -24,7 +24,7 @@ config:
   live-every-day-infra:cloudRunMemory: 512Mi
   live-every-day-infra:cloudRunConcurrency: '80'
   live-every-day-infra:uptimeCheckEnabled: 'false'
-  live-every-day-infra:githubRepository: tuckwat/live-every-day
+  live-every-day-infra:githubRepository: Live-Every-Day-Foundation/live-every-day
   live-every-day-infra:betterAuthUrl: https://live-every-day-api-647787630348.us-central1.run.app
   live-every-day-infra:googleClientId: 647787630348-2i5gcjpdu3sfmhil30s4d6mg4tnq4she.apps.googleusercontent.com
   live-every-day-infra:googleClientSecretVersion: '2'
