@@ -130,6 +130,11 @@ The Google trust condition is limited to the configured repository and
 production deploys, unless `live-every-day-infra:githubDeploymentRef` is changed
 intentionally.
 
+If Google auth fails with `The given credential is rejected by the attribute
+condition`, check the workflow log line for `github.ref`. It must be
+`refs/heads/main`, and `github.repository` must match the Pulumi config value
+`live-every-day-infra:githubRepository`.
+
 ### Repository Variables And Secrets
 
 Apply the stack locally once, then use the Pulumi outputs to configure GitHub:
