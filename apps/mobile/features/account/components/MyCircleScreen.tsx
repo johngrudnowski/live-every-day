@@ -5,7 +5,6 @@ import { useEffect } from 'react';
 import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { AppScreen, LedText, colors, radii, spacing } from '@led/design-system';
 
-import { ScreenFooter, screenFooterNavActiveLabel } from '@/components/screen-footer';
 import { ScreenHeaderChevronLink, ScreenHeaderNavRow } from '@/components/screen-header';
 import { useMobileAuth } from '@/features/auth/hooks/use-mobile-auth';
 import { LoadingScreen } from '@/features/launch/components/LoadingScreen';
@@ -72,8 +71,6 @@ export function MyCircleScreen() {
           </>
         )}
       </ScrollView>
-
-      <ScreenFooter activeLabel={screenFooterNavActiveLabel.account} />
     </AppScreen>
   );
 }

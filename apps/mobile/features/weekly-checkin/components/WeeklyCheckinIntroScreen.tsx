@@ -2,6 +2,7 @@ import { router } from 'expo-router';
 import { useEffect } from 'react';
 import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { AppScreen, LedText, PrimaryButton, colors, spacing } from '@led/design-system';
+import { ScreenFooter, screenFooterNavActiveLabel } from '@/components/screen-footer';
 import { LoadingScreen } from '@/features/launch/components/LoadingScreen';
 import { useWeeklyCheckinSummaryQuery } from '../api/weekly-checkin-queries';
 import { getCurrentAnswers, getNextQuestionIndex } from '../lib/weeklyCheckinProgress';
@@ -89,6 +90,7 @@ export function WeeklyCheckinIntroScreen() {
           />
         </View>
       </ScrollView>
+      <ScreenFooter activeLabel={screenFooterNavActiveLabel.checkIn} />
     </AppScreen>
   );
 }

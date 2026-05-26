@@ -14,7 +14,6 @@ import {
   spacing,
 } from '@led/design-system';
 
-import { ScreenFooter, screenFooterNavActiveLabel } from '@/components/screen-footer';
 import { ScreenHeaderChevronLink, ScreenHeaderNavRow } from '@/components/screen-header';
 import { useMobileAuth } from '@/features/auth/hooks/use-mobile-auth';
 import { LoadingScreen } from '@/features/launch/components/LoadingScreen';
@@ -413,7 +412,6 @@ function CircleMemberShell({ title, children }: { title: string; children: React
       <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
         {children}
       </ScrollView>
-      <ScreenFooter activeLabel={screenFooterNavActiveLabel.account} />
     </AppScreen>
   );
 }

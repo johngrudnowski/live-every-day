@@ -1,10 +1,11 @@
 import {
-    useVitalMetricsSummaryQuery,
-    type VitalMetricsSummary,
+  useVitalMetricsSummaryQuery,
+  type VitalMetricsSummary,
 } from '@/features/vitals/api/vitals-queries';
 import { LedText, colors, radii, spacing } from '@led/design-system';
 import { router } from 'expo-router';
 import { Pressable, StyleSheet, View } from 'react-native';
+import { getCanonicalHealthMetricKey } from '../lib/healthMetrics';
 import { DataMetricCard } from './DataMetricCard';
 import { SectionHeader } from './SectionHeader';
 
@@ -28,6 +29,12 @@ export function HomeVitalsSection() {
               tone={coerceTone(metric.statusTone)}
               unit={formatUnit(metric.unit)}
               value={metric.value ?? '--'}
+              onPress={() =>
+                router.push({
+                  pathname: '/data/history/[metricKey]',
+                  params: { metricKey: getCanonicalHealthMetricKey(metric.key) ?? metric.key },
+                })
+              }
             />
           ))}
         </View>

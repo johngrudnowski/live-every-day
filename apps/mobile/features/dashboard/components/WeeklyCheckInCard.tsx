@@ -1,6 +1,13 @@
 import { router } from 'expo-router';
 import { StyleSheet, View } from 'react-native';
-import { LedText, PrimaryButton, colors, radii, shadows, spacing } from '@led/design-system';
+import {
+  LedText,
+  PrimaryButton,
+  colors,
+  radii,
+  shadows,
+  spacing,
+} from '@led/design-system';
 import { useWeeklyCheckinSummaryQuery } from '@/features/weekly-checkin/api/weekly-checkin-queries';
 import { formatWeeklyCheckinBurdenWithRawParen } from '@/features/weekly-checkin/lib/weeklyCheckinScorePresentation';
 import { routeToWeeklyCheckin } from '@/features/weekly-checkin/lib/weeklyCheckinRoutes';
@@ -57,6 +64,13 @@ export function WeeklyCheckInCard() {
 
           router.push('/check-in');
         }}
+      />
+      <PrimaryButton
+        label="View history"
+        variant="secondary"
+        fullWidth
+        style={styles.button}
+        onPress={() => router.push('/check-in/history')}
       />
     </View>
   );

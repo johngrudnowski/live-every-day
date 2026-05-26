@@ -1,14 +1,24 @@
 import { router } from 'expo-router';
 import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
-import { AppScreen, LedText, PrimaryButton, colors, radii, spacing } from '@led/design-system';
-import { ScreenHeaderChevronLink, ScreenHeaderNavRow } from '@/components/screen-header';
-import { ScreenFooter, screenFooterNavActiveLabel } from '@/components/screen-footer';
+import {
+  AppScreen,
+  LedText,
+  PrimaryButton,
+  colors,
+  radii,
+  spacing,
+} from '@led/design-system';
+import {
+  ScreenHeaderChevronLink,
+  ScreenHeaderNavRow,
+} from '@/components/screen-header';
 import { LoadingScreen } from '@/features/launch/components/LoadingScreen';
 import {
   useWeeklyCheckinHistoryQuery,
   useWeeklyCheckinSummaryQuery,
   type WeeklyCheckin,
 } from '../api/weekly-checkin-queries';
+import { routeToWeeklyCheckin } from '../lib/weeklyCheckinRoutes';
 import { WeeklyCheckinScoreBadge } from './WeeklyCheckinScoreBadge';
 
 export function WeeklyCheckinHistoryScreen() {
@@ -26,7 +36,12 @@ export function WeeklyCheckinHistoryScreen() {
     <AppScreen padded={false} style={styles.screen}>
       <View style={styles.header}>
         <ScreenHeaderNavRow
-          left={<ScreenHeaderChevronLink label="Back" onPress={() => router.back()} />}
+          left={
+            <ScreenHeaderChevronLink
+              label="Back"
+              onPress={() => router.back()}
+            />
+          }
           title={
             <LedText variant="subtitle" numberOfLines={1} ellipsizeMode="tail">
               Score history
@@ -35,12 +50,24 @@ export function WeeklyCheckinHistoryScreen() {
         />
       </View>
 
-      <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
+      <ScrollView
+        contentContainerStyle={styles.content}
+        showsVerticalScrollIndicator={false}
+      >
         <View style={styles.hero}>
           <LedText variant="displayMedium">Weekly scores</LedText>
           <LedText variant="body" color="textMid">
             Review each submitted week and tap any row to update the answers.
           </LedText>
+          <PrimaryButton
+            label={
+              summaryQuery.data.hasCompletedCurrentWeek
+                ? 'View this week'
+                : 'Start this week'
+            }
+            fullWidth
+            onPress={() => routeToWeeklyCheckin(summaryQuery.data)}
+          />
         </View>
 
         {checkins.length > 0 ? (
@@ -59,12 +86,13 @@ export function WeeklyCheckinHistoryScreen() {
             <LedText variant="bodySmall" color="textMid">
               Complete a weekly check-in to start building your history.
             </LedText>
-            <PrimaryButton label="Start check-in" onPress={() => router.replace('/check-in')} />
+            <PrimaryButton
+              label="Start check-in"
+              onPress={() => router.replace('/check-in')}
+            />
           </View>
         )}
       </ScrollView>
-
-      <ScreenFooter activeLabel={screenFooterNavActiveLabel.checkIn} />
     </AppScreen>
   );
 }
@@ -90,7 +118,9 @@ function HistoryRow({
       <View style={styles.rowCopy}>
         <View style={styles.rowTitle}>
           <LedText variant="subtitle" style={styles.weekTitle}>
-            {isCurrentWeek ? 'This week' : formatWeekRange(checkin.weekStartDate)}
+            {isCurrentWeek
+              ? 'This week'
+              : formatWeekRange(checkin.weekStartDate)}
           </LedText>
           {isCurrentWeek ? (
             <View style={styles.currentPill}>
@@ -130,7 +160,10 @@ function formatWeekRange(weekStartDate: string) {
   const start = new Date(`${weekStartDate}T00:00:00Z`);
   const end = new Date(start);
   end.setUTCDate(start.getUTCDate() + 6);
-  const formatter = new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric' });
+  const formatter = new Intl.DateTimeFormat('en-US', {
+    month: 'short',
+    day: 'numeric',
+  });
 
   return `${formatter.format(start)} - ${formatter.format(end)}`;
 }

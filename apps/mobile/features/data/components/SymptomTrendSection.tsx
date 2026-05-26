@@ -7,18 +7,28 @@ import {
   type SymptomBarChartPoint,
 } from '@/features/weekly-checkin/components/SymptomBarChart';
 import { LedText, colors, radii, spacing } from '@led/design-system';
-import { StyleSheet, View } from 'react-native';
+import { router } from 'expo-router';
+import { Pressable, StyleSheet, View } from 'react-native';
 import { SectionHeader } from './SectionHeader';
 
 export function SymptomTrendSection() {
   const summaryQuery = useWeeklyCheckinSummaryQuery();
-  const chartPoints = getChartPoints(summaryQuery.data?.recentSubmittedCheckins ?? []);
+  const chartPoints = getChartPoints(
+    summaryQuery.data?.recentSubmittedCheckins ?? [],
+  );
   const trendLabel = getTrendLabel(chartPoints);
 
   return (
     <View style={styles.section}>
-      <SectionHeader title="Symptom trend - 8 weeks" />
-      <View style={styles.card}>
+      <SectionHeader
+        title="Symptom trend - 8 weeks"
+        action={<HistoryButton />}
+      />
+      <Pressable
+        accessibilityRole="button"
+        onPress={() => router.push('/check-in/history')}
+        style={({ pressed }) => [styles.card, pressed && styles.pressed]}
+      >
         {chartPoints.length > 0 ? (
           <>
             <View style={styles.chart}>
@@ -26,7 +36,9 @@ export function SymptomTrendSection() {
             </View>
             <View style={styles.footer}>
               <LedText variant="bodySmall" color="predawn">
-                {chartPoints.length >= 8 ? '8 wks ago' : `${chartPoints.length} logged weeks`}
+                {chartPoints.length >= 8
+                  ? '8 wks ago'
+                  : `${chartPoints.length} logged weeks`}
               </LedText>
               <LedText variant="bodySmall" style={styles.trendLabel}>
                 {trendLabel}
@@ -38,8 +50,22 @@ export function SymptomTrendSection() {
             Complete a weekly check-in to see symptom trends here.
           </LedText>
         )}
-      </View>
+      </Pressable>
     </View>
+  );
+}
+
+function HistoryButton() {
+  return (
+    <Pressable
+      accessibilityRole="button"
+      onPress={() => router.push('/check-in/history')}
+      style={({ pressed }) => [styles.historyButton, pressed && styles.pressed]}
+    >
+      <LedText variant="bodySmall" style={styles.historyButtonText}>
+        History
+      </LedText>
+    </Pressable>
   );
 }
 
@@ -99,5 +125,18 @@ const styles = StyleSheet.create({
   },
   emptyText: {
     lineHeight: 18,
+  },
+  historyButton: {
+    borderRadius: radii.pill,
+    backgroundColor: colors.surface,
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.xs,
+  },
+  historyButtonText: {
+    color: colors.midnight,
+    fontFamily: 'DMSans_600SemiBold',
+  },
+  pressed: {
+    opacity: 0.72,
   },
 });

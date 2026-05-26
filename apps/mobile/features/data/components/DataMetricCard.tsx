@@ -1,5 +1,5 @@
 import { LedText, colors, radii, spacing } from '@led/design-system';
-import { StyleSheet, View } from 'react-native';
+import { Pressable, StyleSheet } from 'react-native';
 
 type MetricTone = 'ok' | 'warning' | 'high' | 'empty';
 
@@ -9,15 +9,22 @@ export function DataMetricCard({
   tone = 'ok',
   unit,
   value,
+  onPress,
 }: {
   label: string;
   status: string;
   tone?: MetricTone;
   unit?: string | null;
   value: string;
+  onPress?: () => void;
 }) {
   return (
-    <View style={styles.card}>
+    <Pressable
+      accessibilityRole={onPress ? 'button' : undefined}
+      disabled={!onPress}
+      onPress={onPress}
+      style={({ pressed }) => [styles.card, pressed && styles.pressed]}
+    >
       <LedText variant="bodySmall" color="predawn">
         {label}
       </LedText>
@@ -28,7 +35,7 @@ export function DataMetricCard({
       <LedText variant="bodySmall" style={[styles.status, getToneStyle(tone)]}>
         {status}
       </LedText>
-    </View>
+    </Pressable>
   );
 }
 
@@ -85,5 +92,8 @@ const styles = StyleSheet.create({
   },
   empty: {
     color: colors.predawn,
+  },
+  pressed: {
+    opacity: 0.72,
   },
 });

@@ -1,3 +1,4 @@
+import { router } from 'expo-router';
 import { StyleSheet, View } from 'react-native';
 import { spacing } from '@led/design-system';
 import { DataMetricCard } from './DataMetricCard';
@@ -6,6 +7,7 @@ import { SectionHeader } from './SectionHeader';
 const wearableMetrics = [
   {
     label: 'Resting HR',
+    metricKey: 'resting_heart_rate',
     value: '72',
     unit: 'bpm',
     status: '+6 bpm',
@@ -13,6 +15,7 @@ const wearableMetrics = [
   },
   {
     label: 'Deep sleep',
+    metricKey: 'sleep_duration',
     value: '52',
     unit: 'min',
     status: 'from 78',
@@ -20,6 +23,7 @@ const wearableMetrics = [
   },
   {
     label: 'HRV',
+    metricKey: 'heart_rate_variability_sdnn',
     value: '28',
     unit: 'ms',
     status: 'declining',
@@ -27,6 +31,7 @@ const wearableMetrics = [
   },
   {
     label: 'Steps/day',
+    metricKey: 'steps',
     value: '4,820',
     unit: null,
     status: 'from 6,400',
@@ -47,6 +52,12 @@ export function WearablesSection() {
             tone={metric.tone}
             unit={metric.unit}
             value={metric.value}
+            onPress={() =>
+              router.push({
+                pathname: '/data/history/[metricKey]',
+                params: { metricKey: metric.metricKey },
+              })
+            }
           />
         ))}
       </View>

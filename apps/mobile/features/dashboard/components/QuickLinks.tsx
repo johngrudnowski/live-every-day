@@ -3,7 +3,10 @@ import { router } from 'expo-router';
 import type { ComponentProps } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 import { LedText, colors, radii, spacing } from '@led/design-system';
-import { useLatestVitalReadingQuery } from '@/features/vitals/api/vitals-queries';
+import {
+  useLatestVitalReadingQuery,
+  type VitalReading,
+} from '@/features/vitals/api/vitals-queries';
 import { formatVitalsSummary } from '@/features/vitals/lib/formatVitalsReading';
 
 type IconName = ComponentProps<typeof FontAwesome>['name'];
@@ -41,7 +44,7 @@ export function QuickLinks() {
     title: 'Latest vitals',
     subtitle: latestVitalsSubtitle,
     icon: 'heartbeat',
-    onPress: () => router.push('/vitals/log'),
+    onPress: () => routeToLatestVitals(latestReading),
   };
   const quickLinks = [latestVitalsLink, ...secondaryLinks];
 
@@ -52,6 +55,44 @@ export function QuickLinks() {
       ))}
     </View>
   );
+}
+
+function routeToLatestVitals(reading: VitalReading | null | undefined) {
+  const metricKey = getPrimaryVitalMetricKey(reading);
+
+  if (!metricKey) {
+    router.push('/vitals/log');
+    return;
+  }
+
+  router.push({
+    pathname: '/data/history/[metricKey]',
+    params: { metricKey },
+  });
+}
+
+function getPrimaryVitalMetricKey(reading: VitalReading | null | undefined) {
+  if (!reading) {
+    return null;
+  }
+
+  if (reading.systolicMmHg !== null && reading.diastolicMmHg !== null) {
+    return 'blood_pressure_systolic';
+  }
+
+  if (reading.pulseBpm !== null) {
+    return 'heart_rate';
+  }
+
+  if (reading.temperatureF !== null) {
+    return 'body_temperature';
+  }
+
+  if (reading.oxygenSaturationPercent !== null) {
+    return 'oxygen_saturation';
+  }
+
+  return null;
 }
 
 function QuickLinkRow({ link }: { link: QuickLink }) {

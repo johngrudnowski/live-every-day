@@ -85,6 +85,13 @@
       "when": 1779141600000,
       "tag": "0011_care_team_appointments",
       "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "7",
+      "when": 1779364800000,
+      "tag": "0012_health_imports",
+      "breakpoints": true
     }
   ]
 }
