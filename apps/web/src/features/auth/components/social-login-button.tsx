@@ -15,7 +15,12 @@ type SocialLoginButtonProps = {
   onClick: (provider: OAuthProvider) => Promise<void>;
 };
 
-export function SocialLoginButton({ provider, isLoading, disabled = false, onClick }: SocialLoginButtonProps) {
+export function SocialLoginButton({
+  provider,
+  isLoading,
+  disabled = false,
+  onClick,
+}: SocialLoginButtonProps) {
   return (
     <Button
       fullWidth

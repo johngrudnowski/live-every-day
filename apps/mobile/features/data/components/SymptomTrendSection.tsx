@@ -13,17 +13,12 @@ import { SectionHeader } from './SectionHeader';
 
 export function SymptomTrendSection() {
   const summaryQuery = useWeeklyCheckinSummaryQuery();
-  const chartPoints = getChartPoints(
-    summaryQuery.data?.recentSubmittedCheckins ?? [],
-  );
+  const chartPoints = getChartPoints(summaryQuery.data?.recentSubmittedCheckins ?? []);
   const trendLabel = getTrendLabel(chartPoints);
 
   return (
     <View style={styles.section}>
-      <SectionHeader
-        title="Symptom trend - 8 weeks"
-        action={<HistoryButton />}
-      />
+      <SectionHeader title="Symptom trend - 8 weeks" action={<HistoryButton />} />
       <Pressable
         accessibilityRole="button"
         onPress={() => router.push('/check-in/history')}
@@ -36,9 +31,7 @@ export function SymptomTrendSection() {
             </View>
             <View style={styles.footer}>
               <LedText variant="bodySmall" color="predawn">
-                {chartPoints.length >= 8
-                  ? '8 wks ago'
-                  : `${chartPoints.length} logged weeks`}
+                {chartPoints.length >= 8 ? '8 wks ago' : `${chartPoints.length} logged weeks`}
               </LedText>
               <LedText variant="bodySmall" style={styles.trendLabel}>
                 {trendLabel}

@@ -2,18 +2,8 @@ import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { router } from 'expo-router';
 import { useState } from 'react';
 import { Alert, Pressable, ScrollView, StyleSheet, View } from 'react-native';
-import {
-  AppScreen,
-  LedText,
-  PrimaryButton,
-  colors,
-  radii,
-  spacing,
-} from '@led/design-system';
-import {
-  ScreenHeaderChevronLink,
-  ScreenHeaderNavRow,
-} from '@/components/screen-header';
+import { AppScreen, LedText, PrimaryButton, colors, radii, spacing } from '@led/design-system';
+import { ScreenHeaderChevronLink, ScreenHeaderNavRow } from '@/components/screen-header';
 import { LabImportField } from './LabImportFields';
 import { useCreateManualLabImportMutation } from '../api/health-import-queries';
 import { cbcLabMetrics } from '../lib/labMetrics';
@@ -30,18 +20,14 @@ const defaultRows: LabRowForm[] = [createEmptyRow()];
 
 export function LabImportManualEntryScreen() {
   const createMutation = useCreateManualLabImportMutation();
-  const [reportDate, setReportDate] = useState(
-    new Date().toISOString().slice(0, 10),
-  );
+  const [reportDate, setReportDate] = useState(new Date().toISOString().slice(0, 10));
   const [panelLabel, setPanelLabel] = useState('CBC');
   const [rows, setRows] = useState<LabRowForm[]>(defaultRows);
   const [submitError, setSubmitError] = useState<string | null>(null);
 
   function updateRow(index: number, patch: Partial<LabRowForm>) {
     setRows((current) =>
-      current.map((row, rowIndex) =>
-        rowIndex === index ? { ...row, ...patch } : row,
-      ),
+      current.map((row, rowIndex) => (rowIndex === index ? { ...row, ...patch } : row)),
     );
   }
 
@@ -75,10 +61,7 @@ export function LabImportManualEntryScreen() {
 
     if (cleanedRows.length === 0) {
       setSubmitError('Choose at least one lab metric and enter its value.');
-      Alert.alert(
-        'Add a lab row',
-        'Choose at least one lab metric and enter its value.',
-      );
+      Alert.alert('Add a lab row', 'Choose at least one lab metric and enter its value.');
       return;
     }
 
@@ -111,20 +94,12 @@ export function LabImportManualEntryScreen() {
     <AppScreen padded={false} style={styles.screen}>
       <View style={styles.header}>
         <ScreenHeaderNavRow
-          left={
-            <ScreenHeaderChevronLink
-              label="Data"
-              onPress={() => router.replace('/data')}
-            />
-          }
+          left={<ScreenHeaderChevronLink label="Data" onPress={() => router.replace('/data')} />}
           title={<LedText variant="subtitle">Add labs</LedText>}
         />
       </View>
 
-      <ScrollView
-        contentContainerStyle={styles.content}
-        showsVerticalScrollIndicator={false}
-      >
+      <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
         <View style={styles.intro}>
           <LedText variant="displayMedium" style={styles.title}>
             Enter lab rows.
@@ -202,9 +177,7 @@ export function LabImportManualEntryScreen() {
                 placeholder="150-450"
                 style={styles.columnField}
                 autoCapitalize="none"
-                onChangeText={(referenceRange) =>
-                  updateRow(index, { referenceRange })
-                }
+                onChangeText={(referenceRange) => updateRow(index, { referenceRange })}
               />
               <LabImportField
                 label="Flag"
@@ -212,9 +185,7 @@ export function LabImportManualEntryScreen() {
                 placeholder="normal"
                 style={styles.columnField}
                 autoCapitalize="none"
-                onChangeText={(abnormalFlag) =>
-                  updateRow(index, { abnormalFlag })
-                }
+                onChangeText={(abnormalFlag) => updateRow(index, { abnormalFlag })}
               />
             </View>
           </View>

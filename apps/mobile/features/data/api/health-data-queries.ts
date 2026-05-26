@@ -17,10 +17,8 @@ export type DailyHealthSummary = DailyHealthSummaryDto;
 export type HealthObservationList = HealthObservationListDto;
 
 export type DailySummaryParams = HealthDataControllerGetDailySummaryParams;
-export type ObservationHistoryParams =
-  HealthDataControllerGetObservationHistoryParams;
-export type LatestObservationsParams =
-  HealthDataControllerGetLatestObservationsParams;
+export type ObservationHistoryParams = HealthDataControllerGetObservationHistoryParams;
+export type LatestObservationsParams = HealthDataControllerGetLatestObservationsParams;
 
 export const healthDataQueryKeys = {
   dailySummary: (params: DailySummaryParams) =>
@@ -31,10 +29,7 @@ export const healthDataQueryKeys = {
     getHealthDataControllerGetLatestObservationsQueryKey(params),
 };
 
-export function useDailyHealthSummaryQuery(
-  params: DailySummaryParams,
-  enabled = true,
-) {
+export function useDailyHealthSummaryQuery(params: DailySummaryParams, enabled = true) {
   const queryClient = useQueryClient();
 
   return useHealthDataControllerGetDailySummary<DailyHealthSummary>(
@@ -50,10 +45,7 @@ export function useDailyHealthSummaryQuery(
   );
 }
 
-export function useObservationHistoryQuery(
-  params: ObservationHistoryParams,
-  enabled = true,
-) {
+export function useObservationHistoryQuery(params: ObservationHistoryParams, enabled = true) {
   const queryClient = useQueryClient();
 
   return useHealthDataControllerGetObservationHistory<HealthObservationList>(
@@ -69,10 +61,7 @@ export function useObservationHistoryQuery(
   );
 }
 
-export function useLatestObservationsQuery(
-  params: LatestObservationsParams,
-  enabled = true,
-) {
+export function useLatestObservationsQuery(params: LatestObservationsParams, enabled = true) {
   const queryClient = useQueryClient();
 
   return useHealthDataControllerGetLatestObservations<HealthObservationList>(

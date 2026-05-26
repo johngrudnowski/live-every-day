@@ -18,9 +18,7 @@ import { cbcLabMetrics } from '@/features/labs/lib/labMetrics';
 type IconName = ComponentProps<typeof FontAwesome>['name'];
 type HealthObservation = HealthObservationList['observations'][number];
 const appointmentsRoute = '/appointments' as Href;
-const plateletMetric = cbcLabMetrics.find(
-  (metric) => metric.key === 'lab_platelets',
-)!;
+const plateletMetric = cbcLabMetrics.find((metric) => metric.key === 'lab_platelets')!;
 
 type DashboardWidget = {
   label: string;
@@ -64,10 +62,7 @@ function DashboardMetricCard({ widget }: { widget: DashboardWidget }) {
       accessibilityRole={widget.onPress ? 'button' : undefined}
       disabled={!widget.onPress}
       onPress={widget.onPress}
-      style={({ pressed }) => [
-        styles.card,
-        widget.onPress && pressed && styles.pressed,
-      ]}
+      style={({ pressed }) => [styles.card, widget.onPress && pressed && styles.pressed]}
     >
       <View style={styles.header}>
         <LedText variant="label" color="predawn" style={styles.label}>
@@ -82,10 +77,7 @@ function DashboardMetricCard({ widget }: { widget: DashboardWidget }) {
         {widget.meta}
       </LedText>
       <View style={[styles.statusPill, statusStyle]}>
-        <LedText
-          variant="bodySmall"
-          style={[styles.statusText, statusTextStyle]}
-        >
+        <LedText variant="bodySmall" style={[styles.statusText, statusTextStyle]}>
           {widget.status}
         </LedText>
       </View>
@@ -108,11 +100,7 @@ function getLabWidget(
     };
   }
 
-  if (
-    !observation ||
-    observation.valueNumeric === null ||
-    observation.valueNumeric === undefined
-  ) {
+  if (!observation || observation.valueNumeric === null || observation.valueNumeric === undefined) {
     return {
       label: 'Labs',
       value: 'None',
@@ -163,10 +151,7 @@ function getStatusTextStyle(tone: DashboardWidget['statusTone']) {
   return undefined;
 }
 
-function getNextVisitWidget(
-  appointment: Appointment | null,
-  isLoading: boolean,
-): DashboardWidget {
+function getNextVisitWidget(appointment: Appointment | null, isLoading: boolean): DashboardWidget {
   if (isLoading) {
     return {
       label: 'Next visit',
@@ -194,10 +179,7 @@ function getNextVisitWidget(
   return {
     label: 'Next visit',
     value: formatAppointmentDay(appointment.scheduledAt),
-    meta: [
-      appointment.careTeamDisplayName,
-      formatAppointmentTime(appointment.scheduledAt),
-    ]
+    meta: [appointment.careTeamDisplayName, formatAppointmentTime(appointment.scheduledAt)]
       .filter(Boolean)
       .join(' · '),
     status: 'View visits',

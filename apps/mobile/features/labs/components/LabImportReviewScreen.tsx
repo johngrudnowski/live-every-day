@@ -3,18 +3,8 @@ import { router, useLocalSearchParams } from 'expo-router';
 import type { ReactNode } from 'react';
 import { useEffect, useMemo, useState } from 'react';
 import { Alert, Pressable, ScrollView, StyleSheet, View } from 'react-native';
-import {
-  AppScreen,
-  LedText,
-  PrimaryButton,
-  colors,
-  radii,
-  spacing,
-} from '@led/design-system';
-import {
-  ScreenHeaderChevronLink,
-  ScreenHeaderNavRow,
-} from '@/components/screen-header';
+import { AppScreen, LedText, PrimaryButton, colors, radii, spacing } from '@led/design-system';
+import { ScreenHeaderChevronLink, ScreenHeaderNavRow } from '@/components/screen-header';
 import { LoadingScreen } from '@/features/launch/components/LoadingScreen';
 import { LabImportField } from './LabImportFields';
 import {
@@ -52,10 +42,7 @@ export function LabImportReviewScreen() {
     setSelectedIds(
       new Set(
         candidates
-          .filter(
-            (candidate) =>
-              candidate.status === 'candidate' && !hasErrorIssue(candidate),
-          )
+          .filter((candidate) => candidate.status === 'candidate' && !hasErrorIssue(candidate))
           .map((candidate) => candidate.id),
       ),
     );
@@ -63,9 +50,7 @@ export function LabImportReviewScreen() {
 
   const selectedCount = selectedIds.size;
   const isPending =
-    updateMutation.isPending ||
-    acceptMutation.isPending ||
-    rejectMutation.isPending;
+    updateMutation.isPending || acceptMutation.isPending || rejectMutation.isPending;
 
   if (importQuery.isPending) {
     return <LoadingScreen message="Loading lab import" />;
@@ -76,11 +61,7 @@ export function LabImportReviewScreen() {
       <ReviewShell title="Review labs">
         <View style={styles.card}>
           <LedText variant="subtitle">Import not found</LedText>
-          <PrimaryButton
-            label="Back to data"
-            fullWidth
-            onPress={() => router.replace('/data')}
-          />
+          <PrimaryButton label="Back to data" fullWidth onPress={() => router.replace('/data')} />
         </View>
       </ReviewShell>
     );
@@ -111,8 +92,7 @@ export function LabImportReviewScreen() {
       },
       {
         onSuccess: () => router.replace(`/labs/import/${jobId}/result`),
-        onError: (error) =>
-          Alert.alert('Unable to import labs', getErrorMessage(error)),
+        onError: (error) => Alert.alert('Unable to import labs', getErrorMessage(error)),
       },
     );
   }
@@ -124,8 +104,7 @@ export function LabImportReviewScreen() {
           {importQuery.data.job.sourceLabel ?? 'Manual lab entry'}
         </LedText>
         <LedText variant="bodySmall" color="predawn">
-          {formatDate(importQuery.data.job.observedAt)} ·{' '}
-          {importQuery.data.job.status}
+          {formatDate(importQuery.data.job.observedAt)} · {importQuery.data.job.status}
         </LedText>
       </View>
 
@@ -157,8 +136,7 @@ export function LabImportReviewScreen() {
                       return next;
                     });
                   },
-                  onError: (error) =>
-                    Alert.alert('Unable to reject row', getErrorMessage(error)),
+                  onError: (error) => Alert.alert('Unable to reject row', getErrorMessage(error)),
                 },
               );
             }}
@@ -178,8 +156,7 @@ export function LabImportReviewScreen() {
                   },
                 },
                 {
-                  onError: (error) =>
-                    Alert.alert('Unable to save row', getErrorMessage(error)),
+                  onError: (error) => Alert.alert('Unable to save row', getErrorMessage(error)),
                 },
               );
             }}
@@ -190,11 +167,7 @@ export function LabImportReviewScreen() {
 
       <View style={styles.actions}>
         <PrimaryButton
-          label={
-            acceptMutation.isPending
-              ? 'Importing...'
-              : `Import ${selectedCount} selected`
-          }
+          label={acceptMutation.isPending ? 'Importing...' : `Import ${selectedCount} selected`}
           fullWidth
           disabled={isPending || selectedCount === 0}
           onPress={importSelected}
@@ -211,30 +184,18 @@ export function LabImportReviewScreen() {
   );
 }
 
-function ReviewShell({
-  title,
-  children,
-}: {
-  title: string;
-  children: ReactNode;
-}) {
+function ReviewShell({ title, children }: { title: string; children: ReactNode }) {
   return (
     <AppScreen padded={false} style={styles.screen}>
       <View style={styles.header}>
         <ScreenHeaderNavRow
           left={
-            <ScreenHeaderChevronLink
-              label="Labs"
-              onPress={() => router.replace('/labs/import')}
-            />
+            <ScreenHeaderChevronLink label="Labs" onPress={() => router.replace('/labs/import')} />
           }
           title={<LedText variant="subtitle">{title}</LedText>}
         />
       </View>
-      <ScrollView
-        contentContainerStyle={styles.content}
-        showsVerticalScrollIndicator={false}
-      >
+      <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
         {children}
       </ScrollView>
     </AppScreen>
@@ -260,8 +221,7 @@ function CandidateReviewCard({
 }) {
   const initialForm = useMemo(() => formFromCandidate(candidate), [candidate]);
   const [form, setForm] = useState(initialForm);
-  const canSelect =
-    candidate.status === 'candidate' && !hasErrorIssue(candidate);
+  const canSelect = candidate.status === 'candidate' && !hasErrorIssue(candidate);
   const hasChanges = !haveSameForm(form, initialForm);
 
   useEffect(() => {
@@ -269,12 +229,7 @@ function CandidateReviewCard({
   }, [initialForm]);
 
   return (
-    <View
-      style={[
-        styles.card,
-        candidate.status === 'rejected' && styles.rejectedCard,
-      ]}
-    >
+    <View style={[styles.card, candidate.status === 'rejected' && styles.rejectedCard]}>
       <View style={styles.candidateHeader}>
         <View style={styles.candidateTitle}>
           <LedText variant="subtitle">{candidate.rawLabel}</LedText>
@@ -293,11 +248,7 @@ function CandidateReviewCard({
           ]}
           onPress={onToggleSelected}
         >
-          <FontAwesome
-            name={isSelected ? 'check' : 'plus'}
-            size={14}
-            color={colors.midnight}
-          />
+          <FontAwesome name={isSelected ? 'check' : 'plus'} size={14} color={colors.midnight} />
         </Pressable>
       </View>
 
@@ -333,8 +284,7 @@ function CandidateReviewCard({
             disabled={disabled || candidate.status === 'committed'}
             style={[
               styles.metricChip,
-              form.normalizedMetricKey === metric.key &&
-                styles.metricChipSelected,
+              form.normalizedMetricKey === metric.key && styles.metricChipSelected,
             ]}
             onPress={() =>
               setForm((current) => ({
@@ -353,9 +303,7 @@ function CandidateReviewCard({
         value={form.rawLabel}
         placeholder="Platelets"
         autoCapitalize="words"
-        onChangeText={(rawLabel) =>
-          setForm((current) => ({ ...current, rawLabel }))
-        }
+        onChangeText={(rawLabel) => setForm((current) => ({ ...current, rawLabel }))}
       />
       <View style={styles.twoColumn}>
         <LabImportField
@@ -365,9 +313,7 @@ function CandidateReviewCard({
           style={styles.columnField}
           keyboardType="decimal-pad"
           autoCapitalize="none"
-          onChangeText={(rawValue) =>
-            setForm((current) => ({ ...current, rawValue }))
-          }
+          onChangeText={(rawValue) => setForm((current) => ({ ...current, rawValue }))}
         />
         <LabImportField
           label="Unit"
@@ -375,9 +321,7 @@ function CandidateReviewCard({
           placeholder="x10^3/uL"
           style={styles.columnField}
           autoCapitalize="none"
-          onChangeText={(rawUnit) =>
-            setForm((current) => ({ ...current, rawUnit }))
-          }
+          onChangeText={(rawUnit) => setForm((current) => ({ ...current, rawUnit }))}
         />
       </View>
       <View style={styles.twoColumn}>
@@ -397,9 +341,7 @@ function CandidateReviewCard({
           placeholder="normal"
           style={styles.columnField}
           autoCapitalize="none"
-          onChangeText={(abnormalFlag) =>
-            setForm((current) => ({ ...current, abnormalFlag }))
-          }
+          onChangeText={(abnormalFlag) => setForm((current) => ({ ...current, abnormalFlag }))}
         />
       </View>
 
@@ -413,11 +355,7 @@ function CandidateReviewCard({
         <PrimaryButton
           label="Reject"
           variant="danger"
-          disabled={
-            disabled ||
-            candidate.status === 'committed' ||
-            candidate.status === 'rejected'
-          }
+          disabled={disabled || candidate.status === 'committed' || candidate.status === 'rejected'}
           onPress={onReject}
         />
       </View>
@@ -425,20 +363,11 @@ function CandidateReviewCard({
   );
 }
 
-function StatusPill({
-  status,
-  flag,
-}: {
-  status: string;
-  flag: string | null | undefined;
-}) {
+function StatusPill({ status, flag }: { status: string; flag: string | null | undefined }) {
   const label = status === 'candidate' ? (flag ?? 'review') : status;
   return (
     <View style={[styles.pill, flag === 'high' && styles.highPill]}>
-      <LedText
-        variant="bodySmall"
-        style={[styles.pillText, flag === 'high' && styles.highText]}
-      >
+      <LedText variant="bodySmall" style={[styles.pillText, flag === 'high' && styles.highText]}>
         {label}
       </LedText>
     </View>

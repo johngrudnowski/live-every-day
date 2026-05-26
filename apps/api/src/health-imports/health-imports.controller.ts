@@ -25,10 +25,7 @@ export class HealthImportsController {
 
   @Post('labs/manual')
   @ApiOkResponse({ type: HealthImportDto })
-  async createManualLabImport(
-    @Req() req: Request,
-    @Body() dto: CreateManualLabImportDto,
-  ) {
+  async createManualLabImport(@Req() req: Request, @Body() dto: CreateManualLabImportDto) {
     const user = await this.authSessionService.requireUser(req);
     return await this.healthImportsService.createManualLabImport(user.id, dto);
   }
@@ -49,12 +46,7 @@ export class HealthImportsController {
     @Body() dto: UpdateHealthImportCandidateDto,
   ) {
     const user = await this.authSessionService.requireUser(req);
-    return await this.healthImportsService.updateCandidate(
-      user.id,
-      jobId,
-      candidateId,
-      dto,
-    );
+    return await this.healthImportsService.updateCandidate(user.id, jobId, candidateId, dto);
   }
 
   @Post(':jobId/accept')
@@ -65,11 +57,7 @@ export class HealthImportsController {
     @Body() dto: ReviewHealthImportCandidatesDto,
   ) {
     const user = await this.authSessionService.requireUser(req);
-    return await this.healthImportsService.acceptCandidates(
-      user.id,
-      jobId,
-      dto.candidateIds,
-    );
+    return await this.healthImportsService.acceptCandidates(user.id, jobId, dto.candidateIds);
   }
 
   @Post(':jobId/reject')
@@ -80,10 +68,6 @@ export class HealthImportsController {
     @Body() dto: ReviewHealthImportCandidatesDto,
   ) {
     const user = await this.authSessionService.requireUser(req);
-    return await this.healthImportsService.rejectCandidates(
-      user.id,
-      jobId,
-      dto.candidateIds,
-    );
+    return await this.healthImportsService.rejectCandidates(user.id, jobId, dto.candidateIds);
   }
 }

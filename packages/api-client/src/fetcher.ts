@@ -29,13 +29,17 @@ function stripTrailingSlash(url: string) {
 
 function resolveApiBaseUrl() {
   const configuredBaseUrl =
-    typeof apiClientConfig.baseUrl === 'function' ? apiClientConfig.baseUrl() : apiClientConfig.baseUrl;
+    typeof apiClientConfig.baseUrl === 'function'
+      ? apiClientConfig.baseUrl()
+      : apiClientConfig.baseUrl;
   if (configuredBaseUrl) {
     return stripTrailingSlash(configuredBaseUrl);
   }
 
-  const processEnv = (globalThis as { process?: { env?: Record<string, string | undefined> } }).process?.env;
-  const nodeApiUrl = processEnv?.EXPO_PUBLIC_API_URL ?? processEnv?.VITE_API_URL ?? processEnv?.API_URL;
+  const processEnv = (globalThis as { process?: { env?: Record<string, string | undefined> } })
+    .process?.env;
+  const nodeApiUrl =
+    processEnv?.EXPO_PUBLIC_API_URL ?? processEnv?.VITE_API_URL ?? processEnv?.API_URL;
   if (nodeApiUrl) {
     return stripTrailingSlash(nodeApiUrl);
   }
@@ -82,12 +86,7 @@ function buildUrl(url: string, params?: QueryParams) {
 
 export async function customFetch<TResponse, TBody = unknown>(
   url: string,
-  {
-    data,
-    params,
-    body,
-    ...init
-  }: CustomFetchOptions<TBody> = {},
+  { data, params, body, ...init }: CustomFetchOptions<TBody> = {},
 ): Promise<TResponse> {
   const headers = new Headers();
   headers.set('Content-Type', 'application/json');

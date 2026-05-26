@@ -26,18 +26,14 @@ export type NormalizedLabCandidate = {
   issues: HealthImportIssue[];
 };
 
-const labMetrics = healthMetricCatalog.filter(
-  (metric) => metric.category === 'lab',
-);
+const labMetrics = healthMetricCatalog.filter((metric) => metric.category === 'lab');
 
 @Injectable()
 export class HealthImportNormalizationService {
   normalizeLabCandidate(input: LabCandidateInput): NormalizedLabCandidate {
     const issues: HealthImportIssue[] = [];
     const matchedMetric = input.normalizedMetricKey
-      ? (labMetrics.find(
-          (metric) => metric.key === input.normalizedMetricKey,
-        ) ?? null)
+      ? (labMetrics.find((metric) => metric.key === input.normalizedMetricKey) ?? null)
       : findMetricByLabel(input.rawLabel);
 
     if (!matchedMetric) {

@@ -6,8 +6,8 @@
  * OpenAPI spec version: 1.0
  */
 
-export type CircleCareTeamPersonDtoStateTone = typeof CircleCareTeamPersonDtoStateTone[keyof typeof CircleCareTeamPersonDtoStateTone];
-
+export type CircleCareTeamPersonDtoStateTone =
+  (typeof CircleCareTeamPersonDtoStateTone)[keyof typeof CircleCareTeamPersonDtoStateTone];
 
 export const CircleCareTeamPersonDtoStateTone = {
   active: 'active',

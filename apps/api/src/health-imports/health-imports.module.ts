@@ -9,10 +9,6 @@ import { HealthImportsService } from './health-imports.service';
 @Module({
   controllers: [HealthImportsController],
   imports: [AuthModule, DatabaseModule],
-  providers: [
-    HealthImportsService,
-    HealthImportNormalizationService,
-    HealthImportCommitService,
-  ],
+  providers: [HealthImportsService, HealthImportNormalizationService, HealthImportCommitService],
 })
 export class HealthImportsModule {}

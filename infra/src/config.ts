@@ -26,9 +26,7 @@ export const web = {
 
 /** Comma-separated browser origins allowed for CORS and Better Auth. */
 export const corsOrigins =
-  config.get('corsOrigins') ??
-  config.get('webUrl') ??
-  `https://${names.firebaseSiteId}.web.app`;
+  config.get('corsOrigins') ?? config.get('webUrl') ?? `https://${names.firebaseSiteId}.web.app`;
 
 export const auth = {
   url: config.get('betterAuthUrl'),

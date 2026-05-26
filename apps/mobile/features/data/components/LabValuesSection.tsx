@@ -1,11 +1,5 @@
 import { router } from 'expo-router';
-import {
-  LedText,
-  PrimaryButton,
-  colors,
-  radii,
-  spacing,
-} from '@led/design-system';
+import { LedText, PrimaryButton, colors, radii, spacing } from '@led/design-system';
 import { Pressable, StyleSheet, View } from 'react-native';
 import { cbcLabMetrics } from '@/features/labs/lib/labMetrics';
 import { useLatestObservationsQuery } from '../api/health-data-queries';
@@ -18,16 +12,13 @@ export function LabValuesSection() {
   const observations = labsQuery.data?.observations ?? [];
   const labValues = cbcLabMetrics
     .map((metric) => {
-      const observation = observations.find(
-        (item) => item.metricKey === metric.key,
-      );
+      const observation = observations.find((item) => item.metricKey === metric.key);
       return {
         metricKey: metric.key,
         label: metric.label,
         unit: observation?.unit ?? metric.unit,
         value:
-          observation?.valueNumeric === null ||
-          observation?.valueNumeric === undefined
+          observation?.valueNumeric === null || observation?.valueNumeric === undefined
             ? null
             : formatLabValue(observation.valueNumeric),
         status: observation ? 'Latest' : 'No value',
@@ -66,12 +57,7 @@ export function LabValuesSection() {
                 </LedText>
               </View>
               <View style={styles.valueWrap}>
-                <LedText
-                  style={[
-                    styles.value,
-                    item.statusTone === 'high' && styles.highValue,
-                  ]}
-                >
+                <LedText style={[styles.value, item.statusTone === 'high' && styles.highValue]}>
                   {item.value}
                 </LedText>
                 <View style={[styles.pill, getPillStyle(item.statusTone)]}>

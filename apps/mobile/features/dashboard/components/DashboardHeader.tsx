@@ -1,6 +1,14 @@
 import { useState } from 'react';
 import { Image, Pressable, StyleSheet, View } from 'react-native';
-import { BrandLogo, LedText, PrimaryButton, colors, radii, shadows, spacing } from '@led/design-system';
+import {
+  BrandLogo,
+  LedText,
+  PrimaryButton,
+  colors,
+  radii,
+  shadows,
+  spacing,
+} from '@led/design-system';
 
 type DashboardUser = {
   name: string;

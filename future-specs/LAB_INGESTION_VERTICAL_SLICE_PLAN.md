@@ -81,18 +81,18 @@ One row per import/review session.
 
 Initial columns:
 
-| Column | Type | Notes |
-| --- | --- | --- |
-| `id` | `text primary key` | Generated id. |
-| `user_id` | `text not null` | Owner. |
-| `source_id` | `text not null` | For this slice: `manual_lab_entry`. |
-| `status` | `text not null` | `draft`, `needs_review`, `imported`, `partially_imported`, `canceled`. |
-| `input_kind` | `text not null` | For this slice: `manual`. |
-| `source_label` | `text` | Optional user-facing source label. |
-| `observed_at` | `timestamptz` | Default report date for candidates. |
-| `metadata_json` | `jsonb not null default '{}'` | Flexible source metadata. |
-| `created_at` | `timestamptz not null default now()` | |
-| `updated_at` | `timestamptz not null default now()` | |
+| Column          | Type                                 | Notes                                                                  |
+| --------------- | ------------------------------------ | ---------------------------------------------------------------------- |
+| `id`            | `text primary key`                   | Generated id.                                                          |
+| `user_id`       | `text not null`                      | Owner.                                                                 |
+| `source_id`     | `text not null`                      | For this slice: `manual_lab_entry`.                                    |
+| `status`        | `text not null`                      | `draft`, `needs_review`, `imported`, `partially_imported`, `canceled`. |
+| `input_kind`    | `text not null`                      | For this slice: `manual`.                                              |
+| `source_label`  | `text`                               | Optional user-facing source label.                                     |
+| `observed_at`   | `timestamptz`                        | Default report date for candidates.                                    |
+| `metadata_json` | `jsonb not null default '{}'`        | Flexible source metadata.                                              |
+| `created_at`    | `timestamptz not null default now()` |                                                                        |
+| `updated_at`    | `timestamptz not null default now()` |                                                                        |
 
 Indexes:
 
@@ -113,19 +113,19 @@ For this first slice, this table can exist but be optional because there is no u
 
 Initial columns:
 
-| Column | Type | Notes |
-| --- | --- | --- |
-| `id` | `text primary key` | Generated id. |
-| `user_id` | `text not null` | Owner. |
-| `ingestion_job_id` | `text not null` | Parent job. |
-| `document_kind` | `text not null` | For future: `lab_report`, `fhir_bundle`, etc. |
-| `source_filename` | `text` | Future upload support. |
-| `mime_type` | `text` | Future upload support. |
-| `storage_key` | `text` | Future upload support. |
-| `sha256_hash` | `text` | Future dedupe/audit. |
-| `metadata_json` | `jsonb not null default '{}'` | |
-| `created_at` | `timestamptz not null default now()` | |
-| `updated_at` | `timestamptz not null default now()` | |
+| Column             | Type                                 | Notes                                         |
+| ------------------ | ------------------------------------ | --------------------------------------------- |
+| `id`               | `text primary key`                   | Generated id.                                 |
+| `user_id`          | `text not null`                      | Owner.                                        |
+| `ingestion_job_id` | `text not null`                      | Parent job.                                   |
+| `document_kind`    | `text not null`                      | For future: `lab_report`, `fhir_bundle`, etc. |
+| `source_filename`  | `text`                               | Future upload support.                        |
+| `mime_type`        | `text`                               | Future upload support.                        |
+| `storage_key`      | `text`                               | Future upload support.                        |
+| `sha256_hash`      | `text`                               | Future dedupe/audit.                          |
+| `metadata_json`    | `jsonb not null default '{}'`        |                                               |
+| `created_at`       | `timestamptz not null default now()` |                                               |
+| `updated_at`       | `timestamptz not null default now()` |                                               |
 
 Even if unused in phase 1, adding it now keeps the API model aligned with future PDF/screenshot/FHIR imports.
 
@@ -135,30 +135,30 @@ Candidate rows for user review.
 
 Initial columns:
 
-| Column | Type | Notes |
-| --- | --- | --- |
-| `id` | `text primary key` | Generated id. |
-| `user_id` | `text not null` | Owner. |
-| `ingestion_job_id` | `text not null` | Parent job. |
-| `source_document_id` | `text` | Nullable in manual slice. |
-| `record_kind` | `text not null` | For this slice: `lab_result`. |
-| `raw_label` | `text not null` | User-entered or parser-extracted label. |
-| `raw_value` | `text not null` | User-entered or parser-extracted value. |
-| `raw_unit` | `text` | Unit as entered/extracted. |
-| `raw_reference_range` | `text` | Optional. |
-| `raw_observed_at` | `text` | Original date text if available. |
-| `normalized_metric_key` | `text` | Candidate mapped metric key. |
-| `normalized_value_numeric` | `double precision` | Parsed numeric value. |
-| `normalized_unit` | `text` | Unit chosen for final observation. |
-| `normalized_observed_at` | `timestamptz` | Date chosen for final observation. |
-| `panel_label` | `text` | Example: `CBC`. |
-| `abnormal_flag` | `text` | `low`, `high`, `normal`, `critical`, etc. |
-| `confidence` | `double precision` | Manual rows can default to `1`. |
-| `issues_json` | `jsonb not null default '[]'` | Normalization/review issues. |
-| `candidate_json` | `jsonb not null default '{}'` | Original candidate payload. |
-| `status` | `text not null` | `candidate`, `accepted`, `rejected`, `committed`. |
-| `created_at` | `timestamptz not null default now()` | |
-| `updated_at` | `timestamptz not null default now()` | |
+| Column                     | Type                                 | Notes                                             |
+| -------------------------- | ------------------------------------ | ------------------------------------------------- |
+| `id`                       | `text primary key`                   | Generated id.                                     |
+| `user_id`                  | `text not null`                      | Owner.                                            |
+| `ingestion_job_id`         | `text not null`                      | Parent job.                                       |
+| `source_document_id`       | `text`                               | Nullable in manual slice.                         |
+| `record_kind`              | `text not null`                      | For this slice: `lab_result`.                     |
+| `raw_label`                | `text not null`                      | User-entered or parser-extracted label.           |
+| `raw_value`                | `text not null`                      | User-entered or parser-extracted value.           |
+| `raw_unit`                 | `text`                               | Unit as entered/extracted.                        |
+| `raw_reference_range`      | `text`                               | Optional.                                         |
+| `raw_observed_at`          | `text`                               | Original date text if available.                  |
+| `normalized_metric_key`    | `text`                               | Candidate mapped metric key.                      |
+| `normalized_value_numeric` | `double precision`                   | Parsed numeric value.                             |
+| `normalized_unit`          | `text`                               | Unit chosen for final observation.                |
+| `normalized_observed_at`   | `timestamptz`                        | Date chosen for final observation.                |
+| `panel_label`              | `text`                               | Example: `CBC`.                                   |
+| `abnormal_flag`            | `text`                               | `low`, `high`, `normal`, `critical`, etc.         |
+| `confidence`               | `double precision`                   | Manual rows can default to `1`.                   |
+| `issues_json`              | `jsonb not null default '[]'`        | Normalization/review issues.                      |
+| `candidate_json`           | `jsonb not null default '{}'`        | Original candidate payload.                       |
+| `status`                   | `text not null`                      | `candidate`, `accepted`, `rejected`, `committed`. |
+| `created_at`               | `timestamptz not null default now()` |                                                   |
+| `updated_at`               | `timestamptz not null default now()` |                                                   |
 
 Indexes:
 
@@ -179,20 +179,20 @@ Links final observations back to candidates.
 
 Initial columns:
 
-| Column | Type | Notes |
-| --- | --- | --- |
-| `id` | `text primary key` | Generated id. |
-| `observation_id` | `text not null` | FK to `health_observations.id`. |
-| `ingestion_job_id` | `text not null` | Parent job. |
-| `source_document_id` | `text` | Nullable in manual slice. |
-| `extracted_record_id` | `text not null` | Candidate row that created this observation. |
-| `confidence` | `double precision` | Commit-time confidence. |
-| `review_status` | `text not null` | For this slice: `user_confirmed`. |
-| `reviewed_by_user_id` | `text` | User who confirmed. |
-| `reviewed_at` | `timestamptz` | Confirmation time. |
-| `metadata_json` | `jsonb not null default '{}'` | |
-| `created_at` | `timestamptz not null default now()` | |
-| `updated_at` | `timestamptz not null default now()` | |
+| Column                | Type                                 | Notes                                        |
+| --------------------- | ------------------------------------ | -------------------------------------------- |
+| `id`                  | `text primary key`                   | Generated id.                                |
+| `observation_id`      | `text not null`                      | FK to `health_observations.id`.              |
+| `ingestion_job_id`    | `text not null`                      | Parent job.                                  |
+| `source_document_id`  | `text`                               | Nullable in manual slice.                    |
+| `extracted_record_id` | `text not null`                      | Candidate row that created this observation. |
+| `confidence`          | `double precision`                   | Commit-time confidence.                      |
+| `review_status`       | `text not null`                      | For this slice: `user_confirmed`.            |
+| `reviewed_by_user_id` | `text`                               | User who confirmed.                          |
+| `reviewed_at`         | `timestamptz`                        | Confirmation time.                           |
+| `metadata_json`       | `jsonb not null default '{}'`        |                                              |
+| `created_at`          | `timestamptz not null default now()` |                                              |
+| `updated_at`          | `timestamptz not null default now()` |                                              |
 
 Indexes:
 

@@ -3,12 +3,15 @@
   "version": "0.0.1",
   "private": true,
   "description": "Shared Drizzle database package",
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "keywords": [],
+  "license": "UNLICENSED",
+  "author": "",
   "files": [
     "dist",
     "drizzle"
   ],
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -36,9 +39,6 @@
     "db:migrate:prod": "node dist/migrate.js",
     "db:studio": "drizzle-kit studio --config=drizzle.config.ts"
   },
-  "keywords": [],
-  "author": "",
-  "license": "UNLICENSED",
   "dependencies": {
     "@led/conditions": "workspace:*",
     "drizzle-orm": "^0.45.2",

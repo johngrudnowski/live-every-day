@@ -23,14 +23,19 @@ export function ComingSoonScreen({ condition }: ComingSoonScreenProps) {
           {condition?.label ?? 'Coming soon'}
         </LedText>
         <LedText variant="body" color="textMid" align="center">
-          This condition path is in development. We're building each one with specialist input to get it right.
+          This condition path is in development. We're building each one with specialist input to
+          get it right.
         </LedText>
         {condition?.subtitle ? (
           <LedText variant="bodySmall" color="textLite" align="center">
             {condition.subtitle}
           </LedText>
         ) : null}
-        <PrimaryButton label="Back to conditions" variant="secondary" onPress={() => router.replace('/conditions')} />
+        <PrimaryButton
+          label="Back to conditions"
+          variant="secondary"
+          onPress={() => router.replace('/conditions')}
+        />
       </View>
     </AppScreen>
   );

@@ -156,12 +156,8 @@
           "name": "account_user_id_user_id_fk",
           "tableFrom": "account",
           "tableTo": "user",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -249,12 +245,8 @@
           "name": "session_user_id_user_id_fk",
           "tableFrom": "session",
           "tableTo": "user",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -455,12 +447,8 @@
           "name": "user_condition_onboarding_state_user_id_user_id_fk",
           "tableFrom": "user_condition_onboarding_state",
           "tableTo": "user",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -584,12 +572,8 @@
           "name": "user_condition_profiles_user_id_user_id_fk",
           "tableFrom": "user_condition_profiles",
           "tableTo": "user",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -822,12 +806,8 @@
           "name": "health_daily_summaries_user_id_user_id_fk",
           "tableFrom": "health_daily_summaries",
           "tableTo": "user",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -835,12 +815,8 @@
           "name": "health_daily_summaries_metric_key_health_metric_types_key_fk",
           "tableFrom": "health_daily_summaries",
           "tableTo": "health_metric_types",
-          "columnsFrom": [
-            "metric_key"
-          ],
-          "columnsTo": [
-            "key"
-          ],
+          "columnsFrom": ["metric_key"],
+          "columnsTo": ["key"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -848,12 +824,8 @@
           "name": "health_daily_summaries_source_connection_id_health_source_connections_id_fk",
           "tableFrom": "health_daily_summaries",
           "tableTo": "health_source_connections",
-          "columnsFrom": [
-            "source_connection_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["source_connection_id"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "no action"
         }
@@ -1127,12 +1099,8 @@
           "name": "health_observation_groups_user_id_user_id_fk",
           "tableFrom": "health_observation_groups",
           "tableTo": "user",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -1140,12 +1108,8 @@
           "name": "health_observation_groups_source_connection_id_health_source_connections_id_fk",
           "tableFrom": "health_observation_groups",
           "tableTo": "health_source_connections",
-          "columnsFrom": [
-            "source_connection_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["source_connection_id"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "no action"
         }
@@ -1435,12 +1399,8 @@
           "name": "health_observations_user_id_user_id_fk",
           "tableFrom": "health_observations",
           "tableTo": "user",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -1448,12 +1408,8 @@
           "name": "health_observations_metric_key_health_metric_types_key_fk",
           "tableFrom": "health_observations",
           "tableTo": "health_metric_types",
-          "columnsFrom": [
-            "metric_key"
-          ],
-          "columnsTo": [
-            "key"
-          ],
+          "columnsFrom": ["metric_key"],
+          "columnsTo": ["key"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -1461,12 +1417,8 @@
           "name": "health_observations_source_connection_id_health_source_connections_id_fk",
           "tableFrom": "health_observations",
           "tableTo": "health_source_connections",
-          "columnsFrom": [
-            "source_connection_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["source_connection_id"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "no action"
         },
@@ -1474,12 +1426,8 @@
           "name": "health_observations_observation_group_id_health_observation_groups_id_fk",
           "tableFrom": "health_observations",
           "tableTo": "health_observation_groups",
-          "columnsFrom": [
-            "observation_group_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["observation_group_id"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "no action"
         }
@@ -1614,12 +1562,8 @@
           "name": "health_source_connections_user_id_user_id_fk",
           "tableFrom": "health_source_connections",
           "tableTo": "user",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -1627,12 +1571,8 @@
           "name": "health_source_connections_source_id_health_data_sources_id_fk",
           "tableFrom": "health_source_connections",
           "tableTo": "health_data_sources",
-          "columnsFrom": [
-            "source_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["source_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -1784,12 +1724,8 @@
           "name": "health_sync_runs_user_id_user_id_fk",
           "tableFrom": "health_sync_runs",
           "tableTo": "user",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -1797,12 +1733,8 @@
           "name": "health_sync_runs_source_connection_id_health_source_connections_id_fk",
           "tableFrom": "health_sync_runs",
           "tableTo": "health_source_connections",
-          "columnsFrom": [
-            "source_connection_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["source_connection_id"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "no action"
         }
@@ -1974,12 +1906,8 @@
           "name": "weekly_checkins_user_id_user_id_fk",
           "tableFrom": "weekly_checkins",
           "tableTo": "user",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }

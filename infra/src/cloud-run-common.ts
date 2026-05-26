@@ -60,7 +60,8 @@ export const servicePlainEnv: EnvVar[] = [
 export const serviceSecretEnv: EnvVar[] = [
   secretEnv('DATABASE_URL', databaseUrlSecret),
   secretEnv('BETTER_AUTH_SECRET', betterAuthSecret),
-].concat(auth.googleClientId ? [secretEnv('GOOGLE_CLIENT_SECRET', googleClientSecret)] : [])
+]
+  .concat(auth.googleClientId ? [secretEnv('GOOGLE_CLIENT_SECRET', googleClientSecret)] : [])
   .concat(auth.githubClientId ? [secretEnv('GITHUB_CLIENT_SECRET', githubClientSecret)] : []);
 
 export const migrationEnv: JobEnvVar[] = [

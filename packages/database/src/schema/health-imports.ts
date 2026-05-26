@@ -25,22 +25,15 @@ export const healthIngestionJobs = pgTable(
     metadataJson: jsonb('metadata_json')
       .notNull()
       .default(sql`'{}'::jsonb`),
-    createdAt: timestamp('created_at', { withTimezone: true })
-      .defaultNow()
-      .notNull(),
-    updatedAt: timestamp('updated_at', { withTimezone: true })
-      .defaultNow()
-      .notNull(),
+    createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
+    updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull(),
   },
   (table) => ({
     userCreatedIdx: index('health_ingestion_jobs_user_created_idx').on(
       table.userId,
       table.createdAt,
     ),
-    userStatusIdx: index('health_ingestion_jobs_user_status_idx').on(
-      table.userId,
-      table.status,
-    ),
+    userStatusIdx: index('health_ingestion_jobs_user_status_idx').on(table.userId, table.status),
     userFk: foreignKey({
       columns: [table.userId],
       foreignColumns: [user.id],
@@ -63,12 +56,8 @@ export const healthSourceDocuments = pgTable(
     metadataJson: jsonb('metadata_json')
       .notNull()
       .default(sql`'{}'::jsonb`),
-    createdAt: timestamp('created_at', { withTimezone: true })
-      .defaultNow()
-      .notNull(),
-    updatedAt: timestamp('updated_at', { withTimezone: true })
-      .defaultNow()
-      .notNull(),
+    createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
+    updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull(),
   },
   (table) => ({
     userJobIdx: index('health_source_documents_user_job_idx').on(
@@ -118,22 +107,15 @@ export const healthExtractedRecords = pgTable(
       .default(sql`'{}'::jsonb`),
     status: text('status').notNull(),
     committedObservationId: text('committed_observation_id'),
-    createdAt: timestamp('created_at', { withTimezone: true })
-      .defaultNow()
-      .notNull(),
-    updatedAt: timestamp('updated_at', { withTimezone: true })
-      .defaultNow()
-      .notNull(),
+    createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
+    updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull(),
   },
   (table) => ({
     userJobIdx: index('health_extracted_records_user_job_idx').on(
       table.userId,
       table.ingestionJobId,
     ),
-    userStatusIdx: index('health_extracted_records_user_status_idx').on(
-      table.userId,
-      table.status,
-    ),
+    userStatusIdx: index('health_extracted_records_user_status_idx').on(table.userId, table.status),
     metricObservedIdx: index('health_extracted_records_metric_observed_idx').on(
       table.normalizedMetricKey,
       table.normalizedObservedAt,
@@ -176,23 +158,17 @@ export const healthObservationProvenance = pgTable(
     metadataJson: jsonb('metadata_json')
       .notNull()
       .default(sql`'{}'::jsonb`),
-    createdAt: timestamp('created_at', { withTimezone: true })
-      .defaultNow()
-      .notNull(),
-    updatedAt: timestamp('updated_at', { withTimezone: true })
-      .defaultNow()
-      .notNull(),
+    createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
+    updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull(),
   },
   (table) => ({
-    observationIdx: index('health_observation_provenance_observation_idx').on(
-      table.observationId,
+    observationIdx: index('health_observation_provenance_observation_idx').on(table.observationId),
+    ingestionJobIdx: index('health_observation_provenance_ingestion_job_idx').on(
+      table.ingestionJobId,
     ),
-    ingestionJobIdx: index(
-      'health_observation_provenance_ingestion_job_idx',
-    ).on(table.ingestionJobId),
-    extractedRecordUnique: uniqueIndex(
-      'health_observation_provenance_extracted_record_unique',
-    ).on(table.extractedRecordId),
+    extractedRecordUnique: uniqueIndex('health_observation_provenance_extracted_record_unique').on(
+      table.extractedRecordId,
+    ),
     observationFk: foreignKey({
       columns: [table.observationId],
       foreignColumns: [healthObservations.id],

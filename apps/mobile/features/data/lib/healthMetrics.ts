@@ -1,10 +1,4 @@
-export type HealthMetricCategory =
-  | 'vital'
-  | 'cardio'
-  | 'body'
-  | 'activity'
-  | 'sleep'
-  | 'lab';
+export type HealthMetricCategory = 'vital' | 'cardio' | 'body' | 'activity' | 'sleep' | 'lab';
 export type HealthMetricChartKind = 'line' | 'bar';
 export type HealthMetricSummaryValue = 'latest' | 'avg' | 'sum' | 'min' | 'max';
 
@@ -247,9 +241,7 @@ export const healthMetricCategories: Array<{
 export const defaultMetricKey = 'blood_pressure_systolic';
 
 export function getHealthMetricDefinition(metricKey: string | undefined) {
-  return (
-    healthMetricDefinitions.find((metric) => metric.key === metricKey) ?? null
-  );
+  return healthMetricDefinitions.find((metric) => metric.key === metricKey) ?? null;
 }
 
 export function getCanonicalHealthMetricKey(metricKey: string | undefined) {
@@ -257,12 +249,8 @@ export function getCanonicalHealthMetricKey(metricKey: string | undefined) {
   return metric?.canonicalMetricKey ?? metric?.key ?? null;
 }
 
-export function getCanonicalHealthMetricDefinition(
-  metricKey: string | undefined,
-) {
-  return getHealthMetricDefinition(
-    getCanonicalHealthMetricKey(metricKey) ?? undefined,
-  );
+export function getCanonicalHealthMetricDefinition(metricKey: string | undefined) {
+  return getHealthMetricDefinition(getCanonicalHealthMetricKey(metricKey) ?? undefined);
 }
 
 export function getHistoryMetricKeys(metric: HealthMetricDefinition) {

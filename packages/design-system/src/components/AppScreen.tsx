@@ -19,7 +19,12 @@ export function AppScreen({
   contentContainerStyle,
   ...props
 }: AppScreenProps) {
-  const baseStyle = [styles.container, { backgroundColor: colors[surface] }, padded && styles.padded, style];
+  const baseStyle = [
+    styles.container,
+    { backgroundColor: colors[surface] },
+    padded && styles.padded,
+    style,
+  ];
 
   if (scroll) {
     return (

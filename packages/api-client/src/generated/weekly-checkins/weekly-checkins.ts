@@ -5,10 +5,7 @@
  * API documentation
  * OpenAPI spec version: 1.0
  */
-import {
-  useMutation,
-  useQuery
-} from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import type {
   DataTag,
   DefinedInitialDataOptions,
@@ -21,673 +18,849 @@ import type {
   UseMutationOptions,
   UseMutationResult,
   UseQueryOptions,
-  UseQueryResult
+  UseQueryResult,
 } from '@tanstack/react-query';
 
 import type {
   SaveWeeklyCheckinDraftDto,
   SubmitWeeklyCheckinDto,
   WeeklyCheckinDto,
-  WeeklyCheckinSummaryDto
+  WeeklyCheckinSummaryDto,
 } from '../schemas';
 
 import { customFetch } from '../../fetcher';
 
-
 type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
 
-
-
 export type weeklyCheckinsControllerGetSummaryResponse200 = {
-  data: WeeklyCheckinSummaryDto
-  status: 200
-}
-
-export type weeklyCheckinsControllerGetSummaryResponseSuccess = (weeklyCheckinsControllerGetSummaryResponse200) & {
-  headers: Headers;
+  data: WeeklyCheckinSummaryDto;
+  status: 200;
 };
-;
 
-export type weeklyCheckinsControllerGetSummaryResponse = (weeklyCheckinsControllerGetSummaryResponseSuccess)
+export type weeklyCheckinsControllerGetSummaryResponseSuccess =
+  weeklyCheckinsControllerGetSummaryResponse200 & {
+    headers: Headers;
+  };
+
+export type weeklyCheckinsControllerGetSummaryResponse =
+  weeklyCheckinsControllerGetSummaryResponseSuccess;
 
 export const getWeeklyCheckinsControllerGetSummaryUrl = () => {
+  return `/api/me/weekly-checkin/summary`;
+};
 
-
-
-
-  return `/api/me/weekly-checkin/summary`
-}
-
-export const weeklyCheckinsControllerGetSummary = async ( options?: RequestInit): Promise<weeklyCheckinsControllerGetSummaryResponse> => {
-
-  return customFetch<weeklyCheckinsControllerGetSummaryResponse>(getWeeklyCheckinsControllerGetSummaryUrl(),
-  {
-    ...options,
-    method: 'GET'
-
-
-  }
-);}
-
-
-
-
+export const weeklyCheckinsControllerGetSummary = async (
+  options?: RequestInit,
+): Promise<weeklyCheckinsControllerGetSummaryResponse> => {
+  return customFetch<weeklyCheckinsControllerGetSummaryResponse>(
+    getWeeklyCheckinsControllerGetSummaryUrl(),
+    {
+      ...options,
+      method: 'GET',
+    },
+  );
+};
 
 export const getWeeklyCheckinsControllerGetSummaryQueryKey = () => {
-    return [
-    `/api/me/weekly-checkin/summary`
-    ] as const;
-    }
+  return [`/api/me/weekly-checkin/summary`] as const;
+};
 
+export const getWeeklyCheckinsControllerGetSummaryQueryOptions = <
+  TData = Awaited<ReturnType<typeof weeklyCheckinsControllerGetSummary>>,
+  TError = unknown,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<Awaited<ReturnType<typeof weeklyCheckinsControllerGetSummary>>, TError, TData>
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
 
-export const getWeeklyCheckinsControllerGetSummaryQueryOptions = <TData = Awaited<ReturnType<typeof weeklyCheckinsControllerGetSummary>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof weeklyCheckinsControllerGetSummary>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
-) => {
+  const queryKey = queryOptions?.queryKey ?? getWeeklyCheckinsControllerGetSummaryQueryKey();
 
-const {query: queryOptions, request: requestOptions} = options ?? {};
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof weeklyCheckinsControllerGetSummary>>> = ({
+    signal,
+  }) => weeklyCheckinsControllerGetSummary({ signal, ...requestOptions });
 
-  const queryKey =  queryOptions?.queryKey ?? getWeeklyCheckinsControllerGetSummaryQueryKey();
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof weeklyCheckinsControllerGetSummary>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
 
+export type WeeklyCheckinsControllerGetSummaryQueryResult = NonNullable<
+  Awaited<ReturnType<typeof weeklyCheckinsControllerGetSummary>>
+>;
+export type WeeklyCheckinsControllerGetSummaryQueryError = unknown;
 
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof weeklyCheckinsControllerGetSummary>>> = ({ signal }) => weeklyCheckinsControllerGetSummary({ signal, ...requestOptions });
-
-
-
-
-
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof weeklyCheckinsControllerGetSummary>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type WeeklyCheckinsControllerGetSummaryQueryResult = NonNullable<Awaited<ReturnType<typeof weeklyCheckinsControllerGetSummary>>>
-export type WeeklyCheckinsControllerGetSummaryQueryError = unknown
-
-
-export function useWeeklyCheckinsControllerGetSummary<TData = Awaited<ReturnType<typeof weeklyCheckinsControllerGetSummary>>, TError = unknown>(
-  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof weeklyCheckinsControllerGetSummary>>, TError, TData>> & Pick<
+export function useWeeklyCheckinsControllerGetSummary<
+  TData = Awaited<ReturnType<typeof weeklyCheckinsControllerGetSummary>>,
+  TError = unknown,
+>(
+  options: {
+    query: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof weeklyCheckinsControllerGetSummary>>, TError, TData>
+    > &
+      Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof weeklyCheckinsControllerGetSummary>>,
           TError,
           Awaited<ReturnType<typeof weeklyCheckinsControllerGetSummary>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useWeeklyCheckinsControllerGetSummary<TData = Awaited<ReturnType<typeof weeklyCheckinsControllerGetSummary>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof weeklyCheckinsControllerGetSummary>>, TError, TData>> & Pick<
+        >,
+        'initialData'
+      >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useWeeklyCheckinsControllerGetSummary<
+  TData = Awaited<ReturnType<typeof weeklyCheckinsControllerGetSummary>>,
+  TError = unknown,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof weeklyCheckinsControllerGetSummary>>, TError, TData>
+    > &
+      Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof weeklyCheckinsControllerGetSummary>>,
           TError,
           Awaited<ReturnType<typeof weeklyCheckinsControllerGetSummary>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useWeeklyCheckinsControllerGetSummary<TData = Awaited<ReturnType<typeof weeklyCheckinsControllerGetSummary>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof weeklyCheckinsControllerGetSummary>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+        >,
+        'initialData'
+      >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useWeeklyCheckinsControllerGetSummary<
+  TData = Awaited<ReturnType<typeof weeklyCheckinsControllerGetSummary>>,
+  TError = unknown,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof weeklyCheckinsControllerGetSummary>>, TError, TData>
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
-export function useWeeklyCheckinsControllerGetSummary<TData = Awaited<ReturnType<typeof weeklyCheckinsControllerGetSummary>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof weeklyCheckinsControllerGetSummary>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+export function useWeeklyCheckinsControllerGetSummary<
+  TData = Awaited<ReturnType<typeof weeklyCheckinsControllerGetSummary>>,
+  TError = unknown,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof weeklyCheckinsControllerGetSummary>>, TError, TData>
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+  const queryOptions = getWeeklyCheckinsControllerGetSummaryQueryOptions(options);
 
-  const queryOptions = getWeeklyCheckinsControllerGetSummaryQueryOptions(options)
-
-  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>;
+  };
 
   return { ...query, queryKey: queryOptions.queryKey };
 }
-
-
-
-
-
 
 export type weeklyCheckinsControllerGetCurrentResponse200 = {
-  data: WeeklyCheckinSummaryDto
-  status: 200
-}
-
-export type weeklyCheckinsControllerGetCurrentResponseSuccess = (weeklyCheckinsControllerGetCurrentResponse200) & {
-  headers: Headers;
+  data: WeeklyCheckinSummaryDto;
+  status: 200;
 };
-;
 
-export type weeklyCheckinsControllerGetCurrentResponse = (weeklyCheckinsControllerGetCurrentResponseSuccess)
+export type weeklyCheckinsControllerGetCurrentResponseSuccess =
+  weeklyCheckinsControllerGetCurrentResponse200 & {
+    headers: Headers;
+  };
+
+export type weeklyCheckinsControllerGetCurrentResponse =
+  weeklyCheckinsControllerGetCurrentResponseSuccess;
 
 export const getWeeklyCheckinsControllerGetCurrentUrl = () => {
+  return `/api/me/weekly-checkin/current`;
+};
 
-
-
-
-  return `/api/me/weekly-checkin/current`
-}
-
-export const weeklyCheckinsControllerGetCurrent = async ( options?: RequestInit): Promise<weeklyCheckinsControllerGetCurrentResponse> => {
-
-  return customFetch<weeklyCheckinsControllerGetCurrentResponse>(getWeeklyCheckinsControllerGetCurrentUrl(),
-  {
-    ...options,
-    method: 'GET'
-
-
-  }
-);}
-
-
-
-
+export const weeklyCheckinsControllerGetCurrent = async (
+  options?: RequestInit,
+): Promise<weeklyCheckinsControllerGetCurrentResponse> => {
+  return customFetch<weeklyCheckinsControllerGetCurrentResponse>(
+    getWeeklyCheckinsControllerGetCurrentUrl(),
+    {
+      ...options,
+      method: 'GET',
+    },
+  );
+};
 
 export const getWeeklyCheckinsControllerGetCurrentQueryKey = () => {
-    return [
-    `/api/me/weekly-checkin/current`
-    ] as const;
-    }
+  return [`/api/me/weekly-checkin/current`] as const;
+};
 
+export const getWeeklyCheckinsControllerGetCurrentQueryOptions = <
+  TData = Awaited<ReturnType<typeof weeklyCheckinsControllerGetCurrent>>,
+  TError = unknown,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<Awaited<ReturnType<typeof weeklyCheckinsControllerGetCurrent>>, TError, TData>
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
 
-export const getWeeklyCheckinsControllerGetCurrentQueryOptions = <TData = Awaited<ReturnType<typeof weeklyCheckinsControllerGetCurrent>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof weeklyCheckinsControllerGetCurrent>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
-) => {
+  const queryKey = queryOptions?.queryKey ?? getWeeklyCheckinsControllerGetCurrentQueryKey();
 
-const {query: queryOptions, request: requestOptions} = options ?? {};
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof weeklyCheckinsControllerGetCurrent>>> = ({
+    signal,
+  }) => weeklyCheckinsControllerGetCurrent({ signal, ...requestOptions });
 
-  const queryKey =  queryOptions?.queryKey ?? getWeeklyCheckinsControllerGetCurrentQueryKey();
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof weeklyCheckinsControllerGetCurrent>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
 
+export type WeeklyCheckinsControllerGetCurrentQueryResult = NonNullable<
+  Awaited<ReturnType<typeof weeklyCheckinsControllerGetCurrent>>
+>;
+export type WeeklyCheckinsControllerGetCurrentQueryError = unknown;
 
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof weeklyCheckinsControllerGetCurrent>>> = ({ signal }) => weeklyCheckinsControllerGetCurrent({ signal, ...requestOptions });
-
-
-
-
-
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof weeklyCheckinsControllerGetCurrent>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type WeeklyCheckinsControllerGetCurrentQueryResult = NonNullable<Awaited<ReturnType<typeof weeklyCheckinsControllerGetCurrent>>>
-export type WeeklyCheckinsControllerGetCurrentQueryError = unknown
-
-
-export function useWeeklyCheckinsControllerGetCurrent<TData = Awaited<ReturnType<typeof weeklyCheckinsControllerGetCurrent>>, TError = unknown>(
-  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof weeklyCheckinsControllerGetCurrent>>, TError, TData>> & Pick<
+export function useWeeklyCheckinsControllerGetCurrent<
+  TData = Awaited<ReturnType<typeof weeklyCheckinsControllerGetCurrent>>,
+  TError = unknown,
+>(
+  options: {
+    query: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof weeklyCheckinsControllerGetCurrent>>, TError, TData>
+    > &
+      Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof weeklyCheckinsControllerGetCurrent>>,
           TError,
           Awaited<ReturnType<typeof weeklyCheckinsControllerGetCurrent>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useWeeklyCheckinsControllerGetCurrent<TData = Awaited<ReturnType<typeof weeklyCheckinsControllerGetCurrent>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof weeklyCheckinsControllerGetCurrent>>, TError, TData>> & Pick<
+        >,
+        'initialData'
+      >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useWeeklyCheckinsControllerGetCurrent<
+  TData = Awaited<ReturnType<typeof weeklyCheckinsControllerGetCurrent>>,
+  TError = unknown,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof weeklyCheckinsControllerGetCurrent>>, TError, TData>
+    > &
+      Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof weeklyCheckinsControllerGetCurrent>>,
           TError,
           Awaited<ReturnType<typeof weeklyCheckinsControllerGetCurrent>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useWeeklyCheckinsControllerGetCurrent<TData = Awaited<ReturnType<typeof weeklyCheckinsControllerGetCurrent>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof weeklyCheckinsControllerGetCurrent>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+        >,
+        'initialData'
+      >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useWeeklyCheckinsControllerGetCurrent<
+  TData = Awaited<ReturnType<typeof weeklyCheckinsControllerGetCurrent>>,
+  TError = unknown,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof weeklyCheckinsControllerGetCurrent>>, TError, TData>
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
-export function useWeeklyCheckinsControllerGetCurrent<TData = Awaited<ReturnType<typeof weeklyCheckinsControllerGetCurrent>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof weeklyCheckinsControllerGetCurrent>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+export function useWeeklyCheckinsControllerGetCurrent<
+  TData = Awaited<ReturnType<typeof weeklyCheckinsControllerGetCurrent>>,
+  TError = unknown,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof weeklyCheckinsControllerGetCurrent>>, TError, TData>
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+  const queryOptions = getWeeklyCheckinsControllerGetCurrentQueryOptions(options);
 
-  const queryOptions = getWeeklyCheckinsControllerGetCurrentQueryOptions(options)
-
-  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>;
+  };
 
   return { ...query, queryKey: queryOptions.queryKey };
 }
-
-
-
-
-
 
 export type weeklyCheckinsControllerSaveDraftResponse200 = {
-  data: WeeklyCheckinSummaryDto
-  status: 200
-}
-
-export type weeklyCheckinsControllerSaveDraftResponseSuccess = (weeklyCheckinsControllerSaveDraftResponse200) & {
-  headers: Headers;
+  data: WeeklyCheckinSummaryDto;
+  status: 200;
 };
-;
 
-export type weeklyCheckinsControllerSaveDraftResponse = (weeklyCheckinsControllerSaveDraftResponseSuccess)
+export type weeklyCheckinsControllerSaveDraftResponseSuccess =
+  weeklyCheckinsControllerSaveDraftResponse200 & {
+    headers: Headers;
+  };
+
+export type weeklyCheckinsControllerSaveDraftResponse =
+  weeklyCheckinsControllerSaveDraftResponseSuccess;
 
 export const getWeeklyCheckinsControllerSaveDraftUrl = () => {
-
-
-
-
-  return `/api/me/weekly-checkin/current`
-}
-
-export const weeklyCheckinsControllerSaveDraft = async (saveWeeklyCheckinDraftDto: SaveWeeklyCheckinDraftDto, options?: RequestInit): Promise<weeklyCheckinsControllerSaveDraftResponse> => {
-
-  return customFetch<weeklyCheckinsControllerSaveDraftResponse>(getWeeklyCheckinsControllerSaveDraftUrl(),
-  {
-    ...options,
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json', ...options?.headers },
-    body: JSON.stringify(
-      saveWeeklyCheckinDraftDto,)
-  }
-);}
-
-
-
-
-export const getWeeklyCheckinsControllerSaveDraftMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof weeklyCheckinsControllerSaveDraft>>, TError,{data: SaveWeeklyCheckinDraftDto}, TContext>, request?: SecondParameter<typeof customFetch>}
-): UseMutationOptions<Awaited<ReturnType<typeof weeklyCheckinsControllerSaveDraft>>, TError,{data: SaveWeeklyCheckinDraftDto}, TContext> => {
-
-const mutationKey = ['weeklyCheckinsControllerSaveDraft'];
-const {mutation: mutationOptions, request: requestOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }, request: undefined};
-
-
-
-
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof weeklyCheckinsControllerSaveDraft>>, {data: SaveWeeklyCheckinDraftDto}> = (props) => {
-          const {data} = props ?? {};
-
-          return  weeklyCheckinsControllerSaveDraft(data,requestOptions)
-        }
-
-
-
-
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type WeeklyCheckinsControllerSaveDraftMutationResult = NonNullable<Awaited<ReturnType<typeof weeklyCheckinsControllerSaveDraft>>>
-    export type WeeklyCheckinsControllerSaveDraftMutationBody = SaveWeeklyCheckinDraftDto
-    export type WeeklyCheckinsControllerSaveDraftMutationError = unknown
-
-    export const useWeeklyCheckinsControllerSaveDraft = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof weeklyCheckinsControllerSaveDraft>>, TError,{data: SaveWeeklyCheckinDraftDto}, TContext>, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof weeklyCheckinsControllerSaveDraft>>,
-        TError,
-        {data: SaveWeeklyCheckinDraftDto},
-        TContext
-      > => {
-      return useMutation(getWeeklyCheckinsControllerSaveDraftMutationOptions(options), queryClient);
-    }
-    export type weeklyCheckinsControllerGetHistoryResponse200 = {
-  data: WeeklyCheckinDto[]
-  status: 200
-}
-
-export type weeklyCheckinsControllerGetHistoryResponseSuccess = (weeklyCheckinsControllerGetHistoryResponse200) & {
-  headers: Headers;
+  return `/api/me/weekly-checkin/current`;
 };
-;
 
-export type weeklyCheckinsControllerGetHistoryResponse = (weeklyCheckinsControllerGetHistoryResponseSuccess)
+export const weeklyCheckinsControllerSaveDraft = async (
+  saveWeeklyCheckinDraftDto: SaveWeeklyCheckinDraftDto,
+  options?: RequestInit,
+): Promise<weeklyCheckinsControllerSaveDraftResponse> => {
+  return customFetch<weeklyCheckinsControllerSaveDraftResponse>(
+    getWeeklyCheckinsControllerSaveDraftUrl(),
+    {
+      ...options,
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', ...options?.headers },
+      body: JSON.stringify(saveWeeklyCheckinDraftDto),
+    },
+  );
+};
+
+export const getWeeklyCheckinsControllerSaveDraftMutationOptions = <
+  TError = unknown,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof weeklyCheckinsControllerSaveDraft>>,
+    TError,
+    { data: SaveWeeklyCheckinDraftDto },
+    TContext
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof weeklyCheckinsControllerSaveDraft>>,
+  TError,
+  { data: SaveWeeklyCheckinDraftDto },
+  TContext
+> => {
+  const mutationKey = ['weeklyCheckinsControllerSaveDraft'];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof weeklyCheckinsControllerSaveDraft>>,
+    { data: SaveWeeklyCheckinDraftDto }
+  > = (props) => {
+    const { data } = props ?? {};
+
+    return weeklyCheckinsControllerSaveDraft(data, requestOptions);
+  };
+
+  return { mutationFn, ...mutationOptions };
+};
+
+export type WeeklyCheckinsControllerSaveDraftMutationResult = NonNullable<
+  Awaited<ReturnType<typeof weeklyCheckinsControllerSaveDraft>>
+>;
+export type WeeklyCheckinsControllerSaveDraftMutationBody = SaveWeeklyCheckinDraftDto;
+export type WeeklyCheckinsControllerSaveDraftMutationError = unknown;
+
+export const useWeeklyCheckinsControllerSaveDraft = <TError = unknown, TContext = unknown>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof weeklyCheckinsControllerSaveDraft>>,
+      TError,
+      { data: SaveWeeklyCheckinDraftDto },
+      TContext
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof weeklyCheckinsControllerSaveDraft>>,
+  TError,
+  { data: SaveWeeklyCheckinDraftDto },
+  TContext
+> => {
+  return useMutation(getWeeklyCheckinsControllerSaveDraftMutationOptions(options), queryClient);
+};
+export type weeklyCheckinsControllerGetHistoryResponse200 = {
+  data: WeeklyCheckinDto[];
+  status: 200;
+};
+
+export type weeklyCheckinsControllerGetHistoryResponseSuccess =
+  weeklyCheckinsControllerGetHistoryResponse200 & {
+    headers: Headers;
+  };
+
+export type weeklyCheckinsControllerGetHistoryResponse =
+  weeklyCheckinsControllerGetHistoryResponseSuccess;
 
 export const getWeeklyCheckinsControllerGetHistoryUrl = () => {
+  return `/api/me/weekly-checkin/history`;
+};
 
-
-
-
-  return `/api/me/weekly-checkin/history`
-}
-
-export const weeklyCheckinsControllerGetHistory = async ( options?: RequestInit): Promise<weeklyCheckinsControllerGetHistoryResponse> => {
-
-  return customFetch<weeklyCheckinsControllerGetHistoryResponse>(getWeeklyCheckinsControllerGetHistoryUrl(),
-  {
-    ...options,
-    method: 'GET'
-
-
-  }
-);}
-
-
-
-
+export const weeklyCheckinsControllerGetHistory = async (
+  options?: RequestInit,
+): Promise<weeklyCheckinsControllerGetHistoryResponse> => {
+  return customFetch<weeklyCheckinsControllerGetHistoryResponse>(
+    getWeeklyCheckinsControllerGetHistoryUrl(),
+    {
+      ...options,
+      method: 'GET',
+    },
+  );
+};
 
 export const getWeeklyCheckinsControllerGetHistoryQueryKey = () => {
-    return [
-    `/api/me/weekly-checkin/history`
-    ] as const;
-    }
+  return [`/api/me/weekly-checkin/history`] as const;
+};
 
+export const getWeeklyCheckinsControllerGetHistoryQueryOptions = <
+  TData = Awaited<ReturnType<typeof weeklyCheckinsControllerGetHistory>>,
+  TError = unknown,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<Awaited<ReturnType<typeof weeklyCheckinsControllerGetHistory>>, TError, TData>
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
 
-export const getWeeklyCheckinsControllerGetHistoryQueryOptions = <TData = Awaited<ReturnType<typeof weeklyCheckinsControllerGetHistory>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof weeklyCheckinsControllerGetHistory>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
-) => {
+  const queryKey = queryOptions?.queryKey ?? getWeeklyCheckinsControllerGetHistoryQueryKey();
 
-const {query: queryOptions, request: requestOptions} = options ?? {};
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof weeklyCheckinsControllerGetHistory>>> = ({
+    signal,
+  }) => weeklyCheckinsControllerGetHistory({ signal, ...requestOptions });
 
-  const queryKey =  queryOptions?.queryKey ?? getWeeklyCheckinsControllerGetHistoryQueryKey();
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof weeklyCheckinsControllerGetHistory>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
 
+export type WeeklyCheckinsControllerGetHistoryQueryResult = NonNullable<
+  Awaited<ReturnType<typeof weeklyCheckinsControllerGetHistory>>
+>;
+export type WeeklyCheckinsControllerGetHistoryQueryError = unknown;
 
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof weeklyCheckinsControllerGetHistory>>> = ({ signal }) => weeklyCheckinsControllerGetHistory({ signal, ...requestOptions });
-
-
-
-
-
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof weeklyCheckinsControllerGetHistory>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type WeeklyCheckinsControllerGetHistoryQueryResult = NonNullable<Awaited<ReturnType<typeof weeklyCheckinsControllerGetHistory>>>
-export type WeeklyCheckinsControllerGetHistoryQueryError = unknown
-
-
-export function useWeeklyCheckinsControllerGetHistory<TData = Awaited<ReturnType<typeof weeklyCheckinsControllerGetHistory>>, TError = unknown>(
-  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof weeklyCheckinsControllerGetHistory>>, TError, TData>> & Pick<
+export function useWeeklyCheckinsControllerGetHistory<
+  TData = Awaited<ReturnType<typeof weeklyCheckinsControllerGetHistory>>,
+  TError = unknown,
+>(
+  options: {
+    query: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof weeklyCheckinsControllerGetHistory>>, TError, TData>
+    > &
+      Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof weeklyCheckinsControllerGetHistory>>,
           TError,
           Awaited<ReturnType<typeof weeklyCheckinsControllerGetHistory>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useWeeklyCheckinsControllerGetHistory<TData = Awaited<ReturnType<typeof weeklyCheckinsControllerGetHistory>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof weeklyCheckinsControllerGetHistory>>, TError, TData>> & Pick<
+        >,
+        'initialData'
+      >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useWeeklyCheckinsControllerGetHistory<
+  TData = Awaited<ReturnType<typeof weeklyCheckinsControllerGetHistory>>,
+  TError = unknown,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof weeklyCheckinsControllerGetHistory>>, TError, TData>
+    > &
+      Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof weeklyCheckinsControllerGetHistory>>,
           TError,
           Awaited<ReturnType<typeof weeklyCheckinsControllerGetHistory>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useWeeklyCheckinsControllerGetHistory<TData = Awaited<ReturnType<typeof weeklyCheckinsControllerGetHistory>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof weeklyCheckinsControllerGetHistory>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+        >,
+        'initialData'
+      >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useWeeklyCheckinsControllerGetHistory<
+  TData = Awaited<ReturnType<typeof weeklyCheckinsControllerGetHistory>>,
+  TError = unknown,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof weeklyCheckinsControllerGetHistory>>, TError, TData>
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
-export function useWeeklyCheckinsControllerGetHistory<TData = Awaited<ReturnType<typeof weeklyCheckinsControllerGetHistory>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof weeklyCheckinsControllerGetHistory>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+export function useWeeklyCheckinsControllerGetHistory<
+  TData = Awaited<ReturnType<typeof weeklyCheckinsControllerGetHistory>>,
+  TError = unknown,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof weeklyCheckinsControllerGetHistory>>, TError, TData>
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+  const queryOptions = getWeeklyCheckinsControllerGetHistoryQueryOptions(options);
 
-  const queryOptions = getWeeklyCheckinsControllerGetHistoryQueryOptions(options)
-
-  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>;
+  };
 
   return { ...query, queryKey: queryOptions.queryKey };
 }
-
-
-
-
-
 
 export type weeklyCheckinsControllerSubmitResponse200 = {
-  data: WeeklyCheckinSummaryDto
-  status: 200
-}
-
-export type weeklyCheckinsControllerSubmitResponseSuccess = (weeklyCheckinsControllerSubmitResponse200) & {
-  headers: Headers;
+  data: WeeklyCheckinSummaryDto;
+  status: 200;
 };
-;
 
-export type weeklyCheckinsControllerSubmitResponse = (weeklyCheckinsControllerSubmitResponseSuccess)
+export type weeklyCheckinsControllerSubmitResponseSuccess =
+  weeklyCheckinsControllerSubmitResponse200 & {
+    headers: Headers;
+  };
+
+export type weeklyCheckinsControllerSubmitResponse = weeklyCheckinsControllerSubmitResponseSuccess;
 
 export const getWeeklyCheckinsControllerSubmitUrl = () => {
-
-
-
-
-  return `/api/me/weekly-checkin/current/submit`
-}
-
-export const weeklyCheckinsControllerSubmit = async (submitWeeklyCheckinDto: SubmitWeeklyCheckinDto, options?: RequestInit): Promise<weeklyCheckinsControllerSubmitResponse> => {
-
-  return customFetch<weeklyCheckinsControllerSubmitResponse>(getWeeklyCheckinsControllerSubmitUrl(),
-  {
-    ...options,
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', ...options?.headers },
-    body: JSON.stringify(
-      submitWeeklyCheckinDto,)
-  }
-);}
-
-
-
-
-export const getWeeklyCheckinsControllerSubmitMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof weeklyCheckinsControllerSubmit>>, TError,{data: SubmitWeeklyCheckinDto}, TContext>, request?: SecondParameter<typeof customFetch>}
-): UseMutationOptions<Awaited<ReturnType<typeof weeklyCheckinsControllerSubmit>>, TError,{data: SubmitWeeklyCheckinDto}, TContext> => {
-
-const mutationKey = ['weeklyCheckinsControllerSubmit'];
-const {mutation: mutationOptions, request: requestOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }, request: undefined};
-
-
-
-
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof weeklyCheckinsControllerSubmit>>, {data: SubmitWeeklyCheckinDto}> = (props) => {
-          const {data} = props ?? {};
-
-          return  weeklyCheckinsControllerSubmit(data,requestOptions)
-        }
-
-
-
-
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type WeeklyCheckinsControllerSubmitMutationResult = NonNullable<Awaited<ReturnType<typeof weeklyCheckinsControllerSubmit>>>
-    export type WeeklyCheckinsControllerSubmitMutationBody = SubmitWeeklyCheckinDto
-    export type WeeklyCheckinsControllerSubmitMutationError = unknown
-
-    export const useWeeklyCheckinsControllerSubmit = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof weeklyCheckinsControllerSubmit>>, TError,{data: SubmitWeeklyCheckinDto}, TContext>, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof weeklyCheckinsControllerSubmit>>,
-        TError,
-        {data: SubmitWeeklyCheckinDto},
-        TContext
-      > => {
-      return useMutation(getWeeklyCheckinsControllerSubmitMutationOptions(options), queryClient);
-    }
-    export type weeklyCheckinsControllerGetCheckinResponse200 = {
-  data: WeeklyCheckinDto
-  status: 200
-}
-
-export type weeklyCheckinsControllerGetCheckinResponseSuccess = (weeklyCheckinsControllerGetCheckinResponse200) & {
-  headers: Headers;
+  return `/api/me/weekly-checkin/current/submit`;
 };
-;
 
-export type weeklyCheckinsControllerGetCheckinResponse = (weeklyCheckinsControllerGetCheckinResponseSuccess)
+export const weeklyCheckinsControllerSubmit = async (
+  submitWeeklyCheckinDto: SubmitWeeklyCheckinDto,
+  options?: RequestInit,
+): Promise<weeklyCheckinsControllerSubmitResponse> => {
+  return customFetch<weeklyCheckinsControllerSubmitResponse>(
+    getWeeklyCheckinsControllerSubmitUrl(),
+    {
+      ...options,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', ...options?.headers },
+      body: JSON.stringify(submitWeeklyCheckinDto),
+    },
+  );
+};
 
-export const getWeeklyCheckinsControllerGetCheckinUrl = (checkinId: string,) => {
+export const getWeeklyCheckinsControllerSubmitMutationOptions = <
+  TError = unknown,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof weeklyCheckinsControllerSubmit>>,
+    TError,
+    { data: SubmitWeeklyCheckinDto },
+    TContext
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof weeklyCheckinsControllerSubmit>>,
+  TError,
+  { data: SubmitWeeklyCheckinDto },
+  TContext
+> => {
+  const mutationKey = ['weeklyCheckinsControllerSubmit'];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
 
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof weeklyCheckinsControllerSubmit>>,
+    { data: SubmitWeeklyCheckinDto }
+  > = (props) => {
+    const { data } = props ?? {};
 
+    return weeklyCheckinsControllerSubmit(data, requestOptions);
+  };
 
+  return { mutationFn, ...mutationOptions };
+};
 
-  return `/api/me/weekly-checkin/${checkinId}`
-}
+export type WeeklyCheckinsControllerSubmitMutationResult = NonNullable<
+  Awaited<ReturnType<typeof weeklyCheckinsControllerSubmit>>
+>;
+export type WeeklyCheckinsControllerSubmitMutationBody = SubmitWeeklyCheckinDto;
+export type WeeklyCheckinsControllerSubmitMutationError = unknown;
 
-export const weeklyCheckinsControllerGetCheckin = async (checkinId: string, options?: RequestInit): Promise<weeklyCheckinsControllerGetCheckinResponse> => {
+export const useWeeklyCheckinsControllerSubmit = <TError = unknown, TContext = unknown>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof weeklyCheckinsControllerSubmit>>,
+      TError,
+      { data: SubmitWeeklyCheckinDto },
+      TContext
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof weeklyCheckinsControllerSubmit>>,
+  TError,
+  { data: SubmitWeeklyCheckinDto },
+  TContext
+> => {
+  return useMutation(getWeeklyCheckinsControllerSubmitMutationOptions(options), queryClient);
+};
+export type weeklyCheckinsControllerGetCheckinResponse200 = {
+  data: WeeklyCheckinDto;
+  status: 200;
+};
 
-  return customFetch<weeklyCheckinsControllerGetCheckinResponse>(getWeeklyCheckinsControllerGetCheckinUrl(checkinId),
-  {
-    ...options,
-    method: 'GET'
+export type weeklyCheckinsControllerGetCheckinResponseSuccess =
+  weeklyCheckinsControllerGetCheckinResponse200 & {
+    headers: Headers;
+  };
 
+export type weeklyCheckinsControllerGetCheckinResponse =
+  weeklyCheckinsControllerGetCheckinResponseSuccess;
 
-  }
-);}
+export const getWeeklyCheckinsControllerGetCheckinUrl = (checkinId: string) => {
+  return `/api/me/weekly-checkin/${checkinId}`;
+};
 
+export const weeklyCheckinsControllerGetCheckin = async (
+  checkinId: string,
+  options?: RequestInit,
+): Promise<weeklyCheckinsControllerGetCheckinResponse> => {
+  return customFetch<weeklyCheckinsControllerGetCheckinResponse>(
+    getWeeklyCheckinsControllerGetCheckinUrl(checkinId),
+    {
+      ...options,
+      method: 'GET',
+    },
+  );
+};
 
+export const getWeeklyCheckinsControllerGetCheckinQueryKey = (checkinId: string) => {
+  return [`/api/me/weekly-checkin/${checkinId}`] as const;
+};
 
-
-
-export const getWeeklyCheckinsControllerGetCheckinQueryKey = (checkinId: string,) => {
-    return [
-    `/api/me/weekly-checkin/${checkinId}`
-    ] as const;
-    }
-
-
-export const getWeeklyCheckinsControllerGetCheckinQueryOptions = <TData = Awaited<ReturnType<typeof weeklyCheckinsControllerGetCheckin>>, TError = unknown>(checkinId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof weeklyCheckinsControllerGetCheckin>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+export const getWeeklyCheckinsControllerGetCheckinQueryOptions = <
+  TData = Awaited<ReturnType<typeof weeklyCheckinsControllerGetCheckin>>,
+  TError = unknown,
+>(
+  checkinId: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof weeklyCheckinsControllerGetCheckin>>, TError, TData>
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
 ) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
 
-const {query: queryOptions, request: requestOptions} = options ?? {};
+  const queryKey =
+    queryOptions?.queryKey ?? getWeeklyCheckinsControllerGetCheckinQueryKey(checkinId);
 
-  const queryKey =  queryOptions?.queryKey ?? getWeeklyCheckinsControllerGetCheckinQueryKey(checkinId);
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof weeklyCheckinsControllerGetCheckin>>> = ({
+    signal,
+  }) => weeklyCheckinsControllerGetCheckin(checkinId, { signal, ...requestOptions });
 
+  return { queryKey, queryFn, enabled: !!checkinId, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof weeklyCheckinsControllerGetCheckin>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
 
+export type WeeklyCheckinsControllerGetCheckinQueryResult = NonNullable<
+  Awaited<ReturnType<typeof weeklyCheckinsControllerGetCheckin>>
+>;
+export type WeeklyCheckinsControllerGetCheckinQueryError = unknown;
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof weeklyCheckinsControllerGetCheckin>>> = ({ signal }) => weeklyCheckinsControllerGetCheckin(checkinId, { signal, ...requestOptions });
-
-
-
-
-
-   return  { queryKey, queryFn, enabled: !!(checkinId), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof weeklyCheckinsControllerGetCheckin>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type WeeklyCheckinsControllerGetCheckinQueryResult = NonNullable<Awaited<ReturnType<typeof weeklyCheckinsControllerGetCheckin>>>
-export type WeeklyCheckinsControllerGetCheckinQueryError = unknown
-
-
-export function useWeeklyCheckinsControllerGetCheckin<TData = Awaited<ReturnType<typeof weeklyCheckinsControllerGetCheckin>>, TError = unknown>(
- checkinId: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof weeklyCheckinsControllerGetCheckin>>, TError, TData>> & Pick<
+export function useWeeklyCheckinsControllerGetCheckin<
+  TData = Awaited<ReturnType<typeof weeklyCheckinsControllerGetCheckin>>,
+  TError = unknown,
+>(
+  checkinId: string,
+  options: {
+    query: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof weeklyCheckinsControllerGetCheckin>>, TError, TData>
+    > &
+      Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof weeklyCheckinsControllerGetCheckin>>,
           TError,
           Awaited<ReturnType<typeof weeklyCheckinsControllerGetCheckin>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useWeeklyCheckinsControllerGetCheckin<TData = Awaited<ReturnType<typeof weeklyCheckinsControllerGetCheckin>>, TError = unknown>(
- checkinId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof weeklyCheckinsControllerGetCheckin>>, TError, TData>> & Pick<
+        >,
+        'initialData'
+      >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useWeeklyCheckinsControllerGetCheckin<
+  TData = Awaited<ReturnType<typeof weeklyCheckinsControllerGetCheckin>>,
+  TError = unknown,
+>(
+  checkinId: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof weeklyCheckinsControllerGetCheckin>>, TError, TData>
+    > &
+      Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof weeklyCheckinsControllerGetCheckin>>,
           TError,
           Awaited<ReturnType<typeof weeklyCheckinsControllerGetCheckin>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useWeeklyCheckinsControllerGetCheckin<TData = Awaited<ReturnType<typeof weeklyCheckinsControllerGetCheckin>>, TError = unknown>(
- checkinId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof weeklyCheckinsControllerGetCheckin>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+        >,
+        'initialData'
+      >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useWeeklyCheckinsControllerGetCheckin<
+  TData = Awaited<ReturnType<typeof weeklyCheckinsControllerGetCheckin>>,
+  TError = unknown,
+>(
+  checkinId: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof weeklyCheckinsControllerGetCheckin>>, TError, TData>
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
-export function useWeeklyCheckinsControllerGetCheckin<TData = Awaited<ReturnType<typeof weeklyCheckinsControllerGetCheckin>>, TError = unknown>(
- checkinId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof weeklyCheckinsControllerGetCheckin>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+export function useWeeklyCheckinsControllerGetCheckin<
+  TData = Awaited<ReturnType<typeof weeklyCheckinsControllerGetCheckin>>,
+  TError = unknown,
+>(
+  checkinId: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof weeklyCheckinsControllerGetCheckin>>, TError, TData>
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+  const queryOptions = getWeeklyCheckinsControllerGetCheckinQueryOptions(checkinId, options);
 
-  const queryOptions = getWeeklyCheckinsControllerGetCheckinQueryOptions(checkinId,options)
-
-  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>;
+  };
 
   return { ...query, queryKey: queryOptions.queryKey };
 }
 
-
-
-
-
-
 export type weeklyCheckinsControllerUpdateCheckinResponse200 = {
-  data: WeeklyCheckinDto
-  status: 200
-}
-
-export type weeklyCheckinsControllerUpdateCheckinResponseSuccess = (weeklyCheckinsControllerUpdateCheckinResponse200) & {
-  headers: Headers;
+  data: WeeklyCheckinDto;
+  status: 200;
 };
-;
 
-export type weeklyCheckinsControllerUpdateCheckinResponse = (weeklyCheckinsControllerUpdateCheckinResponseSuccess)
+export type weeklyCheckinsControllerUpdateCheckinResponseSuccess =
+  weeklyCheckinsControllerUpdateCheckinResponse200 & {
+    headers: Headers;
+  };
 
-export const getWeeklyCheckinsControllerUpdateCheckinUrl = (checkinId: string,) => {
+export type weeklyCheckinsControllerUpdateCheckinResponse =
+  weeklyCheckinsControllerUpdateCheckinResponseSuccess;
 
+export const getWeeklyCheckinsControllerUpdateCheckinUrl = (checkinId: string) => {
+  return `/api/me/weekly-checkin/${checkinId}`;
+};
 
+export const weeklyCheckinsControllerUpdateCheckin = async (
+  checkinId: string,
+  submitWeeklyCheckinDto: SubmitWeeklyCheckinDto,
+  options?: RequestInit,
+): Promise<weeklyCheckinsControllerUpdateCheckinResponse> => {
+  return customFetch<weeklyCheckinsControllerUpdateCheckinResponse>(
+    getWeeklyCheckinsControllerUpdateCheckinUrl(checkinId),
+    {
+      ...options,
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', ...options?.headers },
+      body: JSON.stringify(submitWeeklyCheckinDto),
+    },
+  );
+};
 
+export const getWeeklyCheckinsControllerUpdateCheckinMutationOptions = <
+  TError = unknown,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof weeklyCheckinsControllerUpdateCheckin>>,
+    TError,
+    { checkinId: string; data: SubmitWeeklyCheckinDto },
+    TContext
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof weeklyCheckinsControllerUpdateCheckin>>,
+  TError,
+  { checkinId: string; data: SubmitWeeklyCheckinDto },
+  TContext
+> => {
+  const mutationKey = ['weeklyCheckinsControllerUpdateCheckin'];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
 
-  return `/api/me/weekly-checkin/${checkinId}`
-}
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof weeklyCheckinsControllerUpdateCheckin>>,
+    { checkinId: string; data: SubmitWeeklyCheckinDto }
+  > = (props) => {
+    const { checkinId, data } = props ?? {};
 
-export const weeklyCheckinsControllerUpdateCheckin = async (checkinId: string,
-    submitWeeklyCheckinDto: SubmitWeeklyCheckinDto, options?: RequestInit): Promise<weeklyCheckinsControllerUpdateCheckinResponse> => {
+    return weeklyCheckinsControllerUpdateCheckin(checkinId, data, requestOptions);
+  };
 
-  return customFetch<weeklyCheckinsControllerUpdateCheckinResponse>(getWeeklyCheckinsControllerUpdateCheckinUrl(checkinId),
-  {
-    ...options,
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json', ...options?.headers },
-    body: JSON.stringify(
-      submitWeeklyCheckinDto,)
-  }
-);}
+  return { mutationFn, ...mutationOptions };
+};
 
+export type WeeklyCheckinsControllerUpdateCheckinMutationResult = NonNullable<
+  Awaited<ReturnType<typeof weeklyCheckinsControllerUpdateCheckin>>
+>;
+export type WeeklyCheckinsControllerUpdateCheckinMutationBody = SubmitWeeklyCheckinDto;
+export type WeeklyCheckinsControllerUpdateCheckinMutationError = unknown;
 
-
-
-export const getWeeklyCheckinsControllerUpdateCheckinMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof weeklyCheckinsControllerUpdateCheckin>>, TError,{checkinId: string;data: SubmitWeeklyCheckinDto}, TContext>, request?: SecondParameter<typeof customFetch>}
-): UseMutationOptions<Awaited<ReturnType<typeof weeklyCheckinsControllerUpdateCheckin>>, TError,{checkinId: string;data: SubmitWeeklyCheckinDto}, TContext> => {
-
-const mutationKey = ['weeklyCheckinsControllerUpdateCheckin'];
-const {mutation: mutationOptions, request: requestOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }, request: undefined};
-
-
-
-
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof weeklyCheckinsControllerUpdateCheckin>>, {checkinId: string;data: SubmitWeeklyCheckinDto}> = (props) => {
-          const {checkinId,data} = props ?? {};
-
-          return  weeklyCheckinsControllerUpdateCheckin(checkinId,data,requestOptions)
-        }
-
-
-
-
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type WeeklyCheckinsControllerUpdateCheckinMutationResult = NonNullable<Awaited<ReturnType<typeof weeklyCheckinsControllerUpdateCheckin>>>
-    export type WeeklyCheckinsControllerUpdateCheckinMutationBody = SubmitWeeklyCheckinDto
-    export type WeeklyCheckinsControllerUpdateCheckinMutationError = unknown
-
-    export const useWeeklyCheckinsControllerUpdateCheckin = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof weeklyCheckinsControllerUpdateCheckin>>, TError,{checkinId: string;data: SubmitWeeklyCheckinDto}, TContext>, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof weeklyCheckinsControllerUpdateCheckin>>,
-        TError,
-        {checkinId: string;data: SubmitWeeklyCheckinDto},
-        TContext
-      > => {
-      return useMutation(getWeeklyCheckinsControllerUpdateCheckinMutationOptions(options), queryClient);
-    }
+export const useWeeklyCheckinsControllerUpdateCheckin = <TError = unknown, TContext = unknown>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof weeklyCheckinsControllerUpdateCheckin>>,
+      TError,
+      { checkinId: string; data: SubmitWeeklyCheckinDto },
+      TContext
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof weeklyCheckinsControllerUpdateCheckin>>,
+  TError,
+  { checkinId: string; data: SubmitWeeklyCheckinDto },
+  TContext
+> => {
+  return useMutation(getWeeklyCheckinsControllerUpdateCheckinMutationOptions(options), queryClient);
+};

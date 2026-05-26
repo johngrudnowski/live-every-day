@@ -77,9 +77,7 @@ export function VitalsEntryScreen() {
     <AppScreen padded={false} style={styles.screen}>
       <View style={styles.header}>
         <ScreenHeaderNavRow
-          left={
-            <ScreenHeaderChevronLink label="Home" onPress={() => router.replace('/home')} />
-          }
+          left={<ScreenHeaderChevronLink label="Home" onPress={() => router.replace('/home')} />}
           title={
             <LedText variant="subtitle" numberOfLines={1} ellipsizeMode="tail">
               Log vitals

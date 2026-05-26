@@ -6,8 +6,8 @@
  * OpenAPI spec version: 1.0
  */
 
-export type UpdateHealthImportCandidateDtoStatus = typeof UpdateHealthImportCandidateDtoStatus[keyof typeof UpdateHealthImportCandidateDtoStatus];
-
+export type UpdateHealthImportCandidateDtoStatus =
+  (typeof UpdateHealthImportCandidateDtoStatus)[keyof typeof UpdateHealthImportCandidateDtoStatus];
 
 export const UpdateHealthImportCandidateDtoStatus = {
   candidate: 'candidate',

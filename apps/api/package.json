@@ -1,10 +1,10 @@
 {
   "name": "api",
   "version": "0.0.1",
-  "description": "",
-  "author": "",
   "private": true,
+  "description": "",
   "license": "UNLICENSED",
+  "author": "",
   "scripts": {
     "prebuild": "pnpm --filter @led/conditions build && pnpm --filter database build",
     "prestart": "pnpm --filter @led/conditions build && pnpm --filter database build",
@@ -26,12 +26,12 @@
   },
   "dependencies": {
     "@better-auth/expo": "^1.6.11",
+    "@led/conditions": "workspace:*",
     "@nestjs/common": "^11.0.1",
     "@nestjs/config": "^4.0.4",
     "@nestjs/core": "^11.0.1",
     "@nestjs/platform-express": "^11.0.1",
     "@nestjs/swagger": "^11.4.2",
-    "@led/conditions": "workspace:*",
     "better-auth": "^1.6.11",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.15.1",

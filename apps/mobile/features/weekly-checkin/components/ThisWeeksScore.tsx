@@ -69,10 +69,7 @@ export function ThisWeeksScore({
   );
 }
 
-function getChartPoints(
-  checkin: WeeklyCheckin,
-  history: WeeklyCheckin[],
-): SymptomBarChartPoint[] {
+function getChartPoints(checkin: WeeklyCheckin, history: WeeklyCheckin[]): SymptomBarChartPoint[] {
   const checkinsByWeek = new Map<string, WeeklyCheckin>();
 
   for (const item of history) {

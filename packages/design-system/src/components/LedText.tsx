@@ -16,5 +16,10 @@ export function LedText({
   style,
   ...props
 }: LedTextProps) {
-  return <Text {...props} style={[typography[variant], { color: colors[color], textAlign: align }, style]} />;
+  return (
+    <Text
+      {...props}
+      style={[typography[variant], { color: colors[color], textAlign: align }, style]}
+    />
+  );
 }

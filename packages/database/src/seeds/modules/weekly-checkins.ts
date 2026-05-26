@@ -174,12 +174,7 @@ function buildAnswers(definition: SeedWeeklyCheckinDefinition, targetPercent: nu
   const answers: Record<string, unknown> = {};
   const numericMax = definition.questions.reduce((total, question) => total + question.max, 0);
   const targetTotal = Math.round((numericMax * targetPercent) / 100);
-  const numericScores = distributeScore(
-    targetTotal,
-    definition.questions.length,
-    10,
-    0,
-  );
+  const numericScores = distributeScore(targetTotal, definition.questions.length, 10, 0);
 
   definition.questions.forEach((question, questionIndex) => {
     answers[question.id] = numericScores[questionIndex] ?? 0;

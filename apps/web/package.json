@@ -3,6 +3,9 @@
   "version": "0.0.1",
   "private": true,
   "description": "Web app workspace package",
+  "keywords": [],
+  "license": "UNLICENSED",
+  "author": "",
   "scripts": {
     "build": "vite build",
     "dev": "vite",
@@ -12,9 +15,6 @@
     "check-types": "tsc -p tsconfig.app.json --noEmit && tsc -p tsconfig.node.json --noEmit",
     "preview": "vite preview"
   },
-  "keywords": [],
-  "author": "",
-  "license": "UNLICENSED",
   "dependencies": {
     "@led/api-client": "workspace:*",
     "@mantine/core": "^9.2.0",
