@@ -8,6 +8,7 @@ type LiveEveryDayExpoConfig = ExpoConfig & {
 
 const appVariant = parseAppVariant(process.env.APP_VARIANT);
 const projectId = process.env.EAS_PROJECT_ID;
+const canvasColor = '#FFFCF5';
 
 const shouldUseEasUpdates = process.env.ENABLE_EAS_UPDATES === '1' && Boolean(projectId);
 
@@ -36,7 +37,7 @@ export default ({ config }: ConfigContext): LiveEveryDayExpoConfig => ({
   name: displayName(),
   slug: 'live-every-day',
   scheme: scheme(),
-  version: '1.0.0',
+  version: '1.0.1',
   orientation: 'portrait',
   userInterfaceStyle: 'automatic',
   newArchEnabled: true,
@@ -44,7 +45,7 @@ export default ({ config }: ConfigContext): LiveEveryDayExpoConfig => ({
   splash: {
     image: './assets/images/splash-icon.png',
     resizeMode: 'contain',
-    backgroundColor: '#ffffff',
+    backgroundColor: canvasColor,
   },
   ios: {
     supportsTablet: true,
@@ -54,8 +55,9 @@ export default ({ config }: ConfigContext): LiveEveryDayExpoConfig => ({
     package: `com.led.liveeverydaytest${variantSuffix()}`,
     adaptiveIcon: {
       foregroundImage: './assets/images/adaptive-icon.png',
-      backgroundColor: '#ffffff',
+      backgroundColor: canvasColor,
     },
+    versionCode: 2, // bump every Play upload
     predictiveBackGestureEnabled: false,
   },
   web: {

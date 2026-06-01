@@ -7,6 +7,7 @@
     "dev": "expo start --dev-client",
     "start": "expo start --dev-client",
     "start:go": "expo start --go",
+    "brand:assets": "node ./scripts/generate-brand-assets.mjs",
     "android": "expo run:android --device",
     "ios": "expo run:ios",
     "web": "expo start --web",
