@@ -10,7 +10,7 @@ export function LoadingScreen({ message = 'Loading Live Every Day' }: LoadingScr
   return (
     <AppScreen surface="canvas" style={styles.screen}>
       <View style={styles.brand}>
-        <AnimatedLogoMark size={82} />
+        <AnimatedLogoMark />
         <Wordmark size="medium" />
       </View>
       <LedText variant="bodySmall" color="textMid" align="center">

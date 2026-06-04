@@ -1,10 +1,11 @@
-import { useEffect, useState } from 'react';
-import { AccessibilityInfo, StyleSheet } from 'react-native';
+import { useEffect } from 'react';
+import { StyleSheet } from 'react-native';
 import { LogoMark } from '@led/design-system';
 import Animated, {
   Easing,
   cancelAnimation,
   useAnimatedStyle,
+  useReducedMotion,
   useSharedValue,
   withRepeat,
   withTiming,
@@ -15,8 +16,8 @@ type AnimatedLogoMarkProps = {
   durationMs?: number;
 };
 
-export function AnimatedLogoMark({ size = 82, durationMs = 10000 }: AnimatedLogoMarkProps) {
-  const reduceMotion = useReduceMotion();
+export function AnimatedLogoMark({ size = 116, durationMs = 8000 }: AnimatedLogoMarkProps) {
+  const reduceMotion = useReducedMotion();
   const rotation = useSharedValue(0);
 
   useEffect(() => {
@@ -48,35 +49,6 @@ export function AnimatedLogoMark({ size = 82, durationMs = 10000 }: AnimatedLogo
       <LogoMark size={size} />
     </Animated.View>
   );
-}
-
-function useReduceMotion() {
-  const [reduceMotion, setReduceMotion] = useState(true);
-
-  useEffect(() => {
-    let isMounted = true;
-
-    AccessibilityInfo.isReduceMotionEnabled()
-      .then((isEnabled) => {
-        if (isMounted) {
-          setReduceMotion(isEnabled);
-        }
-      })
-      .catch(() => {
-        if (isMounted) {
-          setReduceMotion(false);
-        }
-      });
-
-    const subscription = AccessibilityInfo.addEventListener('reduceMotionChanged', setReduceMotion);
-
-    return () => {
-      isMounted = false;
-      subscription.remove();
-    };
-  }, []);
-
-  return reduceMotion;
 }
 
 const styles = StyleSheet.create({

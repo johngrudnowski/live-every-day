@@ -93,7 +93,7 @@ composeSquare({
 
 composeSquare({
   background: 'none',
-  logoSize: 320,
+  logoSize: 448,
   output: outputs.splashIcon,
 });
 

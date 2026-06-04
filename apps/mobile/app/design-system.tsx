@@ -12,6 +12,7 @@ import {
   radii,
   spacing,
 } from '@led/design-system';
+import { AnimatedLogoMark } from '@/features/launch/components/AnimatedLogoMark';
 import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 
@@ -57,6 +58,12 @@ export default function DesignSystemScreen() {
         <View style={styles.logoRow}>
           <LogoMark size={64} />
           <Wordmark />
+        </View>
+        <View style={styles.loadingPreview}>
+          <AnimatedLogoMark />
+          <LedText variant="bodySmall" color="textMid" align="center">
+            Loading mark
+          </LedText>
         </View>
       </Section>
 
@@ -191,6 +198,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: spacing.lg,
+  },
+  loadingPreview: {
+    minHeight: 220,
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: spacing.md,
+    borderWidth: 1,
+    borderColor: colors.border,
+    borderRadius: radii.xl,
+    backgroundColor: colors.canvas,
   },
   paletteGrid: {
     flexDirection: 'row',
